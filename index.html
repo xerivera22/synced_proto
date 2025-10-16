@@ -28,6 +28,24 @@
       console.log('SyncED loaded successfully');
       // Add your analytics tracking here (Google Analytics, etc.)
     });
+
+    // Mobile menu functionality
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobileMenu');
+      if (menu.style.display === 'block') {
+        menu.style.display = 'none';
+      } else {
+        menu.style.display = 'block';
+      }
+    }
+
+    // Add click event to menu button
+    document.addEventListener('DOMContentLoaded', function() {
+      const menuButton = document.getElementById('menu');
+      if (menuButton) {
+        menuButton.addEventListener('click', toggleMobileMenu);
+      }
+    });
   </script>
 </head>
 <body>
@@ -49,6 +67,21 @@
     <button class="btn" onclick="location.href='register.html'">Sign In</button>
     <button class="menu" id="menu" aria-label="menu">☰</button>
   </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu" style="display: none;">
+    <div class="mobile-menu-content">
+      <a href="#why">Why SyncED</a>
+      <a href="#who">Who Can Use</a>
+      <a href="#how">How it works</a>
+      <a href="#faq">FAQ</a>
+      <a href="contact.html">Contact</a>
+      <div class="mobile-buttons">
+        <button class="btn" onclick="location.href='pricing.html'">Pricing</button>
+        <button class="btn" onclick="location.href='register.html'">Sign In</button>
+      </div>
+    </div>
+  </div>
 
   <!-- HERO -->
   <header class="hero">

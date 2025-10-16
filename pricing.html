@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pricing Plans — SyncED</title>
+  <meta name="description" content="Choose the perfect SyncED plan for your school. Free Sync, True Sync, and Campus Sync plans available." />
+  <meta name="robots" content="index, follow" />
+  <link rel="icon" type="image/png" href="syncED.png" />
+  <link rel="apple-touch-icon" href="syncED.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="brand">
+      <img src="syncED.png" alt="SyncED Logo" class="logo" />
+      <span>SyncED</span>
+    </div>
+    <ul class="links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <button class="btn" onclick="showSignInOptions()">Sign In</button>
+    <button class="menu" id="menu" aria-label="menu">☰</button>
+  </nav>
+
+  <!-- PRICING HERO -->
+  <section class="pricing-hero">
+    <div class="wrap">
+      <div class="pricing-header">
+        <h1>Select Your Plan</h1>
+        <p>Choose the SyncED plan that fits your school's needs. All plans include core features with different levels of support and customization.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING PLANS -->
+  <section class="pricing-plans">
+    <div class="wrap">
+      <div class="plans-grid">
+        
+        <!-- BASIC FREE SYNC -->
+        <div class="plan-card">
+          <div class="plan-header">
+            <h3>Basic Free Sync</h3>
+            <div class="plan-price">
+              <span class="price">₱0</span>
+              <span class="period">/month</span>
+            </div>
+            <p class="plan-description">For K-12 Students, Parents, Teachers, and Admin</p>
+          </div>
+          
+          <div class="plan-features">
+            <div class="feature">
+              <span class="check">✓</span>
+              <span>500 Students</span>
+            </div>
+            <div class="feature">
+              <span class="check">✓</span>
+              <span>100 Parents</span>
+            </div>
+            <div class="feature">
+              <span class="check">✓</span>
+              <span>10 Teachers</span>
+            </div>
+            <div class="feature">
+              <span class="check">✓</span>
+              <span>5 Admin Access</span>
+            </div>
+            <div class="feature">
+              <span class="check">✓</span>
+              <span>View grades and attendance online</span>
+            </div>
+            <div class="feature">
+              <span class="check">✓</span>
+              <span>Email or SMS notifications</span>
+            </div>
+            <div class="feature">
+              <span class="check">✓</span>
+              <span>Download student information</span>
+            </div>
+            <div class="feature">
+              <span class="check">✓</span>
+              <span>Manual view school events and payment plans</span>
+            </div>
+          </div>
+          
+          <button class="plan-btn" onclick="window.location.href='register.html'">Get Started Free</button>
+        </div>
+
+        <!-- TRUE SYNC -->
+        <div class="plan-card featured">
+          <div class="popular-badge">Most Popular</div>
+          <div class="plan-header">
+            <h3>True Sync</h3>
+            <div class="plan-price">
+              <span class="price">₱15,000</span>
+              <span class="period">/month</span>
+            </div>
+            <p class="plan-description">For K-12 Students, Parents, Teachers, and Admin</p>
+          </div>
+          
+          <div class="plan-features">
+            <div class="feature">
+              <span class="check">✓</span>
+              <span>1000 Students</span>
+            </div>
+            <div class="feature">
+              <span class="check">✓</span>
+              <span>500 Parents</span>
+            </div>
+            <div class="feature">
+              <span class="check">✓</span>
+              <span>30 Teachers</span>
+            </div>
+            <div class="feature">
+              <span class="check">✓</span>
+              <span>15 Admin Access</span>
+            </div>
+            <div class="feature">
+              <span class="check">✓</span>
+              <span>Everything in Basic Free Sync</span>
+            </div>
+            <div class="feature">
+              <span class="check">✓</span>
+              <span>Automated notifications for all</span>
+            </div>
+            <div class="feature">
+              <span class="check">✓</span>
+              <span>Schedule planner for all users</span>
+            </div>
+            <div class="feature">
+              <span class="check">✓</span>
+              <span>Admin access to enrollments and class plans</span>
+            </div>
+            <div class="feature">
+              <span class="check">✓</span>
+              <span>Enabled chats (student and teacher)</span>
+            </div>
+            <div class="feature">
+              <span class="check">✓</span>
+              <span>5GB student file storage</span>
+            </div>
+            <div class="feature">
+              <span class="check">✓</span>
+              <span>Manual attendance checklist</span>
+            </div>
+          </div>
+          
+          <button class="plan-btn primary" onclick="showCheckout('true', 'True Sync', 15000)">Choose True Sync</button>
+        </div>
+
+        <!-- SUPER SYNC -->
+        <div class="plan-card">
+          <div class="plan-header">
+            <h3>Super Sync</h3>
+            <div class="plan-price">
+              <span class="price">₱35,000</span>
+              <span class="period">/month</span>
+            </div>
+            <p class="plan-description">For K-12 & Tertiary Students, Parents, Admin and Teachers</p>
+          </div>
+          
+          <div class="plan-features">
+            <div class="feature">
+              <span class="check">✓</span>
+              <span>Unlimited Students</span>
+            </div>
+            <div class="feature">
+              <span class="check">✓</span>
+              <span>All Enrollees Parents & Teachers</span>
+            </div>
+            <div class="feature">
+              <span class="check">✓</span>
+              <span>Unlimited Admin Accounts</span>
+            </div>
+            <div class="feature">
+              <span class="check">✓</span>
+              <span>Everything in True Sync</span>
+            </div>
+            <div class="feature">
+              <span class="check">✓</span>
+              <span>News updates (scholarships, school trends)</span>
+            </div>
+            <div class="feature">
+              <span class="check">✓</span>
+              <span>Enabled chats between all users including admins</span>
+            </div>
+            <div class="feature">
+              <span class="check">✓</span>
+              <span>Auto school communications for documents and transfers</span>
+            </div>
+            <div class="feature">
+              <span class="check">✓</span>
+              <span>Live auto attendance checker</span>
+            </div>
+            <div class="feature">
+              <span class="check">✓</span>
+              <span>10GB student and teacher file storage</span>
+            </div>
+          </div>
+          
+          <button class="plan-btn" onclick="showCheckout('super', 'Super Sync', 35000)">Choose Super Sync</button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- CHECKOUT MODAL -->
+  <div id="checkoutModal" class="checkout-modal">
+    <div class="checkout-content">
+      <div class="checkout-header">
+        <h2>Complete Your Purchase</h2>
+        <span class="close" onclick="closeCheckout()">&times;</span>
+      </div>
+      
+      <div class="checkout-body">
+        <div class="checkout-layout">
+          <div class="payment-methods">
+            <h3>Choose Payment Method</h3>
+            
+            <div class="payment-option" onclick="selectPayment('gcash')">
+              <input type="radio" name="payment" value="gcash" id="gcash">
+              <label for="gcash">
+                <div class="payment-left">
+                  <div class="payment-icon">📱</div>
+                  <div class="payment-info">
+                    <div class="payment-name">GCash</div>
+                    <div class="payment-desc">Pay with GCash wallet</div>
+                  </div>
+                </div>
+                <div class="payment-right">
+                  <div class="radio-indicator"></div>
+                </div>
+              </label>
+            </div>
+
+            <div class="payment-option" onclick="selectPayment('maya')">
+              <input type="radio" name="payment" value="maya" id="maya">
+              <label for="maya">
+                <div class="payment-left">
+                  <div class="payment-icon">💚</div>
+                  <div class="payment-info">
+                    <div class="payment-name">Maya</div>
+                    <div class="payment-desc">Pay with Maya wallet</div>
+                  </div>
+                </div>
+                <div class="payment-right">
+                  <div class="radio-indicator"></div>
+                </div>
+              </label>
+            </div>
+
+            <div class="payment-option" onclick="selectPayment('cards')">
+              <input type="radio" name="payment" value="cards" id="cards">
+              <label for="cards">
+                <div class="payment-left">
+                  <div class="payment-icon">💳</div>
+                  <div class="payment-info">
+                    <div class="payment-name">Credit & Debit Cards</div>
+                    <div class="payment-desc">Visa • Mastercard • Maestro</div>
+                  </div>
+                </div>
+                <div class="payment-right">
+                  <div class="radio-indicator"></div>
+                </div>
+              </label>
+            </div>
+
+            <div class="payment-option" onclick="selectPayment('paypal')">
+              <input type="radio" name="payment" value="paypal" id="paypal">
+              <label for="paypal">
+                <div class="payment-left">
+                  <div class="payment-icon">🔵</div>
+                  <div class="payment-info">
+                    <div class="payment-name">PayPal</div>
+                    <div class="payment-desc">Pay with PayPal account</div>
+                  </div>
+                </div>
+                <div class="payment-right">
+                  <div class="radio-indicator"></div>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Payment Form -->
+          <div class="payment-form" id="paymentForm" style="display: none;">
+            
+            <!-- GCash Form -->
+            <div class="form-section" id="gcashForm" style="display: none;">
+              <div class="form-group">
+                <label>GCash Mobile Number</label>
+                <input type="tel" placeholder="0917-123-4567" maxlength="11">
+              </div>
+              <div class="form-group">
+                <label>GCash Account Name</label>
+                <input type="text" placeholder="Enter your full name">
+              </div>
+            </div>
+
+            <!-- Maya Form -->
+            <div class="form-section" id="mayaForm" style="display: none;">
+              <div class="form-group">
+                <label>Maya Mobile Number</label>
+                <input type="tel" placeholder="0918-987-6543" maxlength="11">
+              </div>
+              <div class="form-group">
+                <label>Maya Account Name</label>
+                <input type="text" placeholder="Enter your full name">
+              </div>
+            </div>
+
+            <!-- Card Form -->
+            <div class="form-section" id="cardsForm" style="display: none;">
+              <div class="form-group">
+                <label>Cardholder Name</label>
+                <input type="text" placeholder="Enter cardholder name">
+              </div>
+              <div class="form-group">
+                <label>Card Number</label>
+                <input type="text" placeholder="1234 5678 9012 3456" maxlength="19">
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Expiry Date</label>
+                  <div class="form-row-2">
+                    <select>
+                      <option value="">MM</option>
+                      <option value="01">01</option>
+                      <option value="02">02</option>
+                      <option value="03">03</option>
+                      <option value="04">04</option>
+                      <option value="05">05</option>
+                      <option value="06">06</option>
+                      <option value="07">07</option>
+                      <option value="08">08</option>
+                      <option value="09">09</option>
+                      <option value="10">10</option>
+                      <option value="11">11</option>
+                      <option value="12">12</option>
+                    </select>
+                    <select>
+                      <option value="">YYYY</option>
+                      <option value="2024">2024</option>
+                      <option value="2025">2025</option>
+                      <option value="2026">2026</option>
+                      <option value="2027">2027</option>
+                      <option value="2028">2028</option>
+                      <option value="2029">2029</option>
+                      <option value="2030">2030</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>CVV</label>
+                  <input type="text" placeholder="123" maxlength="4">
+                </div>
+              </div>
+            </div>
+
+            <!-- PayPal Form -->
+            <div class="form-section" id="paypalForm" style="display: none;">
+              <div class="form-group">
+                <label>PayPal Email</label>
+                <input type="email" placeholder="your.email@example.com">
+              </div>
+              <div class="form-group">
+                <label>PayPal Account Name</label>
+                <input type="text" placeholder="Enter your full name">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="checkout-actions">
+          <button class="btn-secondary" onclick="closeCheckout()">Cancel</button>
+          <button class="btn-primary" onclick="proceedToPayment()" id="proceedBtn" disabled>Pay Now</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <script>
+    let selectedPlan = null;
+    let selectedPayment = null;
+
+    function showSignInOptions() {
+      console.log('Sign in button clicked');
+      alert('Sign in button works! Redirecting to register page...');
+      window.location.href = 'register.html';
+    }
+
+    function showCheckout(planId, planName, price) {
+      console.log('showCheckout called with:', planId, planName, price);
+      
+      selectedPlan = { id: planId, name: planName, price: price };
+      
+      // Reset payment selection
+      selectedPayment = null;
+      document.getElementById('proceedBtn').disabled = true;
+      document.querySelectorAll('input[name="payment"]').forEach(radio => radio.checked = false);
+      
+      // Hide payment form
+      document.getElementById('paymentForm').style.display = 'none';
+      
+      // Show modal
+      const modal = document.getElementById('checkoutModal');
+      console.log('Modal element:', modal);
+      modal.style.display = 'flex';
+      console.log('Modal display set to flex');
+    }
+
+    function closeCheckout() {
+      document.getElementById('checkoutModal').style.display = 'none';
+    }
+
+    function selectPayment(paymentMethod) {
+      selectedPayment = paymentMethod;
+      
+      // Show payment form
+      document.getElementById('paymentForm').style.display = 'block';
+      
+      // Hide all form sections
+      document.getElementById('gcashForm').style.display = 'none';
+      document.getElementById('mayaForm').style.display = 'none';
+      document.getElementById('cardsForm').style.display = 'none';
+      document.getElementById('paypalForm').style.display = 'none';
+      
+      // Show selected form
+      if (paymentMethod === 'gcash') {
+        document.getElementById('gcashForm').style.display = 'block';
+      } else if (paymentMethod === 'maya') {
+        document.getElementById('mayaForm').style.display = 'block';
+      } else if (paymentMethod === 'cards') {
+        document.getElementById('cardsForm').style.display = 'block';
+      } else if (paymentMethod === 'paypal') {
+        document.getElementById('paypalForm').style.display = 'block';
+      }
+      
+      document.getElementById('proceedBtn').disabled = false;
+    }
+
+    function proceedToPayment() {
+      if (!selectedPayment) return;
+      
+      // Simulate payment processing
+      alert(`Processing payment with ${selectedPayment.toUpperCase()}...\n\nPlan: ${selectedPlan.name}\nAmount: ${selectedPlan.price === 0 ? 'Free' : '₱' + selectedPlan.price.toLocaleString()}\n\nPayment successful! Redirecting to dashboard...`);
+      
+      // Close modal and redirect to sign-in
+      closeCheckout();
+      setTimeout(() => {
+        window.location.href = 'register.html';
+      }, 2000);
+    }
+
+    // Close modal when clicking outside
+    window.onclick = function(event) {
+      const modal = document.getElementById('checkoutModal');
+      if (event.target === modal) {
+        closeCheckout();
+      }
+    }
+  </script>
+
+  <style>
+    .pricing-hero {
+      background: white;
+      color: #1f2937;
+      padding: 80px 0 60px;
+      text-align: center;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .pricing-header h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+
+    .pricing-header p {
+      font-size: 1.25rem;
+      opacity: 0.9;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .pricing-plans {
+      padding: 80px 0;
+      background: #f8fafc;
+    }
+
+    .plans-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 32px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .plan-card {
+      background: white;
+      padding: 32px;
+      position: relative;
+    }
+
+    .plan-card.featured {
+      border-left: 4px solid #3b82f6;
+    }
+
+    .popular-badge {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #3b82f6;
+      color: white;
+      padding: 8px 24px;
+      border-radius: 20px;
+      font-size: 0.875rem;
+      font-weight: 600;
+    }
+
+    .plan-header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .plan-header h3 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: #1f2937;
+    }
+
+    .plan-price {
+      margin-bottom: 12px;
+    }
+
+    .price {
+      font-size: 3rem;
+      font-weight: 800;
+      color: #3b82f6;
+    }
+
+    .period {
+      font-size: 1rem;
+      color: #6b7280;
+    }
+
+    .plan-description {
+      color: #6b7280;
+      font-size: 0.875rem;
+    }
+
+    .plan-features {
+      margin-bottom: 32px;
+    }
+
+    .feature {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+      font-size: 0.875rem;
+    }
+
+    .check {
+      color: #10b981;
+      font-weight: 600;
+    }
+
+    .plan-btn {
+      width: 100%;
+      padding: 12px 24px;
+      border: none;
+      background: white;
+      color: #374151;
+      font-weight: 600;
+      cursor: pointer;
+      border-bottom: 2px solid #e5e7eb;
+    }
+
+    .plan-btn:hover {
+      color: #3b82f6;
+      border-bottom-color: #3b82f6;
+    }
+
+    .plan-btn.primary {
+      background: #3b82f6;
+      color: white;
+      border-bottom-color: #3b82f6;
+    }
+
+    .plan-btn.primary:hover {
+      background: #2563eb;
+    }
+
+
+    @media (max-width: 768px) {
+      .pricing-header h1 {
+        font-size: 2rem;
+      }
+      
+      .plans-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .plan-card.featured {
+        transform: none;
+      }
+    }
+
+    /* CHECKOUT MODAL STYLES */
+    .checkout-modal {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(4px);
+      align-items: center;
+      justify-content: center;
+    }
+
+    .checkout-content {
+      background: white;
+      max-width: 800px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+      border: none;
+    }
+
+    .checkout-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px;
+    }
+
+    .checkout-header h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #1f2937;
+      margin: 0;
+    }
+
+    .checkout-header .close {
+      font-size: 24px;
+      cursor: pointer;
+      color: #6b7280;
+    }
+
+    .checkout-body {
+      padding: 24px;
+    }
+
+    .checkout-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      align-items: start;
+    }
+
+    .order-summary {
+      background: #f8fafc;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+
+    .order-summary h3 {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 16px;
+    }
+
+    .plan-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .plan-name {
+      font-weight: 600;
+      color: #1f2937;
+    }
+
+    .plan-price {
+      color: #6b7280;
+    }
+
+    .total {
+      padding-top: 12px;
+      border-top: 1px solid #e5e7eb;
+      font-size: 1.125rem;
+      color: #1f2937;
+    }
+
+    .payment-methods h3 {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 16px;
+    }
+
+    .payment-option {
+      margin-bottom: 12px;
+    }
+
+    .payment-option input[type="radio"] {
+      display: none;
+    }
+
+    .payment-option label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0;
+      cursor: pointer;
+    }
+
+    .payment-option input[type="radio"]:checked + label {
+      background: none;
+    }
+
+    .payment-left {
+      display: flex;
+      align-items: center;
+      flex: 1;
+    }
+
+    .payment-right {
+      display: flex;
+      align-items: center;
+    }
+
+    .payment-icon {
+      font-size: 24px;
+      margin-right: 16px;
+    }
+
+    .payment-info {
+      flex: 1;
+    }
+
+    .radio-indicator {
+      width: 18px;
+      height: 18px;
+      border: 2px solid #d1d5db;
+      border-radius: 50%;
+      position: relative;
+    }
+
+    .payment-option input[type="radio"]:checked + label .radio-indicator {
+      border-color: #3b82f6;
+    }
+
+    .payment-option input[type="radio"]:checked + label .radio-indicator::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 6px;
+      height: 6px;
+      background: #3b82f6;
+      border-radius: 50%;
+    }
+
+    .payment-name {
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 2px;
+      font-size: 14px;
+    }
+
+    .payment-desc {
+      font-size: 12px;
+      color: #6b7280;
+      font-weight: 400;
+    }
+
+    .checkout-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .btn-secondary {
+      flex: 1;
+      padding: 12px 24px;
+      border: none;
+      background: white;
+      color: #6b7280;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      flex: 2;
+      padding: 12px 24px;
+      border: none;
+      background: #3b82f6;
+      color: white;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-primary:disabled {
+      background: #9ca3af;
+      cursor: not-allowed;
+    }
+
+    /* Payment Form Styles */
+    .payment-form {
+      margin-top: 16px;
+    }
+
+    .form-section {
+      padding: 0;
+      background: white;
+    }
+
+    .form-group {
+      margin-bottom: 12px;
+    }
+
+    .form-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 12px;
+      font-weight: 500;
+      color: #374151;
+      margin-bottom: 4px;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 8px 0;
+      border: none;
+      border-bottom: 1px solid #d1d5db;
+      font-size: 14px;
+      background: white;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-bottom-color: #3b82f6;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .form-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    @media (max-width: 768px) {
+      .checkout-layout {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .checkout-content {
+        width: 95%;
+        margin: 20px;
+      }
+      
+      .checkout-actions {
+        flex-direction: column;
+      }
+    }
+  </style>
+
+</body>
+</html>

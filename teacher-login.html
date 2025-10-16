@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Teacher Login — SyncED</title>
+  <meta name="description" content="Login to SyncED Teacher Dashboard with your email and password." />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" type="image/png" href="syncED.png" />
+  <link rel="apple-touch-icon" href="syncED.png" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="brand"><img src="syncED.png" alt="SyncED Logo" class="logo" /><span>SyncED</span></div>
+    <ul class="links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="register.html">Back to Roles</a></li>
+    </ul>
+  </nav>
+
+  <section class="login-section">
+    <div class="wrap">
+      <div class="login-container">
+        <div class="login-header">
+          <h1>TEACHER PORTAL</h1>
+        </div>
+
+        <form class="login-form" onsubmit="verifyTeacherLogin(event)">
+          <div class="form-group">
+            <label>Email Address</label>
+            <input 
+              type="email" 
+              id="teacherEmail" 
+              placeholder="Enter your email" 
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Password</label>
+            <input 
+              type="password" 
+              id="teacherPassword" 
+              placeholder="Enter your password" 
+              required
+            />
+          </div>
+
+          <div class="form-options">
+            <label class="checkbox-label">
+              <input type="checkbox"> Remember me
+            </label>
+            <a href="#" class="forgot-link">Forgot password?</a>
+          </div>
+
+          <div id="errorMessage" class="error-message" style="display:none;"></div>
+
+          <button type="submit" class="btn-access">
+            Sign In
+          </button>
+        </form>
+
+        <div class="divider">
+          <span>TEACHER PORTAL</span>
+        </div>
+
+        <div class="create-account">
+          <p>New student/teacher? <a href="register.html">Create account</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    /* Make login form completely flat - no cards */
+    .login-section {
+      background: white;
+      padding: 80px 0;
+      min-height: 80vh;
+    }
+
+    .login-container {
+      max-width: 400px;
+      margin: 0 auto;
+      background: white;
+      padding: 40px;
+      border: none;
+      box-shadow: none;
+    }
+
+    .login-header h1 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #1f2937;
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 14px;
+      font-weight: 500;
+      color: #374151;
+      margin-bottom: 8px;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 12px 0;
+      border: none;
+      border-bottom: 1px solid #d1d5db;
+      font-size: 16px;
+      background: white;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-bottom-color: #3b82f6;
+    }
+
+    .form-options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      color: #6b7280;
+    }
+
+    .checkbox-label input {
+      margin-right: 8px;
+    }
+
+    .forgot-link {
+      font-size: 14px;
+      color: #3b82f6;
+      text-decoration: none;
+    }
+
+    .btn-access {
+      width: 100%;
+      padding: 12px 24px;
+      background: #3b82f6;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-access:hover {
+      background: #2563eb;
+    }
+
+    .error-message {
+      background: #fef2f2;
+      color: #dc2626;
+      padding: 12px;
+      border-radius: 6px;
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+
+    .divider {
+      text-align: center;
+      margin: 32px 0;
+      color: #9ca3af;
+      font-size: 14px;
+    }
+
+    .create-account {
+      text-align: center;
+      margin-top: 24px;
+    }
+
+    .create-account p {
+      color: #6b7280;
+      font-size: 14px;
+    }
+
+    .create-account a {
+      color: #3b82f6;
+      text-decoration: none;
+    }
+  </style>
+
+  <script>
+    // Valid credentials
+    const validCredentials = {
+      email: 'teacher@synced.com',
+      password: 'teacher123'
+    };
+
+    function verifyTeacherLogin(event) {
+      event.preventDefault();
+      
+      const email = document.getElementById('teacherEmail').value.trim();
+      const password = document.getElementById('teacherPassword').value.trim();
+      const errorMsg = document.getElementById('errorMessage');
+
+      if (email === validCredentials.email && password === validCredentials.password) {
+        // Store session
+        sessionStorage.setItem('teacherLoggedIn', 'true');
+        sessionStorage.setItem('teacherEmail', email);
+        
+        // Redirect to teacher dashboard
+        window.location.href = 'teacher-dashboard.html';
+      } else {
+        // Show error
+        errorMsg.textContent = 'Invalid email or password. Please try again.';
+        errorMsg.style.display = 'block';
+        
+        // Clear password field
+        document.getElementById('teacherPassword').value = '';
+        
+        // Hide error after 3 seconds
+        setTimeout(() => {
+          errorMsg.style.display = 'none';
+        }, 3000);
+      }
+    }
+  </script>
+</body>
+</html>

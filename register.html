@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Sign in to SyncED - Choose your role and access your school management dashboard." />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" type="image/png" href="syncED.png" />
+  <link rel="apple-touch-icon" href="syncED.png" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="brand"><img src="syncED.png" alt="SyncED Logo" class="logo" /><span>SyncED</span></div>
+    <ul class="links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <section class="role-selection">
+    <div class="wrap">
+      <div class="role-header">
+        <h1>Get Started with SyncED</h1>
+        <p class="subtitle">Choose your role to access the appropriate dashboard</p>
+      </div>
+
+      <div class="role-grid">
+        <div class="role-item" onclick="window.location.href='advisor-login.html'">
+          <div class="role-icon">👨‍💼</div>
+          <h3>School Administrator</h3>
+          <p>Purchase subscription plans, manage school settings, and oversee system administration</p>
+          <button class="btn-role">Sign In</button>
+        </div>
+        
+        <div class="role-item" onclick="window.location.href='teacher-login.html'">
+          <div class="role-icon">👩‍🏫</div>
+          <h3>Teacher</h3>
+          <p>Manage your classes, track student progress, and communicate with parents</p>
+          <button class="btn-role">Sign In</button>
+        </div>
+        
+        <div class="role-item" onclick="window.location.href='student-login.html'">
+          <div class="role-icon">🎓</div>
+          <h3>Student/Parent</h3>
+          <p>View grades, attendance, assignments, and communicate with teachers</p>
+          <button class="btn-role">Sign In</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <div class="wrap foot-grid">
+      <div>
+        <div class="brand foot-brand">
+          <img src="syncED.png" alt="SyncED Logo" class="logo" />
+          <span>SyncED</span>
+        </div>
+        <p>Smart campus platform for records, communication, and reporting.</p>
+      </div>
+      <ul>
+        <li><a href="index.html#story">About</a></li>
+        <li><a href="index.html#services">Programs</a></li>
+        <li><a href="index.html#how">How it works</a></li>
+      </ul>
+      <ul>
+        <li><a href="register.html">Access Portal</a></li>
+        <li><a href="contact.html">Support</a></li>
+      </ul>
+    </div>
+    <div class="wrap foot-copy">© 2025 SyncED</div>
+  </footer>
+
+  <!-- Checkout Modal -->
+  <div id="checkoutModal" class="checkout-modal">
+    <div class="checkout-content">
+      <div class="checkout-header">
+        <h2>Complete Purchase</h2>
+        <button onclick="closeCheckout()">×</button>
+      </div>
+      
+      <div class="checkout-body">
+        <div class="order-summary">
+          <div class="plan-info">
+            <h3 id="planName">True Sync Plan</h3>
+            <div class="plan-details">Monthly subscription</div>
+          </div>
+          <div class="total-amount">
+            <span class="total-label">Total</span>
+            <span class="total-price">₱<span id="planPrice">15,000</span></span>
+          </div>
+        </div>
+
+        <div class="payment-methods-section">
+          <h3>Please select a payment method</h3>
+          
+          <div class="payment-method-card" onclick="selectPayment('paypal')">
+            <div class="payment-logo paypal-logo">PayPal</div>
+          </div>
+          
+          <div class="payment-method-card" onclick="selectPayment('gcash')">
+            <div class="payment-logo gcash-logo">GCash</div>
+          </div>
+          
+          <div class="payment-method-card" onclick="selectPayment('card')">
+            <div class="payment-icon">💳</div>
+            <span>Debit or Credit Card</span>
+          </div>
+          
+          <div class="payment-method-card" onclick="selectPayment('bank')">
+            <div class="payment-icon">🏦</div>
+            <span>Bank Transfer</span>
+          </div>
+        </div>
+
+        <div class="proceed-section" id="proceedSection" style="display: none;">
+          <button class="proceed-btn" onclick="processPayment()">
+            Proceed to checkout
+          </button>
+        </div>
+
+      <div class="checkout-form" id="cardForm">
+        <div class="form-group">
+          <label>Card Number</label>
+          <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19">
+        </div>
+        <div class="form-group">
+          <label>Cardholder Name</label>
+          <input type="text" id="cardName" placeholder="John Doe">
+        </div>
+        <div class="form-group">
+          <label>Expiry Date</label>
+          <input type="text" id="expiry" placeholder="MM/YY" maxlength="5">
+        </div>
+        <div class="form-group">
+          <label>CVV</label>
+          <input type="text" id="cvv" placeholder="123" maxlength="3">
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="email" placeholder="your@email.com">
+        </div>
+      </div>
+
+      <div class="checkout-form" id="paypalForm" style="display: none;">
+        <div class="form-group">
+          <label>PayPal Email</label>
+          <input type="email" id="paypalEmail" placeholder="your@paypal.com">
+        </div>
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" id="paypalName" placeholder="John Doe">
+        </div>
+        <div class="form-group">
+          <label>Contact Number</label>
+          <input type="tel" id="paypalContact" placeholder="+63 912 345 6789">
+        </div>
+      </div>
+
+      <div class="checkout-form" id="gcashForm" style="display: none;">
+        <div class="form-group">
+          <label>GCash Number</label>
+          <input type="tel" id="gcashNumber" placeholder="+63 912 345 6789">
+        </div>
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" id="gcashName" placeholder="John Doe">
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="gcashEmail" placeholder="your@email.com">
+        </div>
+      </div>
+
+      <div class="checkout-form" id="bankForm" style="display: none;">
+        <div class="form-group">
+          <label>Bank Name</label>
+          <input type="text" id="bankName" placeholder="BDO, BPI, Metrobank, etc.">
+        </div>
+        <div class="form-group">
+          <label>Account Number</label>
+          <input type="text" id="bankAccount" placeholder="1234567890">
+        </div>
+        <div class="form-group">
+          <label>Account Holder Name</label>
+          <input type="text" id="bankAccountName" placeholder="John Doe">
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="bankEmail" placeholder="your@email.com">
+        </div>
+      </div>
+
+      <div class="checkout-footer">
+        <button class="btn-submit" onclick="processPayment()" style="background:var(--blue);color:#fff;border:none;padding:16px 32px;border-radius:8px;font-size:1.1rem;font-weight:600;cursor:pointer;width:100%;transition:all .3s;">
+          Complete Purchase
+        </button>
+        <div class="checkout-footer-info">Secure payment processing • Your information is encrypted</div>
+      </div>
+    </div>
+  </div>
+
+  <script src="advisor.js"></script>
+
+  <style>
+    /* Remove all card styling - make it completely flat */
+    .role-selection {
+      background: white;
+      padding: 80px 0;
+    }
+
+    .role-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 40px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .role-item {
+      background: white;
+      padding: 40px 20px;
+      text-align: center;
+      cursor: pointer;
+      border: none;
+      transition: none;
+    }
+
+    .role-item:hover {
+      transform: none;
+      box-shadow: none;
+    }
+
+    .role-icon {
+      font-size: 3rem;
+      margin-bottom: 20px;
+    }
+
+    .role-item h3 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 12px;
+    }
+
+    .role-item p {
+      color: #6b7280;
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    .btn-role {
+      background: #3b82f6;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .btn-role:hover {
+      background: #2563eb;
+    }
+
+    .role-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .role-header h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #1f2937;
+      margin-bottom: 16px;
+    }
+
+    .role-header .subtitle {
+      font-size: 1.125rem;
+      color: #6b7280;
+    }
+
+    /* Remove any existing card styles */
+    .role-card {
+      background: white !important;
+      border: none !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+      padding: 40px 20px !important;
+    }
+  </style>
+</body>
+</html>

@@ -1,0 +1,114 @@
+import React, { useEffect, useState } from 'react';
+import { NavLink } from 'react-router-dom';
+import {
+  LayoutDashboard,
+  CalendarDays,
+  LineChart,
+  ClipboardList,
+  Wallet,
+  FileText,
+  UserCircle,
+  Settings,
+} from 'lucide-react';
+
+type SideNavigationProps = {
+  className?: string;
+  onLinkClick?: () => void;
+};
+
+// Full side navigation matching styles in student.css (.side-navigation, .nav-*)
+// Use relative path to avoid alias resolution issues
+import logoUrl from '../../../assets/ISE_logo.png';
+
+const SideNavigation: React.FC<SideNavigationProps> = ({ className = '', onLinkClick }) => {
+  const [collapsed, setCollapsed] = useState<boolean>(() => {
+    try {
+      return localStorage.getItem('student.sidebar.collapsed') === '1';
+    } catch {
+      return false;
+    }
+  });
+
+  const navItems = [
+    { to: '/student/overview', label: 'Dashboard', icon: LayoutDashboard },
+    { to: '/student/schedule', label: 'Schedule', icon: CalendarDays },
+    { to: '/student/progress', label: 'Academic Progress', icon: LineChart },
+    { to: '/student/attendance', label: 'Attendance', icon: ClipboardList },
+    { to: '/student/payments', label: 'Payment Status', icon: Wallet },
+    { to: '/student/documents', label: 'Documents', icon: FileText },
+    { to: '/student/profile', label: 'Profile', icon: UserCircle },
+  ];
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('student.sidebar.collapsed', collapsed ? '1' : '0');
+    } catch {
+      // ignore persistence errors
+    }
+  }, [collapsed]);
+
+  return (
+    <nav className={`side-navigation ${collapsed ? 'collapsed' : ''} ${className}`.trim()} aria-expanded={!collapsed}>
+      {/* Header */}
+      <div className="nav-header">
+        <img
+          src={logoUrl}
+          alt="SyncED"
+          className="nav-logo-image"
+          onClick={() => setCollapsed((v) => !v)}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') setCollapsed((v) => !v);
+          }}
+          aria-pressed={collapsed}
+          title="Toggle sidebar"
+        />
+        {!collapsed && <h1 className="nav-logo">SYNCED</h1>}
+      </div>
+
+      {/* Menu */}
+      <div className="nav-menu">
+        <ul className="nav-list">
+          {navItems.map(({ to, label, icon: Icon }) => (
+            <li key={to}>
+              <NavLink
+                to={to}
+                className={({ isActive }) =>
+                  `nav-item ${isActive ? 'active' : ''}`
+                }
+                end
+                onClick={onLinkClick}
+              >
+                <Icon className="nav-icon" />
+                <span className="nav-text">{label}</span>
+              </NavLink>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      {/* Footer */}
+      <div className="nav-footer">
+        <div className="user-info">
+          <div className="user-avatar">AT</div>
+          <div className="user-details">
+            <div className="user-name">Alex Thompson</div>
+            <div className="user-id">Student ID: 12345</div>
+          </div>
+        </div>
+        <NavLink
+          to="/student/settings"
+          className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
+          end
+          onClick={onLinkClick}
+        >
+          <Settings className="nav-icon" />
+          <span className="nav-text">Settings</span>
+        </NavLink>
+      </div>
+    </nav>
+  );
+};
+
+export default SideNavigation;

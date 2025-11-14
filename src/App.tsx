@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 // Landing/public/auth pages grouped under pages/landing
 import LandingPage from '@/pages/landing/LandingPage';
 import PricingPage from '@/pages/landing/PricingPage';
@@ -10,7 +10,9 @@ import StudentLoginPage from '@/pages/landing/StudentLoginPage';
 import AdminDashboardPage from '@/pages/admin/AdminDashboardPage';
 import StudentShell from '@/pages/student/layout/StudentShell';
 import { Overview, AcademicProgress, Attendance, Payments, Profile, Schedule, Documents, Settings } from '@/pages/student/screens';
-import TeacherDashboardPage from '@/pages/teacher/TeacherDashboardPage';
+import TeacherShell from '@/pages/teacher/layout/TeacherShell';
+import { TeacherOverview, TeacherSubjects, TeacherSubjectDetail, TeacherAttendance, TeacherSchedule, TeacherChat, TeacherProfile, TeacherSettings } from '@/pages/teacher/screens';
+import TeacherGradebookRedirect from '@/pages/teacher/screens/gradebook-redirect';
 import ParentDashboardPage from './pages/parent/ParentDashboardPage';
 import { AuthProvider } from './context/AuthContext';
 import ScrollToTop from './components/ScrollToTop';
@@ -42,7 +44,20 @@ function App() {
             <Route path="documents" element={<Documents />} />
           </Route>
           <Route path="/parent-dashboard" element={<ParentDashboardPage />} />
-          <Route path="/teacher-dashboard" element={<TeacherDashboardPage />} />
+          {/* Legacy teacher dashboard route now redirects to new portal */}
+          <Route path="/teacher-dashboard" element={<Navigate to="/teacher/overview" replace />} />
+          <Route path="/teacher" element={<TeacherShell />}> 
+            <Route index element={<TeacherOverview />} />
+            <Route path="overview" element={<TeacherOverview />} />
+            <Route path="subjects" element={<TeacherSubjects />} />
+            <Route path="subjects/:id" element={<TeacherSubjectDetail />} />
+            <Route path="gradebook" element={<TeacherGradebookRedirect />} />
+            <Route path="attendance" element={<TeacherAttendance />} />
+            <Route path="schedule" element={<TeacherSchedule />} />
+            <Route path="chat" element={<TeacherChat />} />
+            <Route path="profile" element={<TeacherProfile />} />
+            <Route path="settings" element={<TeacherSettings />} />
+          </Route>
         </Routes>
       </Router>
     </AuthProvider>

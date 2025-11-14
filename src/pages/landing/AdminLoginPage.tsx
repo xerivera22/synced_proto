@@ -99,7 +99,7 @@ const AdminLoginPage = () => {
               </button>
               <div className="text-center mt-6 pt-6 border-t border-gray-200">
                 <p className="text-gray-500 text-sm">Don't have an account? <a href="/register-form" className="text-blue-500 no-underline hover:underline">Create one here</a></p>
-                <p className="text-gray-500 text-sm mt-3">Need another role? <a href="/register" className="text-blue-500 no-underline hover:underline">Register</a></p>
+                <p className="text-gray-500 text-sm mt-3">Not a Admin/Teacher? <a href="/register" className="text-blue-500 no-underline hover:underline">Click here</a></p>
               </div>
             </form>
           </div>

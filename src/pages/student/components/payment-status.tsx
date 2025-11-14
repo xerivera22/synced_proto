@@ -72,19 +72,19 @@ export function PaymentStatus() {
 
       {/* Payment Summary */}
       <div className="grid grid-cols-2 gap-3">
-        <Card className="p-3 text-center shadow-sm border-0 bg-gradient-to-br from-green-50 to-emerald-50">
-          <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-2">
-            <DollarSign className="w-4 h-4 text-green-600" />
+        <Card className="p-3 text-center shadow-sm border-0 bg-gradient-to-br from-green-50 to-emerald-50 h-24 md:h-28 flex flex-col items-center justify-start pt-3 gap-1">
+          <div className="w-6 h-6 bg-green-100 rounded-lg flex items-center justify-center mx-auto">
+            <DollarSign className="w-3 h-3 text-green-600" />
           </div>
-          <p className="text-lg font-bold text-green-600 mb-1">${paymentSummary.paidAmount}</p>
-          <p className="text-xs text-gray-600">Paid Amount</p>
+          <p className="text-sm font-semibold text-green-600 leading-tight">${paymentSummary.paidAmount}</p>
+          <p className="text-xs text-gray-600 leading-tight">Paid Amount</p>
         </Card>
-        <Card className="p-3 text-center shadow-sm border-0 bg-gradient-to-br from-orange-50 to-amber-50">
-          <div className="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center mx-auto mb-2">
-            <AlertCircle className="w-4 h-4 text-orange-600" />
+        <Card className="p-3 text-center shadow-sm border-0 bg-gradient-to-br from-orange-50 to-amber-50 h-24 md:h-28 flex flex-col items-center justify-start pt-3 gap-1">
+          <div className="w-6 h-6 bg-orange-100 rounded-lg flex items-center justify-center mx-auto">
+            <AlertCircle className="w-3 h-3 text-orange-600" />
           </div>
-          <p className="text-lg font-bold text-orange-600 mb-1">${paymentSummary.pendingAmount}</p>
-          <p className="text-xs text-gray-600">Pending Amount</p>
+          <p className="text-sm font-semibold text-orange-600 leading-tight">${paymentSummary.pendingAmount}</p>
+          <p className="text-xs text-gray-600 leading-tight">Pending Amount</p>
         </Card>
       </div>
 

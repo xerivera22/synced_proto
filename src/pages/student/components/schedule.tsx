@@ -116,55 +116,35 @@ export function Schedule() {
 
       {/* Weather & Events Overview */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-        <Card className="p-3">
-          <div className="flex items-center justify-between mb-2">
-            <div className="flex items-center">
-              <weatherData.current.icon className="w-4 h-4 text-[#647FBC] mr-2" />
-              <span className="font-semibold text-sm">Weather</span>
-            </div>
+        <Card className="p-3 bg-[#647FBC]/5 border-[#647FBC]/15 h-24 md:h-28 flex flex-col items-center justify-start text-center pt-3 gap-1">
+          <div className="w-6 h-6 bg-[#647FBC]/10 rounded-full flex items-center justify-center">
+            <weatherData.current.icon className="w-3 h-3 text-[#647FBC]" />
           </div>
-          <div className="text-center">
-            <p className="text-sm font-bold text-[#647FBC] mb-1">{weatherData.current.temperature}°F</p>
-            <p className="text-gray-600 text-xs">{weatherData.current.condition}</p>
-          </div>
+          <p className="text-sm font-semibold text-[#647FBC] leading-tight">{weatherData.current.temperature}°F</p>
+          <p className="text-gray-600 text-xs leading-tight">Partly Cloudy</p>
         </Card>
-        <Card className="p-3">
-          <div className="flex items-center justify-between mb-2">
-            <div className="flex items-center">
-              <CalendarDays className="w-4 h-4 text-[#647FBC] mr-2" />
-              <span className="font-semibold text-sm">Events</span>
-            </div>
+        <Card className="p-3 bg-[#647FBC]/5 border-[#647FBC]/15 h-24 md:h-28 flex flex-col items-center justify-start text-center pt-3 gap-1">
+          <div className="w-6 h-6 bg-[#647FBC]/10 rounded-full flex items-center justify-center">
+            <CalendarDays className="w-3 h-3 text-[#647FBC]" />
           </div>
-          <div className="text-center">
-            <p className="text-sm font-bold text-[#647FBC] mb-1">{schoolEvents.length}</p>
-            <p className="text-gray-600 text-xs">Upcoming</p>
-          </div>
+          <p className="text-sm font-semibold text-[#647FBC] leading-tight">{schoolEvents.length}</p>
+          <p className="text-gray-600 text-xs leading-tight">Events</p>
         </Card>
 
-        <Card className="p-3">
-          <div className="flex items-center justify-between mb-2">
-            <div className="flex items-center">
-              <Clock className="w-4 h-4 text-[#647FBC] mr-2" />
-              <span className="font-semibold text-sm">Next Class</span>
-            </div>
+        <Card className="p-3 bg-[#647FBC]/5 border-[#647FBC]/15 h-24 md:h-28 flex flex-col items-center justify-start text-center pt-3 gap-1">
+          <div className="w-6 h-6 bg-[#647FBC]/10 rounded-full flex items-center justify-center">
+            <Clock className="w-3 h-3 text-[#647FBC]" />
           </div>
-          <div className="text-center">
-            <p className="text-sm font-bold text-[#647FBC] mb-1">Physics</p>
-            <p className="text-gray-600 text-xs">in 2 hours</p>
-          </div>
+          <p className="text-sm font-semibold text-[#647FBC] leading-tight">Physics</p>
+          <p className="text-gray-600 text-xs leading-tight">Next Class</p>
         </Card>
 
-        <Card className="p-3">
-          <div className="flex items-center justify-between mb-2">
-            <div className="flex items-center">
-              <CheckCircle className="w-4 h-4 text-[#647FBC] mr-2" />
-              <span className="font-semibold text-sm">Completed</span>
-            </div>
+        <Card className="p-3 bg-[#647FBC]/5 border-[#647FBC]/15 h-24 md:h-28 flex flex-col items-center justify-start text-center pt-3 gap-1">
+          <div className="w-6 h-6 bg-[#647FBC]/10 rounded-full flex items-center justify-center">
+            <CheckCircle className="w-3 h-3 text-[#647FBC]" />
           </div>
-          <div className="text-center">
-            <p className="text-sm font-bold text-[#647FBC] mb-1">8</p>
-            <p className="text-gray-600 text-xs">This week</p>
-          </div>
+          <p className="text-sm font-semibold text-[#647FBC] leading-tight">8</p>
+          <p className="text-gray-600 text-xs leading-tight">Completed</p>
         </Card>
       </div>
 

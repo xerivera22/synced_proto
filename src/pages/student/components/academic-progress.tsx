@@ -43,33 +43,33 @@ export function AcademicProgress() {
 
       {/* GPA and Credits Overview */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-        <Card className="p-4 text-center shadow-sm border-0 bg-gradient-to-br from-blue-50 to-indigo-50">
-          <div className="w-10 h-10 bg-[#647FBC]/10 rounded-lg flex items-center justify-center mx-auto mb-2">
-            <Award className="w-5 h-5 text-[#647FBC]" />
+        <Card className="p-4 text-center shadow-sm border-0 bg-gradient-to-br from-blue-50 to-indigo-50 h-24 md:h-28 flex flex-col items-center justify-start pt-3 gap-1">
+          <div className="w-6 h-6 bg-[#647FBC]/10 rounded-lg flex items-center justify-center mx-auto">
+            <Award className="w-3 h-3 text-[#647FBC]" />
           </div>
-          <p className="text-sm font-bold text-[#647FBC] mb-1">{semesterStats.currentGPA}</p>
-          <p className="text-gray-600 text-xs">Current GPA</p>
+          <p className="text-sm font-bold text-[#647FBC] leading-tight">{semesterStats.currentGPA}</p>
+          <p className="text-gray-600 text-xs leading-tight">Current GPA</p>
         </Card>
-        <Card className="p-4 text-center shadow-sm border-0 bg-gradient-to-br from-purple-50 to-pink-50">
-          <div className="w-10 h-10 bg-[#647FBC]/10 rounded-lg flex items-center justify-center mx-auto mb-2">
-            <Target className="w-5 h-5 text-[#647FBC]" />
+        <Card className="p-4 text-center shadow-sm border-0 bg-gradient-to-br from-purple-50 to-pink-50 h-24 md:h-28 flex flex-col items-center justify-start pt-3 gap-1">
+          <div className="w-6 h-6 bg-[#647FBC]/10 rounded-lg flex items-center justify-center mx-auto">
+            <Target className="w-3 h-3 text-[#647FBC]" />
           </div>
-          <p className="text-sm font-bold text-[#647FBC] mb-1">{semesterStats.creditHours}</p>
-          <p className="text-gray-600 text-xs">Credit Hours</p>
+          <p className="text-sm font-bold text-[#647FBC] leading-tight">{semesterStats.creditHours}</p>
+          <p className="text-gray-600 text-xs leading-tight">Credit Hours</p>
         </Card>
-        <Card className="p-4 text-center shadow-sm border-0 bg-gradient-to-br from-green-50 to-emerald-50">
-          <div className="w-10 h-10 bg-[#647FBC]/10 rounded-lg flex items-center justify-center mx-auto mb-2">
-            <BookOpen className="w-5 h-5 text-[#647FBC]" />
+        <Card className="p-4 text-center shadow-sm border-0 bg-gradient-to-br from-green-50 to-emerald-50 h-24 md:h-28 flex flex-col items-center justify-start pt-3 gap-1">
+          <div className="w-6 h-6 bg-[#647FBC]/10 rounded-lg flex items-center justify-center mx-auto">
+            <BookOpen className="w-3 h-3 text-[#647FBC]" />
           </div>
-          <p className="text-sm font-bold text-[#647FBC] mb-1">{semesterStats.completedCredits}</p>
-          <p className="text-gray-600 text-xs">Completed Credits</p>
+          <p className="text-sm font-bold text-[#647FBC] leading-tight">{semesterStats.completedCredits}</p>
+          <p className="text-gray-600 text-xs leading-tight">Completed Credits</p>
         </Card>
-        <Card className="p-4 text-center shadow-sm border-0 bg-gradient-to-br from-orange-50 to-amber-50">
-          <div className="w-10 h-10 bg-[#647FBC]/10 rounded-lg flex items-center justify-center mx-auto mb-2">
-            <TrendingUp className="w-5 h-5 text-[#647FBC]" />
+        <Card className="p-4 text-center shadow-sm border-0 bg-gradient-to-br from-orange-50 to-amber-50 h-24 md:h-28 flex flex-col items-center justify-start pt-3 gap-1">
+          <div className="w-6 h-6 bg-[#647FBC]/10 rounded-lg flex items-center justify-center mx-auto">
+            <TrendingUp className="w-3 h-3 text-[#647FBC]" />
           </div>
-          <p className="text-sm font-bold text-[#647FBC] mb-1">{Math.round((semesterStats.completedCredits / semesterStats.totalCredits) * 100)}%</p>
-          <p className="text-gray-600 text-xs">Complete</p>
+          <p className="text-sm font-bold text-[#647FBC] leading-tight">{Math.round((semesterStats.completedCredits / semesterStats.totalCredits) * 100)}%</p>
+          <p className="text-gray-600 text-xs leading-tight">Complete</p>
         </Card>
       </div>
 

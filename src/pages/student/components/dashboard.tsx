@@ -50,7 +50,15 @@ export function Dashboard() {
           return (
             <Card
               key={index}
-              className="p-3 text-center h-24 md:h-28 flex flex-col items-center justify-center"
+              className={
+                `p-3 text-center h-24 md:h-28 flex flex-col items-center justify-center ` +
+                // Tint card background/border to match icon color
+                (stat.label === 'Attendance'
+                  ? '!bg-green-50 !border-green-100 '
+                  : stat.label === 'GPA'
+                  ? '!bg-[#647FBC]/10 !border-[#647FBC]/20 '
+                  : '!bg-orange-50 !border-orange-100 ')
+              }
             >
               <Icon className={`w-5 h-5 mx-auto mb-2 ${stat.color}`} />
               <p className="text-sm font-semibold mb-1">{stat.value}</p>
@@ -59,7 +67,7 @@ export function Dashboard() {
           );
         })}
         {/* Add an additional stat card */}
-        <Card className="p-3 text-center h-24 md:h-28 flex flex-col items-center justify-center">
+        <Card className="p-3 text-center h-24 md:h-28 flex flex-col items-center justify-center !bg-purple-50 !border-purple-100">
           <Clock className="w-5 h-5 mx-auto mb-2 text-purple-600" />
           <p className="text-sm font-semibold mb-1">25h</p>
           <p className="text-gray-600 text-xs">Study Time</p>
@@ -69,14 +77,14 @@ export function Dashboard() {
       {/* Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
         {/* Today's Schedule */}
-        <Card className="p-3">
+        <Card className="p-3 bg-[#647FBC]/5 border-[#647FBC]/15">
           <div className="flex items-center mb-3">
             <Calendar className="w-4 h-4 text-[#647FBC] mr-2" />
             <h2 className="font-semibold text-sm">Today's Schedule</h2>
           </div>
           <div className="space-y-2">
             {upcomingClasses.map((cls, index) => (
-              <div key={index} className="flex items-center justify-between p-2 bg-gray-50 rounded-md">
+              <div key={index} className="flex items-center justify-between p-2 bg-[#647FBC]/10 rounded-md">
                 <div>
                   <p className="font-medium text-sm">{cls.subject}</p>
                   <p className="text-gray-600 mt-0.5 text-xs">{cls.room}</p>
@@ -94,14 +102,14 @@ export function Dashboard() {
         </Card>
 
         {/* Recent Announcements */}
-        <Card className="p-3">
+        <Card className="p-3 bg-[#647FBC]/5 border-[#647FBC]/15">
           <div className="flex items-center mb-3">
             <BookOpen className="w-4 h-4 text-[#647FBC] mr-2" />
             <h2 className="font-semibold text-sm">Recent Announcements</h2>
           </div>
           <div className="space-y-2">
             {recentAnnouncements.map((announcement, index) => (
-              <div key={index} className="border-l-4 border-[#647FBC] pl-2 py-2">
+              <div key={index} className="border-l-4 border-[#647FBC] pl-2 py-2 bg-[#647FBC]/10 rounded-md">
                 <p className="font-medium text-sm">{announcement.title}</p>
                 <p className="text-gray-500 mt-0.5 text-xs">{announcement.date}</p>
               </div>
@@ -110,27 +118,27 @@ export function Dashboard() {
         </Card>
 
         {/* Activity Card with Horizontal Layout */}
-        <Card className="p-3">
+        <Card className="p-3 bg-green-50 border-green-100">
           <div className="flex items-center mb-3">
-            <TrendingUp className="w-4 h-4 text-[#647FBC] mr-2" />
+            <TrendingUp className="w-4 h-4 text-green-600 mr-2" />
             <h2 className="font-semibold text-sm">Weekly Activity</h2>
           </div>
           <div className="space-y-2">
-            <div className="flex items-center justify-between p-2 bg-gray-50 rounded-md">
+            <div className="flex items-center justify-between p-2 bg-green-50 rounded-md">
               <div className="flex items-center">
                 <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
                 <span className="font-medium text-sm">Classes Attended</span>
               </div>
               <span className="text-sm font-semibold text-green-600">18/20</span>
             </div>
-            <div className="flex items-center justify-between p-2 bg-gray-50 rounded-md">
+            <div className="flex items-center justify-between p-2 bg-green-50 rounded-md">
               <div className="flex items-center">
                 <div className="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>
                 <span className="font-medium text-sm">Assignments Done</span>
               </div>
               <span className="text-sm font-semibold text-blue-600">12/15</span>
             </div>
-            <div className="flex items-center justify-between p-2 bg-gray-50 rounded-md">
+            <div className="flex items-center justify-between p-2 bg-green-50 rounded-md">
               <div className="flex items-center">
                 <div className="w-2 h-2 bg-orange-500 rounded-full mr-2"></div>
                 <span className="font-medium text-sm">Study Hours</span>

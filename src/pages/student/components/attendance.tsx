@@ -62,19 +62,19 @@ export function Attendance() {
 
       {/* Overall Statistics */}
       <div className="grid grid-cols-2 gap-3">
-        <Card className="p-3 text-center shadow-sm border-0 bg-gradient-to-br from-green-50 to-emerald-50">
-          <div className="w-8 h-8 bg-[#647FBC]/10 rounded-lg flex items-center justify-center mx-auto mb-2">
-            <TrendingUp className="w-4 h-4 text-[#647FBC]" />
+        <Card className="p-3 text-center shadow-sm border-0 bg-gradient-to-br from-green-50 to-emerald-50 h-24 md:h-28 flex flex-col items-center justify-start pt-3 gap-1">
+          <div className="w-6 h-6 bg-[#647FBC]/10 rounded-lg flex items-center justify-center mx-auto">
+            <TrendingUp className="w-3 h-3 text-[#647FBC]" />
           </div>
-          <p className="text-lg font-bold text-[#647FBC] mb-1">{overallStats.overallPercentage}%</p>
-          <p className="text-xs text-gray-600">Overall Attendance</p>
+          <p className="text-sm font-semibold text-[#647FBC] leading-tight">{overallStats.overallPercentage}%</p>
+          <p className="text-xs text-gray-600 leading-tight">Overall Attendance</p>
         </Card>
-        <Card className="p-3 text-center shadow-sm border-0 bg-gradient-to-br from-blue-50 to-indigo-50">
-          <div className="w-8 h-8 bg-[#647FBC]/10 rounded-lg flex items-center justify-center mx-auto mb-2">
-            <Calendar className="w-4 h-4 text-[#647FBC]" />
+        <Card className="p-3 text-center shadow-sm border-0 bg-gradient-to-br from-blue-50 to-indigo-50 h-24 md:h-28 flex flex-col items-center justify-start pt-3 gap-1">
+          <div className="w-6 h-6 bg-[#647FBC]/10 rounded-lg flex items-center justify-center mx-auto">
+            <Calendar className="w-3 h-3 text-[#647FBC]" />
           </div>
-          <p className="text-lg font-bold text-[#647FBC] mb-1">{overallStats.attendedClasses}</p>
-          <p className="text-xs text-gray-600">Classes Attended</p>
+          <p className="text-sm font-semibold text-[#647FBC] leading-tight">{overallStats.attendedClasses}</p>
+          <p className="text-xs text-gray-600 leading-tight">Classes Attended</p>
         </Card>
       </div>
 

@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
 import {
-  LayoutDashboard,
   CalendarDays,
-  LineChart,
   ClipboardList,
-  Wallet,
   FileText,
-  UserCircle,
+  LayoutDashboard,
+  LineChart,
   Settings,
-} from 'lucide-react';
+  UserCircle,
+  Wallet,
+} from "lucide-react";
+import type React from "react";
+import { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
 
 type SideNavigationProps = {
   className?: string;
@@ -18,52 +19,47 @@ type SideNavigationProps = {
 
 // Full side navigation matching styles in student.css (.side-navigation, .nav-*)
 // Use relative path to avoid alias resolution issues
-import logoUrl from '../../../assets/ISE_logo.png';
+import logoUrl from "../../../assets/ISE_logo.png";
 
-const SideNavigation: React.FC<SideNavigationProps> = ({ className = '', onLinkClick }) => {
+const SideNavigation: React.FC<SideNavigationProps> = ({ className = "", onLinkClick }) => {
   const [collapsed, setCollapsed] = useState<boolean>(() => {
     try {
-      return localStorage.getItem('student.sidebar.collapsed') === '1';
+      return localStorage.getItem("student.sidebar.collapsed") === "1";
     } catch {
       return false;
     }
   });
 
   const navItems = [
-    { to: '/student/overview', label: 'Dashboard', icon: LayoutDashboard },
-    { to: '/student/schedule', label: 'Schedule', icon: CalendarDays },
-    { to: '/student/progress', label: 'Academic Progress', icon: LineChart },
-    { to: '/student/attendance', label: 'Attendance', icon: ClipboardList },
-    { to: '/student/payments', label: 'Payment Status', icon: Wallet },
-    { to: '/student/documents', label: 'Documents', icon: FileText },
-    { to: '/student/profile', label: 'Profile', icon: UserCircle },
+    { to: "/student/overview", label: "Dashboard", icon: LayoutDashboard },
+    { to: "/student/schedule", label: "Schedule", icon: CalendarDays },
+    { to: "/student/progress", label: "Academic Progress", icon: LineChart },
+    { to: "/student/attendance", label: "Attendance", icon: ClipboardList },
+    { to: "/student/payments", label: "Payment Status", icon: Wallet },
+    { to: "/student/documents", label: "Documents", icon: FileText },
+    { to: "/student/profile", label: "Profile", icon: UserCircle },
   ];
 
   useEffect(() => {
     try {
-      localStorage.setItem('student.sidebar.collapsed', collapsed ? '1' : '0');
+      localStorage.setItem("student.sidebar.collapsed", collapsed ? "1" : "0");
     } catch {
       // ignore persistence errors
     }
   }, [collapsed]);
 
   return (
-    <nav className={`side-navigation ${collapsed ? 'collapsed' : ''} ${className}`.trim()} aria-expanded={!collapsed}>
+    <nav className={`side-navigation ${collapsed ? "collapsed" : ""} ${className}`.trim()}>
       {/* Header */}
       <div className="nav-header">
-        <img
-          src={logoUrl}
-          alt="SyncED"
-          className="nav-logo-image"
+        <button
+          type="button"
+          className="bg-transparent border-0 p-0 m-0"
           onClick={() => setCollapsed((v) => !v)}
-          role="button"
-          tabIndex={0}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' || e.key === ' ') setCollapsed((v) => !v);
-          }}
-          aria-pressed={collapsed}
           title="Toggle sidebar"
-        />
+        >
+          <img src={logoUrl} alt="SyncED" className="nav-logo-image" />
+        </button>
         {!collapsed && <h1 className="nav-logo">SYNCED</h1>}
       </div>
 
@@ -74,9 +70,7 @@ const SideNavigation: React.FC<SideNavigationProps> = ({ className = '', onLinkC
             <li key={to}>
               <NavLink
                 to={to}
-                className={({ isActive }) =>
-                  `nav-item ${isActive ? 'active' : ''}`
-                }
+                className={({ isActive }) => `nav-item ${isActive ? "active" : ""}`}
                 end
                 onClick={onLinkClick}
               >
@@ -99,7 +93,7 @@ const SideNavigation: React.FC<SideNavigationProps> = ({ className = '', onLinkC
         </div>
         <NavLink
           to="/student/settings"
-          className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
+          className={({ isActive }) => `nav-item ${isActive ? "active" : ""}`}
           end
           onClick={onLinkClick}
         >

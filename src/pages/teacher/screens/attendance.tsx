@@ -1,5 +1,5 @@
-import Card from '@/components/shared/Card';
-import { Calendar, ClipboardCheck, CheckCircle2, AlertTriangle, Clock } from 'lucide-react';
+import { AlertTriangle, Calendar, CheckCircle2, ClipboardCheck, Clock } from "lucide-react";
+import Card from "@/components/shared/Card";
 
 export default function TeacherAttendance() {
   return (
@@ -45,9 +45,9 @@ export default function TeacherAttendance() {
         <h2 className="font-semibold text-sm mb-3">Today’s Classes</h2>
         <div className="space-y-2">
           {[
-            { subject: 'Mathematics', time: '09:00 AM', room: 'Room 201', status: 'pending' },
-            { subject: 'Physics', time: '11:00 AM', room: 'Lab 3', status: 'done' },
-            { subject: 'English', time: '02:00 PM', room: 'Room 105', status: 'pending' },
+            { subject: "Mathematics", time: "09:00 AM", room: "Room 201", status: "pending" },
+            { subject: "Physics", time: "11:00 AM", room: "Lab 3", status: "done" },
+            { subject: "English", time: "02:00 PM", room: "Room 105", status: "pending" },
           ].map((c, i) => (
             <div key={i} className="flex items-center justify-between p-2 bg-gray-50 rounded-md">
               <div>
@@ -62,8 +62,11 @@ export default function TeacherAttendance() {
                     <span className="text-xs">50 min</span>
                   </div>
                 </div>
-                <button className="px-2 py-1 text-xs border rounded-md hover:bg-gray-100" type="button">
-                  {c.status === 'done' ? 'Edit' : 'Take'}
+                <button
+                  className="px-2 py-1 text-xs border rounded-md hover:bg-gray-100"
+                  type="button"
+                >
+                  {c.status === "done" ? "Edit" : "Take"}
                 </button>
               </div>
             </div>

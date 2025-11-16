@@ -7,7 +7,7 @@
     scroll-padding-top: 100px;
     scroll-behavior: smooth;
   }
-  
+
   body {
     @apply font-sans bg-white text-text antialiased;
   }

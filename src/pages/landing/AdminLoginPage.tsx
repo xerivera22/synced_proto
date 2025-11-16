@@ -1,17 +1,17 @@
-import { useState, FormEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '@/context/AuthContext';
-import Navbar from '@/components/Navbar';
+import { type FormEvent, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Navbar from "@/components/Navbar";
+import { useAuth } from "@/context/AuthContext";
 
-const validAdmin = { email: 'admin@synced.com', password: 'admin123' };
-const validTeacher = { email: 'teacher@synced.com', password: 'teacher123' }; // teacher can log in here
+const validAdmin = { email: "admin@synced.com", password: "admin123" };
+const validTeacher = { email: "teacher@synced.com", password: "teacher123" }; // teacher can log in here
 
 const AdminLoginPage = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const navigate = useNavigate();
   const { login } = useAuth();
 
@@ -20,19 +20,22 @@ const AdminLoginPage = () => {
     const enteredEmail = email.trim().toLowerCase();
     const enteredPassword = password.trim();
 
-    const isAdminMatch = enteredEmail === validAdmin.email.toLowerCase() && enteredPassword === validAdmin.password;
-    const isTeacherMatch = enteredEmail === validTeacher.email.toLowerCase() && enteredPassword === validTeacher.password;
+    const isAdminMatch =
+      enteredEmail === validAdmin.email.toLowerCase() && enteredPassword === validAdmin.password;
+    const isTeacherMatch =
+      enteredEmail === validTeacher.email.toLowerCase() &&
+      enteredPassword === validTeacher.password;
 
     if (isAdminMatch) {
-      login(validAdmin.email, 'admin');
-      navigate('/admin-dashboard');
+      login(validAdmin.email, "admin");
+      navigate("/admin-dashboard");
     } else if (isTeacherMatch) {
-      login(validTeacher.email, 'teacher');
-      navigate('/teacher-dashboard');
+      login(validTeacher.email, "teacher");
+      navigate("/teacher-dashboard");
     } else {
-      setError('Invalid email or password. Please try again.');
-      setPassword('');
-      setTimeout(() => setError(''), 3000);
+      setError("Invalid email or password. Please try again.");
+      setPassword("");
+      setTimeout(() => setError(""), 3000);
     }
   };
 
@@ -43,11 +46,22 @@ const AdminLoginPage = () => {
         <div className="max-w-lg mx-auto px-8 w-full">
           <div className="relative bg-white p-10 rounded-2xl border border-gray-200 shadow-sm">
             <div className="absolute inset-x-0 -top-0.5 h-1.5 rounded-t-2xl bg-primary" />
-            <h1 className="text-2xl font-semibold text-primary text-center mb-8">Admin / Teacher Login</h1>
+            <h1 className="text-2xl font-semibold text-primary text-center mb-8">
+              Admin / Teacher Login
+            </h1>
             <form onSubmit={handleSubmit}>
-              {error && <div className="bg-red-50 text-red-600 px-4 py-3 rounded-lg text-sm mb-4">{error}</div>}
+              {error && (
+                <div className="bg-red-50 text-red-600 px-4 py-3 rounded-lg text-sm mb-4">
+                  {error}
+                </div>
+              )}
               <div className="mb-5">
-                <label htmlFor="adminEmail" className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                <label
+                  htmlFor="adminEmail"
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                >
+                  Email Address
+                </label>
                 <input
                   type="email"
                   id="adminEmail"
@@ -58,10 +72,15 @@ const AdminLoginPage = () => {
                 />
               </div>
               <div className="mb-5">
-                <label htmlFor="adminPassword" className="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                <label
+                  htmlFor="adminPassword"
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                >
+                  Password
+                </label>
                 <div className="relative">
                   <input
-                    type={showPassword ? 'text' : 'password'}
+                    type={showPassword ? "text" : "password"}
                     id="adminPassword"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
@@ -72,10 +91,10 @@ const AdminLoginPage = () => {
                     type="button"
                     onClick={() => setShowPassword((v) => !v)}
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-lg text-blue-500 px-2 py-1"
-                    aria-label={showPassword ? 'Hide password' : 'Show password'}
-                    title={showPassword ? 'Hide password' : 'Show password'}
+                    aria-label={showPassword ? "Hide password" : "Show password"}
+                    title={showPassword ? "Hide password" : "Show password"}
                   >
-                    {showPassword ? '🙈' : '👁️'}
+                    {showPassword ? "🙈" : "👁️"}
                   </button>
                 </div>
               </div>
@@ -89,7 +108,13 @@ const AdminLoginPage = () => {
                   />
                   <span className="select-none">Remember me</span>
                 </label>
-                <a href="#" className="text-sm text-blue-500 no-underline whitespace-nowrap flex-shrink-0 hover:underline">Forgot password?</a>
+                <button
+                  type="button"
+                  onClick={() => alert("Please contact support@synced.com")}
+                  className="text-sm text-blue-500 no-underline whitespace-nowrap flex-shrink-0 hover:underline"
+                >
+                  Forgot password?
+                </button>
               </div>
               <button
                 type="submit"
@@ -98,8 +123,18 @@ const AdminLoginPage = () => {
                 Login
               </button>
               <div className="text-center mt-6 pt-6 border-t border-gray-200">
-                <p className="text-gray-500 text-sm">Don't have an account? <a href="/register-form" className="text-blue-500 no-underline hover:underline">Create one here</a></p>
-                <p className="text-gray-500 text-sm mt-3">Not a Admin/Teacher? <a href="/register" className="text-blue-500 no-underline hover:underline">Click here</a></p>
+                <p className="text-gray-500 text-sm">
+                  Don't have an account?{" "}
+                  <a href="/register-form" className="text-blue-500 no-underline hover:underline">
+                    Create one here
+                  </a>
+                </p>
+                <p className="text-gray-500 text-sm mt-3">
+                  Not a Admin/Teacher?{" "}
+                  <a href="/register" className="text-blue-500 no-underline hover:underline">
+                    Click here
+                  </a>
+                </p>
               </div>
             </form>
           </div>

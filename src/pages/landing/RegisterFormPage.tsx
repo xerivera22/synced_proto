@@ -1,12 +1,22 @@
-import { useState, FormEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
-import Navbar from '@/components/Navbar';
+import { type FormEvent, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Navbar from "@/components/Navbar";
 
 const RegisterFormPage = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    firstName: '', lastName: '', email: '', password: '', confirmPassword: '',
-    phone: '', schoolName: '', schoolAddress: '', schoolType: '', numberOfStudents: '', position: '', agreeToTerms: false
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    phone: "",
+    schoolName: "",
+    schoolAddress: "",
+    schoolType: "",
+    numberOfStudents: "",
+    position: "",
+    agreeToTerms: false,
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -14,16 +24,16 @@ const RegisterFormPage = () => {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     if (formData.password !== formData.confirmPassword) {
-      alert('Passwords do not match!');
+      alert("Passwords do not match!");
       return;
     }
     if (!formData.agreeToTerms) {
-      alert('Please agree to the terms and conditions');
+      alert("Please agree to the terms and conditions");
       return;
     }
-    console.log('Form submitted:', formData);
-  alert('Account created successfully!');
-  navigate('/admin-login');
+    console.log("Form submitted:", formData);
+    alert("Account created successfully!");
+    navigate("/admin-login");
   };
 
   return (
@@ -40,27 +50,66 @@ const RegisterFormPage = () => {
               <form onSubmit={handleSubmit} className="max-w-lg mx-auto">
                 <div className="grid grid-cols-2 gap-4 mb-5">
                   <div>
-                    <label className="block font-semibold text-gray-700 mb-2 text-sm">First Name</label>
-                    <input type="text" value={formData.firstName} onChange={(e) => setFormData({...formData, firstName: e.target.value})} 
-                      className="w-full p-4 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-blue-500 focus:bg-white" required />
+                    <label
+                      htmlFor="firstName"
+                      className="block font-semibold text-gray-700 mb-2 text-sm"
+                    >
+                      First Name
+                    </label>
+                    <input
+                      id="firstName"
+                      type="text"
+                      value={formData.firstName}
+                      onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+                      className="w-full p-4 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-blue-500 focus:bg-white"
+                      required
+                    />
                   </div>
                   <div>
-                    <label className="block font-semibold text-gray-700 mb-2 text-sm">Last Name</label>
-                    <input type="text" value={formData.lastName} onChange={(e) => setFormData({...formData, lastName: e.target.value})} 
-                      className="w-full p-4 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-blue-500 focus:bg-white" required />
+                    <label
+                      htmlFor="lastName"
+                      className="block font-semibold text-gray-700 mb-2 text-sm"
+                    >
+                      Last Name
+                    </label>
+                    <input
+                      id="lastName"
+                      type="text"
+                      value={formData.lastName}
+                      onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+                      className="w-full p-4 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-blue-500 focus:bg-white"
+                      required
+                    />
                   </div>
                 </div>
                 <div className="mb-5">
-                  <label className="block font-semibold text-gray-700 mb-2 text-sm">Email Address</label>
-                  <input type="email" value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} 
-                    className="w-full p-4 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-blue-500 focus:bg-white" required />
+                  <label
+                    htmlFor="emailAddress"
+                    className="block font-semibold text-gray-700 mb-2 text-sm"
+                  >
+                    Email Address
+                  </label>
+                  <input
+                    id="emailAddress"
+                    type="email"
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    className="w-full p-4 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-blue-500 focus:bg-white"
+                    required
+                  />
                 </div>
                 <div className="grid grid-cols-2 gap-4 mb-5">
                   <div>
-                    <label className="block font-semibold text-gray-700 mb-2 text-sm">Password</label>
+                    <label
+                      htmlFor="password"
+                      className="block font-semibold text-gray-700 mb-2 text-sm"
+                    >
+                      Password
+                    </label>
                     <div className="relative">
                       <input
-                        type={showPassword ? 'text' : 'password'}
+                        id="password"
+                        type={showPassword ? "text" : "password"}
                         value={formData.password}
                         onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                         className="w-full p-4 pr-16 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-blue-500 focus:bg-white"
@@ -70,19 +119,27 @@ const RegisterFormPage = () => {
                         type="button"
                         onClick={() => setShowPassword((v) => !v)}
                         className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-blue-500 hover:underline px-2 py-1"
-                        aria-label={showPassword ? 'Hide password' : 'Show password'}
+                        aria-label={showPassword ? "Hide password" : "Show password"}
                       >
-                        {showPassword ? 'Hide' : 'Show'}
+                        {showPassword ? "Hide" : "Show"}
                       </button>
                     </div>
                   </div>
                   <div>
-                    <label className="block font-semibold text-gray-700 mb-2 text-sm">Confirm Password</label>
+                    <label
+                      htmlFor="confirmPassword"
+                      className="block font-semibold text-gray-700 mb-2 text-sm"
+                    >
+                      Confirm Password
+                    </label>
                     <div className="relative">
                       <input
-                        type={showConfirmPassword ? 'text' : 'password'}
+                        id="confirmPassword"
+                        type={showConfirmPassword ? "text" : "password"}
                         value={formData.confirmPassword}
-                        onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+                        onChange={(e) =>
+                          setFormData({ ...formData, confirmPassword: e.target.value })
+                        }
                         className="w-full p-4 pr-16 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-blue-500 focus:bg-white"
                         required
                       />
@@ -90,9 +147,9 @@ const RegisterFormPage = () => {
                         type="button"
                         onClick={() => setShowConfirmPassword((v) => !v)}
                         className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-blue-500 hover:underline px-2 py-1"
-                        aria-label={showConfirmPassword ? 'Hide password' : 'Show password'}
+                        aria-label={showConfirmPassword ? "Hide password" : "Show password"}
                       >
-                        {showConfirmPassword ? 'Hide' : 'Show'}
+                        {showConfirmPassword ? "Hide" : "Show"}
                       </button>
                     </div>
                   </div>
@@ -101,21 +158,53 @@ const RegisterFormPage = () => {
                   <h3 className="text-gray-700 text-lg font-semibold">School Information</h3>
                 </div>
                 <div className="mb-5">
-                  <label className="block font-semibold text-gray-700 mb-2 text-sm">School Name</label>
-                  <input type="text" value={formData.schoolName} onChange={(e) => setFormData({...formData, schoolName: e.target.value})} 
-                    className="w-full p-4 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-blue-500 focus:bg-white" required />
+                  <label
+                    htmlFor="schoolName"
+                    className="block font-semibold text-gray-700 mb-2 text-sm"
+                  >
+                    School Name
+                  </label>
+                  <input
+                    id="schoolName"
+                    type="text"
+                    value={formData.schoolName}
+                    onChange={(e) => setFormData({ ...formData, schoolName: e.target.value })}
+                    className="w-full p-4 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-blue-500 focus:bg-white"
+                    required
+                  />
                 </div>
                 <div className="mb-5">
                   <label className="flex items-start gap-3 cursor-pointer text-sm leading-relaxed">
-                    <input type="checkbox" checked={formData.agreeToTerms} onChange={(e) => setFormData({...formData, agreeToTerms: e.target.checked})} className="w-auto m-0 mt-1" />
-                    <span>I agree to the <a href="#" className="text-blue-500 no-underline hover:underline">Terms and Conditions</a></span>
+                    <input
+                      type="checkbox"
+                      checked={formData.agreeToTerms}
+                      onChange={(e) => setFormData({ ...formData, agreeToTerms: e.target.checked })}
+                      className="w-auto m-0 mt-1"
+                    />
+                    <span>
+                      I agree to the{" "}
+                      <a href="/terms" className="text-blue-500 no-underline hover:underline">
+                        Terms and Conditions
+                      </a>
+                    </span>
                   </label>
                 </div>
-                <button type="submit" className="w-full p-4 bg-blue-500 text-white border-0 rounded-md text-base font-semibold cursor-pointer hover:bg-blue-600 mt-6">
+                <button
+                  type="submit"
+                  className="w-full p-4 bg-blue-500 text-white border-0 rounded-md text-base font-semibold cursor-pointer hover:bg-blue-600 mt-6"
+                >
                   Create Account
                 </button>
                 <div className="text-center mt-6">
-                  <p className="text-muted text-sm">Already have an account? <a href="/register" className="text-blue-500 no-underline font-semibold hover:underline">Sign in</a></p>
+                  <p className="text-muted text-sm">
+                    Already have an account?{" "}
+                    <a
+                      href="/register"
+                      className="text-blue-500 no-underline font-semibold hover:underline"
+                    >
+                      Sign in
+                    </a>
+                  </p>
                 </div>
               </form>
             </div>

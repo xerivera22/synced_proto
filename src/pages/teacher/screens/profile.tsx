@@ -1,32 +1,34 @@
-import { Card } from '@/pages/student/components/ui/card';
-import { Button } from '@/pages/student/components/ui/button';
-import { Avatar, AvatarFallback, AvatarImage } from '@/pages/student/components/ui/avatar';
-import { User, Mail, Phone, MapPin, Calendar, GraduationCap, Edit } from 'lucide-react';
-import { useAuth } from '@/context/AuthContext';
+import { Calendar, Edit, GraduationCap, Mail, MapPin, Phone, User } from "lucide-react";
+import { useAuth } from "@/context/AuthContext";
+import { Avatar, AvatarFallback, AvatarImage } from "@/pages/student/components/ui/avatar";
+import { Button } from "@/pages/student/components/ui/button";
+import { Card } from "@/pages/student/components/ui/card";
 
 export default function TeacherProfile() {
   const { user } = useAuth();
-  const handle = user?.email?.split('@')[0];
-  const derivedName = handle ? handle.replace(/\./g, ' ').replace(/\b\w/g, (m) => m.toUpperCase()) : undefined;
+  const handle = user?.email?.split("@")[0];
+  const derivedName = handle
+    ? handle.replace(/\./g, " ").replace(/\b\w/g, (m) => m.toUpperCase())
+    : undefined;
 
   const teacherInfo = {
-    name: 'Jordan Reyes',
-    employeeId: 'EMP-4589',
-    email: user?.email || 'jordan.reyes@school.edu',
-    phone: '+1 (555) 234-9876',
-    address: '45 Faculty Rd, Campus City, CA',
-    dateOfBirth: 'July 12, 1989',
-    hiredDate: 'June 2020',
-    department: 'Mathematics',
-    adviserOf: 'Grade 10 - Section A',
-    loadHours: '24',
+    name: "Jordan Reyes",
+    employeeId: "EMP-4589",
+    email: user?.email || "jordan.reyes@school.edu",
+    phone: "+1 (555) 234-9876",
+    address: "45 Faculty Rd, Campus City, CA",
+    dateOfBirth: "July 12, 1989",
+    hiredDate: "June 2020",
+    department: "Mathematics",
+    adviserOf: "Grade 10 - Section A",
+    loadHours: "24",
   };
 
   const emergencyContact = {
-    name: 'Pat Reyes',
-    relationship: 'Spouse',
-    phone: '+1 (555) 765-4321',
-    email: 'pat.reyes@email.com',
+    name: "Pat Reyes",
+    relationship: "Spouse",
+    phone: "+1 (555) 765-4321",
+    email: "pat.reyes@email.com",
   };
 
   return (
@@ -51,16 +53,25 @@ export default function TeacherProfile() {
             <Avatar className="w-12 h-12 mr-3 shadow-sm">
               <AvatarImage src="/placeholder-avatar.jpg" alt={derivedName || teacherInfo.name} />
               <AvatarFallback className="bg-gradient-to-br from-[#647FBC] to-[#5a73b3] text-white text-sm">
-                {(derivedName || teacherInfo.name).split(' ').map(n => n[0]).join('')}
+                {(derivedName || teacherInfo.name)
+                  .split(" ")
+                  .map((n) => n[0])
+                  .join("")}
               </AvatarFallback>
             </Avatar>
             <div>
-              <h2 className="text-base font-semibold text-gray-900">{derivedName || teacherInfo.name}</h2>
+              <h2 className="text-base font-semibold text-gray-900">
+                {derivedName || teacherInfo.name}
+              </h2>
               <p className="text-gray-500 font-medium text-xs">ID: {teacherInfo.employeeId}</p>
               <p className="text-[#647FBC] font-medium mt-0.5 text-sm">{teacherInfo.department}</p>
             </div>
           </div>
-          <Button variant="outline" size="sm" className="border-[#647FBC] text-[#647FBC] hover:bg-[#647FBC] hover:text-white h-6 text-xs px-2">
+          <Button
+            variant="outline"
+            size="sm"
+            className="border-[#647FBC] text-[#647FBC] hover:bg-[#647FBC] hover:text-white h-6 text-xs px-2"
+          >
             <Edit className="w-3 h-3 mr-1" />
             Edit
           </Button>
@@ -92,7 +103,11 @@ export default function TeacherProfile() {
       <Card className="p-3 shadow-sm border-0">
         <div className="flex items-center justify-between mb-3">
           <h2 className="text-sm font-semibold text-[#647FBC]">Personal Information</h2>
-          <Button variant="outline" size="sm" className="border-[#647FBC] text-[#647FBC] hover:bg-[#647FBC] hover:text-white h-6 text-xs px-2">
+          <Button
+            variant="outline"
+            size="sm"
+            className="border-[#647FBC] text-[#647FBC] hover:bg-[#647FBC] hover:text-white h-6 text-xs px-2"
+          >
             <Edit className="w-3 h-3" />
           </Button>
         </div>
@@ -155,14 +170,20 @@ export default function TeacherProfile() {
       <Card className="p-3 shadow-sm border-0">
         <div className="flex items-center justify-between mb-3">
           <h2 className="text-sm font-semibold text-[#647FBC]">Emergency Contact</h2>
-          <Button variant="outline" size="sm" className="border-[#647FBC] text-[#647FBC] hover:bg-[#647FBC] hover:text-white h-6 text-xs px-2">
+          <Button
+            variant="outline"
+            size="sm"
+            className="border-[#647FBC] text-[#647FBC] hover:bg-[#647FBC] hover:text-white h-6 text-xs px-2"
+          >
             <Edit className="w-3 h-3" />
           </Button>
         </div>
         <div className="space-y-2">
           <div className="p-2 bg-red-50/50 rounded-lg border border-red-100">
             <p className="font-medium text-gray-700 mb-0.5 text-xs">Contact Person</p>
-            <p className="text-gray-900 font-semibold text-sm">{emergencyContact.name} ({emergencyContact.relationship})</p>
+            <p className="text-gray-900 font-semibold text-sm">
+              {emergencyContact.name} ({emergencyContact.relationship})
+            </p>
           </div>
           <div className="grid grid-cols-2 gap-2">
             <div className="p-2 bg-blue-50/50 rounded-lg border border-blue-100">

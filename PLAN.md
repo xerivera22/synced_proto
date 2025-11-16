@@ -1,0 +1,3 @@
+- [x] parent shell
+- [x] parent overview
+- [x] parent core screens scaffolded (academic progress, attendance, schedule, payments, documents, messages, profile, settings)

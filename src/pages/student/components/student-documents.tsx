@@ -1,64 +1,64 @@
-import { Card } from "./ui/card";
+import { AlertCircle, CheckCircle, Clock, Download, Eye, FileText, Upload } from "lucide-react";
 import { Button } from "./ui/button";
-import { FileText, Download, Eye, Upload, CheckCircle, Clock, AlertCircle } from "lucide-react";
+import { Card } from "./ui/card";
 
 export function StudentDocuments() {
   const requiredDocuments = [
-    { 
-      name: "Academic Transcript", 
+    {
+      name: "Academic Transcript",
       description: "Official transcript for current semester",
-      status: "available", 
+      status: "available",
       uploadDate: "Aug 15, 2025",
-      size: "2.3 MB"
+      size: "2.3 MB",
     },
-    { 
-      name: "Fee Receipt", 
+    {
+      name: "Fee Receipt",
       description: "Payment receipt for tuition fees",
-      status: "available", 
+      status: "available",
       uploadDate: "Sep 10, 2025",
-      size: "1.1 MB"
+      size: "1.1 MB",
     },
-    { 
-      name: "ID Card Copy", 
+    {
+      name: "ID Card Copy",
       description: "Student identification card",
-      status: "available", 
+      status: "available",
       uploadDate: "Aug 10, 2025",
-      size: "0.8 MB"
+      size: "0.8 MB",
     },
-    { 
-      name: "Medical Certificate", 
+    {
+      name: "Medical Certificate",
       description: "Health clearance certificate",
-      status: "pending", 
+      status: "pending",
       uploadDate: null,
-      size: null
+      size: null,
     },
-    { 
-      name: "Course Registration", 
+    {
+      name: "Course Registration",
       description: "Semester course registration form",
-      status: "available", 
+      status: "available",
       uploadDate: "Aug 20, 2025",
-      size: "1.5 MB"
+      size: "1.5 MB",
     },
   ];
 
   const certificates = [
-    { 
-      name: "Dean's List Certificate", 
+    {
+      name: "Dean's List Certificate",
       description: "Academic excellence recognition",
       issueDate: "May 2025",
-      type: "Achievement"
+      type: "Achievement",
     },
-    { 
-      name: "Scholarship Award", 
+    {
+      name: "Scholarship Award",
       description: "Merit-based scholarship certificate",
       issueDate: "Aug 2025",
-      type: "Financial Aid"
+      type: "Financial Aid",
     },
-    { 
-      name: "Course Completion", 
+    {
+      name: "Course Completion",
       description: "Python Programming Certificate",
       issueDate: "Jul 2025",
-      type: "Course"
+      type: "Course",
     },
   ];
 
@@ -129,7 +129,10 @@ export function StudentDocuments() {
         <h2 className="text-sm font-semibold mb-3 text-[#647FBC]">Required Documents</h2>
         <div className="space-y-2">
           {requiredDocuments.map((doc, index) => (
-            <div key={index} className="flex items-center justify-between p-2 bg-gray-50/50 rounded-lg hover:bg-gray-100/50 transition-colors">
+            <div
+              key={index}
+              className="flex items-center justify-between p-2 bg-gray-50/50 rounded-lg hover:bg-gray-100/50 transition-colors"
+            >
               <div className="flex items-center">
                 <div className="w-6 h-6 bg-white rounded-md flex items-center justify-center mr-3 shadow-sm">
                   {getStatusIcon(doc.status)}
@@ -147,15 +150,26 @@ export function StudentDocuments() {
               <div className="flex items-center space-x-1">
                 {doc.status === "available" ? (
                   <>
-                    <Button size="sm" variant="outline" className="p-1 h-6 w-6 border-[#647FBC] text-[#647FBC] hover:bg-[#647FBC] hover:text-white">
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="p-1 h-6 w-6 border-[#647FBC] text-[#647FBC] hover:bg-[#647FBC] hover:text-white"
+                    >
                       <Eye className="w-3 h-3" />
                     </Button>
-                    <Button size="sm" variant="outline" className="p-1 h-6 w-6 border-[#647FBC] text-[#647FBC] hover:bg-[#647FBC] hover:text-white">
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="p-1 h-6 w-6 border-[#647FBC] text-[#647FBC] hover:bg-[#647FBC] hover:text-white"
+                    >
                       <Download className="w-3 h-3" />
                     </Button>
                   </>
                 ) : (
-                  <Button size="sm" className="bg-gradient-to-r from-[#647FBC] to-[#5a73b3] hover:from-[#5a73b3] hover:to-[#4d6aa3] text-white h-6 text-xs px-2">
+                  <Button
+                    size="sm"
+                    className="bg-gradient-to-r from-[#647FBC] to-[#5a73b3] hover:from-[#5a73b3] hover:to-[#4d6aa3] text-white h-6 text-xs px-2"
+                  >
                     <Upload className="w-3 h-3 mr-1" />
                     Upload
                   </Button>
@@ -171,7 +185,10 @@ export function StudentDocuments() {
         <h2 className="text-sm font-semibold mb-3 text-[#647FBC]">Certificates & Awards</h2>
         <div className="space-y-2">
           {certificates.map((cert, index) => (
-            <div key={index} className="flex items-center justify-between p-2 bg-gradient-to-r from-amber-50 to-yellow-50 rounded-lg border border-amber-100 hover:shadow-sm transition-shadow">
+            <div
+              key={index}
+              className="flex items-center justify-between p-2 bg-gradient-to-r from-amber-50 to-yellow-50 rounded-lg border border-amber-100 hover:shadow-sm transition-shadow"
+            >
               <div className="flex items-center">
                 <div className="w-7 h-7 bg-gradient-to-br from-[#647FBC] to-[#5a73b3] rounded-full flex items-center justify-center mr-3">
                   <FileText className="w-3 h-3 text-white" />
@@ -185,10 +202,18 @@ export function StudentDocuments() {
                 </div>
               </div>
               <div className="flex items-center space-x-1">
-                <Button size="sm" variant="outline" className="p-1 h-6 w-6 border-[#647FBC] text-[#647FBC] hover:bg-[#647FBC] hover:text-white">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="p-1 h-6 w-6 border-[#647FBC] text-[#647FBC] hover:bg-[#647FBC] hover:text-white"
+                >
                   <Eye className="w-3 h-3" />
                 </Button>
-                <Button size="sm" variant="outline" className="p-1 h-6 w-6 border-[#647FBC] text-[#647FBC] hover:bg-[#647FBC] hover:text-white">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="p-1 h-6 w-6 border-[#647FBC] text-[#647FBC] hover:bg-[#647FBC] hover:text-white"
+                >
                   <Download className="w-3 h-3" />
                 </Button>
               </div>
@@ -202,7 +227,10 @@ export function StudentDocuments() {
         <h2 className="text-sm font-semibold mb-3 text-[#647FBC]">Recent Activity</h2>
         <div className="space-y-2">
           {recentActivity.map((activity, index) => (
-            <div key={index} className="flex items-center p-2 bg-gray-50/50 rounded-lg hover:bg-gray-100/50 transition-colors">
+            <div
+              key={index}
+              className="flex items-center p-2 bg-gray-50/50 rounded-lg hover:bg-gray-100/50 transition-colors"
+            >
               <div className="w-6 h-6 bg-gradient-to-br from-[#647FBC] to-[#5a73b3] rounded-full flex items-center justify-center mr-3">
                 <FileText className="w-3 h-3 text-white" />
               </div>

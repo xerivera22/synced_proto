@@ -1,5 +1,16 @@
+import {
+  Bell,
+  Calendar,
+  CalendarDays,
+  CheckCircle,
+  Clock,
+  Cloud,
+  Droplets,
+  MapPin,
+  Sun,
+  Wind,
+} from "lucide-react";
 import { Card } from "./ui/card";
-import { Calendar, Clock, MapPin, Sun, Cloud, Droplets, Wind, CalendarDays, Bell, CheckCircle } from "lucide-react";
 
 export function Schedule() {
   const weekDays = ["Mon", "Tue", "Wed", "Thu", "Fri"];
@@ -120,14 +131,18 @@ export function Schedule() {
           <div className="w-6 h-6 bg-[#647FBC]/10 rounded-full flex items-center justify-center">
             <weatherData.current.icon className="w-3 h-3 text-[#647FBC]" />
           </div>
-          <p className="text-sm font-semibold text-[#647FBC] leading-tight">{weatherData.current.temperature}°F</p>
+          <p className="text-sm font-semibold text-[#647FBC] leading-tight">
+            {weatherData.current.temperature}°F
+          </p>
           <p className="text-gray-600 text-xs leading-tight">Partly Cloudy</p>
         </Card>
         <Card className="p-3 bg-[#647FBC]/5 border-[#647FBC]/15 h-24 md:h-28 flex flex-col items-center justify-start text-center pt-3 gap-1">
           <div className="w-6 h-6 bg-[#647FBC]/10 rounded-full flex items-center justify-center">
             <CalendarDays className="w-3 h-3 text-[#647FBC]" />
           </div>
-          <p className="text-sm font-semibold text-[#647FBC] leading-tight">{schoolEvents.length}</p>
+          <p className="text-sm font-semibold text-[#647FBC] leading-tight">
+            {schoolEvents.length}
+          </p>
           <p className="text-gray-600 text-xs leading-tight">Events</p>
         </Card>
 
@@ -153,11 +168,10 @@ export function Schedule() {
         <div className="flex bg-white rounded-md p-1 border shadow-sm">
           {weekDays.map((day, index) => (
             <button
+              type="button"
               key={day}
               className={`py-2 px-3 rounded-sm font-medium transition-colors min-w-[80px] text-sm ${
-                index === currentDay
-                  ? "bg-[#647FBC] text-white"
-                  : "text-gray-600 hover:bg-gray-100"
+                index === currentDay ? "bg-[#647FBC] text-white" : "text-gray-600 hover:bg-gray-100"
               }`}
             >
               {day}
@@ -172,8 +186,11 @@ export function Schedule() {
         <Card className="p-3">
           <h2 className="font-semibold mb-3 text-[#647FBC] text-sm">Today's Classes</h2>
           <div className="space-y-2">
-            {schedule[scheduleKeys[currentDay]].map((cls, index) => (
-              <div key={index} className="bg-gray-50 p-3 rounded-md border-l-4 border-[#647FBC]">
+            {schedule[scheduleKeys[currentDay]].map((cls) => (
+              <div
+                key={`${cls.subject}-${cls.time}`}
+                className="bg-gray-50 p-3 rounded-md border-l-4 border-[#647FBC]"
+              >
                 <div className="flex justify-between items-start mb-2">
                   <h3 className="font-semibold text-sm">{cls.subject}</h3>
                   <div className="flex items-center text-gray-600">
@@ -214,11 +231,15 @@ export function Schedule() {
             <div className="grid grid-cols-1 gap-2">
               <div className="flex items-center">
                 <Droplets className="w-3 h-3 text-blue-500 mr-2" />
-                <span className="text-gray-600 text-xs">Humidity: {weatherData.current.humidity}%</span>
+                <span className="text-gray-600 text-xs">
+                  Humidity: {weatherData.current.humidity}%
+                </span>
               </div>
               <div className="flex items-center">
                 <Wind className="w-3 h-3 text-gray-500 mr-2" />
-                <span className="text-gray-600 text-xs">Wind: {weatherData.current.windSpeed} mph</span>
+                <span className="text-gray-600 text-xs">
+                  Wind: {weatherData.current.windSpeed} mph
+                </span>
               </div>
             </div>
           </div>
@@ -229,7 +250,10 @@ export function Schedule() {
           <h2 className="font-semibold mb-3 text-[#647FBC] text-sm">Weekly Overview</h2>
           <div className="space-y-2">
             {scheduleKeys.map((day) => (
-              <div key={day} className="flex justify-between items-center py-2 border-b border-gray-100 last:border-0">
+              <div
+                key={day}
+                className="flex justify-between items-center py-2 border-b border-gray-100 last:border-0"
+              >
                 <span className="font-medium capitalize text-sm">{day}</span>
                 <span className="text-gray-600 text-xs">{schedule[day].length} classes</span>
               </div>
@@ -245,14 +269,19 @@ export function Schedule() {
           <h2 className="font-semibold text-[#647FBC] text-sm">Upcoming School Events</h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          {schoolEvents.map((event, index) => (
-            <div key={index} className="bg-gray-50 p-3 rounded-md border-l-4 border-[#647FBC]">
+          {schoolEvents.map((event) => (
+            <div
+              key={`${event.title}-${event.date}`}
+              className="bg-gray-50 p-3 rounded-md border-l-4 border-[#647FBC]"
+            >
               <div className="flex items-start justify-between mb-2">
                 <div className="flex-1">
                   <h3 className="font-medium text-sm">{event.title}</h3>
                   <p className="text-gray-600 mt-1 text-xs">{event.description}</p>
                 </div>
-                <span className={`px-2 py-1 rounded-full border text-xs ${getEventTypeColor(event.type)}`}>
+                <span
+                  className={`px-2 py-1 rounded-full border text-xs ${getEventTypeColor(event.type)}`}
+                >
                   {event.type}
                 </span>
               </div>

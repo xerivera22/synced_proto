@@ -1,6 +1,6 @@
+import { AlertTriangle, Calendar, ClipboardCheck, TrendingUp } from "lucide-react";
 import { Card } from "./ui/card";
 import { Progress } from "./ui/progress";
-import { ClipboardCheck, Calendar, TrendingUp, AlertTriangle } from "lucide-react";
 
 export function Attendance() {
   const attendanceData = [
@@ -29,19 +29,27 @@ export function Attendance() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "good": return "text-green-600";
-      case "warning": return "text-yellow-600";
-      case "critical": return "text-red-600";
-      default: return "text-gray-600";
+      case "good":
+        return "text-green-600";
+      case "warning":
+        return "text-yellow-600";
+      case "critical":
+        return "text-red-600";
+      default:
+        return "text-gray-600";
     }
   };
 
   const getAttendanceStatusColor = (status: string) => {
     switch (status) {
-      case "present": return "bg-green-100 text-green-700";
-      case "absent": return "bg-red-100 text-red-700";
-      case "late": return "bg-yellow-100 text-yellow-700";
-      default: return "bg-gray-100 text-gray-700";
+      case "present":
+        return "bg-green-100 text-green-700";
+      case "absent":
+        return "bg-red-100 text-red-700";
+      case "late":
+        return "bg-yellow-100 text-yellow-700";
+      default:
+        return "bg-gray-100 text-gray-700";
     }
   };
 
@@ -66,14 +74,18 @@ export function Attendance() {
           <div className="w-6 h-6 bg-[#647FBC]/10 rounded-lg flex items-center justify-center mx-auto">
             <TrendingUp className="w-3 h-3 text-[#647FBC]" />
           </div>
-          <p className="text-sm font-semibold text-[#647FBC] leading-tight">{overallStats.overallPercentage}%</p>
+          <p className="text-sm font-semibold text-[#647FBC] leading-tight">
+            {overallStats.overallPercentage}%
+          </p>
           <p className="text-xs text-gray-600 leading-tight">Overall Attendance</p>
         </Card>
         <Card className="p-3 text-center shadow-sm border-0 bg-gradient-to-br from-blue-50 to-indigo-50 h-24 md:h-28 flex flex-col items-center justify-start pt-3 gap-1">
           <div className="w-6 h-6 bg-[#647FBC]/10 rounded-lg flex items-center justify-center mx-auto">
             <Calendar className="w-3 h-3 text-[#647FBC]" />
           </div>
-          <p className="text-sm font-semibold text-[#647FBC] leading-tight">{overallStats.attendedClasses}</p>
+          <p className="text-sm font-semibold text-[#647FBC] leading-tight">
+            {overallStats.attendedClasses}
+          </p>
           <p className="text-xs text-gray-600 leading-tight">Classes Attended</p>
         </Card>
       </div>
@@ -84,12 +96,16 @@ export function Attendance() {
         <div className="space-y-3">
           <div className="flex justify-between font-medium text-sm">
             <span className="text-gray-700">Attended Classes</span>
-            <span className="text-[#647FBC]">{overallStats.attendedClasses}/{overallStats.totalClasses}</span>
+            <span className="text-[#647FBC]">
+              {overallStats.attendedClasses}/{overallStats.totalClasses}
+            </span>
           </div>
           <Progress value={overallStats.overallPercentage} className="h-2" />
           <div className="flex justify-between text-xs">
             <span className="text-gray-600">Required: {overallStats.requiredPercentage}%</span>
-            <span className="font-semibold text-[#647FBC]">{overallStats.overallPercentage}% Complete</span>
+            <span className="font-semibold text-[#647FBC]">
+              {overallStats.overallPercentage}% Complete
+            </span>
           </div>
         </div>
       </Card>
@@ -99,7 +115,10 @@ export function Attendance() {
         <h2 className="text-sm font-semibold mb-3 text-[#647FBC]">Subject-wise Attendance</h2>
         <div className="space-y-2">
           {attendanceData.map((subject, index) => (
-            <div key={index} className="bg-gradient-to-r from-gray-50 to-white p-3 rounded-lg border border-gray-100 hover:shadow-sm transition-shadow">
+            <div
+              key={index}
+              className="bg-gradient-to-r from-gray-50 to-white p-3 rounded-lg border border-gray-100 hover:shadow-sm transition-shadow"
+            >
               <div className="flex justify-between items-center mb-2">
                 <span className="font-semibold text-gray-900 text-sm">{subject.subject}</span>
                 <div className="flex items-center">
@@ -135,12 +154,19 @@ export function Attendance() {
         <h2 className="text-sm font-semibold mb-3 text-[#647FBC]">Recent Attendance</h2>
         <div className="space-y-2">
           {recentAttendance.map((record, index) => (
-            <div key={index} className="flex items-center justify-between p-2 bg-gray-50/50 rounded-lg hover:bg-gray-100/50 transition-colors">
+            <div
+              key={index}
+              className="flex items-center justify-between p-2 bg-gray-50/50 rounded-lg hover:bg-gray-100/50 transition-colors"
+            >
               <div className="flex-1">
                 <p className="font-semibold text-gray-900 text-sm">{record.subject}</p>
-                <p className="text-xs text-gray-600">{record.date} • {record.time}</p>
+                <p className="text-xs text-gray-600">
+                  {record.date} • {record.time}
+                </p>
               </div>
-              <span className={`text-xs px-2 py-1 rounded-full capitalize font-medium ${getAttendanceStatusColor(record.status)}`}>
+              <span
+                className={`text-xs px-2 py-1 rounded-full capitalize font-medium ${getAttendanceStatusColor(record.status)}`}
+              >
                 {record.status}
               </span>
             </div>

@@ -1,6 +1,6 @@
+import { Award, BookOpen, Target, TrendingUp } from "lucide-react";
 import { Card } from "./ui/card";
 import { Progress } from "./ui/progress";
-import { TrendingUp, Award, BookOpen, Target } from "lucide-react";
 
 export function AcademicProgress() {
   const subjects = [
@@ -20,10 +20,20 @@ export function AcademicProgress() {
   };
 
   const upcomingAssignments = [
-    { subject: "Mathematics", assignment: "Calculus Problem Set", dueDate: "Sep 20", status: "pending" },
+    {
+      subject: "Mathematics",
+      assignment: "Calculus Problem Set",
+      dueDate: "Sep 20",
+      status: "pending",
+    },
     { subject: "Physics", assignment: "Lab Report #3", dueDate: "Sep 22", status: "pending" },
     { subject: "English", assignment: "Essay on Literature", dueDate: "Sep 25", status: "draft" },
-    { subject: "Chemistry", assignment: "Molecular Structure Quiz", dueDate: "Sep 18", status: "urgent" },
+    {
+      subject: "Chemistry",
+      assignment: "Molecular Structure Quiz",
+      dueDate: "Sep 18",
+      status: "urgent",
+    },
   ];
 
   return (
@@ -47,28 +57,36 @@ export function AcademicProgress() {
           <div className="w-6 h-6 bg-[#647FBC]/10 rounded-lg flex items-center justify-center mx-auto">
             <Award className="w-3 h-3 text-[#647FBC]" />
           </div>
-          <p className="text-sm font-bold text-[#647FBC] leading-tight">{semesterStats.currentGPA}</p>
+          <p className="text-sm font-bold text-[#647FBC] leading-tight">
+            {semesterStats.currentGPA}
+          </p>
           <p className="text-gray-600 text-xs leading-tight">Current GPA</p>
         </Card>
         <Card className="p-4 text-center shadow-sm border-0 bg-gradient-to-br from-purple-50 to-pink-50 h-24 md:h-28 flex flex-col items-center justify-start pt-3 gap-1">
           <div className="w-6 h-6 bg-[#647FBC]/10 rounded-lg flex items-center justify-center mx-auto">
             <Target className="w-3 h-3 text-[#647FBC]" />
           </div>
-          <p className="text-sm font-bold text-[#647FBC] leading-tight">{semesterStats.creditHours}</p>
+          <p className="text-sm font-bold text-[#647FBC] leading-tight">
+            {semesterStats.creditHours}
+          </p>
           <p className="text-gray-600 text-xs leading-tight">Credit Hours</p>
         </Card>
         <Card className="p-4 text-center shadow-sm border-0 bg-gradient-to-br from-green-50 to-emerald-50 h-24 md:h-28 flex flex-col items-center justify-start pt-3 gap-1">
           <div className="w-6 h-6 bg-[#647FBC]/10 rounded-lg flex items-center justify-center mx-auto">
             <BookOpen className="w-3 h-3 text-[#647FBC]" />
           </div>
-          <p className="text-sm font-bold text-[#647FBC] leading-tight">{semesterStats.completedCredits}</p>
+          <p className="text-sm font-bold text-[#647FBC] leading-tight">
+            {semesterStats.completedCredits}
+          </p>
           <p className="text-gray-600 text-xs leading-tight">Completed Credits</p>
         </Card>
         <Card className="p-4 text-center shadow-sm border-0 bg-gradient-to-br from-orange-50 to-amber-50 h-24 md:h-28 flex flex-col items-center justify-start pt-3 gap-1">
           <div className="w-6 h-6 bg-[#647FBC]/10 rounded-lg flex items-center justify-center mx-auto">
             <TrendingUp className="w-3 h-3 text-[#647FBC]" />
           </div>
-          <p className="text-sm font-bold text-[#647FBC] leading-tight">{Math.round((semesterStats.completedCredits / semesterStats.totalCredits) * 100)}%</p>
+          <p className="text-sm font-bold text-[#647FBC] leading-tight">
+            {Math.round((semesterStats.completedCredits / semesterStats.totalCredits) * 100)}%
+          </p>
           <p className="text-gray-600 text-xs leading-tight">Complete</p>
         </Card>
       </div>
@@ -81,7 +99,10 @@ export function AcademicProgress() {
             <h2 className="font-semibold mb-3 text-[#647FBC] text-sm">Current Subjects</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {subjects.map((subject, index) => (
-                <div key={index} className="bg-gradient-to-r from-gray-50 to-white p-3 rounded-lg border border-gray-100 hover:shadow-sm transition-shadow">
+                <div
+                  key={index}
+                  className="bg-gradient-to-r from-gray-50 to-white p-3 rounded-lg border border-gray-100 hover:shadow-sm transition-shadow"
+                >
                   <div className="flex justify-between items-center mb-2">
                     <div className="flex items-center">
                       <div className={`w-3 h-3 rounded-full ${subject.color} mr-2`}></div>
@@ -110,10 +131,12 @@ export function AcademicProgress() {
             <div className="space-y-3">
               <div className="flex justify-between font-medium text-sm">
                 <span className="text-gray-700">Completed Credits</span>
-                <span className="text-[#647FBC]">{semesterStats.completedCredits}/{semesterStats.totalCredits}</span>
+                <span className="text-[#647FBC]">
+                  {semesterStats.completedCredits}/{semesterStats.totalCredits}
+                </span>
               </div>
-              <Progress 
-                value={(semesterStats.completedCredits / semesterStats.totalCredits) * 100} 
+              <Progress
+                value={(semesterStats.completedCredits / semesterStats.totalCredits) * 100}
                 className="h-2"
               />
               <div className="text-center">
@@ -135,18 +158,25 @@ export function AcademicProgress() {
             </div>
             <div className="space-y-2">
               {upcomingAssignments.map((assignment, index) => (
-                <div key={index} className="p-2 bg-gray-50/50 rounded-lg hover:bg-gray-100/50 transition-colors">
+                <div
+                  key={index}
+                  className="p-2 bg-gray-50/50 rounded-lg hover:bg-gray-100/50 transition-colors"
+                >
                   <div className="mb-2">
                     <p className="font-semibold text-gray-900 text-sm">{assignment.assignment}</p>
                     <p className="text-gray-600 mt-0.5 text-xs">{assignment.subject}</p>
                   </div>
                   <div className="flex items-center justify-between">
                     <p className="font-medium text-gray-900 text-xs">{assignment.dueDate}</p>
-                    <span className={`px-2 py-1 rounded-full font-medium text-xs ${
-                      assignment.status === 'urgent' ? 'bg-red-100 text-red-700' :
-                      assignment.status === 'draft' ? 'bg-amber-100 text-amber-700' :
-                      'bg-blue-100 text-blue-700'
-                    }`}>
+                    <span
+                      className={`px-2 py-1 rounded-full font-medium text-xs ${
+                        assignment.status === "urgent"
+                          ? "bg-red-100 text-red-700"
+                          : assignment.status === "draft"
+                            ? "bg-amber-100 text-amber-700"
+                            : "bg-blue-100 text-blue-700"
+                      }`}
+                    >
                       {assignment.status}
                     </span>
                   </div>

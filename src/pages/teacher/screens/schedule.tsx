@@ -1,5 +1,5 @@
-import Card from '@/components/shared/Card';
-import { Calendar, Clock, BookOpenCheck, TimerReset } from 'lucide-react';
+import { BookOpenCheck, Calendar, Clock, TimerReset } from "lucide-react";
+import Card from "@/components/shared/Card";
 
 export default function TeacherSchedule() {
   return (
@@ -45,9 +45,9 @@ export default function TeacherSchedule() {
         <h2 className="font-semibold text-sm mb-3">Today’s Schedule</h2>
         <div className="space-y-2">
           {[
-            { subject: 'Mathematics', time: '09:00 AM', room: 'Room 201' },
-            { subject: 'Physics', time: '11:00 AM', room: 'Lab 3' },
-            { subject: 'English', time: '02:00 PM', room: 'Room 105' },
+            { subject: "Mathematics", time: "09:00 AM", room: "Room 201" },
+            { subject: "Physics", time: "11:00 AM", room: "Lab 3" },
+            { subject: "English", time: "02:00 PM", room: "Room 105" },
           ].map((c, i) => (
             <div key={i} className="flex items-center justify-between p-2 bg-gray-50 rounded-md">
               <div>

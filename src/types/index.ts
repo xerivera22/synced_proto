@@ -11,7 +11,7 @@ export interface Plan {
 
 export interface User {
   email: string;
-  role: 'admin' | 'student' | 'teacher' | 'parent';
+  role: "admin" | "student" | "teacher" | "parent";
   loggedIn: boolean;
 }
 

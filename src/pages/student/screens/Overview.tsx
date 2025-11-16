@@ -1,5 +1,5 @@
-import React from 'react';
-import Dashboard from '../components/dashboard';
+import type React from "react";
+import Dashboard from "../components/dashboard";
 
 const Overview: React.FC = () => {
   return <Dashboard />;

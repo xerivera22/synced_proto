@@ -1,7 +1,7 @@
-import { Card } from "./ui/card";
-import { Button } from "./ui/button";
+import { Calendar, Edit, GraduationCap, Mail, MapPin, Phone, User } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { User, Mail, Phone, MapPin, Calendar, GraduationCap, Edit } from "lucide-react";
+import { Button } from "./ui/button";
+import { Card } from "./ui/card";
 
 export function Profile() {
   const studentInfo = {
@@ -58,7 +58,10 @@ export function Profile() {
             <Avatar className="w-12 h-12 mr-3 shadow-sm">
               <AvatarImage src="/placeholder-avatar.jpg" alt={studentInfo.name} />
               <AvatarFallback className="bg-gradient-to-br from-[#647FBC] to-[#5a73b3] text-white text-sm">
-                {studentInfo.name.split(' ').map(n => n[0]).join('')}
+                {studentInfo.name
+                  .split(" ")
+                  .map((n) => n[0])
+                  .join("")}
               </AvatarFallback>
             </Avatar>
             <div>
@@ -67,12 +70,16 @@ export function Profile() {
               <p className="text-[#647FBC] font-medium mt-0.5 text-sm">{studentInfo.major}</p>
             </div>
           </div>
-          <Button variant="outline" size="sm" className="border-[#647FBC] text-[#647FBC] hover:bg-[#647FBC] hover:text-white h-6 text-xs px-2">
+          <Button
+            variant="outline"
+            size="sm"
+            className="border-[#647FBC] text-[#647FBC] hover:bg-[#647FBC] hover:text-white h-6 text-xs px-2"
+          >
             <Edit className="w-3 h-3 mr-1" />
             Edit
           </Button>
         </div>
-        
+
         <div className="grid grid-cols-2 gap-3">
           <div className="flex items-center p-2 bg-white rounded-lg border border-gray-100">
             <div className="w-6 h-6 bg-[#647FBC]/10 rounded-md flex items-center justify-center mr-2">
@@ -99,7 +106,11 @@ export function Profile() {
       <Card className="p-3 shadow-sm border-0">
         <div className="flex items-center justify-between mb-3">
           <h2 className="text-sm font-semibold text-[#647FBC]">Personal Information</h2>
-          <Button variant="outline" size="sm" className="border-[#647FBC] text-[#647FBC] hover:bg-[#647FBC] hover:text-white h-6 text-xs px-2">
+          <Button
+            variant="outline"
+            size="sm"
+            className="border-[#647FBC] text-[#647FBC] hover:bg-[#647FBC] hover:text-white h-6 text-xs px-2"
+          >
             <Edit className="w-3 h-3" />
           </Button>
         </div>
@@ -164,7 +175,9 @@ export function Profile() {
             </div>
             <div className="p-2 bg-gradient-to-br from-orange-50 to-amber-50 rounded-lg border border-orange-100">
               <p className="font-medium text-gray-700 mb-0.5 text-xs">Expected Graduation</p>
-              <p className="text-gray-900 font-semibold text-sm">{studentInfo.expectedGraduation}</p>
+              <p className="text-gray-900 font-semibold text-sm">
+                {studentInfo.expectedGraduation}
+              </p>
             </div>
           </div>
           <div className="p-2 bg-gradient-to-br from-gray-50 to-slate-50 rounded-lg border border-gray-100">
@@ -178,14 +191,20 @@ export function Profile() {
       <Card className="p-3 shadow-sm border-0">
         <div className="flex items-center justify-between mb-3">
           <h2 className="text-sm font-semibold text-[#647FBC]">Emergency Contact</h2>
-          <Button variant="outline" size="sm" className="border-[#647FBC] text-[#647FBC] hover:bg-[#647FBC] hover:text-white h-6 text-xs px-2">
+          <Button
+            variant="outline"
+            size="sm"
+            className="border-[#647FBC] text-[#647FBC] hover:bg-[#647FBC] hover:text-white h-6 text-xs px-2"
+          >
             <Edit className="w-3 h-3" />
           </Button>
         </div>
         <div className="space-y-2">
           <div className="p-2 bg-red-50/50 rounded-lg border border-red-100">
             <p className="font-medium text-gray-700 mb-0.5 text-xs">Contact Person</p>
-            <p className="text-gray-900 font-semibold text-sm">{emergencyContact.name} ({emergencyContact.relationship})</p>
+            <p className="text-gray-900 font-semibold text-sm">
+              {emergencyContact.name} ({emergencyContact.relationship})
+            </p>
           </div>
           <div className="grid grid-cols-2 gap-2">
             <div className="p-2 bg-blue-50/50 rounded-lg border border-blue-100">
@@ -205,7 +224,10 @@ export function Profile() {
         <h2 className="text-sm font-semibold mb-3 text-[#647FBC]">Recent Achievements</h2>
         <div className="grid grid-cols-1 gap-2">
           {achievements.map((achievement, index) => (
-            <div key={index} className="flex items-center p-2 bg-gradient-to-r from-amber-50 to-yellow-50 rounded-lg border border-amber-100 hover:shadow-sm transition-shadow">
+            <div
+              key={index}
+              className="flex items-center p-2 bg-gradient-to-r from-amber-50 to-yellow-50 rounded-lg border border-amber-100 hover:shadow-sm transition-shadow"
+            >
               <div className="w-7 h-7 bg-gradient-to-br from-[#647FBC] to-[#5a73b3] rounded-full flex items-center justify-center mr-3">
                 <span className="text-sm">{achievement.icon}</span>
               </div>

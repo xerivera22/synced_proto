@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '@/context/AuthContext';
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 const TeacherDashboardPage = () => {
   const { user, logout } = useAuth();
@@ -9,9 +9,9 @@ const TeacherDashboardPage = () => {
   useEffect(() => {
     // Wait for auth to resolve before guarding the route to avoid redirect bounce after login
     if (user === null) return;
-    if (user.role !== 'teacher') {
+    if (user.role !== "teacher") {
       // Teachers now sign in via the Admin login page
-      navigate('/admin-login');
+      navigate("/admin-login");
     }
   }, [user, navigate]);
 
@@ -23,8 +23,23 @@ const TeacherDashboardPage = () => {
           <span>SyncED</span>
         </div>
         <ul className="flex list-none gap-6 ml-auto">
-          <li><a href="/" className="text-text hover:text-primary">Home</a></li>
-          <li><button onClick={() => { logout(); navigate('/'); }} className="text-red-600 hover:text-red-700 bg-transparent border-0 cursor-pointer">Logout</button></li>
+          <li>
+            <a href="/" className="text-text hover:text-primary">
+              Home
+            </a>
+          </li>
+          <li>
+            <button
+              type="button"
+              onClick={() => {
+                logout();
+                navigate("/");
+              }}
+              className="text-red-600 hover:text-red-700 bg-transparent border-0 cursor-pointer"
+            >
+              Logout
+            </button>
+          </li>
         </ul>
       </nav>
       <section className="py-20">
@@ -32,10 +47,22 @@ const TeacherDashboardPage = () => {
           <div className="text-center">
             <div className="text-6xl mb-6">✅</div>
             <h1 className="text-4xl font-bold text-text mb-4">You are signed in!</h1>
-            <p className="text-xl text-muted mb-8">Welcome back, Teacher. You have successfully logged into SyncED.</p>
+            <p className="text-xl text-muted mb-8">
+              Welcome back, Teacher. You have successfully logged into SyncED.
+            </p>
             <div className="flex gap-4 justify-center">
-              <button className="bg-primary text-white px-8 py-4 rounded-lg font-semibold">Manage Classes</button>
-              <button className="bg-gray-200 text-text px-8 py-4 rounded-lg font-semibold">View Students</button>
+              <button
+                type="button"
+                className="bg-primary text-white px-8 py-4 rounded-lg font-semibold"
+              >
+                Manage Classes
+              </button>
+              <button
+                type="button"
+                className="bg-gray-200 text-text px-8 py-4 rounded-lg font-semibold"
+              >
+                View Students
+              </button>
             </div>
           </div>
         </div>

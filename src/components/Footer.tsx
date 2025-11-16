@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -14,7 +14,8 @@ const Footer = () => {
               <span>SyncED</span>
             </Link>
             <p className="leading-relaxed mb-6">
-              Transforming school management with smart digital solutions. Empowering educators, students, and administrators.
+              Transforming school management with smart digital solutions. Empowering educators,
+              students, and administrators.
             </p>
             {/* Social icons removed per request */}
           </div>
@@ -23,12 +24,36 @@ const Footer = () => {
           <div>
             <h4 className="font-semibold text-lg mb-4 text-white">Quick Links</h4>
             <ul className="space-y-3">
-              <li><a href="/#why" className="text-gray-300 hover:text-white transition-colors">Why SyncED</a></li>
-              <li><a href="/#who" className="text-gray-300 hover:text-white transition-colors">Who Can Use</a></li>
-              <li><a href="/#services" className="text-gray-300 hover:text-white transition-colors">Features</a></li>
-              <li><a href="/#how" className="text-gray-300 hover:text-white transition-colors">How it works</a></li>
-              <li><Link to="/pricing" className="text-gray-300 hover:text-white transition-colors">Pricing</Link></li>
-              <li><a href="/#faq" className="text-gray-300 hover:text-white transition-colors">FAQ</a></li>
+              <li>
+                <a href="/#why" className="text-gray-300 hover:text-white transition-colors">
+                  Why SyncED
+                </a>
+              </li>
+              <li>
+                <a href="/#who" className="text-gray-300 hover:text-white transition-colors">
+                  Who Can Use
+                </a>
+              </li>
+              <li>
+                <a href="/#services" className="text-gray-300 hover:text-white transition-colors">
+                  Features
+                </a>
+              </li>
+              <li>
+                <a href="/#how" className="text-gray-300 hover:text-white transition-colors">
+                  How it works
+                </a>
+              </li>
+              <li>
+                <Link to="/pricing" className="text-gray-300 hover:text-white transition-colors">
+                  Pricing
+                </Link>
+              </li>
+              <li>
+                <a href="/#faq" className="text-gray-300 hover:text-white transition-colors">
+                  FAQ
+                </a>
+              </li>
             </ul>
           </div>
 
@@ -38,7 +63,10 @@ const Footer = () => {
             <ul className="space-y-3">
               <li className="flex items-center gap-2">
                 <span>📧</span>
-                <a href="mailto:support@synced.com" className="transition-colors text-gray-300 hover:text-white">
+                <a
+                  href="mailto:support@synced.com"
+                  className="transition-colors text-gray-300 hover:text-white"
+                >
                   support@synced.com
                 </a>
               </li>
@@ -56,15 +84,19 @@ const Footer = () => {
       </div>
 
       {/* Bottom Bar */}
-      <div className="border-t py-6" style={{ borderColor: 'rgba(255,255,255,0.12)' }}>
+      <div className="border-t py-6" style={{ borderColor: "rgba(255,255,255,0.12)" }}>
         <div className="max-w-7xl mx-auto px-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-gray-300 text-sm">
-            © {currentYear} SyncED. All rights reserved.
-          </p>
+          <p className="text-gray-300 text-sm">© {currentYear} SyncED. All rights reserved.</p>
           <div className="flex gap-6 text-sm">
-            <a href="#" className="text-gray-300 hover:text-white transition-colors">Privacy Policy</a>
-            <a href="#" className="text-gray-300 hover:text-white transition-colors">Terms of Service</a>
-            <a href="#" className="text-gray-300 hover:text-white transition-colors">Cookie Policy</a>
+            <Link to="/#privacy" className="text-gray-300 hover:text-white transition-colors">
+              Privacy Policy
+            </Link>
+            <Link to="/#terms" className="text-gray-300 hover:text-white transition-colors">
+              Terms of Service
+            </Link>
+            <Link to="/#cookies" className="text-gray-300 hover:text-white transition-colors">
+              Cookie Policy
+            </Link>
           </div>
         </div>
       </div>

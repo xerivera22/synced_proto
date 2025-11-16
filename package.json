@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "biome:check": "node --version > NUL 2>&1 && npx @biomejs/biome check .",
+    "biome:fix": "node --version > NUL 2>&1 && npx @biomejs/biome check --write ."
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.12",

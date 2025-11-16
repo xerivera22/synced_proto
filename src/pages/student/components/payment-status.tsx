@@ -1,6 +1,6 @@
-import { Card } from "./ui/card";
+import { AlertCircle, Calendar, CheckCircle, Clock, CreditCard, DollarSign } from "lucide-react";
 import { Button } from "./ui/button";
-import { CreditCard, DollarSign, Calendar, CheckCircle, AlertCircle, Clock } from "lucide-react";
+import { Card } from "./ui/card";
 
 export function PaymentStatus() {
   const paymentSummary = {
@@ -20,11 +20,41 @@ export function PaymentStatus() {
   ];
 
   const paymentHistory = [
-    { date: "Sep 10, 2025", description: "Sports Fee", amount: 300, method: "Credit Card", status: "completed" },
-    { date: "Sep 1, 2025", description: "Technology Fee", amount: 250, method: "Bank Transfer", status: "completed" },
-    { date: "Aug 15, 2025", description: "Tuition Fee", amount: 3500, method: "Bank Transfer", status: "completed" },
-    { date: "Aug 15, 2025", description: "Lab Fee", amount: 500, method: "Credit Card", status: "completed" },
-    { date: "Aug 15, 2025", description: "Library Fee", amount: 200, method: "Credit Card", status: "completed" },
+    {
+      date: "Sep 10, 2025",
+      description: "Sports Fee",
+      amount: 300,
+      method: "Credit Card",
+      status: "completed",
+    },
+    {
+      date: "Sep 1, 2025",
+      description: "Technology Fee",
+      amount: 250,
+      method: "Bank Transfer",
+      status: "completed",
+    },
+    {
+      date: "Aug 15, 2025",
+      description: "Tuition Fee",
+      amount: 3500,
+      method: "Bank Transfer",
+      status: "completed",
+    },
+    {
+      date: "Aug 15, 2025",
+      description: "Lab Fee",
+      amount: 500,
+      method: "Credit Card",
+      status: "completed",
+    },
+    {
+      date: "Aug 15, 2025",
+      description: "Library Fee",
+      amount: 200,
+      method: "Credit Card",
+      status: "completed",
+    },
   ];
 
   const getStatusIcon = (status: string) => {
@@ -76,14 +106,18 @@ export function PaymentStatus() {
           <div className="w-6 h-6 bg-green-100 rounded-lg flex items-center justify-center mx-auto">
             <DollarSign className="w-3 h-3 text-green-600" />
           </div>
-          <p className="text-sm font-semibold text-green-600 leading-tight">${paymentSummary.paidAmount}</p>
+          <p className="text-sm font-semibold text-green-600 leading-tight">
+            ${paymentSummary.paidAmount}
+          </p>
           <p className="text-xs text-gray-600 leading-tight">Paid Amount</p>
         </Card>
         <Card className="p-3 text-center shadow-sm border-0 bg-gradient-to-br from-orange-50 to-amber-50 h-24 md:h-28 flex flex-col items-center justify-start pt-3 gap-1">
           <div className="w-6 h-6 bg-orange-100 rounded-lg flex items-center justify-center mx-auto">
             <AlertCircle className="w-3 h-3 text-orange-600" />
           </div>
-          <p className="text-sm font-semibold text-orange-600 leading-tight">${paymentSummary.pendingAmount}</p>
+          <p className="text-sm font-semibold text-orange-600 leading-tight">
+            ${paymentSummary.pendingAmount}
+          </p>
           <p className="text-xs text-gray-600 leading-tight">Pending Amount</p>
         </Card>
       </div>
@@ -94,10 +128,12 @@ export function PaymentStatus() {
         <div className="space-y-3">
           <div className="flex justify-between font-medium text-sm">
             <span className="text-gray-700">Total Fees Paid</span>
-            <span className="text-[#647FBC]">${paymentSummary.paidAmount}/${paymentSummary.totalFees}</span>
+            <span className="text-[#647FBC]">
+              ${paymentSummary.paidAmount}/${paymentSummary.totalFees}
+            </span>
           </div>
           <div className="w-full bg-gray-200 rounded-full h-2">
-            <div 
+            <div
               className="bg-gradient-to-r from-[#647FBC] to-[#5a73b3] h-2 rounded-full transition-all duration-300 shadow-sm"
               style={{ width: `${(paymentSummary.paidAmount / paymentSummary.totalFees) * 100}%` }}
             ></div>
@@ -134,7 +170,10 @@ export function PaymentStatus() {
         <h2 className="text-sm font-semibold mb-3 text-[#647FBC]">Fee Structure</h2>
         <div className="space-y-2">
           {feeStructure.map((fee, index) => (
-            <div key={index} className="flex items-center justify-between p-2 bg-gray-50/50 rounded-lg hover:bg-gray-100/50 transition-colors">
+            <div
+              key={index}
+              className="flex items-center justify-between p-2 bg-gray-50/50 rounded-lg hover:bg-gray-100/50 transition-colors"
+            >
               <div className="flex items-center">
                 <div className="w-6 h-6 bg-white rounded-md flex items-center justify-center mr-3 shadow-sm">
                   {getStatusIcon(fee.status)}
@@ -160,14 +199,19 @@ export function PaymentStatus() {
         <h2 className="text-sm font-semibold mb-3 text-[#647FBC]">Payment History</h2>
         <div className="space-y-2">
           {paymentHistory.map((payment, index) => (
-            <div key={index} className="flex items-center justify-between p-2 bg-gray-50/50 rounded-lg hover:bg-gray-100/50 transition-colors">
+            <div
+              key={index}
+              className="flex items-center justify-between p-2 bg-gray-50/50 rounded-lg hover:bg-gray-100/50 transition-colors"
+            >
               <div className="flex items-center">
                 <div className="w-6 h-6 bg-green-100 rounded-md flex items-center justify-center mr-3">
                   <CheckCircle className="w-3 h-3 text-green-600" />
                 </div>
                 <div>
                   <p className="font-semibold text-gray-900 text-sm">{payment.description}</p>
-                  <p className="text-xs text-gray-600">{payment.date} • {payment.method}</p>
+                  <p className="text-xs text-gray-600">
+                    {payment.date} • {payment.method}
+                  </p>
                 </div>
               </div>
               <p className="text-sm font-bold text-green-600">${payment.amount}</p>

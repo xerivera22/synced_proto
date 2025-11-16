@@ -1,20 +1,71 @@
-import { Card } from '@/pages/student/components/ui/card';
-import { Button } from '@/pages/student/components/ui/button';
-import { Switch } from '@/pages/student/components/ui/switch';
-import { Bell, Mail, MessageSquare, Settings as SettingsIcon, Palette, Globe, Calculator, IdCard } from 'lucide-react';
+import {
+  Bell,
+  Calculator,
+  Globe,
+  IdCard,
+  Mail,
+  MessageSquare,
+  Palette,
+  Settings as SettingsIcon,
+} from "lucide-react";
+import { Button } from "@/pages/student/components/ui/button";
+import { Card } from "@/pages/student/components/ui/card";
+import { Switch } from "@/pages/student/components/ui/switch";
 
 export default function TeacherSettings() {
   const notificationPreferences = [
-    { id: 'email', type: 'Email Notifications', description: 'Receive updates via email', icon: Mail, enabled: true },
-    { id: 'sms', type: 'SMS Notifications', description: 'Get important alerts via text', icon: MessageSquare, enabled: false },
-    { id: 'push', type: 'Push Notifications', description: 'Mobile app notifications', icon: Bell, enabled: true },
+    {
+      id: "email",
+      type: "Email Notifications",
+      description: "Receive updates via email",
+      icon: Mail,
+      enabled: true,
+    },
+    {
+      id: "sms",
+      type: "SMS Notifications",
+      description: "Get important alerts via text",
+      icon: MessageSquare,
+      enabled: false,
+    },
+    {
+      id: "push",
+      type: "Push Notifications",
+      description: "Mobile app notifications",
+      icon: Bell,
+      enabled: true,
+    },
   ];
 
   const teachingPreferences = [
-    { id: 'auto-final', type: 'Auto-calculate Final Grade', description: 'Compute finals from weighted components', icon: Calculator, enabled: true },
-    { id: 'show-ids', type: 'Show Student IDs', description: 'Display IDs in class records', icon: IdCard, enabled: true },
-    { id: 'dark', type: 'Dark Theme', description: 'Switch to dark mode', icon: Palette, enabled: false },
-    { id: 'public', type: 'Public Profile', description: 'Make profile visible to others', icon: Globe, enabled: true },
+    {
+      id: "auto-final",
+      type: "Auto-calculate Final Grade",
+      description: "Compute finals from weighted components",
+      icon: Calculator,
+      enabled: true,
+    },
+    {
+      id: "show-ids",
+      type: "Show Student IDs",
+      description: "Display IDs in class records",
+      icon: IdCard,
+      enabled: true,
+    },
+    {
+      id: "dark",
+      type: "Dark Theme",
+      description: "Switch to dark mode",
+      icon: Palette,
+      enabled: false,
+    },
+    {
+      id: "public",
+      type: "Public Profile",
+      description: "Make profile visible to others",
+      icon: Globe,
+      enabled: true,
+    },
   ];
 
   return (
@@ -44,7 +95,10 @@ export default function TeacherSettings() {
           {notificationPreferences.map((pref) => {
             const Icon = pref.icon;
             return (
-              <div key={pref.id} className="flex items-center justify-between p-2 bg-gray-50/50 rounded-lg hover:bg-gray-100/50 transition-colors">
+              <div
+                key={pref.id}
+                className="flex items-center justify-between p-2 bg-gray-50/50 rounded-lg hover:bg-gray-100/50 transition-colors"
+              >
                 <div className="flex items-center">
                   <div className="w-6 h-6 bg-white rounded-md flex items-center justify-center mr-3 shadow-sm">
                     <Icon className="w-3 h-3 text-[#647FBC]" />
@@ -73,7 +127,10 @@ export default function TeacherSettings() {
           {teachingPreferences.map((pref) => {
             const Icon = pref.icon;
             return (
-              <div key={pref.id} className="flex items-center justify-between p-2 bg-gray-50/50 rounded-lg hover:bg-gray-100/50 transition-colors">
+              <div
+                key={pref.id}
+                className="flex items-center justify-between p-2 bg-gray-50/50 rounded-lg hover:bg-gray-100/50 transition-colors"
+              >
                 <div className="flex items-center">
                   <div className="w-6 h-6 bg-white rounded-md flex items-center justify-center mr-3 shadow-sm">
                     <Icon className="w-3 h-3 text-[#647FBC]" />

@@ -1,15 +1,14 @@
-import { PropsWithChildren, useMemo } from "react";
-import { Calendar, Clock, BookOpen, TrendingUp, AlertCircle, CheckCircle } from "lucide-react";
+import { AlertCircle, BookOpen, Calendar, CheckCircle, Clock, TrendingUp } from "lucide-react";
+import { type PropsWithChildren, useMemo } from "react";
 
 export function Dashboard() {
-
   const upcomingClasses = useMemo(
     () => [
       { subject: "Mathematics", time: "09:00 AM", room: "Room 201", status: "upcoming" },
       { subject: "Physics", time: "11:00 AM", room: "Lab 3", status: "upcoming" },
       { subject: "English", time: "02:00 PM", room: "Room 105", status: "upcoming" },
     ],
-    []
+    [],
   );
 
   const quickStats = [
@@ -24,14 +23,11 @@ export function Dashboard() {
       { title: "Library Hours Extended", date: "1 day ago", type: "info" },
       { title: "Sports Day Registration Open", date: "3 days ago", type: "event" },
     ],
-    []
+    [],
   );
-
-  
 
   return (
     <div className="space-y-2">
-      
       {/* Banner: date always on the right, vertically centered; shorter height */}
       <div className="bg-gradient-to-br from-[#647FBC] to-[#5a73b3] text-white h-20 md:h-24 rounded-[12px] shadow-sm">
         <div className="h-full flex items-center justify-between px-3 md:px-4">
@@ -39,7 +35,9 @@ export function Dashboard() {
             <h1 className="text-base md:text-lg font-semibold leading-snug">Welcome back, Alex!</h1>
             <p className="text-white/80 text-sm">Here's what's happening with your studies today</p>
           </div>
-          <p className="text-white/80 text-xs md:text-sm whitespace-nowrap">Tuesday, September 16, 2025</p>
+          <p className="text-white/80 text-xs md:text-sm whitespace-nowrap">
+            Tuesday, September 16, 2025
+          </p>
         </div>
       </div>
 
@@ -53,11 +51,11 @@ export function Dashboard() {
               className={
                 `p-3 text-center h-24 md:h-28 flex flex-col items-center justify-center ` +
                 // Tint card background/border to match icon color
-                (stat.label === 'Attendance'
-                  ? '!bg-green-50 !border-green-100 '
-                  : stat.label === 'GPA'
-                  ? '!bg-[#647FBC]/10 !border-[#647FBC]/20 '
-                  : '!bg-orange-50 !border-orange-100 ')
+                (stat.label === "Attendance"
+                  ? "!bg-green-50 !border-green-100 "
+                  : stat.label === "GPA"
+                    ? "!bg-[#647FBC]/10 !border-[#647FBC]/20 "
+                    : "!bg-orange-50 !border-orange-100 ")
               }
             >
               <Icon className={`w-5 h-5 mx-auto mb-2 ${stat.color}`} />
@@ -84,7 +82,10 @@ export function Dashboard() {
           </div>
           <div className="space-y-2">
             {upcomingClasses.map((cls, index) => (
-              <div key={index} className="flex items-center justify-between p-2 bg-[#647FBC]/10 rounded-md">
+              <div
+                key={index}
+                className="flex items-center justify-between p-2 bg-[#647FBC]/10 rounded-md"
+              >
                 <div>
                   <p className="font-medium text-sm">{cls.subject}</p>
                   <p className="text-gray-600 mt-0.5 text-xs">{cls.room}</p>
@@ -109,7 +110,10 @@ export function Dashboard() {
           </div>
           <div className="space-y-2">
             {recentAnnouncements.map((announcement, index) => (
-              <div key={index} className="border-l-4 border-[#647FBC] pl-2 py-2 bg-[#647FBC]/10 rounded-md">
+              <div
+                key={index}
+                className="border-l-4 border-[#647FBC] pl-2 py-2 bg-[#647FBC]/10 rounded-md"
+              >
                 <p className="font-medium text-sm">{announcement.title}</p>
                 <p className="text-gray-500 mt-0.5 text-xs">{announcement.date}</p>
               </div>

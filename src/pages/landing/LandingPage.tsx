@@ -1,64 +1,107 @@
-import { useState, useEffect } from 'react';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
-import { Link } from 'react-router-dom';
-import type { FAQ, Feature } from '@/types';
+import { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+
+import Footer from "@/components/Footer";
+import Navbar from "@/components/Navbar";
+import type { FAQ, Feature } from "@/types";
 
 const LandingPage = () => {
+  const { hash, pathname } = useLocation();
   const [activeQuestion, setActiveQuestion] = useState<number | null>(null);
   const [showScrollTop, setShowScrollTop] = useState(false);
-  const [contactForm, setContactForm] = useState({ name: '', email: '', message: '' });
+  const [contactForm, setContactForm] = useState({ name: "", email: "", message: "" });
   const [contactSubmitted, setContactSubmitted] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
       setShowScrollTop(window.scrollY > 300);
     };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  // Smooth-scroll to a section when landing on /#hash or when hash changes on /
+  useEffect(() => {
+    if (pathname === "/" && hash) {
+      const id = hash.slice(1);
+      const el = document.getElementById(id);
+      if (el) {
+        // Slight delay to ensure layout is ready
+        setTimeout(() => el.scrollIntoView({ behavior: "smooth", block: "start" }), 0);
+      }
+    }
+  }, [hash, pathname]);
+
   const features: Feature[] = [
-    { icon: '📊', title: 'Attendance Tracking', description: 'Real-time attendance monitoring with automated reports and notifications.' },
-    { icon: '📝', title: 'Grade Management', description: 'Comprehensive grade tracking and performance analytics for students.' },
-    { icon: '💳', title: 'Payment Processing', description: 'Secure online payment system for tuition and school fees.' },
-    { icon: '📅', title: 'Schedule Management', description: 'Easy-to-use class scheduling and calendar management tools.' },
-    { icon: '📱', title: 'Mobile Access', description: 'Access your dashboard anywhere with our mobile-friendly platform.' },
-    { icon: '🔔', title: 'Notifications', description: 'Stay updated with instant notifications for important events.' },
+    {
+      icon: "📊",
+      title: "Attendance Tracking",
+      description: "Real-time attendance monitoring with automated reports and notifications.",
+    },
+    {
+      icon: "📝",
+      title: "Grade Management",
+      description: "Comprehensive grade tracking and performance analytics for students.",
+    },
+    {
+      icon: "💳",
+      title: "Payment Processing",
+      description: "Secure online payment system for tuition and school fees.",
+    },
+    {
+      icon: "📅",
+      title: "Schedule Management",
+      description: "Easy-to-use class scheduling and calendar management tools.",
+    },
+    {
+      icon: "📱",
+      title: "Mobile Access",
+      description: "Access your dashboard anywhere with our mobile-friendly platform.",
+    },
+    {
+      icon: "🔔",
+      title: "Notifications",
+      description: "Stay updated with instant notifications for important events.",
+    },
   ];
 
   const faqs: FAQ[] = [
     {
-      question: 'What is SyncED?',
-      answer: 'SyncED is a comprehensive school management platform designed to streamline administrative tasks, improve communication, and enhance the learning experience for schools, teachers, students, and parents.'
+      question: "What is SyncED?",
+      answer:
+        "SyncED is a comprehensive school management platform designed to streamline administrative tasks, improve communication, and enhance the learning experience for schools, teachers, students, and parents.",
     },
     {
-      question: 'How much does SyncED cost?',
-      answer: 'We offer three pricing tiers: Free Sync (₱0/month for up to 50 students), True Sync (₱15,000/month for up to 200 students), and Pro Sync (₱35,000/month for unlimited students). Visit our pricing page for more details.'
+      question: "How much does SyncED cost?",
+      answer:
+        "We offer three pricing tiers: Free Sync (₱0/month for up to 50 students), True Sync (₱15,000/month for up to 200 students), and Pro Sync (₱35,000/month for unlimited students). Visit our pricing page for more details.",
     },
     {
-      question: 'Is my data secure?',
-      answer: 'Yes! We use industry-standard encryption and security measures to protect your data. All information is stored securely and backed up regularly.'
+      question: "Is my data secure?",
+      answer:
+        "Yes! We use industry-standard encryption and security measures to protect your data. All information is stored securely and backed up regularly.",
     },
     {
-      question: 'Can I try SyncED before purchasing?',
-      answer: 'Absolutely! We offer a free tier that allows you to manage up to 50 students. You can upgrade to a paid plan at any time.'
+      question: "Can I try SyncED before purchasing?",
+      answer:
+        "Absolutely! We offer a free tier that allows you to manage up to 50 students. You can upgrade to a paid plan at any time.",
     },
     {
-      question: 'What kind of support do you offer?',
-      answer: 'We provide email support for all users, priority support for True Sync customers, and 24/7 dedicated support for Pro Sync subscribers.'
-    }
+      question: "What kind of support do you offer?",
+      answer:
+        "We provide email support for all users, priority support for True Sync customers, and 24/7 dedicated support for Pro Sync subscribers.",
+    },
   ];
 
   const handleContactSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Contact form submitted:', contactForm);
+    console.log("Contact form submitted:", contactForm);
     setContactSubmitted(true);
-    setContactForm({ name: '', email: '', message: '' });
+    setContactForm({ name: "", email: "", message: "" });
     setTimeout(() => setContactSubmitted(false), 3000);
   };
 
@@ -73,23 +116,24 @@ const LandingPage = () => {
             <span className="text-lg">🎓</span>
             <span>Trusted by 500+ Schools</span>
           </div>
-          
+
           <h1 className="text-5xl lg:text-6xl font-extrabold leading-tight text-primary tracking-tight">
             Smart Campus <span className="gradient-text">Management</span> Made Simple
           </h1>
-          
+
           <p className="text-xl text-muted leading-relaxed max-w-[540px]">
-            Transform your school administration with SyncED. Streamline operations, enhance communication, and focus on what matters most—education.
+            Transform your school administration with SyncED. Streamline operations, enhance
+            communication, and focus on what matters most—education.
           </p>
 
           <div className="flex gap-4 items-center pt-4">
-            <Link 
+            <Link
               to="/register-form"
               className="bg-primary text-white px-9 py-4 rounded-xl font-semibold text-lg shadow-lg hover:bg-primary-dark hover:-translate-y-1 transition-all"
             >
               Get Started Free
             </Link>
-            <Link 
+            <Link
               to="/pricing"
               className="bg-transparent text-primary border-2 border-primary px-9 py-4 rounded-xl font-semibold text-lg hover:bg-soft hover:-translate-y-1 transition-all"
             >
@@ -111,9 +155,9 @@ const LandingPage = () => {
 
         <div className="relative min-h-[560px] flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-200 rounded-3xl overflow-hidden">
           <div className="absolute inset-x-0 bottom-0 h-3/4 bg-gradient-to-br from-primary to-blue-600 opacity-10 rounded-t-[50%]"></div>
-          <img 
-            src="/syncED.png" 
-            alt="SyncED Dashboard Preview" 
+          <img
+            src="/syncED.png"
+            alt="SyncED Dashboard Preview"
             className="relative rounded-2xl shadow-2xl w-[90%] h-auto object-cover max-w-[800px] transition-transform hover:scale-[1.02]"
           />
         </div>
@@ -125,7 +169,8 @@ const LandingPage = () => {
           <div className="text-center mb-16">
             <h2 className="text-5xl font-bold text-primary mb-4">Why Choose SyncED?</h2>
             <p className="text-xl text-muted max-w-3xl mx-auto">
-              We understand the challenges of managing a school. SyncED simplifies everything from attendance to payments.
+              We understand the challenges of managing a school. SyncED simplifies everything from
+              attendance to payments.
             </p>
           </div>
 
@@ -134,7 +179,8 @@ const LandingPage = () => {
               <div className="text-5xl mb-4">⚡</div>
               <h3 className="text-2xl font-bold mb-3 text-text">Lightning Fast</h3>
               <p className="text-muted leading-relaxed">
-                Access your dashboard instantly with our optimized platform built for speed and efficiency.
+                Access your dashboard instantly with our optimized platform built for speed and
+                efficiency.
               </p>
             </div>
             <div className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition-shadow">
@@ -202,7 +248,10 @@ const LandingPage = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {features.map((feature, index) => (
-              <div key={index} className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition-all hover:-translate-y-1">
+              <div
+                key={index}
+                className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition-all hover:-translate-y-1"
+              >
                 <div className="text-5xl mb-4">{feature.icon}</div>
                 <h3 className="text-xl font-bold mb-3 text-text">{feature.title}</h3>
                 <p className="text-muted leading-relaxed">{feature.description}</p>
@@ -224,17 +273,25 @@ const LandingPage = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             <div className="text-center">
-              <div className="w-16 h-16 bg-primary text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-6">1</div>
+              <div className="w-16 h-16 bg-primary text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-6">
+                1
+              </div>
               <h3 className="text-2xl font-bold mb-3 text-text">Sign Up</h3>
-              <p className="text-muted">Create your account and choose a plan that fits your needs</p>
+              <p className="text-muted">
+                Create your account and choose a plan that fits your needs
+              </p>
             </div>
             <div className="text-center">
-              <div className="w-16 h-16 bg-primary text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-6">2</div>
+              <div className="w-16 h-16 bg-primary text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-6">
+                2
+              </div>
               <h3 className="text-2xl font-bold mb-3 text-text">Set Up</h3>
               <p className="text-muted">Add your school data, teachers, and students in minutes</p>
             </div>
             <div className="text-center">
-              <div className="w-16 h-16 bg-primary text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-6">3</div>
+              <div className="w-16 h-16 bg-primary text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-6">
+                3
+              </div>
               <h3 className="text-2xl font-bold mb-3 text-text">Get Started</h3>
               <p className="text-muted">Start managing your school efficiently from day one</p>
             </div>
@@ -252,20 +309,19 @@ const LandingPage = () => {
 
           <div className="space-y-4">
             {faqs.map((faq, index) => (
-              <div key={index} className="bg-white rounded-xl overflow-hidden shadow-sm">
+              <div key={faq.question} className="bg-white rounded-xl overflow-hidden shadow-sm">
                 <button
+                  type="button"
                   onClick={() => setActiveQuestion(activeQuestion === index ? null : index)}
                   className="w-full px-8 py-6 text-left flex justify-between items-center hover:bg-gray-50 transition-colors"
                 >
                   <span className="font-semibold text-lg text-text pr-8">{faq.question}</span>
                   <span className="text-2xl text-primary flex-shrink-0">
-                    {activeQuestion === index ? '−' : '+'}
+                    {activeQuestion === index ? "−" : "+"}
                   </span>
                 </button>
                 {activeQuestion === index && (
-                  <div className="px-8 pb-6 text-muted leading-relaxed">
-                    {faq.answer}
-                  </div>
+                  <div className="px-8 pb-6 text-muted leading-relaxed">{faq.answer}</div>
                 )}
               </div>
             ))}
@@ -287,10 +343,12 @@ const LandingPage = () => {
                 Thank you! Your message has been sent successfully.
               </div>
             )}
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
               <div>
-                <label htmlFor="name" className="block text-sm font-semibold text-text mb-2">Name</label>
+                <label htmlFor="name" className="block text-sm font-semibold text-text mb-2">
+                  Name
+                </label>
                 <input
                   type="text"
                   id="name"
@@ -301,7 +359,9 @@ const LandingPage = () => {
                 />
               </div>
               <div>
-                <label htmlFor="email" className="block text-sm font-semibold text-text mb-2">Email</label>
+                <label htmlFor="email" className="block text-sm font-semibold text-text mb-2">
+                  Email
+                </label>
                 <input
                   type="email"
                   id="email"
@@ -312,9 +372,11 @@ const LandingPage = () => {
                 />
               </div>
             </div>
-            
+
             <div className="mb-6">
-              <label htmlFor="message" className="block text-sm font-semibold text-text mb-2">Message</label>
+              <label htmlFor="message" className="block text-sm font-semibold text-text mb-2">
+                Message
+              </label>
               <textarea
                 id="message"
                 value={contactForm.message}
@@ -324,7 +386,7 @@ const LandingPage = () => {
                 required
               ></textarea>
             </div>
-            
+
             <button
               type="submit"
               className="w-full bg-primary text-white py-4 rounded-lg font-semibold text-lg hover:bg-primary-dark transition-colors"
@@ -338,6 +400,7 @@ const LandingPage = () => {
       {/* Scroll to Top Button */}
       {showScrollTop && (
         <button
+          type="button"
           onClick={scrollToTop}
           className="fixed bottom-8 right-8 w-12 h-12 bg-primary text-white rounded-full shadow-lg hover:bg-primary-dark transition-all flex items-center justify-center text-xl z-50"
           aria-label="Scroll to top"

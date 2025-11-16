@@ -1,66 +1,62 @@
-import React, { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
 import {
-  LayoutDashboard,
-  CalendarDays,
   BookOpen,
+  CalendarDays,
+  LayoutDashboard,
   MessageSquare,
-  UserCircle,
   Settings,
-  Table
-} from 'lucide-react';
+  Table,
+  UserCircle,
+} from "lucide-react";
+import type React from "react";
+import { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
 
 // Reuse student side navigation styling classes defined in student.css
-import logoUrl from '../../../assets/ISE_logo.png';
+import logoUrl from "../../../assets/ISE_logo.png";
 
 type SideNavigationProps = {
   className?: string;
   onLinkClick?: () => void;
 };
 
-const TeacherSideNavigation: React.FC<SideNavigationProps> = ({ className = '', onLinkClick }) => {
+const TeacherSideNavigation: React.FC<SideNavigationProps> = ({ className = "", onLinkClick }) => {
   const [collapsed, setCollapsed] = useState<boolean>(() => {
     try {
-      return localStorage.getItem('teacher.sidebar.collapsed') === '1';
+      return localStorage.getItem("teacher.sidebar.collapsed") === "1";
     } catch {
       return false;
     }
   });
 
   const navItems = [
-    { to: '/teacher/overview', label: 'Overview', icon: LayoutDashboard },
-    { to: '/teacher/subjects', label: 'Subjects', icon: Table },
-    { to: '/teacher/attendance', label: 'Attendance', icon: BookOpen },
-    { to: '/teacher/schedule', label: 'Schedule', icon: CalendarDays },
-    { to: '/teacher/chat', label: 'Chat', icon: MessageSquare },
-    { to: '/teacher/profile', label: 'Profile', icon: UserCircle },
+    { to: "/teacher/overview", label: "Overview", icon: LayoutDashboard },
+    { to: "/teacher/subjects", label: "Subjects", icon: Table },
+    { to: "/teacher/attendance", label: "Attendance", icon: BookOpen },
+    { to: "/teacher/schedule", label: "Schedule", icon: CalendarDays },
+    { to: "/teacher/chat", label: "Chat", icon: MessageSquare },
+    { to: "/teacher/profile", label: "Profile", icon: UserCircle },
   ];
 
   useEffect(() => {
     try {
-      localStorage.setItem('teacher.sidebar.collapsed', collapsed ? '1' : '0');
+      localStorage.setItem("teacher.sidebar.collapsed", collapsed ? "1" : "0");
     } catch {
       // ignore
     }
   }, [collapsed]);
 
   return (
-    <nav className={`side-navigation ${collapsed ? 'collapsed' : ''} ${className}`.trim()} aria-expanded={!collapsed}>
+    <nav className={`side-navigation ${collapsed ? "collapsed" : ""} ${className}`.trim()}>
       {/* Header */}
       <div className="nav-header">
-        <img
-          src={logoUrl}
-          alt="SyncED"
-          className="nav-logo-image"
+        <button
+          type="button"
+          className="bg-transparent border-0 p-0 m-0"
           onClick={() => setCollapsed((v) => !v)}
-          role="button"
-          tabIndex={0}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' || e.key === ' ') setCollapsed((v) => !v);
-          }}
-          aria-pressed={collapsed}
           title="Toggle sidebar"
-        />
+        >
+          <img src={logoUrl} alt="SyncED" className="nav-logo-image" />
+        </button>
         {!collapsed && <h1 className="nav-logo">SYNCED</h1>}
       </div>
 
@@ -71,7 +67,7 @@ const TeacherSideNavigation: React.FC<SideNavigationProps> = ({ className = '', 
             <li key={to}>
               <NavLink
                 to={to}
-                className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
+                className={({ isActive }) => `nav-item ${isActive ? "active" : ""}`}
                 end
                 onClick={onLinkClick}
               >
@@ -94,7 +90,7 @@ const TeacherSideNavigation: React.FC<SideNavigationProps> = ({ className = '', 
         </div>
         <NavLink
           to="/teacher/settings"
-          className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
+          className={({ isActive }) => `nav-item ${isActive ? "active" : ""}`}
           end
           onClick={onLinkClick}
         >

@@ -1,8 +1,10 @@
-import { PropsWithChildren } from 'react';
+import type { PropsWithChildren } from "react";
 
-export function Card({ children, className = '' }: PropsWithChildren<{ className?: string }>) {
+export function Card({ children, className = "" }: PropsWithChildren<{ className?: string }>) {
   return (
-    <div className={`bg-white border border-gray-200 rounded-lg shadow-sm ${className}`}>{children}</div>
+    <div className={`bg-white border border-gray-200 rounded-lg shadow-sm ${className}`}>
+      {children}
+    </div>
   );
 }
 

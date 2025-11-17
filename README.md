@@ -4,71 +4,84 @@
 
 ---
 
-<!-- ...existing code... -->
+// ...existing code...
 
-### 📁 Project Structure (detailed)
+## Project Structure (updated)
 
 ```
-syncproto landing/          # Root
-├─ src/                     # TypeScript React source
-│  ├─ App.tsx               # Routes
-│  ├─ main.tsx              # Entry
-│  ├─ index.css             # Tailwind base/styles
+synced_proto/
+├─ src/
 │  ├─ context/
-│  │  └─ AuthContext.tsx    # Auth + roles (admin/student/teacher/parent)
-│  ├─ types/
-│  │  └─ index.ts           # Global TS types (Plan, User, etc.)
-│  ├─ components/           # Reusable UI
-│  │  ├─ Navbar.tsx
-│  │  ├─ Footer.tsx
-│  │  └─ ScrollToTop.tsx
+│  ├─ components/
+│  │  └─ shared/
 │  ├─ pages/
-│  │  ├─ landing/                   # Public + auth pages (converted from HTML)
-│  │  │  ├─ LandingPage.tsx         # ← was index.html
-│  │  │  ├─ PricingPage.tsx         # ← was pricing.html
-│  │  │  ├─ RegisterPage.tsx        # ← was register.html
-│  │  │  ├─ RegisterFormPage.tsx    # ← was register-form.html
-│  │  │  ├─ AdminLoginPage.tsx      # ← was advisor-login.html
-│  │  │  ├─ StudentLoginPage.tsx    # ← was student-login.html (also Parent)
-│  │  │  └─ (Teacher login removed; use Admin login)
 │  │  ├─ admin/
-│  │  │  └─ AdminDashboardPage.tsx  # ← was advisor.html
-│  │  ├─ student/
-│  │  │  ├─ StudentDashboardPage.tsx      # ← was student-dashboard.html
-│  │  │  └─ components/
-│  │  │     ├─ dashboard.tsx              # Overview (quick stats, announcements)
-│  │  │     ├─ schedule.tsx               # Schedule tab (KPI tiles + list)
-│  │  │     ├─ attendance.tsx             # Attendance tab (KPIs)
-│  │  │     ├─ academic-progress.tsx      # Academic tab (KPIs)
-│  │  │     └─ payment-status.tsx         # Payments tab (KPIs)
+│  │  │  ├─ layout/
+│  │  │  │  └─ AdminShell.tsx
+│  │  │  ├─ screens/
+│  │  │  │  ├─ Dashboard.tsx
+│  │  │  │  ├─ Students.tsx          # Tabbed: summary + detailed tables
+│  │  │  │  ├─ Faculty.tsx
+│  │  │  │  ├─ Events.tsx
+│  │  │  │  ├─ Payments.tsx
+│  │  │  │  ├─ Announcements.tsx
+│  │  │  │  └─ Settings.tsx
+│  │  │  ├─ data/
+│  │  │  │  └─ mockData.ts           # Mock datasets (students, faculty, finance, events, announcements)
+│  │  │  └─ (legacy AdminDashboardPage.tsx removed)
 │  │  ├─ parent/
-│  │  │  └─ ParentDashboardPage.tsx
-│  │  └─ teacher/
-│  │     ├─ TeacherDashboardPage.tsx
-│  │     ├─ layout/
-│  │     │  └─ TeacherShell.tsx
-│  │     ├─ components/
-│  │     │  └─ side-navigation.tsx
-│  │     └─ screens/
-│  │        ├─ subjects.tsx
-│  │        ├─ subject-detail.tsx
-│  │        ├─ attendance.tsx
-│  │        ├─ schedule.tsx
-│  │        ├─ profile.tsx
-│  │        └─ settings.tsx
-│  └─ assets/                # Images/icons (if any)
-│
+│  │  │  ├─ layout/
+│  │  │  │  └─ ParentShell.tsx
+│  │  │  ├─ screens/
+│  │  │  │  ├─ overview.tsx
+│  │  │  │  ├─ attendance.tsx
+│  │  │  │  ├─ schedule.tsx
+│  │  │  │  ├─ AcademicProgress.tsx
+│  │  │  │  ├─ documents.tsx
+│  │  │  │  └─ messages.tsx
+│  │  │  └─ (legacy ParentDashboardPage.tsx removed)
+│  │  ├─ teacher/
+│  │  │  ├─ layout/
+│  │  │  │  └─ TeacherShell.tsx
+│  │  │  ├─ screens/
+│  │  │  │  ├─ overview.tsx
+│  │  │  │  ├─ attendance.tsx
+│  │  │  │  ├─ schedule.tsx
+│  │  │  │  └─ gradebook.tsx
+│  │  │  └─ (legacy TeacherDashboardPage.tsx removed)
+│  │  ├─ student/
+│  │  │  ├─ components/
+│  │  │  ├─ styles/
+│  │  │  └─ screens/
+│  │  ├─ App.tsx                      # Routes incl. /admin/*, /parent/*, /teacher/*
+│  │  └─ index.tsx
+│  ├─ assets/
+│  ├─ hooks/
+│  └─ utils/
 ├─ public/
-│  └─ syncED.png
-├─ index.html
 ├─ package.json
-├─ tsconfig.json
-├─ tailwind.config.js
-├─ vite.config.ts
-└─ legacy *.html             # Old static files (safe to delete)
+└─ README.md
 ```
 
-<!-- ...existing code... -->
+### Admin Portal (Mock Phase)
+
+- All admin pages consume `mockData.ts`.
+- Legacy single-page dashboards removed; role shells handle navigation.
+- Replace mocks with API integrations later (students, finance, events, announcements).
+
+### Cleanup Notes
+
+- Ensure routes for removed legacy pages are purged from `App.tsx`.
+- Sidebar icon centering fixed across shells.
+- Card tinting normalized (admin tables now neutral white).
+
+### Next Steps
+
+1. Add TypeScript interfaces for mock entities (Student, Invoice, Event).
+2. Introduce service layer stubs (`src/services/`) to ease backend swap.
+3. Address outstanding chart null guard in `student/components/ui/chart.tsx`.
+
+// ...existing code...
 
 ---
 

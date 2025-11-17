@@ -69,6 +69,36 @@ export function StudentDocuments() {
     { action: "Downloaded", document: "ID Card Copy", date: "1 week ago" },
   ];
 
+  const summaryCards = [
+    {
+      label: "Available",
+      value: "4",
+      subtext: "Ready to download",
+      icon: CheckCircle,
+      containerClass: "border-emerald-100 bg-emerald-50",
+      labelClass: "text-emerald-700",
+      iconClass: "text-emerald-700",
+    },
+    {
+      label: "Pending",
+      value: "1",
+      subtext: "Awaiting upload",
+      icon: Clock,
+      containerClass: "border-amber-100 bg-amber-50",
+      labelClass: "text-amber-700",
+      iconClass: "text-amber-700",
+    },
+    {
+      label: "Certificates",
+      value: String(certificates.length),
+      subtext: "On file",
+      icon: FileText,
+      containerClass: "border-sky-100 bg-sky-50",
+      labelClass: "text-sky-700",
+      iconClass: "text-sky-700",
+    },
+  ];
+
   const getStatusIcon = (status: string) => {
     switch (status) {
       case "available":
@@ -101,31 +131,30 @@ export function StudentDocuments() {
 
       {/* Quick Stats */}
       <div className="grid grid-cols-3 gap-3">
-        <Card className="p-3 text-center shadow-sm border-0 bg-gradient-to-br from-green-50 to-emerald-50">
-          <div className="w-6 h-6 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-1">
-            <CheckCircle className="w-3 h-3 text-green-600" />
-          </div>
-          <p className="text-sm font-bold text-green-600">4</p>
-          <p className="text-xs text-gray-600">Available</p>
-        </Card>
-        <Card className="p-3 text-center shadow-sm border-0 bg-gradient-to-br from-orange-50 to-amber-50">
-          <div className="w-6 h-6 bg-orange-100 rounded-lg flex items-center justify-center mx-auto mb-1">
-            <Clock className="w-3 h-3 text-orange-600" />
-          </div>
-          <p className="text-sm font-bold text-orange-600">1</p>
-          <p className="text-xs text-gray-600">Pending</p>
-        </Card>
-        <Card className="p-3 text-center shadow-sm border-0 bg-gradient-to-br from-blue-50 to-indigo-50">
-          <div className="w-6 h-6 bg-[#647FBC]/10 rounded-lg flex items-center justify-center mx-auto mb-1">
-            <FileText className="w-3 h-3 text-[#647FBC]" />
-          </div>
-          <p className="text-sm font-bold text-[#647FBC]">3</p>
-          <p className="text-xs text-gray-600">Certificates</p>
-        </Card>
+        {summaryCards.map((card) => {
+          const Icon = card.icon;
+          return (
+            <Card
+              key={card.label}
+              className={`p-5 text-center ${card.containerClass} flex flex-col justify-between`}
+            >
+              <div className="flex items-center justify-between">
+                <p className={`text-xs font-semibold uppercase tracking-wide ${card.labelClass}`}>
+                  {card.label}
+                </p>
+                <Icon className={`h-4 w-4 ${card.iconClass}`} />
+              </div>
+              <div>
+                <p className={`mt-3 text-3xl font-semibold ${card.iconClass}`}>{card.value}</p>
+                <p className="text-xs text-slate-600">{card.subtext}</p>
+              </div>
+            </Card>
+          );
+        })}
       </div>
 
       {/* Required Documents */}
-      <Card className="p-3 shadow-sm border-0">
+      <Card className="p-6">
         <h2 className="text-sm font-semibold mb-3 text-[#647FBC]">Required Documents</h2>
         <div className="space-y-2">
           {requiredDocuments.map((doc, index) => (
@@ -181,7 +210,7 @@ export function StudentDocuments() {
       </Card>
 
       {/* Certificates & Awards */}
-      <Card className="p-3 shadow-sm border-0">
+      <Card className="p-6">
         <h2 className="text-sm font-semibold mb-3 text-[#647FBC]">Certificates & Awards</h2>
         <div className="space-y-2">
           {certificates.map((cert, index) => (
@@ -223,7 +252,7 @@ export function StudentDocuments() {
       </Card>
 
       {/* Recent Activity */}
-      <Card className="p-3 shadow-sm border-0">
+      <Card className="p-6">
         <h2 className="text-sm font-semibold mb-3 text-[#647FBC]">Recent Activity</h2>
         <div className="space-y-2">
           {recentActivity.map((activity, index) => (
@@ -246,7 +275,7 @@ export function StudentDocuments() {
       </Card>
 
       {/* Upload New Document */}
-      <Card className="p-3 border-dashed border-2 border-[#647FBC] bg-gradient-to-br from-blue-50 to-indigo-50 shadow-sm">
+      <Card className="border-2 border-dashed border-[#647FBC] bg-gradient-to-br from-blue-50 to-indigo-50 p-6">
         <div className="text-center">
           <div className="w-10 h-10 bg-[#647FBC]/10 rounded-lg flex items-center justify-center mx-auto mb-2">
             <Upload className="w-5 h-5 text-[#647FBC]" />

@@ -75,22 +75,26 @@ syncproto landing/          # Root
 ## 🔑 Test Credentials
 
 ### Administrator
+
 - **URL:** http://localhost:5173/admin-login
 - **Email:** `admin@synced.com`
 - **Password:** `admin123`
 - If you enter teacher credentials here (`teacher@synced.com` / `teacher123`), you'll be logged in as a Teacher and redirected to the Teacher Dashboard automatically.
 
 ### Student/Parent
+
 - **URL:** http://localhost:5173/student-login
 - **Email:** `student@synced.com`
 - **Password:** `student123`
 
 ### Parent
-- **URL:** http://localhost:5173/parent-dashboard
+
+- **URL:** http://localhost:5173/parent/overview
 - **Email:** `parent@synced.com`
 - **Password:** `parent123`
 
 ### Teacher
+
 - **Login via Admin page:** http://localhost:5173/admin-login
 - **Email:** `teacher@synced.com`
 - **Password:** `teacher123`
@@ -99,18 +103,20 @@ syncproto landing/          # Root
 ---
 
 ### Type Safety
+
 ```typescript
 // TypeScript catches errors at compile time!
 interface User {
   email: string;
-  role: 'admin' | 'student' | 'teacher';
+  role: "admin" | "student" | "teacher";
 }
 
 const user: User = {
-  email: 'admin@synced.com',
-  role: 'admin' // Type-safe!
+  email: "admin@synced.com",
+  role: "admin", // Type-safe!
 };
 ```
+
 ---
 
 ## 📖 Documentation

@@ -1,3 +1,6 @@
+import Card from "@/components/shared/Card";
+import { Button } from "@/pages/student/components/ui/button";
+import { Switch } from "@/pages/student/components/ui/switch";
 import {
   Bell,
   Calculator,
@@ -8,9 +11,6 @@ import {
   Palette,
   Settings as SettingsIcon,
 } from "lucide-react";
-import { Button } from "@/pages/student/components/ui/button";
-import { Card } from "@/pages/student/components/ui/card";
-import { Switch } from "@/pages/student/components/ui/switch";
 
 export default function TeacherSettings() {
   const notificationPreferences = [
@@ -84,28 +84,28 @@ export default function TeacherSettings() {
       </div>
 
       {/* Notification Preferences */}
-      <Card className="p-3 shadow-sm border-0">
-        <div className="flex items-center mb-3">
-          <div className="w-6 h-6 bg-[#647FBC]/10 rounded-md flex items-center justify-center mr-2">
+      <Card className="p-6 bg-[#647FBC]/5 border-[#647FBC]/15">
+        <div className="mb-4 flex items-center">
+          <div className="mr-3 flex h-7 w-7 items-center justify-center rounded-lg bg-[#647FBC]/10">
             <Bell className="w-3 h-3 text-[#647FBC]" />
           </div>
-          <h2 className="text-sm font-semibold text-[#647FBC]">Notification Preferences</h2>
+          <h2 className="text-base font-semibold text-slate-900">Notification Preferences</h2>
         </div>
-        <div className="space-y-2">
+        <div className="space-y-3">
           {notificationPreferences.map((pref) => {
             const Icon = pref.icon;
             return (
               <div
                 key={pref.id}
-                className="flex items-center justify-between p-2 bg-gray-50/50 rounded-lg hover:bg-gray-100/50 transition-colors"
+                className="flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 transition hover:border-[#647FBC]/40"
               >
                 <div className="flex items-center">
-                  <div className="w-6 h-6 bg-white rounded-md flex items-center justify-center mr-3 shadow-sm">
+                  <div className="mr-3 flex h-7 w-7 items-center justify-center rounded-lg bg-white shadow-sm">
                     <Icon className="w-3 h-3 text-[#647FBC]" />
                   </div>
                   <div>
-                    <p className="font-medium text-gray-900 text-sm">{pref.type}</p>
-                    <p className="text-xs text-gray-600">{pref.description}</p>
+                    <p className="text-sm font-semibold text-slate-900">{pref.type}</p>
+                    <p className="text-xs text-slate-500">{pref.description}</p>
                   </div>
                 </div>
                 <Switch checked={pref.enabled} />
@@ -116,28 +116,28 @@ export default function TeacherSettings() {
       </Card>
 
       {/* Teaching/App Preferences */}
-      <Card className="p-3 shadow-sm border-0">
-        <div className="flex items-center mb-3">
-          <div className="w-6 h-6 bg-[#647FBC]/10 rounded-md flex items-center justify-center mr-2">
+      <Card className="p-6 bg-[#647FBC]/5 border-[#647FBC]/15">
+        <div className="mb-4 flex items-center">
+          <div className="mr-3 flex h-7 w-7 items-center justify-center rounded-lg bg-[#647FBC]/10">
             <SettingsIcon className="w-3 h-3 text-[#647FBC]" />
           </div>
-          <h2 className="text-sm font-semibold text-[#647FBC]">Teaching & App Preferences</h2>
+          <h2 className="text-base font-semibold text-slate-900">Teaching &amp; App Preferences</h2>
         </div>
-        <div className="space-y-2">
+        <div className="space-y-3">
           {teachingPreferences.map((pref) => {
             const Icon = pref.icon;
             return (
               <div
                 key={pref.id}
-                className="flex items-center justify-between p-2 bg-gray-50/50 rounded-lg hover:bg-gray-100/50 transition-colors"
+                className="flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 transition hover:border-[#647FBC]/40"
               >
                 <div className="flex items-center">
-                  <div className="w-6 h-6 bg-white rounded-md flex items-center justify-center mr-3 shadow-sm">
+                  <div className="mr-3 flex h-7 w-7 items-center justify-center rounded-lg bg-white shadow-sm">
                     <Icon className="w-3 h-3 text-[#647FBC]" />
                   </div>
                   <div>
-                    <p className="font-medium text-gray-900 text-sm">{pref.type}</p>
-                    <p className="text-xs text-gray-600">{pref.description}</p>
+                    <p className="text-sm font-semibold text-slate-900">{pref.type}</p>
+                    <p className="text-xs text-slate-500">{pref.description}</p>
                   </div>
                 </div>
                 <Switch checked={pref.enabled} />
@@ -149,11 +149,11 @@ export default function TeacherSettings() {
 
       {/* Actions */}
       <div className="grid grid-cols-2 gap-3">
-        <Button className="group border border-[#647FBC] !bg-[#647FBC] text-white hover:!bg-white hover:!text-[#647FBC] hover:border-[#647FBC] h-8 rounded-lg shadow-sm text-xs transition-colors">
+        <Button className="group h-10 rounded-full border border-[#647FBC] !bg-[#647FBC] px-4 text-xs font-semibold text-white shadow-sm transition hover:!bg-white hover:!text-[#647FBC]">
           <SettingsIcon className="w-3 h-3 mr-1 transition-colors" />
           Advanced Settings
         </Button>
-        <Button className="group border border-[#647FBC] !bg-[#647FBC] text-white hover:!bg-white hover:!text-[#647FBC] hover:border-[#647FBC] h-8 rounded-lg shadow-sm text-xs transition-colors">
+        <Button className="group h-10 rounded-full border border-[#647FBC] !bg-[#647FBC] px-4 text-xs font-semibold text-white shadow-sm transition hover:!bg-white hover:!text-[#647FBC]">
           Save Changes
         </Button>
       </div>

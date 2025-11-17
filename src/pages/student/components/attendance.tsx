@@ -1,4 +1,4 @@
-import { AlertTriangle, Calendar, ClipboardCheck, TrendingUp } from "lucide-react";
+import { AlertTriangle, ClipboardCheck } from "lucide-react";
 import { Card } from "./ui/card";
 import { Progress } from "./ui/progress";
 
@@ -18,6 +18,23 @@ export function Attendance() {
     overallPercentage: 90,
     requiredPercentage: 75,
   };
+
+  const attendanceSummary = [
+    {
+      label: "Attendance Rate",
+      value: `${overallStats.overallPercentage}%`,
+      subtext: "Overall attendance",
+      containerClass: "border-emerald-100 bg-emerald-50",
+      labelClass: "text-emerald-700",
+    },
+    {
+      label: "Classes Attended",
+      value: String(overallStats.attendedClasses),
+      subtext: `${overallStats.totalClasses} total`,
+      containerClass: "border-sky-100 bg-sky-50",
+      labelClass: "text-sky-700",
+    },
+  ];
 
   const recentAttendance = [
     { date: "Sep 16", subject: "Mathematics", status: "present", time: "09:00 AM" },
@@ -70,28 +87,24 @@ export function Attendance() {
 
       {/* Overall Statistics */}
       <div className="grid grid-cols-2 gap-3">
-        <Card className="p-3 text-center shadow-sm border-0 bg-gradient-to-br from-green-50 to-emerald-50 h-24 md:h-28 flex flex-col items-center justify-start pt-3 gap-1">
-          <div className="w-6 h-6 bg-[#647FBC]/10 rounded-lg flex items-center justify-center mx-auto">
-            <TrendingUp className="w-3 h-3 text-[#647FBC]" />
-          </div>
-          <p className="text-sm font-semibold text-[#647FBC] leading-tight">
-            {overallStats.overallPercentage}%
-          </p>
-          <p className="text-xs text-gray-600 leading-tight">Overall Attendance</p>
-        </Card>
-        <Card className="p-3 text-center shadow-sm border-0 bg-gradient-to-br from-blue-50 to-indigo-50 h-24 md:h-28 flex flex-col items-center justify-start pt-3 gap-1">
-          <div className="w-6 h-6 bg-[#647FBC]/10 rounded-lg flex items-center justify-center mx-auto">
-            <Calendar className="w-3 h-3 text-[#647FBC]" />
-          </div>
-          <p className="text-sm font-semibold text-[#647FBC] leading-tight">
-            {overallStats.attendedClasses}
-          </p>
-          <p className="text-xs text-gray-600 leading-tight">Classes Attended</p>
-        </Card>
+        {attendanceSummary.map((item) => (
+          <Card
+            key={item.label}
+            className={`p-5 ${item.containerClass} flex flex-col justify-between`}
+          >
+            <p className={`text-xs font-semibold uppercase tracking-wide ${item.labelClass}`}>
+              {item.label}
+            </p>
+            <div>
+              <p className="mt-3 text-3xl font-semibold text-slate-900">{item.value}</p>
+              <p className="text-xs text-slate-600">{item.subtext}</p>
+            </div>
+          </Card>
+        ))}
       </div>
 
       {/* Overall Progress */}
-      <Card className="p-3 shadow-sm border-0">
+      <Card className="p-6">
         <h2 className="text-sm font-semibold mb-3 text-[#647FBC]">Overall Progress</h2>
         <div className="space-y-3">
           <div className="flex justify-between font-medium text-sm">
@@ -111,7 +124,7 @@ export function Attendance() {
       </Card>
 
       {/* Subject-wise Attendance */}
-      <Card className="p-3 shadow-sm border-0">
+      <Card className="p-6">
         <h2 className="text-sm font-semibold mb-3 text-[#647FBC]">Subject-wise Attendance</h2>
         <div className="space-y-2">
           {attendanceData.map((subject, index) => (
@@ -150,7 +163,7 @@ export function Attendance() {
       </Card>
 
       {/* Recent Attendance */}
-      <Card className="p-3 shadow-sm border-0">
+      <Card className="p-6">
         <h2 className="text-sm font-semibold mb-3 text-[#647FBC]">Recent Attendance</h2>
         <div className="space-y-2">
           {recentAttendance.map((record, index) => (

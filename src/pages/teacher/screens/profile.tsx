@@ -1,8 +1,8 @@
-import { Calendar, Edit, GraduationCap, Mail, MapPin, Phone, User } from "lucide-react";
+import Card from "@/components/shared/Card";
 import { useAuth } from "@/context/AuthContext";
 import { Avatar, AvatarFallback, AvatarImage } from "@/pages/student/components/ui/avatar";
 import { Button } from "@/pages/student/components/ui/button";
-import { Card } from "@/pages/student/components/ui/card";
+import { Calendar, Edit, GraduationCap, Mail, MapPin, Phone, User } from "lucide-react";
 
 export default function TeacherProfile() {
   const { user } = useAuth();
@@ -47,8 +47,8 @@ export default function TeacherProfile() {
       </div>
 
       {/* Profile Overview */}
-      <Card className="p-3 shadow-sm border-0 bg-gradient-to-r from-white to-gray-50/50">
-        <div className="flex items-center justify-between mb-3">
+      <Card className="p-6 bg-[#647FBC]/5 border-[#647FBC]/15">
+        <div className="mb-4 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div className="flex items-center">
             <Avatar className="w-12 h-12 mr-3 shadow-sm">
               <AvatarImage src="/placeholder-avatar.jpg" alt={derivedName || teacherInfo.name} />
@@ -60,11 +60,13 @@ export default function TeacherProfile() {
               </AvatarFallback>
             </Avatar>
             <div>
-              <h2 className="text-base font-semibold text-gray-900">
+              <h2 className="text-base font-semibold text-slate-900">
                 {derivedName || teacherInfo.name}
               </h2>
-              <p className="text-gray-500 font-medium text-xs">ID: {teacherInfo.employeeId}</p>
-              <p className="text-[#647FBC] font-medium mt-0.5 text-sm">{teacherInfo.department}</p>
+              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                ID: {teacherInfo.employeeId}
+              </p>
+              <p className="mt-1 text-sm font-semibold text-[#647FBC]">{teacherInfo.department}</p>
             </div>
           </div>
           <Button
@@ -77,32 +79,36 @@ export default function TeacherProfile() {
           </Button>
         </div>
 
-        <div className="grid grid-cols-2 gap-3">
-          <div className="flex items-center p-2 bg-white rounded-lg border border-gray-100">
-            <div className="w-6 h-6 bg-[#647FBC]/10 rounded-md flex items-center justify-center mr-2">
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+          <div className="flex items-center rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
+            <div className="mr-3 flex h-7 w-7 items-center justify-center rounded-lg bg-[#647FBC]/10">
               <GraduationCap className="w-3 h-3 text-[#647FBC]" />
             </div>
             <div>
-              <p className="text-xs text-gray-500">Teaching Load</p>
-              <p className="font-semibold text-gray-900 text-sm">{teacherInfo.loadHours} hrs</p>
+              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                Teaching Load
+              </p>
+              <p className="text-sm font-semibold text-slate-900">{teacherInfo.loadHours} hrs</p>
             </div>
           </div>
-          <div className="flex items-center p-2 bg-white rounded-lg border border-gray-100">
-            <div className="w-6 h-6 bg-[#647FBC]/10 rounded-md flex items-center justify-center mr-2">
+          <div className="flex items-center rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
+            <div className="mr-3 flex h-7 w-7 items-center justify-center rounded-lg bg-[#647FBC]/10">
               <Calendar className="w-3 h-3 text-[#647FBC]" />
             </div>
             <div>
-              <p className="text-xs text-gray-500">Hired Date</p>
-              <p className="font-semibold text-gray-900 text-sm">{teacherInfo.hiredDate}</p>
+              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                Hired Date
+              </p>
+              <p className="text-sm font-semibold text-slate-900">{teacherInfo.hiredDate}</p>
             </div>
           </div>
         </div>
       </Card>
 
       {/* Personal Information */}
-      <Card className="p-3 shadow-sm border-0">
-        <div className="flex items-center justify-between mb-3">
-          <h2 className="text-sm font-semibold text-[#647FBC]">Personal Information</h2>
+      <Card className="p-6 bg-[#647FBC]/5 border-[#647FBC]/15">
+        <div className="mb-4 flex items-center justify-between">
+          <h2 className="text-base font-semibold text-slate-900">Personal Information</h2>
           <Button
             variant="outline"
             size="sm"
@@ -111,65 +117,69 @@ export default function TeacherProfile() {
             <Edit className="w-3 h-3" />
           </Button>
         </div>
-        <div className="grid grid-cols-1 gap-2">
-          <div className="flex items-center p-2 bg-gray-50/50 rounded-lg">
-            <div className="w-6 h-6 bg-[#647FBC]/10 rounded-md flex items-center justify-center mr-3">
+        <div className="grid grid-cols-1 gap-3">
+          <div className="flex items-center rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
+            <div className="mr-3 flex h-7 w-7 items-center justify-center rounded-lg bg-[#647FBC]/10">
               <Mail className="w-3 h-3 text-[#647FBC]" />
             </div>
             <div className="flex-1">
-              <p className="font-medium text-gray-900 text-sm">Email</p>
-              <p className="text-gray-600 text-xs">{teacherInfo.email}</p>
+              <p className="text-sm font-semibold text-slate-900">Email</p>
+              <p className="text-xs text-slate-500">{teacherInfo.email}</p>
             </div>
           </div>
-          <div className="flex items-center p-2 bg-gray-50/50 rounded-lg">
-            <div className="w-6 h-6 bg-[#647FBC]/10 rounded-md flex items-center justify-center mr-3">
+          <div className="flex items-center rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
+            <div className="mr-3 flex h-7 w-7 items-center justify-center rounded-lg bg-[#647FBC]/10">
               <Phone className="w-3 h-3 text-[#647FBC]" />
             </div>
             <div className="flex-1">
-              <p className="font-medium text-gray-900 text-sm">Phone</p>
-              <p className="text-gray-600 text-xs">{teacherInfo.phone}</p>
+              <p className="text-sm font-semibold text-slate-900">Phone</p>
+              <p className="text-xs text-slate-500">{teacherInfo.phone}</p>
             </div>
           </div>
-          <div className="flex items-center p-2 bg-gray-50/50 rounded-lg">
-            <div className="w-6 h-6 bg-[#647FBC]/10 rounded-md flex items-center justify-center mr-3">
+          <div className="flex items-center rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
+            <div className="mr-3 flex h-7 w-7 items-center justify-center rounded-lg bg-[#647FBC]/10">
               <MapPin className="w-3 h-3 text-[#647FBC]" />
             </div>
             <div className="flex-1">
-              <p className="font-medium text-gray-900 text-sm">Address</p>
-              <p className="text-gray-600 text-xs">{teacherInfo.address}</p>
+              <p className="text-sm font-semibold text-slate-900">Address</p>
+              <p className="text-xs text-slate-500">{teacherInfo.address}</p>
             </div>
           </div>
-          <div className="flex items-center p-2 bg-gray-50/50 rounded-lg">
-            <div className="w-6 h-6 bg-[#647FBC]/10 rounded-md flex items-center justify-center mr-3">
+          <div className="flex items-center rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
+            <div className="mr-3 flex h-7 w-7 items-center justify-center rounded-lg bg-[#647FBC]/10">
               <Calendar className="w-3 h-3 text-[#647FBC]" />
             </div>
             <div className="flex-1">
-              <p className="font-medium text-gray-900 text-sm">Date of Birth</p>
-              <p className="text-gray-600 text-xs">{teacherInfo.dateOfBirth}</p>
+              <p className="text-sm font-semibold text-slate-900">Date of Birth</p>
+              <p className="text-xs text-slate-500">{teacherInfo.dateOfBirth}</p>
             </div>
           </div>
         </div>
       </Card>
 
       {/* Assignment & Advisory */}
-      <Card className="p-3 shadow-sm border-0">
-        <h2 className="text-sm font-semibold mb-3 text-[#647FBC]">Teaching Information</h2>
-        <div className="grid grid-cols-2 gap-2">
-          <div className="p-2 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg border border-blue-100">
-            <p className="font-medium text-gray-700 mb-0.5 text-xs">Department</p>
-            <p className="text-gray-900 font-semibold text-sm">{teacherInfo.department}</p>
+      <Card className="p-6 bg-[#647FBC]/5 border-[#647FBC]/15">
+        <h2 className="text-base font-semibold text-slate-900">Teaching Information</h2>
+        <div className="mt-4 grid grid-cols-1 gap-3 md:grid-cols-2">
+          <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
+            <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+              Department
+            </p>
+            <p className="mt-1 text-sm font-semibold text-slate-900">{teacherInfo.department}</p>
           </div>
-          <div className="p-2 bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg border border-green-100">
-            <p className="font-medium text-gray-700 mb-0.5 text-xs">Adviser Of</p>
-            <p className="text-gray-900 font-semibold text-sm">{teacherInfo.adviserOf}</p>
+          <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
+            <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+              Adviser Of
+            </p>
+            <p className="mt-1 text-sm font-semibold text-slate-900">{teacherInfo.adviserOf}</p>
           </div>
         </div>
       </Card>
 
       {/* Emergency Contact */}
-      <Card className="p-3 shadow-sm border-0">
-        <div className="flex items-center justify-between mb-3">
-          <h2 className="text-sm font-semibold text-[#647FBC]">Emergency Contact</h2>
+      <Card className="p-6 bg-[#647FBC]/5 border-[#647FBC]/15">
+        <div className="mb-4 flex items-center justify-between">
+          <h2 className="text-base font-semibold text-slate-900">Emergency Contact</h2>
           <Button
             variant="outline"
             size="sm"
@@ -178,21 +188,23 @@ export default function TeacherProfile() {
             <Edit className="w-3 h-3" />
           </Button>
         </div>
-        <div className="space-y-2">
-          <div className="p-2 bg-red-50/50 rounded-lg border border-red-100">
-            <p className="font-medium text-gray-700 mb-0.5 text-xs">Contact Person</p>
-            <p className="text-gray-900 font-semibold text-sm">
+        <div className="space-y-3">
+          <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
+            <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+              Contact Person
+            </p>
+            <p className="mt-1 text-sm font-semibold text-slate-900">
               {emergencyContact.name} ({emergencyContact.relationship})
             </p>
           </div>
-          <div className="grid grid-cols-2 gap-2">
-            <div className="p-2 bg-blue-50/50 rounded-lg border border-blue-100">
-              <p className="font-medium text-gray-700 mb-0.5 text-xs">Phone</p>
-              <p className="text-gray-900 font-semibold text-sm">{emergencyContact.phone}</p>
+          <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+            <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
+              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Phone</p>
+              <p className="mt-1 text-sm font-semibold text-slate-900">{emergencyContact.phone}</p>
             </div>
-            <div className="p-2 bg-green-50/50 rounded-lg border border-green-100">
-              <p className="font-medium text-gray-700 mb-0.5 text-xs">Email</p>
-              <p className="text-gray-900 font-semibold text-sm">{emergencyContact.email}</p>
+            <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
+              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Email</p>
+              <p className="mt-1 text-sm font-semibold text-slate-900">{emergencyContact.email}</p>
             </div>
           </div>
         </div>

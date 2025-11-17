@@ -19,6 +19,49 @@ export function AcademicProgress() {
     totalCredits: 120,
   };
 
+  const completionPercent = Math.round(
+    (semesterStats.completedCredits / semesterStats.totalCredits) * 100,
+  );
+
+  const summaryCards = [
+    {
+      label: "Current GPA",
+      value: semesterStats.currentGPA.toFixed(1),
+      subtext: "On track",
+      icon: TrendingUp,
+      containerClass: "border-emerald-100 bg-emerald-50",
+      labelClass: "text-emerald-700",
+      iconClass: "text-emerald-700",
+    },
+    {
+      label: "Credit Hours",
+      value: String(semesterStats.creditHours),
+      subtext: "This semester",
+      icon: Target,
+      containerClass: "border-sky-100 bg-sky-50",
+      labelClass: "text-sky-700",
+      iconClass: "text-sky-700",
+    },
+    {
+      label: "Completed Credits",
+      value: String(semesterStats.completedCredits),
+      subtext: "Total earned",
+      icon: BookOpen,
+      containerClass: "border-indigo-100 bg-indigo-50",
+      labelClass: "text-indigo-700",
+      iconClass: "text-indigo-700",
+    },
+    {
+      label: "Degree Progress",
+      value: `${completionPercent}%`,
+      subtext: "Overall completion",
+      icon: Award,
+      containerClass: "border-amber-100 bg-amber-50",
+      labelClass: "text-amber-700",
+      iconClass: "text-amber-700",
+    },
+  ];
+
   const upcomingAssignments = [
     {
       subject: "Mathematics",
@@ -52,50 +95,34 @@ export function AcademicProgress() {
       </div>
 
       {/* GPA and Credits Overview */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-        <Card className="p-4 text-center shadow-sm border-0 bg-gradient-to-br from-blue-50 to-indigo-50 h-24 md:h-28 flex flex-col items-center justify-start pt-3 gap-1">
-          <div className="w-6 h-6 bg-[#647FBC]/10 rounded-lg flex items-center justify-center mx-auto">
-            <Award className="w-3 h-3 text-[#647FBC]" />
-          </div>
-          <p className="text-sm font-bold text-[#647FBC] leading-tight">
-            {semesterStats.currentGPA}
-          </p>
-          <p className="text-gray-600 text-xs leading-tight">Current GPA</p>
-        </Card>
-        <Card className="p-4 text-center shadow-sm border-0 bg-gradient-to-br from-purple-50 to-pink-50 h-24 md:h-28 flex flex-col items-center justify-start pt-3 gap-1">
-          <div className="w-6 h-6 bg-[#647FBC]/10 rounded-lg flex items-center justify-center mx-auto">
-            <Target className="w-3 h-3 text-[#647FBC]" />
-          </div>
-          <p className="text-sm font-bold text-[#647FBC] leading-tight">
-            {semesterStats.creditHours}
-          </p>
-          <p className="text-gray-600 text-xs leading-tight">Credit Hours</p>
-        </Card>
-        <Card className="p-4 text-center shadow-sm border-0 bg-gradient-to-br from-green-50 to-emerald-50 h-24 md:h-28 flex flex-col items-center justify-start pt-3 gap-1">
-          <div className="w-6 h-6 bg-[#647FBC]/10 rounded-lg flex items-center justify-center mx-auto">
-            <BookOpen className="w-3 h-3 text-[#647FBC]" />
-          </div>
-          <p className="text-sm font-bold text-[#647FBC] leading-tight">
-            {semesterStats.completedCredits}
-          </p>
-          <p className="text-gray-600 text-xs leading-tight">Completed Credits</p>
-        </Card>
-        <Card className="p-4 text-center shadow-sm border-0 bg-gradient-to-br from-orange-50 to-amber-50 h-24 md:h-28 flex flex-col items-center justify-start pt-3 gap-1">
-          <div className="w-6 h-6 bg-[#647FBC]/10 rounded-lg flex items-center justify-center mx-auto">
-            <TrendingUp className="w-3 h-3 text-[#647FBC]" />
-          </div>
-          <p className="text-sm font-bold text-[#647FBC] leading-tight">
-            {Math.round((semesterStats.completedCredits / semesterStats.totalCredits) * 100)}%
-          </p>
-          <p className="text-gray-600 text-xs leading-tight">Complete</p>
-        </Card>
+      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+        {summaryCards.map((card) => {
+          const Icon = card.icon;
+          return (
+            <Card
+              key={card.label}
+              className={`p-5 ${card.containerClass} flex flex-col justify-between`}
+            >
+              <div className="flex items-center justify-between">
+                <p className={`text-xs font-semibold uppercase tracking-wide ${card.labelClass}`}>
+                  {card.label}
+                </p>
+                <Icon className={`h-4 w-4 ${card.iconClass}`} />
+              </div>
+              <div>
+                <p className="mt-3 text-3xl font-semibold text-slate-900">{card.value}</p>
+                <p className="text-xs text-slate-600">{card.subtext}</p>
+              </div>
+            </Card>
+          );
+        })}
       </div>
 
       {/* Main Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
         {/* Subject Grades - spans 2 columns */}
         <div className="lg:col-span-2">
-          <Card className="p-3 shadow-sm border-0">
+          <Card className="p-6">
             <h2 className="font-semibold mb-3 text-[#647FBC] text-sm">Current Subjects</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {subjects.map((subject, index) => (
@@ -126,7 +153,7 @@ export function AcademicProgress() {
         {/* Right Sidebar */}
         <div className="space-y-3">
           {/* Degree Progress */}
-          <Card className="p-3 shadow-sm border-0">
+          <Card className="p-6">
             <h2 className="font-semibold mb-3 text-[#647FBC] text-sm">Degree Progress</h2>
             <div className="space-y-3">
               <div className="flex justify-between font-medium text-sm">
@@ -149,7 +176,7 @@ export function AcademicProgress() {
           </Card>
 
           {/* Upcoming Assignments */}
-          <Card className="p-3 shadow-sm border-0">
+          <Card className="p-6">
             <div className="flex items-center mb-3">
               <div className="w-8 h-8 bg-[#647FBC]/10 rounded-md flex items-center justify-center mr-2">
                 <BookOpen className="w-4 h-4 text-[#647FBC]" />

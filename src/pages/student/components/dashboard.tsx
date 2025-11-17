@@ -1,5 +1,6 @@
 import { AlertCircle, BookOpen, Calendar, CheckCircle, Clock, TrendingUp } from "lucide-react";
-import { type PropsWithChildren, useMemo } from "react";
+import { useMemo } from "react";
+import { Card } from "./ui/card";
 
 export function Dashboard() {
   const upcomingClasses = useMemo(
@@ -12,9 +13,42 @@ export function Dashboard() {
   );
 
   const quickStats = [
-    { label: "Attendance", value: "92%", icon: CheckCircle, color: "text-green-600" },
-    { label: "GPA", value: "3.8", icon: TrendingUp, color: "text-[#647FBC]" },
-    { label: "Pending Fees", value: "$250", icon: AlertCircle, color: "text-orange-600" },
+    {
+      label: "Attendance Rate",
+      value: "92%",
+      description: "Past 30 days",
+      icon: CheckCircle,
+      containerClass: "border-emerald-100 bg-emerald-50",
+      labelClass: "text-emerald-700",
+      iconClass: "text-emerald-700",
+    },
+    {
+      label: "Overall GPA",
+      value: "3.8",
+      description: "Current semester",
+      icon: TrendingUp,
+      containerClass: "border-sky-100 bg-sky-50",
+      labelClass: "text-sky-700",
+      iconClass: "text-sky-700",
+    },
+    {
+      label: "Pending Balance",
+      value: "$250",
+      description: "Due Oct 15",
+      icon: AlertCircle,
+      containerClass: "border-amber-100 bg-amber-50",
+      labelClass: "text-amber-700",
+      iconClass: "text-amber-700",
+    },
+    {
+      label: "Study Time",
+      value: "25h",
+      description: "Logged this week",
+      icon: Clock,
+      containerClass: "border-indigo-100 bg-indigo-50",
+      labelClass: "text-indigo-700",
+      iconClass: "text-indigo-700",
+    },
   ];
 
   const recentAnnouncements = useMemo(
@@ -42,40 +76,33 @@ export function Dashboard() {
       </div>
 
       {/* Quick Stats: fill available width with 4 equal cards on md+ */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
-        {quickStats.map((stat, index) => {
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
+        {quickStats.map((stat) => {
           const Icon = stat.icon;
           return (
             <Card
-              key={index}
-              className={
-                `p-3 text-center h-24 md:h-28 flex flex-col items-center justify-center ` +
-                // Tint card background/border to match icon color
-                (stat.label === "Attendance"
-                  ? "!bg-green-50 !border-green-100 "
-                  : stat.label === "GPA"
-                    ? "!bg-[#647FBC]/10 !border-[#647FBC]/20 "
-                    : "!bg-orange-50 !border-orange-100 ")
-              }
+              key={stat.label}
+              className={`p-5 ${stat.containerClass} flex flex-col justify-between`}
             >
-              <Icon className={`w-5 h-5 mx-auto mb-2 ${stat.color}`} />
-              <p className="text-sm font-semibold mb-1">{stat.value}</p>
-              <p className="text-gray-600 text-xs">{stat.label}</p>
+              <div className="flex items-center justify-between">
+                <p className={`text-xs font-semibold uppercase tracking-wide ${stat.labelClass}`}>
+                  {stat.label}
+                </p>
+                <Icon className={`h-4 w-4 ${stat.iconClass}`} />
+              </div>
+              <div>
+                <p className="mt-3 text-3xl font-semibold text-slate-900">{stat.value}</p>
+                <p className="text-xs text-slate-600">{stat.description}</p>
+              </div>
             </Card>
           );
         })}
-        {/* Add an additional stat card */}
-        <Card className="p-3 text-center h-24 md:h-28 flex flex-col items-center justify-center !bg-purple-50 !border-purple-100">
-          <Clock className="w-5 h-5 mx-auto mb-2 text-purple-600" />
-          <p className="text-sm font-semibold mb-1">25h</p>
-          <p className="text-gray-600 text-xs">Study Time</p>
-        </Card>
       </div>
 
       {/* Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
         {/* Today's Schedule */}
-        <Card className="p-3 bg-[#647FBC]/5 border-[#647FBC]/15">
+        <Card className="p-6">
           <div className="flex items-center mb-3">
             <Calendar className="w-4 h-4 text-[#647FBC] mr-2" />
             <h2 className="font-semibold text-sm">Today's Schedule</h2>
@@ -84,15 +111,15 @@ export function Dashboard() {
             {upcomingClasses.map((cls, index) => (
               <div
                 key={index}
-                className="flex items-center justify-between p-2 bg-[#647FBC]/10 rounded-md"
+                className="flex items-center justify-between rounded-xl border border-slate-200 bg-white p-3"
               >
                 <div>
                   <p className="font-medium text-sm">{cls.subject}</p>
                   <p className="text-gray-600 mt-0.5 text-xs">{cls.room}</p>
                 </div>
                 <div className="text-right">
-                  <p className="font-medium text-[#647FBC] text-xs">{cls.time}</p>
-                  <div className="flex items-center text-gray-500 mt-0.5">
+                  <p className="font-medium text-slate-900 text-xs">{cls.time}</p>
+                  <div className="flex items-center text-slate-500 mt-0.5">
                     <Clock className="w-3 h-3 mr-1" />
                     <span className="text-xs">50 min</span>
                   </div>
@@ -103,46 +130,43 @@ export function Dashboard() {
         </Card>
 
         {/* Recent Announcements */}
-        <Card className="p-3 bg-[#647FBC]/5 border-[#647FBC]/15">
+        <Card className="p-6">
           <div className="flex items-center mb-3">
             <BookOpen className="w-4 h-4 text-[#647FBC] mr-2" />
             <h2 className="font-semibold text-sm">Recent Announcements</h2>
           </div>
           <div className="space-y-2">
             {recentAnnouncements.map((announcement, index) => (
-              <div
-                key={index}
-                className="border-l-4 border-[#647FBC] pl-2 py-2 bg-[#647FBC]/10 rounded-md"
-              >
+              <div key={index} className="rounded-xl border border-slate-200 bg-white p-3">
                 <p className="font-medium text-sm">{announcement.title}</p>
-                <p className="text-gray-500 mt-0.5 text-xs">{announcement.date}</p>
+                <p className="text-slate-500 mt-0.5 text-xs">{announcement.date}</p>
               </div>
             ))}
           </div>
         </Card>
 
         {/* Activity Card with Horizontal Layout */}
-        <Card className="p-3 bg-green-50 border-green-100">
+        <Card className="p-6">
           <div className="flex items-center mb-3">
             <TrendingUp className="w-4 h-4 text-green-600 mr-2" />
             <h2 className="font-semibold text-sm">Weekly Activity</h2>
           </div>
           <div className="space-y-2">
-            <div className="flex items-center justify-between p-2 bg-green-50 rounded-md">
+            <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white p-3">
               <div className="flex items-center">
                 <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
                 <span className="font-medium text-sm">Classes Attended</span>
               </div>
               <span className="text-sm font-semibold text-green-600">18/20</span>
             </div>
-            <div className="flex items-center justify-between p-2 bg-green-50 rounded-md">
+            <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white p-3">
               <div className="flex items-center">
                 <div className="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>
                 <span className="font-medium text-sm">Assignments Done</span>
               </div>
               <span className="text-sm font-semibold text-blue-600">12/15</span>
             </div>
-            <div className="flex items-center justify-between p-2 bg-green-50 rounded-md">
+            <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white p-3">
               <div className="flex items-center">
                 <div className="w-2 h-2 bg-orange-500 rounded-full mr-2"></div>
                 <span className="font-medium text-sm">Study Hours</span>
@@ -157,12 +181,3 @@ export function Dashboard() {
 }
 
 export default Dashboard;
-
-// Minimal local Card to avoid pulling heavy UI dependencies
-function Card({ children, className = "" }: PropsWithChildren<{ className?: string }>) {
-  return (
-    <div className={`bg-white border border-gray-200 rounded-lg shadow-sm ${className}`}>
-      {children}
-    </div>
-  );
-}

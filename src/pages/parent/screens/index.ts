@@ -1,9 +1,9 @@
 export { default as ParentAcademicProgress } from "./AcademicProgress";
-export { default as ParentAttendance } from "./Attendance";
-export { default as ParentDocuments } from "./Documents";
-export { default as ParentMessages } from "./Messages";
-export { default as ParentOverview } from "./Overview";
-export { default as ParentPayments } from "./Payments";
+export { default as ParentAttendance } from "./attendance";
+export { default as ParentDocuments } from "./documents";
+export { default as ParentMessages } from "./messages";
+export { default as ParentOverview } from "./overview";
+export { default as ParentPayments } from "./payments";
 export { default as ParentProfile } from "./Profile";
-export { default as ParentSchedule } from "./Schedule";
-export { default as ParentSettings } from "./Settings";
+export { default as ParentSchedule } from "./schedule";
+export { default as ParentSettings } from "./settings";

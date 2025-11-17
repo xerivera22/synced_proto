@@ -1,4 +1,4 @@
-import { AlertCircle, Calendar, CheckCircle, Clock, CreditCard, DollarSign } from "lucide-react";
+import { AlertCircle, Calendar, CheckCircle, Clock, CreditCard } from "lucide-react";
 import { Button } from "./ui/button";
 import { Card } from "./ui/card";
 
@@ -9,6 +9,39 @@ export function PaymentStatus() {
     pendingAmount: 250,
     nextDueDate: "Oct 15, 2025",
   };
+
+  const summaryCards = [
+    {
+      label: "Total Fees",
+      value: `$${paymentSummary.totalFees.toLocaleString()}`,
+      subtext: "Academic year",
+      containerClass: "border-indigo-100 bg-indigo-50",
+      labelClass: "text-indigo-700",
+    },
+    {
+      label: "Paid Amount",
+      value: `$${paymentSummary.paidAmount.toLocaleString()}`,
+      subtext: "Cleared to date",
+      containerClass: "border-emerald-100 bg-emerald-50",
+      labelClass: "text-emerald-700",
+      valueClass: "text-emerald-700",
+    },
+    {
+      label: "Pending Balance",
+      value: `$${paymentSummary.pendingAmount.toLocaleString()}`,
+      subtext: "Awaiting payment",
+      containerClass: "border-amber-100 bg-amber-50",
+      labelClass: "text-amber-700",
+      valueClass: "text-amber-700",
+    },
+    {
+      label: "Next Due Date",
+      value: paymentSummary.nextDueDate,
+      subtext: "Auto-pay enabled",
+      containerClass: "border-sky-100 bg-sky-50",
+      labelClass: "text-sky-700",
+    },
+  ];
 
   const feeStructure = [
     { category: "Tuition Fee", amount: 3500, status: "paid", dueDate: "Aug 15" },
@@ -101,29 +134,27 @@ export function PaymentStatus() {
       </div>
 
       {/* Payment Summary */}
-      <div className="grid grid-cols-2 gap-3">
-        <Card className="p-3 text-center shadow-sm border-0 bg-gradient-to-br from-green-50 to-emerald-50 h-24 md:h-28 flex flex-col items-center justify-start pt-3 gap-1">
-          <div className="w-6 h-6 bg-green-100 rounded-lg flex items-center justify-center mx-auto">
-            <DollarSign className="w-3 h-3 text-green-600" />
-          </div>
-          <p className="text-sm font-semibold text-green-600 leading-tight">
-            ${paymentSummary.paidAmount}
-          </p>
-          <p className="text-xs text-gray-600 leading-tight">Paid Amount</p>
-        </Card>
-        <Card className="p-3 text-center shadow-sm border-0 bg-gradient-to-br from-orange-50 to-amber-50 h-24 md:h-28 flex flex-col items-center justify-start pt-3 gap-1">
-          <div className="w-6 h-6 bg-orange-100 rounded-lg flex items-center justify-center mx-auto">
-            <AlertCircle className="w-3 h-3 text-orange-600" />
-          </div>
-          <p className="text-sm font-semibold text-orange-600 leading-tight">
-            ${paymentSummary.pendingAmount}
-          </p>
-          <p className="text-xs text-gray-600 leading-tight">Pending Amount</p>
-        </Card>
+      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+        {summaryCards.map((item) => (
+          <Card
+            key={item.label}
+            className={`p-5 ${item.containerClass} flex flex-col justify-between`}
+          >
+            <p className={`text-xs font-semibold uppercase tracking-wide ${item.labelClass}`}>
+              {item.label}
+            </p>
+            <div>
+              <p className={`mt-3 text-3xl font-semibold ${item.valueClass ?? "text-slate-900"}`}>
+                {item.value}
+              </p>
+              <p className="text-xs text-slate-600">{item.subtext}</p>
+            </div>
+          </Card>
+        ))}
       </div>
 
       {/* Payment Progress */}
-      <Card className="p-3 shadow-sm border-0">
+      <Card className="p-6">
         <h2 className="text-sm font-semibold mb-3 text-[#647FBC]">Payment Progress</h2>
         <div className="space-y-3">
           <div className="flex justify-between font-medium text-sm">
@@ -147,7 +178,7 @@ export function PaymentStatus() {
 
       {/* Pending Payments */}
       {paymentSummary.pendingAmount > 0 && (
-        <Card className="p-3 border-orange-200 bg-orange-50">
+        <Card className="border-orange-200 bg-orange-50 p-6">
           <div className="flex items-center justify-between mb-2">
             <h2 className="font-semibold text-orange-800 text-sm">Pending Payment</h2>
             <Calendar className="w-4 h-4 text-orange-600" />
@@ -166,7 +197,7 @@ export function PaymentStatus() {
       )}
 
       {/* Fee Structure */}
-      <Card className="p-3 shadow-sm border-0">
+      <Card className="p-6">
         <h2 className="text-sm font-semibold mb-3 text-[#647FBC]">Fee Structure</h2>
         <div className="space-y-2">
           {feeStructure.map((fee, index) => (
@@ -195,7 +226,7 @@ export function PaymentStatus() {
       </Card>
 
       {/* Payment History */}
-      <Card className="p-3 shadow-sm border-0">
+      <Card className="p-6">
         <h2 className="text-sm font-semibold mb-3 text-[#647FBC]">Payment History</h2>
         <div className="space-y-2">
           {paymentHistory.map((payment, index) => (

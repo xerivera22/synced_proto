@@ -1,6 +1,6 @@
+import Card from "@/components/shared/Card";
 import { Table } from "lucide-react";
 import { Link } from "react-router-dom";
-import Card from "@/components/shared/Card";
 
 export default function TeacherSubjects() {
   return (
@@ -17,35 +17,42 @@ export default function TeacherSubjects() {
           </div>
         </div>
       </div>
-      <Card className="p-4 bg-[#647FBC]/5 border-[#647FBC]/15">
-        <h2 className="font-semibold text-sm mb-2">Subjects</h2>
-        <p className="text-sm text-gray-600 mb-2">
-          Select a subject to manage Overview, Class Records, Attendance, and more.
-        </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+      <Card className="p-6 bg-[#647FBC]/5 border-[#647FBC]/15">
+        <header className="flex items-center justify-between">
+          <div>
+            <h2 className="text-base font-semibold text-slate-900">Subjects</h2>
+            <p className="text-sm text-slate-500">
+              Select a subject to manage overview, class records, attendance, and materials.
+            </p>
+          </div>
+        </header>
+        <div className="mt-5 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           {[1, 2, 3].map((id) => (
-            <Card key={id} className="p-3 bg-white">
-              <div className="flex items-center justify-between">
+            <div
+              key={id}
+              className="rounded-xl border border-[#647FBC]/20 bg-white/80 p-4 shadow-sm transition hover:border-[#647FBC]/40"
+            >
+              <div className="flex items-start justify-between gap-3">
                 <div>
-                  <div className="font-medium text-sm">Sample Subject {id}</div>
-                  <div className="text-xs text-gray-600">Section A • 30 students</div>
+                  <p className="text-sm font-semibold text-slate-900">Sample Subject {id}</p>
+                  <p className="text-xs text-slate-500">Section A • 30 students</p>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex flex-col gap-2">
                   <Link
                     to={`/teacher/subjects/${id}`}
-                    className="px-2 py-1 text-xs border rounded-md hover:bg-gray-50"
+                    className="rounded-full border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-600 transition hover:text-slate-900"
                   >
                     Open
                   </Link>
                   <Link
                     to={`/teacher/subjects/${id}?tab=class-records`}
-                    className="px-2 py-1 text-xs border rounded-md hover:bg-gray-50"
+                    className="rounded-full border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-600 transition hover:text-slate-900"
                   >
                     Class Records
                   </Link>
                 </div>
               </div>
-            </Card>
+            </div>
           ))}
         </div>
       </Card>

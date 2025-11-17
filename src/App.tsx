@@ -1,6 +1,15 @@
+import AdminShell from "@/pages/admin/layout/AdminShell";
+import {
+  AdminAnnouncements,
+  AdminDashboard,
+  AdminEvents,
+  AdminFaculty,
+  AdminPayments,
+  AdminSettings,
+  AdminStudents,
+} from "@/pages/admin/screens";
 import { Navigate, Route, BrowserRouter as Router, Routes } from "react-router-dom";
 // Dashboards remain at root pages for now; will be reorganized later
-import AdminDashboardPage from "@/pages/admin/AdminDashboardPage";
 import AdminLoginPage from "@/pages/landing/AdminLoginPage";
 // Landing/public/auth pages grouped under pages/landing
 import LandingPage from "@/pages/landing/LandingPage";
@@ -57,7 +66,17 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/register-form" element={<RegisterFormPage />} />
           <Route path="/admin-login" element={<AdminLoginPage />} />
-          <Route path="/admin-dashboard" element={<AdminDashboardPage />} />
+          <Route path="/admin" element={<AdminShell />}>
+            <Route index element={<AdminDashboard />} />
+            <Route path="dashboard" element={<AdminDashboard />} />
+            <Route path="students" element={<AdminStudents />} />
+            <Route path="faculty" element={<AdminFaculty />} />
+            <Route path="events" element={<AdminEvents />} />
+            <Route path="payments" element={<AdminPayments />} />
+            <Route path="announcements" element={<AdminAnnouncements />} />
+            <Route path="settings" element={<AdminSettings />} />
+          </Route>
+          <Route path="/admin-dashboard" element={<Navigate to="/admin" replace />} />
           <Route path="/student-login" element={<StudentLoginPage />} />
           {/* Removed legacy redirect for old single dashboard route */}
           {/* Nested student portal */}
@@ -72,7 +91,6 @@ function App() {
             <Route path="schedule" element={<Schedule />} />
             <Route path="documents" element={<Documents />} />
           </Route>
-          <Route path="/parent-dashboard" element={<Navigate to="/parent/overview" replace />} />
           <Route path="/parent" element={<ParentShell />}>
             <Route index element={<ParentOverview />} />
             <Route path="overview" element={<ParentOverview />} />

@@ -1,7 +1,7 @@
-import { type FormEvent, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import { useAuth } from "@/context/AuthContext";
+import { type FormEvent, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const validAdmin = { email: "admin@synced.com", password: "admin123" };
 const validTeacher = { email: "teacher@synced.com", password: "teacher123" }; // teacher can log in here
@@ -28,10 +28,10 @@ const AdminLoginPage = () => {
 
     if (isAdminMatch) {
       login(validAdmin.email, "admin");
-      navigate("/admin-dashboard");
+      navigate("/admin");
     } else if (isTeacherMatch) {
       login(validTeacher.email, "teacher");
-      navigate("/teacher-dashboard");
+      navigate("/teacher/overview");
     } else {
       setError("Invalid email or password. Please try again.");
       setPassword("");

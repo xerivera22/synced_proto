@@ -1,7 +1,7 @@
+import Card from "@/components/shared/Card";
 import { BookOpen } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { Link, useParams, useSearchParams } from "react-router-dom";
-import Card from "@/components/shared/Card";
 
 const tabs = [
   { key: "overview", label: "Overview" },
@@ -61,47 +61,47 @@ export default function SubjectDetail() {
           </div>
         </div>
       </div>
-      <Card className="p-4 bg-[#647FBC]/5 border-[#647FBC]/15">
-        <div className="flex items-center justify-between flex-wrap gap-2">
+      <Card className="p-6 bg-[#647FBC]/5 border-[#647FBC]/15">
+        <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <h2 className="font-semibold text-sm">
+            <h2 className="text-base font-semibold text-slate-900">
               {subject.name} — Section {subject.section}
             </h2>
-            <p className="text-xs text-gray-600">
-              Subject ID: {id} • {subject.roster} students
+            <p className="text-sm text-slate-500">
+              Subject ID: {id} • {subject.roster} students enrolled
             </p>
           </div>
           <div className="flex items-center gap-2">
             <Link
               to={`/teacher/subjects/${id}?tab=class-records`}
-              className="px-2 py-1 text-xs border rounded-md hover:bg-gray-50"
+              className="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-600 transition hover:text-slate-900"
             >
               Class Records
             </Link>
             <Link
               to="/teacher/subjects"
-              className="px-2 py-1 text-xs border rounded-md hover:bg-gray-50"
+              className="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-600 transition hover:text-slate-900"
             >
-              Back
+              Back to Subjects
             </Link>
           </div>
         </div>
       </Card>
 
-      <Card className="p-0">
-        <div className="flex gap-1 px-2 pt-2 border-b border-gray-200">
+      <Card className="p-0 overflow-hidden">
+        <div className="flex gap-1 border-b border-slate-200 bg-slate-50 px-3 pt-3">
           {tabs.map((t) => (
             <button
               key={t.key}
               type="button"
               onClick={() => setTab(t.key)}
-              className={`px-3 py-2 text-xs rounded-t-md ${active === t.key ? "bg-white border border-gray-200 border-b-transparent -mb-px" : "text-gray-600 hover:bg-gray-50"}`}
+              className={`rounded-t-lg px-4 py-2 text-xs font-semibold transition ${active === t.key ? "bg-white border border-slate-200 border-b-white text-slate-900" : "text-slate-500 hover:text-slate-900"}`}
             >
               {t.label}
             </button>
           ))}
         </div>
-        <div className="p-3">
+        <div className="p-6">
           {active === "overview" && <OverviewTab />}
           {active === "class-records" && <ClassRecordsTab />}
           {active === "attendance" && <AttendanceTab />}
@@ -114,35 +114,55 @@ export default function SubjectDetail() {
 }
 
 function OverviewTab() {
+  const overviewStats = [
+    {
+      label: "To Grade",
+      value: "12",
+      description: "Assignments awaiting review",
+      containerClass: "border-emerald-100 bg-emerald-50",
+      labelClass: "text-emerald-700",
+    },
+    {
+      label: "Avg Score",
+      value: "87%",
+      description: "Current class average",
+      containerClass: "border-indigo-100 bg-indigo-50",
+      labelClass: "text-indigo-700",
+    },
+    {
+      label: "Absences",
+      value: "3",
+      description: "This week across sections",
+      containerClass: "border-amber-100 bg-amber-50",
+      labelClass: "text-amber-700",
+    },
+    {
+      label: "Students",
+      value: "30",
+      description: "Enrolled learners",
+      containerClass: "border-sky-100 bg-sky-50",
+      labelClass: "text-sky-700",
+    },
+  ];
+
   return (
-    <div className="space-y-3 text-sm">
-      <p>
+    <div className="space-y-4 text-sm">
+      <p className="text-slate-600">
         Quick summary for the selected subject. Add KPIs, upcoming assessments, and reminders here.
       </p>
-      {/* KPI cards styled like student dashboard */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-        {[
-          { label: "To Grade", value: 12, color: "text-emerald-600" },
-          { label: "Avg Score", value: "87%", color: "text-[#647FBC]" },
-          { label: "Absences", value: 3, color: "text-orange-600" },
-          { label: "Students", value: 30, color: "text-sky-600" },
-        ].map((k) => (
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+        {overviewStats.map((stat) => (
           <Card
-            key={k.label}
-            className={
-              "p-3 text-center h-24 md:h-28 flex flex-col items-center justify-center " +
-              (k.label === "To Grade"
-                ? "bg-emerald-50 border-emerald-100 "
-                : k.label === "Avg Score"
-                  ? "bg-[#647FBC]/10 border-[#647FBC]/20 "
-                  : k.label === "Absences"
-                    ? "bg-orange-50 border-orange-100 "
-                    : "bg-sky-50 border-sky-100 ")
-            }
+            key={stat.label}
+            className={`p-5 ${stat.containerClass} flex flex-col justify-between`}
           >
-            <div className={`w-5 h-5 mb-2 ${k.color}`}>●</div>
-            <p className="text-sm font-semibold mb-1">{k.value}</p>
-            <p className="text-gray-600 text-xs">{k.label}</p>
+            <p className={`text-xs font-semibold uppercase tracking-wide ${stat.labelClass}`}>
+              {stat.label}
+            </p>
+            <div>
+              <p className="mt-3 text-3xl font-semibold text-slate-900">{stat.value}</p>
+              <p className="text-xs text-slate-600">{stat.description}</p>
+            </div>
           </Card>
         ))}
       </div>
@@ -159,33 +179,49 @@ function ClassRecordsTab() {
   return (
     <div className="space-y-2">
       <div className="flex items-center justify-between">
-        <h3 className="font-semibold text-sm">Class Records</h3>
+        <h3 className="text-base font-semibold text-slate-900">Class Records</h3>
         <div className="flex gap-2">
-          <button type="button" className="px-2 py-1 text-xs border rounded-md hover:bg-gray-50">
+          <button
+            type="button"
+            className="rounded-full border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-600 transition hover:text-slate-900"
+          >
             Export CSV
           </button>
-          <button type="button" className="px-2 py-1 text-xs border rounded-md hover:bg-gray-50">
+          <button
+            type="button"
+            className="rounded-full border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-600 transition hover:text-slate-900"
+          >
             Add Assessment
           </button>
         </div>
       </div>
       <div className="overflow-auto">
-        <table className="min-w-[600px] w-full text-sm border border-gray-200 rounded-md overflow-hidden">
-          <thead className="bg-gray-50">
+        <table className="min-w-[600px] w-full overflow-hidden rounded-xl border border-slate-200 text-sm">
+          <thead className="bg-slate-50 text-slate-600">
             <tr>
-              <th className="px-2 py-1 text-left border-b">Student</th>
-              <th className="px-2 py-1 text-left border-b">Quiz 1</th>
-              <th className="px-2 py-1 text-left border-b">Quiz 2</th>
-              <th className="px-2 py-1 text-left border-b">Midterm</th>
+              <th className="border-b border-slate-200 px-3 py-2 text-left text-xs font-semibold uppercase tracking-wide">
+                Student
+              </th>
+              <th className="border-b border-slate-200 px-3 py-2 text-left text-xs font-semibold uppercase tracking-wide">
+                Quiz 1
+              </th>
+              <th className="border-b border-slate-200 px-3 py-2 text-left text-xs font-semibold uppercase tracking-wide">
+                Quiz 2
+              </th>
+              <th className="border-b border-slate-200 px-3 py-2 text-left text-xs font-semibold uppercase tracking-wide">
+                Midterm
+              </th>
             </tr>
           </thead>
           <tbody>
             {rows.map((r) => (
-              <tr key={r.id} className="odd:bg-white even:bg-gray-50">
-                <td className="px-2 py-1 border-b">{r.student}</td>
-                <td className="px-2 py-1 border-b">{r.quiz1}</td>
-                <td className="px-2 py-1 border-b">{r.quiz2}</td>
-                <td className="px-2 py-1 border-b">{r.midterm}</td>
+              <tr key={r.id} className="odd:bg-white even:bg-slate-50 text-slate-700">
+                <td className="border-b border-slate-200 px-3 py-2 text-sm font-medium">
+                  {r.student}
+                </td>
+                <td className="border-b border-slate-200 px-3 py-2 text-sm">{r.quiz1}</td>
+                <td className="border-b border-slate-200 px-3 py-2 text-sm">{r.quiz2}</td>
+                <td className="border-b border-slate-200 px-3 py-2 text-sm">{r.midterm}</td>
               </tr>
             ))}
           </tbody>

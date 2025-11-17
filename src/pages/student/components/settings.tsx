@@ -61,7 +61,7 @@ export function Settings() {
       </div>
 
       {/* Notification Preferences */}
-      <Card className="p-3 shadow-sm border-0">
+      <Card className="p-6">
         <div className="flex items-center mb-3">
           <div className="w-6 h-6 bg-[#647FBC]/10 rounded-md flex items-center justify-center mr-2">
             <Bell className="w-3 h-3 text-[#647FBC]" />
@@ -93,7 +93,7 @@ export function Settings() {
       </Card>
 
       {/* App Preferences */}
-      <Card className="p-3 shadow-sm border-0">
+      <Card className="p-6">
         <div className="flex items-center mb-3">
           <div className="w-6 h-6 bg-[#647FBC]/10 rounded-md flex items-center justify-center mr-2">
             <SettingsIcon className="w-3 h-3 text-[#647FBC]" />

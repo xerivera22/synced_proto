@@ -95,6 +95,43 @@ export function Schedule() {
     },
   ];
 
+  const nextClass = schedule[scheduleKeys[currentDay]][0];
+
+  const overviewHighlights = [
+    {
+      label: "Current Weather",
+      value: `${weatherData.current.temperature}°F`,
+      subtext: weatherData.current.condition,
+      icon: weatherData.current.icon,
+      containerClass: "border-indigo-100 bg-indigo-50",
+      labelClass: "text-indigo-700",
+    },
+    {
+      label: "School Events",
+      value: String(schoolEvents.length),
+      subtext: "This month",
+      icon: CalendarDays,
+      containerClass: "border-emerald-100 bg-emerald-50",
+      labelClass: "text-emerald-700",
+    },
+    {
+      label: "Next Class",
+      value: nextClass.subject,
+      subtext: nextClass.time,
+      icon: Clock,
+      containerClass: "border-amber-100 bg-amber-50",
+      labelClass: "text-amber-700",
+    },
+    {
+      label: "Completed Tasks",
+      value: "8",
+      subtext: "Planned today",
+      icon: CheckCircle,
+      containerClass: "border-sky-100 bg-sky-50",
+      labelClass: "text-sky-700",
+    },
+  ];
+
   const getEventTypeColor = (type: string) => {
     switch (type) {
       case "academic":
@@ -126,41 +163,27 @@ export function Schedule() {
       </div>
 
       {/* Weather & Events Overview */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-        <Card className="p-3 bg-[#647FBC]/5 border-[#647FBC]/15 h-24 md:h-28 flex flex-col items-center justify-start text-center pt-3 gap-1">
-          <div className="w-6 h-6 bg-[#647FBC]/10 rounded-full flex items-center justify-center">
-            <weatherData.current.icon className="w-3 h-3 text-[#647FBC]" />
-          </div>
-          <p className="text-sm font-semibold text-[#647FBC] leading-tight">
-            {weatherData.current.temperature}°F
-          </p>
-          <p className="text-gray-600 text-xs leading-tight">Partly Cloudy</p>
-        </Card>
-        <Card className="p-3 bg-[#647FBC]/5 border-[#647FBC]/15 h-24 md:h-28 flex flex-col items-center justify-start text-center pt-3 gap-1">
-          <div className="w-6 h-6 bg-[#647FBC]/10 rounded-full flex items-center justify-center">
-            <CalendarDays className="w-3 h-3 text-[#647FBC]" />
-          </div>
-          <p className="text-sm font-semibold text-[#647FBC] leading-tight">
-            {schoolEvents.length}
-          </p>
-          <p className="text-gray-600 text-xs leading-tight">Events</p>
-        </Card>
-
-        <Card className="p-3 bg-[#647FBC]/5 border-[#647FBC]/15 h-24 md:h-28 flex flex-col items-center justify-start text-center pt-3 gap-1">
-          <div className="w-6 h-6 bg-[#647FBC]/10 rounded-full flex items-center justify-center">
-            <Clock className="w-3 h-3 text-[#647FBC]" />
-          </div>
-          <p className="text-sm font-semibold text-[#647FBC] leading-tight">Physics</p>
-          <p className="text-gray-600 text-xs leading-tight">Next Class</p>
-        </Card>
-
-        <Card className="p-3 bg-[#647FBC]/5 border-[#647FBC]/15 h-24 md:h-28 flex flex-col items-center justify-start text-center pt-3 gap-1">
-          <div className="w-6 h-6 bg-[#647FBC]/10 rounded-full flex items-center justify-center">
-            <CheckCircle className="w-3 h-3 text-[#647FBC]" />
-          </div>
-          <p className="text-sm font-semibold text-[#647FBC] leading-tight">8</p>
-          <p className="text-gray-600 text-xs leading-tight">Completed</p>
-        </Card>
+      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+        {overviewHighlights.map((card) => {
+          const Icon = card.icon;
+          return (
+            <Card
+              key={card.label}
+              className={`p-5 ${card.containerClass} flex flex-col justify-between`}
+            >
+              <div className="flex items-center justify-between">
+                <p className={`text-xs font-semibold uppercase tracking-wide ${card.labelClass}`}>
+                  {card.label}
+                </p>
+                <Icon className={`h-4 w-4 ${card.labelClass}`} />
+              </div>
+              <div>
+                <p className="mt-3 text-2xl font-semibold text-slate-900">{card.value}</p>
+                <p className="text-xs text-slate-600">{card.subtext}</p>
+              </div>
+            </Card>
+          );
+        })}
       </div>
 
       {/* Day Selector */}
@@ -183,7 +206,7 @@ export function Schedule() {
       {/* Main Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
         {/* Today's Classes */}
-        <Card className="p-3">
+        <Card className="p-6">
           <h2 className="font-semibold mb-3 text-[#647FBC] text-sm">Today's Classes</h2>
           <div className="space-y-2">
             {schedule[scheduleKeys[currentDay]].map((cls) => (
@@ -209,7 +232,7 @@ export function Schedule() {
         </Card>
 
         {/* Weather Forecast */}
-        <Card className="p-3">
+        <Card className="p-6">
           <div className="flex items-center mb-3">
             <Sun className="w-4 h-4 text-[#647FBC] mr-2" />
             <h2 className="font-semibold text-[#647FBC] text-sm">Weather Forecast</h2>
@@ -246,7 +269,7 @@ export function Schedule() {
         </Card>
 
         {/* Weekly Overview */}
-        <Card className="p-3">
+        <Card className="p-6">
           <h2 className="font-semibold mb-3 text-[#647FBC] text-sm">Weekly Overview</h2>
           <div className="space-y-2">
             {scheduleKeys.map((day) => (
@@ -263,7 +286,7 @@ export function Schedule() {
       </div>
 
       {/* Upcoming School Events */}
-      <Card className="p-3">
+      <Card className="p-6">
         <div className="flex items-center mb-3">
           <Bell className="w-4 h-4 text-[#647FBC] mr-2" />
           <h2 className="font-semibold text-[#647FBC] text-sm">Upcoming School Events</h2>

@@ -52,7 +52,7 @@ export function Profile() {
       </div>
 
       {/* Profile Overview */}
-      <Card className="p-3 shadow-sm border-0 bg-gradient-to-r from-white to-gray-50/50">
+      <Card className="bg-gradient-to-r from-white to-gray-50/50 p-6">
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center">
             <Avatar className="w-12 h-12 mr-3 shadow-sm">
@@ -103,7 +103,7 @@ export function Profile() {
       </Card>
 
       {/* Personal Information */}
-      <Card className="p-3 shadow-sm border-0">
+      <Card className="p-6">
         <div className="flex items-center justify-between mb-3">
           <h2 className="text-sm font-semibold text-[#647FBC]">Personal Information</h2>
           <Button
@@ -155,7 +155,7 @@ export function Profile() {
       </Card>
 
       {/* Academic Information */}
-      <Card className="p-3 shadow-sm border-0">
+      <Card className="p-6">
         <h2 className="text-sm font-semibold mb-3 text-[#647FBC]">Academic Information</h2>
         <div className="grid grid-cols-1 gap-2">
           <div className="grid grid-cols-2 gap-2">
@@ -188,7 +188,7 @@ export function Profile() {
       </Card>
 
       {/* Emergency Contact */}
-      <Card className="p-3 shadow-sm border-0">
+      <Card className="p-6">
         <div className="flex items-center justify-between mb-3">
           <h2 className="text-sm font-semibold text-[#647FBC]">Emergency Contact</h2>
           <Button
@@ -220,7 +220,7 @@ export function Profile() {
       </Card>
 
       {/* Achievements */}
-      <Card className="p-3 shadow-sm border-0">
+      <Card className="p-6">
         <h2 className="text-sm font-semibold mb-3 text-[#647FBC]">Recent Achievements</h2>
         <div className="grid grid-cols-1 gap-2">
           {achievements.map((achievement, index) => (

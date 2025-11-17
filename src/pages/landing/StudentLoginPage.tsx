@@ -1,7 +1,7 @@
-import { type FormEvent, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import { useAuth } from "@/context/AuthContext";
+import { type FormEvent, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const validStudent = { email: "student@synced.com", password: "student123" };
 const validParent = { email: "parent@synced.com", password: "parent123" };
@@ -22,7 +22,7 @@ const StudentLoginPage = () => {
       navigate("/student/overview");
     } else if (email === validParent.email && password === validParent.password) {
       login(email, "parent");
-      navigate("/parent-dashboard");
+      navigate("/parent/overview");
     } else {
       setError("Invalid email or password. Please try again.");
       setPassword("");

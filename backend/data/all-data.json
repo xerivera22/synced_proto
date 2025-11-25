@@ -520,12 +520,48 @@
     },
     "academicProgress": {
       "subjects": [
-        {"name": "Mathematics", "grade": "A-", "percentage": 88, "credits": 4, "color": "bg-green-500"},
-        {"name": "Physics", "grade": "B+", "percentage": 85, "credits": 4, "color": "bg-blue-500"},
-        {"name": "Chemistry", "grade": "A", "percentage": 92, "credits": 3, "color": "bg-purple-500"},
-        {"name": "English", "grade": "B", "percentage": 82, "credits": 3, "color": "bg-orange-500"},
-        {"name": "History", "grade": "A-", "percentage": 87, "credits": 3, "color": "bg-red-500"},
-        {"name": "Biology", "grade": "B+", "percentage": 86, "credits": 4, "color": "bg-teal-500"}
+        {
+          "name": "Mathematics",
+          "grade": "A-",
+          "percentage": 88,
+          "credits": 4,
+          "color": "bg-green-500"
+        },
+        {
+          "name": "Physics",
+          "grade": "B+",
+          "percentage": 85,
+          "credits": 4,
+          "color": "bg-blue-500"
+        },
+        {
+          "name": "Chemistry",
+          "grade": "A",
+          "percentage": 92,
+          "credits": 3,
+          "color": "bg-purple-500"
+        },
+        {
+          "name": "English",
+          "grade": "B",
+          "percentage": 82,
+          "credits": 3,
+          "color": "bg-orange-500"
+        },
+        {
+          "name": "History",
+          "grade": "A-",
+          "percentage": 87,
+          "credits": 3,
+          "color": "bg-red-500"
+        },
+        {
+          "name": "Biology",
+          "grade": "B+",
+          "percentage": 86,
+          "credits": 4,
+          "color": "bg-teal-500"
+        }
       ],
       "semesterStats": {
         "currentGPA": 3.8,
@@ -534,20 +570,76 @@
         "totalCredits": 120
       },
       "upcomingAssignments": [
-        {"subject": "Mathematics", "assignment": "Calculus Problem Set", "dueDate": "Sep 20", "status": "pending"},
-        {"subject": "Physics", "assignment": "Lab Report #3", "dueDate": "Sep 22", "status": "pending"},
-        {"subject": "English", "assignment": "Essay on Literature", "dueDate": "Sep 25", "status": "draft"},
-        {"subject": "Chemistry", "assignment": "Molecular Structure Quiz", "dueDate": "Sep 18", "status": "urgent"}
+        {
+          "subject": "Mathematics",
+          "assignment": "Calculus Problem Set",
+          "dueDate": "Sep 20",
+          "status": "pending"
+        },
+        {
+          "subject": "Physics",
+          "assignment": "Lab Report #3",
+          "dueDate": "Sep 22",
+          "status": "pending"
+        },
+        {
+          "subject": "English",
+          "assignment": "Essay on Literature",
+          "dueDate": "Sep 25",
+          "status": "draft"
+        },
+        {
+          "subject": "Chemistry",
+          "assignment": "Molecular Structure Quiz",
+          "dueDate": "Sep 18",
+          "status": "urgent"
+        }
       ]
     },
     "attendance": {
       "attendanceData": [
-        {"subject": "Mathematics", "attended": 28, "total": 30, "percentage": 93, "status": "good"},
-        {"subject": "Physics", "attended": 26, "total": 28, "percentage": 93, "status": "good"},
-        {"subject": "Chemistry", "attended": 22, "total": 25, "percentage": 88, "status": "warning"},
-        {"subject": "English", "attended": 25, "total": 27, "percentage": 93, "status": "good"},
-        {"subject": "History", "attended": 20, "total": 26, "percentage": 77, "status": "critical"},
-        {"subject": "Biology", "attended": 24, "total": 26, "percentage": 92, "status": "good"}
+        {
+          "subject": "Mathematics",
+          "attended": 28,
+          "total": 30,
+          "percentage": 93,
+          "status": "good"
+        },
+        {
+          "subject": "Physics",
+          "attended": 26,
+          "total": 28,
+          "percentage": 93,
+          "status": "good"
+        },
+        {
+          "subject": "Chemistry",
+          "attended": 22,
+          "total": 25,
+          "percentage": 88,
+          "status": "warning"
+        },
+        {
+          "subject": "English",
+          "attended": 25,
+          "total": 27,
+          "percentage": 93,
+          "status": "good"
+        },
+        {
+          "subject": "History",
+          "attended": 20,
+          "total": 26,
+          "percentage": 77,
+          "status": "critical"
+        },
+        {
+          "subject": "Biology",
+          "attended": 24,
+          "total": 26,
+          "percentage": 92,
+          "status": "good"
+        }
       ],
       "overallStats": {
         "totalClasses": 162,
@@ -556,31 +648,117 @@
         "requiredPercentage": 75
       },
       "recentAttendance": [
-        {"date": "Sep 16", "subject": "Mathematics", "status": "present", "time": "09:00 AM"},
-        {"date": "Sep 16", "subject": "Physics", "status": "present", "time": "11:00 AM"},
-        {"date": "Sep 15", "subject": "Chemistry", "status": "absent", "time": "10:00 AM"},
-        {"date": "Sep 15", "subject": "English", "status": "present", "time": "02:00 PM"},
-        {"date": "Sep 14", "subject": "History", "status": "late", "time": "01:00 PM"}
+        {
+          "date": "Sep 16",
+          "subject": "Mathematics",
+          "status": "present",
+          "time": "09:00 AM"
+        },
+        {
+          "date": "Sep 16",
+          "subject": "Physics",
+          "status": "present",
+          "time": "11:00 AM"
+        },
+        {
+          "date": "Sep 15",
+          "subject": "Chemistry",
+          "status": "absent",
+          "time": "10:00 AM"
+        },
+        {
+          "date": "Sep 15",
+          "subject": "English",
+          "status": "present",
+          "time": "02:00 PM"
+        },
+        {
+          "date": "Sep 14",
+          "subject": "History",
+          "status": "late",
+          "time": "01:00 PM"
+        }
       ]
     },
     "documents": {
       "requiredDocuments": [
-        {"name": "Academic Transcript", "description": "Official transcript for current semester", "status": "available", "uploadDate": "Aug 15, 2025", "size": "2.3 MB"},
-        {"name": "Fee Receipt", "description": "Payment receipt for tuition fees", "status": "available", "uploadDate": "Sep 10, 2025", "size": "1.1 MB"},
-        {"name": "ID Card Copy", "description": "Student identification card", "status": "available", "uploadDate": "Aug 10, 2025", "size": "0.8 MB"},
-        {"name": "Medical Certificate", "description": "Health clearance certificate", "status": "pending", "uploadDate": null, "size": null},
-        {"name": "Course Registration", "description": "Semester course registration form", "status": "available", "uploadDate": "Aug 20, 2025", "size": "1.5 MB"}
+        {
+          "name": "Academic Transcript",
+          "description": "Official transcript for current semester",
+          "status": "available",
+          "uploadDate": "Aug 15, 2025",
+          "size": "2.3 MB"
+        },
+        {
+          "name": "Fee Receipt",
+          "description": "Payment receipt for tuition fees",
+          "status": "available",
+          "uploadDate": "Sep 10, 2025",
+          "size": "1.1 MB"
+        },
+        {
+          "name": "ID Card Copy",
+          "description": "Student identification card",
+          "status": "available",
+          "uploadDate": "Aug 10, 2025",
+          "size": "0.8 MB"
+        },
+        {
+          "name": "Medical Certificate",
+          "description": "Health clearance certificate",
+          "status": "pending",
+          "uploadDate": null,
+          "size": null
+        },
+        {
+          "name": "Course Registration",
+          "description": "Semester course registration form",
+          "status": "available",
+          "uploadDate": "Aug 20, 2025",
+          "size": "1.5 MB"
+        }
       ],
       "certificates": [
-        {"name": "Dean's List Certificate", "description": "Academic excellence recognition", "issueDate": "May 2025", "type": "Achievement"},
-        {"name": "Scholarship Award", "description": "Merit-based scholarship certificate", "issueDate": "Aug 2025", "type": "Financial Aid"},
-        {"name": "Course Completion", "description": "Python Programming Certificate", "issueDate": "Jul 2025", "type": "Course"}
+        {
+          "name": "Dean's List Certificate",
+          "description": "Academic excellence recognition",
+          "issueDate": "May 2025",
+          "type": "Achievement"
+        },
+        {
+          "name": "Scholarship Award",
+          "description": "Merit-based scholarship certificate",
+          "issueDate": "Aug 2025",
+          "type": "Financial Aid"
+        },
+        {
+          "name": "Course Completion",
+          "description": "Python Programming Certificate",
+          "issueDate": "Jul 2025",
+          "type": "Course"
+        }
       ],
       "recentActivity": [
-        {"action": "Downloaded", "document": "Academic Transcript", "date": "2 hours ago"},
-        {"action": "Uploaded", "document": "Fee Receipt", "date": "1 day ago"},
-        {"action": "Viewed", "document": "Course Registration", "date": "3 days ago"},
-        {"action": "Downloaded", "document": "ID Card Copy", "date": "1 week ago"}
+        {
+          "action": "Downloaded",
+          "document": "Academic Transcript",
+          "date": "2 hours ago"
+        },
+        {
+          "action": "Uploaded",
+          "document": "Fee Receipt",
+          "date": "1 day ago"
+        },
+        {
+          "action": "Viewed",
+          "document": "Course Registration",
+          "date": "3 days ago"
+        },
+        {
+          "action": "Downloaded",
+          "document": "ID Card Copy",
+          "date": "1 week ago"
+        }
       ]
     }
   },
@@ -607,17 +785,64 @@
     },
     "overview": {
       "kpis": [
-        {"label": "Classes Today", "value": "4", "description": "Scheduled sessions", "icon": "Calendar", "containerClass": "border-indigo-100 bg-indigo-50", "labelClass": "text-indigo-700", "iconClass": "text-indigo-700"},
-        {"label": "To Grade", "value": "12", "description": "Assignments pending", "icon": "ClipboardCheck", "containerClass": "border-emerald-100 bg-emerald-50", "labelClass": "text-emerald-700", "iconClass": "text-emerald-700"},
-        {"label": "Attendance Pending", "value": "2", "description": "Classes awaiting review", "icon": "FileText", "containerClass": "border-amber-100 bg-amber-50", "labelClass": "text-amber-700", "iconClass": "text-amber-700"},
-        {"label": "Unread Messages", "value": "5", "description": "From parents & staff", "icon": "MessageSquare", "containerClass": "border-sky-100 bg-sky-50", "labelClass": "text-sky-700", "iconClass": "text-sky-700"}
+        {
+          "label": "Classes Today",
+          "value": "4",
+          "description": "Scheduled sessions",
+          "icon": "Calendar",
+          "containerClass": "border-indigo-100 bg-indigo-50",
+          "labelClass": "text-indigo-700",
+          "iconClass": "text-indigo-700"
+        },
+        {
+          "label": "To Grade",
+          "value": "12",
+          "description": "Assignments pending",
+          "icon": "ClipboardCheck",
+          "containerClass": "border-emerald-100 bg-emerald-50",
+          "labelClass": "text-emerald-700",
+          "iconClass": "text-emerald-700"
+        },
+        {
+          "label": "Attendance Pending",
+          "value": "2",
+          "description": "Classes awaiting review",
+          "icon": "FileText",
+          "containerClass": "border-amber-100 bg-amber-50",
+          "labelClass": "text-amber-700",
+          "iconClass": "text-amber-700"
+        },
+        {
+          "label": "Unread Messages",
+          "value": "5",
+          "description": "From parents & staff",
+          "icon": "MessageSquare",
+          "containerClass": "border-sky-100 bg-sky-50",
+          "labelClass": "text-sky-700",
+          "iconClass": "text-sky-700"
+        }
       ]
     },
     "subjects": {
       "items": [
-        {"id": 1, "title": "Sample Subject 1", "section": "Section A", "students": 30},
-        {"id": 2, "title": "Sample Subject 2", "section": "Section A", "students": 30},
-        {"id": 3, "title": "Sample Subject 3", "section": "Section A", "students": 30}
+        {
+          "id": 1,
+          "title": "Sample Subject 1",
+          "section": "Section A",
+          "students": 30
+        },
+        {
+          "id": 2,
+          "title": "Sample Subject 2",
+          "section": "Section A",
+          "students": 30
+        },
+        {
+          "id": 3,
+          "title": "Sample Subject 3",
+          "section": "Section A",
+          "students": 30
+        }
       ]
     }
   }

@@ -1,5 +1,23 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import {
+  School,
+  Zap,
+  Lock,
+  DollarSign,
+  Users,
+  GraduationCap,
+  BarChart3,
+  ClipboardList,
+  CreditCard,
+  Calendar,
+  Smartphone,
+  Bell,
+  Check,
+  Building,
+  UserCircle,
+  ArrowUp,
+} from "lucide-react";
 
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
@@ -38,32 +56,32 @@ const LandingPage = () => {
 
   const features: Feature[] = [
     {
-      icon: "📊",
+      icon: <BarChart3 className="text-primary" size={48} />,
       title: "Attendance Tracking",
       description: "Real-time attendance monitoring with automated reports and notifications.",
     },
     {
-      icon: "📝",
+      icon: <ClipboardList className="text-primary" size={48} />,
       title: "Grade Management",
       description: "Comprehensive grade tracking and performance analytics for students.",
     },
     {
-      icon: "💳",
+      icon: <CreditCard className="text-primary" size={48} />,
       title: "Payment Processing",
       description: "Secure online payment system for tuition and school fees.",
     },
     {
-      icon: "📅",
+      icon: <Calendar className="text-primary" size={48} />,
       title: "Schedule Management",
       description: "Easy-to-use class scheduling and calendar management tools.",
     },
     {
-      icon: "📱",
+      icon: <Smartphone className="text-primary" size={48} />,
       title: "Mobile Access",
       description: "Access your dashboard anywhere with our mobile-friendly platform.",
     },
     {
-      icon: "🔔",
+      icon: <Bell className="text-primary" size={48} />,
       title: "Notifications",
       description: "Stay updated with instant notifications for important events.",
     },
@@ -113,7 +131,7 @@ const LandingPage = () => {
       <header className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center px-8 py-16 lg:py-24 max-w-[1440px] mx-auto">
         <div className="space-y-6">
           <div className="inline-flex items-center gap-2 bg-blue-50 px-4 py-2 rounded-full text-sm font-medium text-primary">
-            <span className="text-lg">🎓</span>
+            <School size={20} />
             <span>Trusted by 500+ Schools</span>
           </div>
 
@@ -143,11 +161,11 @@ const LandingPage = () => {
 
           <div className="flex gap-8 pt-6 text-sm text-muted">
             <div className="flex items-center gap-2">
-              <span className="text-green-500">✓</span>
+              <Check className="text-green-500" size={16} />
               <span>No credit card required</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-green-500">✓</span>
+              <Check className="text-green-500" size={16} />
               <span>Free tier available</span>
             </div>
           </div>
@@ -176,7 +194,9 @@ const LandingPage = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition-shadow">
-              <div className="text-5xl mb-4">⚡</div>
+              <div className="mb-4 flex justify-center">
+                <Zap className="text-primary" size={48} />
+              </div>
               <h3 className="text-2xl font-bold mb-3 text-text">Lightning Fast</h3>
               <p className="text-muted leading-relaxed">
                 Access your dashboard instantly with our optimized platform built for speed and
@@ -184,14 +204,18 @@ const LandingPage = () => {
               </p>
             </div>
             <div className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition-shadow">
-              <div className="text-5xl mb-4">🔒</div>
+              <div className="mb-4 flex justify-center">
+                <Lock className="text-primary" size={48} />
+              </div>
               <h3 className="text-2xl font-bold mb-3 text-text">Secure & Reliable</h3>
               <p className="text-muted leading-relaxed">
                 Your data is protected with bank-level encryption and regular security audits.
               </p>
             </div>
             <div className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition-shadow">
-              <div className="text-5xl mb-4">💰</div>
+              <div className="mb-4 flex justify-center">
+                <DollarSign className="text-primary" size={48} />
+              </div>
               <h3 className="text-2xl font-bold mb-3 text-text">Cost-Effective</h3>
               <p className="text-muted leading-relaxed">
                 Start free and scale as you grow. Only pay for what you need.
@@ -213,22 +237,30 @@ const LandingPage = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="bg-soft p-6 rounded-2xl text-center hover:shadow-md transition-shadow">
-              <div className="text-5xl mb-4">👨‍💼</div>
+              <div className="mb-4 flex justify-center">
+                <Building className="text-primary" size={48} />
+              </div>
               <h3 className="text-xl font-semibold mb-2 text-text">Administrators</h3>
               <p className="text-muted text-sm">Manage operations, finances, and reports</p>
             </div>
             <div className="bg-soft p-6 rounded-2xl text-center hover:shadow-md transition-shadow">
-              <div className="text-5xl mb-4">👩‍🏫</div>
+              <div className="mb-4 flex justify-center">
+                <UserCircle className="text-primary" size={48} />
+              </div>
               <h3 className="text-xl font-semibold mb-2 text-text">Teachers</h3>
               <p className="text-muted text-sm">Track attendance, grades, and assignments</p>
             </div>
             <div className="bg-soft p-6 rounded-2xl text-center hover:shadow-md transition-shadow">
-              <div className="text-5xl mb-4">🎓</div>
+              <div className="mb-4 flex justify-center">
+                <GraduationCap className="text-primary" size={48} />
+              </div>
               <h3 className="text-xl font-semibold mb-2 text-text">Students</h3>
               <p className="text-muted text-sm">View grades, schedules, and assignments</p>
             </div>
             <div className="bg-soft p-6 rounded-2xl text-center hover:shadow-md transition-shadow">
-              <div className="text-5xl mb-4">👪</div>
+              <div className="mb-4 flex justify-center">
+                <Users className="text-primary" size={48} />
+              </div>
               <h3 className="text-xl font-semibold mb-2 text-text">Parents</h3>
               <p className="text-muted text-sm">Monitor progress and communicate</p>
             </div>
@@ -252,7 +284,7 @@ const LandingPage = () => {
                 key={index}
                 className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition-all hover:-translate-y-1"
               >
-                <div className="text-5xl mb-4">{feature.icon}</div>
+                <div className="mb-4 flex justify-center">{feature.icon}</div>
                 <h3 className="text-xl font-bold mb-3 text-text">{feature.title}</h3>
                 <p className="text-muted leading-relaxed">{feature.description}</p>
               </div>
@@ -405,7 +437,7 @@ const LandingPage = () => {
           className="fixed bottom-8 right-8 w-12 h-12 bg-primary text-white rounded-full shadow-lg hover:bg-primary-dark transition-all flex items-center justify-center text-xl z-50"
           aria-label="Scroll to top"
         >
-          ↑
+          <ArrowUp size={20} />
         </button>
       )}
 

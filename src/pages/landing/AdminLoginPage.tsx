@@ -1,5 +1,7 @@
 import Navbar from "@/components/Navbar";
 import { useAuth } from "@/context/AuthContext";
+import { authAPI } from "@/services";
+import { ArrowRight, Eye, EyeOff } from "lucide-react";
 import { type FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -12,30 +14,61 @@ const AdminLoginPage = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { login } = useAuth();
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    const enteredEmail = email.trim().toLowerCase();
-    const enteredPassword = password.trim();
+    setLoading(true);
+    setError("");
 
-    const isAdminMatch =
-      enteredEmail === validAdmin.email.toLowerCase() && enteredPassword === validAdmin.password;
-    const isTeacherMatch =
-      enteredEmail === validTeacher.email.toLowerCase() &&
-      enteredPassword === validTeacher.password;
+    try {
+      // Call API login endpoint
+      const response = await authAPI.login({
+        email,
+        password,
+      });
 
-    if (isAdminMatch) {
-      login(validAdmin.email, "admin");
-      navigate("/admin");
-    } else if (isTeacherMatch) {
-      login(validTeacher.email, "teacher");
-      navigate("/teacher/overview");
-    } else {
-      setError("Invalid email or password. Please try again.");
-      setPassword("");
-      setTimeout(() => setError(""), 3000);
+      if (response.success && response.user) {
+        login(response.user.email, response.user.role);
+        if (response.user.role === "admin") {
+          navigate("/admin");
+        } else if (response.user.role === "teacher") {
+          navigate("/teacher/overview");
+        }
+      } else {
+        setError(response.message || "Login failed. Please try again.");
+        setPassword("");
+      }
+    } catch (err) {
+      // Fallback to local validation if API fails
+      const enteredEmail = email.trim().toLowerCase();
+      const enteredPassword = password.trim();
+
+      const isAdminMatch =
+        enteredEmail === validAdmin.email.toLowerCase() && enteredPassword === validAdmin.password;
+      const isTeacherMatch =
+        enteredEmail === validTeacher.email.toLowerCase() &&
+        enteredPassword === validTeacher.password;
+
+      if (isAdminMatch) {
+        login(validAdmin.email, "admin");
+        navigate("/admin");
+      } else if (isTeacherMatch) {
+        login(validTeacher.email, "teacher");
+        navigate("/teacher/overview");
+      } else {
+        setError(
+          err instanceof Error ? err.message : "Invalid email or password. Please try again.",
+        );
+        setPassword("");
+      }
+    } finally {
+      setLoading(false);
+      if (error) {
+        setTimeout(() => setError(""), 3000);
+      }
     }
   };
 
@@ -90,11 +123,11 @@ const AdminLoginPage = () => {
                   <button
                     type="button"
                     onClick={() => setShowPassword((v) => !v)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-lg text-blue-500 px-2 py-1"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-blue-500 px-2 py-1"
                     aria-label={showPassword ? "Hide password" : "Show password"}
                     title={showPassword ? "Hide password" : "Show password"}
                   >
-                    {showPassword ? "🙈" : "👁️"}
+                    {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                   </button>
                 </div>
               </div>
@@ -118,9 +151,11 @@ const AdminLoginPage = () => {
               </div>
               <button
                 type="submit"
-                className="w-full px-6 py-3 bg-blue-500 text-white border-0 rounded-lg text-base font-semibold cursor-pointer hover:bg-blue-600 transition-colors shadow"
+                disabled={loading}
+                className="w-full px-6 py-3 bg-blue-500 text-white border-0 rounded-lg text-base font-semibold cursor-pointer hover:bg-blue-600 transition-colors shadow flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Login
+                {loading ? "Logging in..." : "Login"}
+                {!loading && <ArrowRight size={18} />}
               </button>
               <div className="text-center mt-6 pt-6 border-t border-gray-200">
                 <p className="text-gray-500 text-sm">

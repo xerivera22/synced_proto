@@ -13,7 +13,6 @@ import {
 import { Card } from "./ui/card";
 
 export function Schedule() {
-  const weekDays = ["Mon", "Tue", "Wed", "Thu", "Fri"];
   const currentDay = 1; // Tuesday
 
   const schedule = {
@@ -184,23 +183,6 @@ export function Schedule() {
             </Card>
           );
         })}
-      </div>
-
-      {/* Day Selector */}
-      <div className="flex justify-center">
-        <div className="flex bg-white rounded-md p-1 border shadow-sm">
-          {weekDays.map((day, index) => (
-            <button
-              type="button"
-              key={day}
-              className={`py-2 px-3 rounded-sm font-medium transition-colors min-w-[80px] text-sm ${
-                index === currentDay ? "bg-[#647FBC] text-white" : "text-gray-600 hover:bg-gray-100"
-              }`}
-            >
-              {day}
-            </button>
-          ))}
-        </div>
       </div>
 
       {/* Main Content Grid */}

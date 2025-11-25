@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
+import { Building, GraduationCap } from "lucide-react";
 
 const RegisterPage = () => {
   return (
@@ -19,7 +20,9 @@ const RegisterPage = () => {
               to="/admin-login"
               className="bg-white p-12 text-center cursor-pointer hover:bg-gray-50 transition-colors"
             >
-              <div className="text-6xl mb-6">👨‍💼</div>
+              <div className="mb-6 flex justify-center">
+                <Building className="text-primary" size={64} />
+              </div>
               <h3 className="text-2xl font-semibold text-text mb-4">School Administrator</h3>
               <p className="text-muted leading-relaxed mb-6">
                 Manage school operations, finances, and reports
@@ -35,7 +38,9 @@ const RegisterPage = () => {
               to="/student-login"
               className="bg-white p-12 text-center cursor-pointer hover:bg-gray-50 transition-colors"
             >
-              <div className="text-6xl mb-6">🎓</div>
+              <div className="mb-6 flex justify-center">
+                <GraduationCap className="text-primary" size={64} />
+              </div>
               <h3 className="text-2xl font-semibold text-text mb-4">Student / Parent</h3>
               <p className="text-muted leading-relaxed mb-6">
                 View grades, attendance, and stay connected

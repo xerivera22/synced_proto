@@ -81,7 +81,7 @@ synced_proto/
 2. Introduce service layer stubs (`src/services/`) to ease backend swap.
 3. Address outstanding chart null guard in `student/components/ui/chart.tsx`.
 
-// ...existing code...
+// ...existing code... 
 
 ---
 

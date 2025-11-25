@@ -33,7 +33,7 @@ export function Dashboard() {
     },
     {
       label: "Pending Balance",
-      value: "$250",
+      value: "₱250",
       description: "Due Oct 15",
       icon: AlertCircle,
       containerClass: "border-amber-100 bg-amber-50",

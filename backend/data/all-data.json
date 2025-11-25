@@ -1,0 +1,624 @@
+{
+  "admin": {
+    "studentMetrics": {
+      "totalStudents": 864,
+      "activeStudents": 798,
+      "pendingEnrollments": 42,
+      "inactiveStudents": 24,
+      "averageGPA": 3.42
+    },
+    "studentRecords": [
+      {
+        "id": "ST-1024",
+        "name": "Alexandra Reyes",
+        "gradeLevel": "Grade 10",
+        "section": "STEM-A",
+        "status": "active",
+        "enrollmentDate": "2023-08-15",
+        "advisor": "Ms. Dela Cruz",
+        "gpa": 3.8
+      },
+      {
+        "id": "ST-1089",
+        "name": "Miguel Santos",
+        "gradeLevel": "Grade 12",
+        "section": "ABM-B",
+        "status": "pending",
+        "enrollmentDate": "2024-06-27",
+        "advisor": "Mr. Gutierrez",
+        "gpa": 3.1,
+        "alerts": "Missing medical clearance"
+      },
+      {
+        "id": "ST-0953",
+        "name": "Jamie Lim",
+        "gradeLevel": "Grade 9",
+        "section": "Arts-C",
+        "status": "active",
+        "enrollmentDate": "2022-08-03",
+        "advisor": "Ms. Flores",
+        "gpa": 3.6
+      },
+      {
+        "id": "ST-0811",
+        "name": "Rafael Tan",
+        "gradeLevel": "Grade 11",
+        "section": "HUMSS-A",
+        "status": "inactive",
+        "enrollmentDate": "2021-08-18",
+        "advisor": "Mr. Villanueva",
+        "gpa": 2.7,
+        "alerts": "On leave - returning Q3"
+      },
+      {
+        "id": "ST-1122",
+        "name": "Celine Navarro",
+        "gradeLevel": "Grade 7",
+        "section": "Explorer-B",
+        "status": "active",
+        "enrollmentDate": "2024-05-04",
+        "advisor": "Ms. Javier",
+        "gpa": 3.9
+      },
+      {
+        "id": "ST-0875",
+        "name": "Kenji Sato",
+        "gradeLevel": "Grade 8",
+        "section": "Discovery-A",
+        "status": "active",
+        "enrollmentDate": "2023-01-12",
+        "advisor": "Ms. Domingo",
+        "gpa": 3.4
+      }
+    ],
+    "facultyRecords": [
+      {
+        "id": "T-021",
+        "name": "Maria Dela Cruz",
+        "department": "STEM",
+        "subjects": 4,
+        "contact": "m.delacruz@synced.edu"
+      },
+      {
+        "id": "T-034",
+        "name": "Antonio Ramirez",
+        "department": "Humanities",
+        "subjects": 3,
+        "contact": "a.ramirez@synced.edu"
+      },
+      {
+        "id": "T-017",
+        "name": "Patricia Lao",
+        "department": "Junior High",
+        "subjects": 5,
+        "contact": "p.lao@synced.edu"
+      }
+    ],
+    "upcomingEvents": [
+      {
+        "id": "EV-909",
+        "title": "STEM Research Expo",
+        "date": "2024-08-12",
+        "audience": "students",
+        "status": "scheduled"
+      },
+      {
+        "id": "EV-912",
+        "title": "Faculty Development Day",
+        "date": "2024-08-29",
+        "audience": "teachers",
+        "status": "draft"
+      },
+      {
+        "id": "EV-918",
+        "title": "Quarterly Parent Forum",
+        "date": "2024-09-03",
+        "audience": "parents",
+        "status": "scheduled"
+      }
+    ],
+    "paymentSummaries": {
+      "totalDueThisMonth": 128640,
+      "collectedThisMonth": 87450,
+      "overdueInvoices": 36,
+      "scholarshipsGranted": 18
+    },
+    "paymentRecords": [
+      {
+        "id": "INV-20240601",
+        "student": "Alexandra Reyes",
+        "gradeLevel": "Grade 10",
+        "amountDue": 18500,
+        "amountPaid": 18500,
+        "dueDate": "2024-06-15",
+        "status": "paid"
+      },
+      {
+        "id": "INV-20240614",
+        "student": "Miguel Santos",
+        "gradeLevel": "Grade 12",
+        "amountDue": 21500,
+        "amountPaid": 15000,
+        "dueDate": "2024-06-20",
+        "status": "partial"
+      },
+      {
+        "id": "INV-20240522",
+        "student": "Rafael Tan",
+        "gradeLevel": "Grade 11",
+        "amountDue": 20500,
+        "amountPaid": 0,
+        "dueDate": "2024-05-30",
+        "status": "overdue"
+      }
+    ],
+    "announcements": [
+      {
+        "id": "ANN-341",
+        "title": "Quarter 1 Grade Release",
+        "target": "students",
+        "scheduledFor": "2024-07-05",
+        "status": "scheduled"
+      },
+      {
+        "id": "ANN-343",
+        "title": "Updated Tuition Guidelines",
+        "target": "parents",
+        "scheduledFor": "2024-06-30",
+        "status": "draft"
+      },
+      {
+        "id": "ANN-330",
+        "title": "Advisory: Weather Protocol",
+        "target": "all",
+        "scheduledFor": "2024-06-22",
+        "status": "sent"
+      }
+    ]
+  },
+  "student": {
+    "profile": {
+      "studentInfo": {
+        "name": "Alex Thompson",
+        "studentId": "ST2025001234",
+        "email": "alex.thompson@university.edu",
+        "phone": "+1 (555) 123-4567",
+        "address": "123 University Ave, College Town, CT 06001",
+        "dateOfBirth": "March 15, 2003",
+        "enrollmentDate": "August 2023",
+        "expectedGraduation": "May 2027",
+        "major": "Computer Science",
+        "minor": "Mathematics",
+        "advisor": "Dr. Sarah Johnson",
+        "gpa": "3.8",
+        "creditHours": "45"
+      },
+      "emergencyContact": {
+        "name": "Sarah Thompson",
+        "relationship": "Mother",
+        "phone": "+1 (555) 987-6543",
+        "email": "sarah.thompson@email.com"
+      },
+      "achievements": [
+        {
+          "title": "Dean's List",
+          "semester": "Spring 2025",
+          "icon": "trophy"
+        },
+        {
+          "title": "Programming Contest Winner",
+          "date": "March 2025",
+          "icon": "medal"
+        },
+        {
+          "title": "Scholarship Recipient",
+          "year": "2024-2025",
+          "icon": "graduation-cap"
+        },
+        {
+          "title": "Volunteer Service Award",
+          "date": "Dec 2024",
+          "icon": "star"
+        }
+      ]
+    },
+    "dashboard": {
+      "upcomingClasses": [
+        {
+          "subject": "Mathematics",
+          "time": "09:00 AM",
+          "room": "Room 201",
+          "status": "upcoming"
+        },
+        {
+          "subject": "Physics",
+          "time": "11:00 AM",
+          "room": "Lab 3",
+          "status": "upcoming"
+        },
+        {
+          "subject": "English",
+          "time": "02:00 PM",
+          "room": "Room 105",
+          "status": "upcoming"
+        }
+      ],
+      "quickStats": [
+        {
+          "label": "Attendance Rate",
+          "value": "92%",
+          "description": "Past 30 days",
+          "icon": "CheckCircle",
+          "containerClass": "border-emerald-100 bg-emerald-50",
+          "labelClass": "text-emerald-700",
+          "iconClass": "text-emerald-700"
+        },
+        {
+          "label": "Overall GPA",
+          "value": "3.8",
+          "description": "Current semester",
+          "icon": "TrendingUp",
+          "containerClass": "border-sky-100 bg-sky-50",
+          "labelClass": "text-sky-700",
+          "iconClass": "text-sky-700"
+        },
+        {
+          "label": "Pending Balance",
+          "value": "PHP 250",
+          "description": "Due Oct 15",
+          "icon": "AlertCircle",
+          "containerClass": "border-amber-100 bg-amber-50",
+          "labelClass": "text-amber-700",
+          "iconClass": "text-amber-700"
+        },
+        {
+          "label": "Study Time",
+          "value": "25h",
+          "description": "Logged this week",
+          "icon": "Clock",
+          "containerClass": "border-indigo-100 bg-indigo-50",
+          "labelClass": "text-indigo-700",
+          "iconClass": "text-indigo-700"
+        }
+      ],
+      "recentAnnouncements": [
+        {
+          "title": "Mid-term Exam Schedule Released",
+          "date": "2 hours ago",
+          "type": "important"
+        },
+        {
+          "title": "Library Hours Extended",
+          "date": "1 day ago",
+          "type": "info"
+        },
+        {
+          "title": "Sports Day Registration Open",
+          "date": "3 days ago",
+          "type": "event"
+        }
+      ]
+    },
+    "schedule": {
+      "schedule": {
+        "monday": [
+          {
+            "subject": "Mathematics",
+            "time": "09:00-10:30",
+            "room": "Room 201",
+            "professor": "Dr. Smith"
+          },
+          {
+            "subject": "Chemistry",
+            "time": "11:00-12:30",
+            "room": "Lab 2",
+            "professor": "Dr. Johnson"
+          },
+          {
+            "subject": "English",
+            "time": "02:00-03:30",
+            "room": "Room 105",
+            "professor": "Ms. Davis"
+          }
+        ],
+        "tuesday": [
+          {
+            "subject": "Physics",
+            "time": "08:00-09:30",
+            "room": "Lab 3",
+            "professor": "Dr. Wilson"
+          },
+          {
+            "subject": "Mathematics",
+            "time": "10:00-11:30",
+            "room": "Room 201",
+            "professor": "Dr. Smith"
+          },
+          {
+            "subject": "History",
+            "time": "01:00-02:30",
+            "room": "Room 301",
+            "professor": "Mr. Brown"
+          },
+          {
+            "subject": "Art",
+            "time": "03:00-04:30",
+            "room": "Studio A",
+            "professor": "Ms. Taylor"
+          }
+        ],
+        "wednesday": [
+          {
+            "subject": "Biology",
+            "time": "09:00-10:30",
+            "room": "Lab 1",
+            "professor": "Dr. Lee"
+          },
+          {
+            "subject": "English",
+            "time": "11:00-12:30",
+            "room": "Room 105",
+            "professor": "Ms. Davis"
+          },
+          {
+            "subject": "PE",
+            "time": "02:00-03:30",
+            "room": "Gymnasium",
+            "professor": "Coach Miller"
+          }
+        ],
+        "thursday": [
+          {
+            "subject": "Mathematics",
+            "time": "08:00-09:30",
+            "room": "Room 201",
+            "professor": "Dr. Smith"
+          },
+          {
+            "subject": "Chemistry",
+            "time": "10:00-11:30",
+            "room": "Lab 2",
+            "professor": "Dr. Johnson"
+          },
+          {
+            "subject": "Geography",
+            "time": "01:00-02:30",
+            "room": "Room 205",
+            "professor": "Mr. Garcia"
+          },
+          {
+            "subject": "Music",
+            "time": "03:00-04:30",
+            "room": "Music Room",
+            "professor": "Ms. White"
+          }
+        ],
+        "friday": [
+          {
+            "subject": "Physics",
+            "time": "09:00-10:30",
+            "room": "Lab 3",
+            "professor": "Dr. Wilson"
+          },
+          {
+            "subject": "History",
+            "time": "11:00-12:30",
+            "room": "Room 301",
+            "professor": "Mr. Brown"
+          },
+          {
+            "subject": "Biology",
+            "time": "02:00-03:30",
+            "room": "Lab 1",
+            "professor": "Dr. Lee"
+          }
+        ]
+      },
+      "weatherData": {
+        "current": {
+          "temperature": 72,
+          "condition": "Partly Cloudy",
+          "humidity": 65,
+          "windSpeed": 8,
+          "icon": "Cloud"
+        },
+        "forecast": [
+          {
+            "day": "Today",
+            "high": 75,
+            "low": 58,
+            "condition": "Partly Cloudy",
+            "icon": "Cloud"
+          },
+          {
+            "day": "Tomorrow",
+            "high": 68,
+            "low": 52,
+            "condition": "Rain",
+            "icon": "Droplets"
+          },
+          {
+            "day": "Thursday",
+            "high": 71,
+            "low": 55,
+            "condition": "Sunny",
+            "icon": "Sun"
+          },
+          {
+            "day": "Friday",
+            "high": 74,
+            "low": 60,
+            "condition": "Partly Cloudy",
+            "icon": "Cloud"
+          }
+        ]
+      },
+      "schoolEvents": [
+        {
+          "title": "Mid-term Exam Week",
+          "date": "Oct 14-18",
+          "type": "academic",
+          "description": "Prepare for mid-semester examinations",
+          "time": "All Day"
+        },
+        {
+          "title": "Career Fair",
+          "date": "Oct 20",
+          "type": "event",
+          "description": "Meet potential employers and internship opportunities",
+          "time": "10:00 AM - 4:00 PM"
+        },
+        {
+          "title": "Fall Break",
+          "date": "Oct 23-25",
+          "type": "holiday",
+          "description": "No classes scheduled",
+          "time": "All Day"
+        },
+        {
+          "title": "Guest Lecture: AI in Healthcare",
+          "date": "Oct 28",
+          "type": "lecture",
+          "description": "Special presentation by Dr. Maria Rodriguez",
+          "time": "2:00 PM - 3:30 PM"
+        }
+      ],
+      "overviewHighlights": [
+        {
+          "label": "Current Weather",
+          "value": "72F",
+          "subtext": "Partly Cloudy",
+          "icon": "Cloud",
+          "containerClass": "border-indigo-100 bg-indigo-50",
+          "labelClass": "text-indigo-700"
+        },
+        {
+          "label": "School Events",
+          "value": "4",
+          "subtext": "This month",
+          "icon": "CalendarDays",
+          "containerClass": "border-emerald-100 bg-emerald-50",
+          "labelClass": "text-emerald-700"
+        },
+        {
+          "label": "Next Class",
+          "value": "Physics",
+          "subtext": "08:00-09:30",
+          "icon": "Clock",
+          "containerClass": "border-amber-100 bg-amber-50",
+          "labelClass": "text-amber-700"
+        },
+        {
+          "label": "Completed Tasks",
+          "value": "8",
+          "subtext": "Planned today",
+          "icon": "CheckCircle",
+          "containerClass": "border-sky-100 bg-sky-50",
+          "labelClass": "text-sky-700"
+        }
+      ]
+    },
+    "academicProgress": {
+      "subjects": [
+        {"name": "Mathematics", "grade": "A-", "percentage": 88, "credits": 4, "color": "bg-green-500"},
+        {"name": "Physics", "grade": "B+", "percentage": 85, "credits": 4, "color": "bg-blue-500"},
+        {"name": "Chemistry", "grade": "A", "percentage": 92, "credits": 3, "color": "bg-purple-500"},
+        {"name": "English", "grade": "B", "percentage": 82, "credits": 3, "color": "bg-orange-500"},
+        {"name": "History", "grade": "A-", "percentage": 87, "credits": 3, "color": "bg-red-500"},
+        {"name": "Biology", "grade": "B+", "percentage": 86, "credits": 4, "color": "bg-teal-500"}
+      ],
+      "semesterStats": {
+        "currentGPA": 3.8,
+        "creditHours": 21,
+        "completedCredits": 45,
+        "totalCredits": 120
+      },
+      "upcomingAssignments": [
+        {"subject": "Mathematics", "assignment": "Calculus Problem Set", "dueDate": "Sep 20", "status": "pending"},
+        {"subject": "Physics", "assignment": "Lab Report #3", "dueDate": "Sep 22", "status": "pending"},
+        {"subject": "English", "assignment": "Essay on Literature", "dueDate": "Sep 25", "status": "draft"},
+        {"subject": "Chemistry", "assignment": "Molecular Structure Quiz", "dueDate": "Sep 18", "status": "urgent"}
+      ]
+    },
+    "attendance": {
+      "attendanceData": [
+        {"subject": "Mathematics", "attended": 28, "total": 30, "percentage": 93, "status": "good"},
+        {"subject": "Physics", "attended": 26, "total": 28, "percentage": 93, "status": "good"},
+        {"subject": "Chemistry", "attended": 22, "total": 25, "percentage": 88, "status": "warning"},
+        {"subject": "English", "attended": 25, "total": 27, "percentage": 93, "status": "good"},
+        {"subject": "History", "attended": 20, "total": 26, "percentage": 77, "status": "critical"},
+        {"subject": "Biology", "attended": 24, "total": 26, "percentage": 92, "status": "good"}
+      ],
+      "overallStats": {
+        "totalClasses": 162,
+        "attendedClasses": 145,
+        "overallPercentage": 90,
+        "requiredPercentage": 75
+      },
+      "recentAttendance": [
+        {"date": "Sep 16", "subject": "Mathematics", "status": "present", "time": "09:00 AM"},
+        {"date": "Sep 16", "subject": "Physics", "status": "present", "time": "11:00 AM"},
+        {"date": "Sep 15", "subject": "Chemistry", "status": "absent", "time": "10:00 AM"},
+        {"date": "Sep 15", "subject": "English", "status": "present", "time": "02:00 PM"},
+        {"date": "Sep 14", "subject": "History", "status": "late", "time": "01:00 PM"}
+      ]
+    },
+    "documents": {
+      "requiredDocuments": [
+        {"name": "Academic Transcript", "description": "Official transcript for current semester", "status": "available", "uploadDate": "Aug 15, 2025", "size": "2.3 MB"},
+        {"name": "Fee Receipt", "description": "Payment receipt for tuition fees", "status": "available", "uploadDate": "Sep 10, 2025", "size": "1.1 MB"},
+        {"name": "ID Card Copy", "description": "Student identification card", "status": "available", "uploadDate": "Aug 10, 2025", "size": "0.8 MB"},
+        {"name": "Medical Certificate", "description": "Health clearance certificate", "status": "pending", "uploadDate": null, "size": null},
+        {"name": "Course Registration", "description": "Semester course registration form", "status": "available", "uploadDate": "Aug 20, 2025", "size": "1.5 MB"}
+      ],
+      "certificates": [
+        {"name": "Dean's List Certificate", "description": "Academic excellence recognition", "issueDate": "May 2025", "type": "Achievement"},
+        {"name": "Scholarship Award", "description": "Merit-based scholarship certificate", "issueDate": "Aug 2025", "type": "Financial Aid"},
+        {"name": "Course Completion", "description": "Python Programming Certificate", "issueDate": "Jul 2025", "type": "Course"}
+      ],
+      "recentActivity": [
+        {"action": "Downloaded", "document": "Academic Transcript", "date": "2 hours ago"},
+        {"action": "Uploaded", "document": "Fee Receipt", "date": "1 day ago"},
+        {"action": "Viewed", "document": "Course Registration", "date": "3 days ago"},
+        {"action": "Downloaded", "document": "ID Card Copy", "date": "1 week ago"}
+      ]
+    }
+  },
+  "teacher": {
+    "profile": {
+      "teacherInfo": {
+        "name": "Jordan Reyes",
+        "employeeId": "EMP-4589",
+        "email": "jordan.reyes@school.edu",
+        "phone": "+1 (555) 234-9876",
+        "address": "45 Faculty Rd, Campus City, CA",
+        "dateOfBirth": "July 12, 1989",
+        "hiredDate": "June 2020",
+        "department": "Mathematics",
+        "adviserOf": "Grade 10 - Section A",
+        "loadHours": "24"
+      },
+      "emergencyContact": {
+        "name": "Pat Reyes",
+        "relationship": "Spouse",
+        "phone": "+1 (555) 765-4321",
+        "email": "pat.reyes@email.com"
+      }
+    },
+    "overview": {
+      "kpis": [
+        {"label": "Classes Today", "value": "4", "description": "Scheduled sessions", "icon": "Calendar", "containerClass": "border-indigo-100 bg-indigo-50", "labelClass": "text-indigo-700", "iconClass": "text-indigo-700"},
+        {"label": "To Grade", "value": "12", "description": "Assignments pending", "icon": "ClipboardCheck", "containerClass": "border-emerald-100 bg-emerald-50", "labelClass": "text-emerald-700", "iconClass": "text-emerald-700"},
+        {"label": "Attendance Pending", "value": "2", "description": "Classes awaiting review", "icon": "FileText", "containerClass": "border-amber-100 bg-amber-50", "labelClass": "text-amber-700", "iconClass": "text-amber-700"},
+        {"label": "Unread Messages", "value": "5", "description": "From parents & staff", "icon": "MessageSquare", "containerClass": "border-sky-100 bg-sky-50", "labelClass": "text-sky-700", "iconClass": "text-sky-700"}
+      ]
+    },
+    "subjects": {
+      "items": [
+        {"id": 1, "title": "Sample Subject 1", "section": "Section A", "students": 30},
+        {"id": 2, "title": "Sample Subject 2", "section": "Section A", "students": 30},
+        {"id": 3, "title": "Sample Subject 3", "section": "Section A", "students": 30}
+      ]
+    }
+  }
+}

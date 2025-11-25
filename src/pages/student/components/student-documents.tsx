@@ -1,78 +1,145 @@
+import { documentAPI } from "@/services";
 import { AlertCircle, CheckCircle, Clock, Download, Eye, FileText, Upload } from "lucide-react";
+import { useEffect, useState } from "react";
+import { DocumentModal } from "./DocumentModal";
 import { Button } from "./ui/button";
 import { Card } from "./ui/card";
 
+interface Document {
+  name: string;
+  description: string;
+  status?: string;
+  uploadDate?: string | null;
+  size?: string | null;
+  type?: string;
+  issueDate?: string;
+}
+
 export function StudentDocuments() {
-  const requiredDocuments = [
-    {
-      name: "Academic Transcript",
-      description: "Official transcript for current semester",
-      status: "available",
-      uploadDate: "Aug 15, 2025",
-      size: "2.3 MB",
-    },
-    {
-      name: "Fee Receipt",
-      description: "Payment receipt for tuition fees",
-      status: "available",
-      uploadDate: "Sep 10, 2025",
-      size: "1.1 MB",
-    },
-    {
-      name: "ID Card Copy",
-      description: "Student identification card",
-      status: "available",
-      uploadDate: "Aug 10, 2025",
-      size: "0.8 MB",
-    },
-    {
-      name: "Medical Certificate",
-      description: "Health clearance certificate",
-      status: "pending",
-      uploadDate: null,
-      size: null,
-    },
-    {
-      name: "Course Registration",
-      description: "Semester course registration form",
-      status: "available",
-      uploadDate: "Aug 20, 2025",
-      size: "1.5 MB",
-    },
-  ];
+  const [selectedDocument, setSelectedDocument] = useState<Document | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const certificates = [
-    {
-      name: "Dean's List Certificate",
-      description: "Academic excellence recognition",
-      issueDate: "May 2025",
-      type: "Achievement",
-    },
-    {
-      name: "Scholarship Award",
-      description: "Merit-based scholarship certificate",
-      issueDate: "Aug 2025",
-      type: "Financial Aid",
-    },
-    {
-      name: "Course Completion",
-      description: "Python Programming Certificate",
-      issueDate: "Jul 2025",
-      type: "Course",
-    },
-  ];
+  const [requiredDocuments, setRequiredDocuments] = useState<Document[]>([]);
+  const [certificates, setCertificates] = useState<Document[]>([]);
+  const [recentActivity, setRecentActivity] = useState<
+    Array<{ action: string; document: string; date: string }>
+  >([]);
 
-  const recentActivity = [
-    { action: "Downloaded", document: "Academic Transcript", date: "2 hours ago" },
-    { action: "Uploaded", document: "Fee Receipt", date: "1 day ago" },
-    { action: "Viewed", document: "Course Registration", date: "3 days ago" },
-    { action: "Downloaded", document: "ID Card Copy", date: "1 week ago" },
-  ];
+  // Fetch documents on component mount
+  useEffect(() => {
+    const loadDocuments = async () => {
+      try {
+        const data = await documentAPI.getAll();
 
+        if (data.requiredDocuments) {
+          setRequiredDocuments(data.requiredDocuments);
+        }
+        if (data.certificates) {
+          setCertificates(data.certificates);
+        }
+        if (data.recentActivity) {
+          setRecentActivity(data.recentActivity);
+        }
+      } catch (err) {
+        console.error("Failed to fetch documents:", err);
+        // Set fallback data if API fails
+        setRequiredDocuments([
+          {
+            name: "Academic Transcript",
+            description: "Official transcript for current semester",
+            status: "available",
+            uploadDate: "Aug 15, 2025",
+            size: "2.3 MB",
+          },
+          {
+            name: "Fee Receipt",
+            description: "Payment receipt for tuition fees",
+            status: "available",
+            uploadDate: "Sep 10, 2025",
+            size: "1.1 MB",
+          },
+          {
+            name: "ID Card Copy",
+            description: "Student identification card",
+            status: "available",
+            uploadDate: "Aug 10, 2025",
+            size: "0.8 MB",
+          },
+          {
+            name: "Medical Certificate",
+            description: "Health clearance certificate",
+            status: "pending",
+            uploadDate: null,
+            size: null,
+          },
+          {
+            name: "Course Registration",
+            description: "Semester course registration form",
+            status: "available",
+            uploadDate: "Aug 20, 2025",
+            size: "1.5 MB",
+          },
+        ]);
+        setCertificates([
+          {
+            name: "Dean's List Certificate",
+            description: "Academic excellence recognition",
+            issueDate: "May 2025",
+            type: "Achievement",
+          },
+          {
+            name: "Scholarship Award",
+            description: "Merit-based scholarship certificate",
+            issueDate: "Aug 2025",
+            type: "Financial Aid",
+          },
+          {
+            name: "Course Completion",
+            description: "Python Programming Certificate",
+            issueDate: "Jul 2025",
+            type: "Course",
+          },
+        ]);
+        setRecentActivity([
+          { action: "Downloaded", document: "Academic Transcript", date: "2 hours ago" },
+          { action: "Uploaded", document: "Fee Receipt", date: "1 day ago" },
+          { action: "Viewed", document: "Course Registration", date: "3 days ago" },
+          { action: "Downloaded", document: "ID Card Copy", date: "1 week ago" },
+        ]);
+      }
+    };
+
+    loadDocuments();
+  }, []);
+
+  const handleViewDocument = (document: Document) => {
+    setSelectedDocument(document);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedDocument(null);
+  };
+
+  const getStatusIcon = (status: string | undefined) => {
+    switch (status) {
+      case "available":
+        return <CheckCircle className="w-5 h-5 text-green-600" />;
+      case "pending":
+        return <Clock className="w-5 h-5 text-orange-600" />;
+      case "rejected":
+        return <AlertCircle className="w-5 h-5 text-red-600" />;
+      default:
+        return <FileText className="w-5 h-5 text-gray-600" />;
+    }
+  };
+
+  // Dynamic summary cards based on fetched data
   const summaryCards = [
     {
       label: "Available",
-      value: "4",
+      value: String(requiredDocuments.filter((doc) => doc.status === "available").length),
       subtext: "Ready to download",
       icon: CheckCircle,
       containerClass: "border-emerald-100 bg-emerald-50",
@@ -81,7 +148,7 @@ export function StudentDocuments() {
     },
     {
       label: "Pending",
-      value: "1",
+      value: String(requiredDocuments.filter((doc) => doc.status === "pending").length),
       subtext: "Awaiting upload",
       icon: Clock,
       containerClass: "border-amber-100 bg-amber-50",
@@ -98,21 +165,6 @@ export function StudentDocuments() {
       iconClass: "text-sky-700",
     },
   ];
-
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case "available":
-        return <CheckCircle className="w-5 h-5 text-green-600" />;
-      case "pending":
-        return <Clock className="w-5 h-5 text-orange-600" />;
-      case "rejected":
-        return <AlertCircle className="w-5 h-5 text-red-600" />;
-      default:
-        return <FileText className="w-5 h-5 text-gray-600" />;
-    }
-  };
-
-  // Removed unused getStatusColor helper (was not referenced)
 
   return (
     <div className="space-y-3">
@@ -183,6 +235,7 @@ export function StudentDocuments() {
                       size="sm"
                       variant="outline"
                       className="p-1 h-6 w-6 border-[#647FBC] text-[#647FBC] hover:bg-[#647FBC] hover:text-white"
+                      onClick={() => handleViewDocument(doc)} // Add this onClick
                     >
                       <Eye className="w-3 h-3" />
                     </Button>
@@ -235,6 +288,7 @@ export function StudentDocuments() {
                   size="sm"
                   variant="outline"
                   className="p-1 h-6 w-6 border-[#647FBC] text-[#647FBC] hover:bg-[#647FBC] hover:text-white"
+                  onClick={() => handleViewDocument(cert)} // Add this onClick
                 >
                   <Eye className="w-3 h-3" />
                 </Button>
@@ -273,6 +327,9 @@ export function StudentDocuments() {
           ))}
         </div>
       </Card>
+
+      {/* Add the Modal at the end */}
+      <DocumentModal isOpen={isModalOpen} onClose={handleCloseModal} document={selectedDocument} />
 
       {/* Upload New Document */}
       <Card className="border-2 border-dashed border-[#647FBC] bg-gradient-to-br from-blue-50 to-indigo-50 p-6">

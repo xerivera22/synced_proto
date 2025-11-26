@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
-import { Building, GraduationCap } from "lucide-react";
+import { Building, GraduationCap, Briefcase } from "lucide-react";
 
 const RegisterPage = () => {
   return (
@@ -17,7 +17,7 @@ const RegisterPage = () => {
               Choose your role to access the appropriate dashboard
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 max-w-6xl mx-auto">
             <Link
               to="/admin-login"
               className="bg-white p-12 text-center cursor-pointer hover:bg-gray-50 transition-colors"
@@ -36,6 +36,26 @@ const RegisterPage = () => {
                 className="bg-primary text-white border-0 px-6 py-3 rounded-md font-semibold text-base hover:bg-blue-700"
               >
                 Admin Login
+              </button>
+            </Link>
+            <Link
+              to="/teacher-login"
+              className="bg-white p-12 text-center cursor-pointer hover:bg-gray-50 transition-colors"
+            >
+              <div className="mb-6 flex justify-center">
+                <Briefcase className="text-primary" size={64} />
+              </div>
+              <h3 className="text-2xl font-semibold text-text mb-4">
+                Teacher
+              </h3>
+              <p className="text-muted leading-relaxed mb-6">
+                Manage classes, grades, and student interactions
+              </p>
+              <button
+                type="button"
+                className="bg-primary text-white border-0 px-6 py-3 rounded-md font-semibold text-base hover:bg-blue-700"
+              >
+                Teacher Login
               </button>
             </Link>
             <Link

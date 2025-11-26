@@ -1,9 +1,47 @@
 import Banner from "@/components/shared/Banner";
 import Card from "@/components/shared/Card";
 import { Calendar, ClipboardCheck, FileText, MessageSquare } from "lucide-react";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
+
+const QuickActionModal = ({
+  action,
+  onClose,
+}: {
+  action: string;
+  onClose: () => void;
+}) => {
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+      <div className="relative w-full max-w-lg rounded-2xl bg-white p-8 shadow-2xl">
+        <button
+          type="button"
+          onClick={onClose}
+          className="absolute top-4 right-4 rounded-full p-2 text-gray-500 transition hover:bg-gray-100"
+        >
+          &times;
+        </button>
+        <h3 className="text-2xl font-semibold text-slate-900 mb-6">{action}</h3>
+        <p className="text-slate-600">
+          This is a placeholder modal for the "{action}" action. You can add the specific functionality here.
+        </p>
+        <div className="flex justify-end mt-6">
+          <button
+            type="button"
+            onClick={onClose}
+            className="rounded-full border border-gray-300 bg-white px-6 py-2.5 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default function TeacherOverview() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedAction, setSelectedAction] = useState("");
+
   const kpis = useMemo(
     () => [
       {
@@ -47,6 +85,16 @@ export default function TeacherOverview() {
   );
 
   const date = "Tuesday, Sept 16, 2025";
+
+  const handleOpenModal = (action: string) => {
+    setSelectedAction(action);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedAction("");
+  };
 
   return (
     <div className="space-y-3">
@@ -96,6 +144,7 @@ export default function TeacherOverview() {
                 <span className="font-semibold text-slate-700">{action}</span>
                 <button
                   type="button"
+                  onClick={() => handleOpenModal(action)}
                   className="rounded-full border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-600 transition hover:text-slate-900"
                 >
                   Open
@@ -105,6 +154,8 @@ export default function TeacherOverview() {
           ))}
         </div>
       </Card>
+
+      {isModalOpen && <QuickActionModal action={selectedAction} onClose={handleCloseModal} />}
     </div>
   );
 }

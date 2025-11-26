@@ -10,6 +10,136 @@ const QuickActionModal = ({
   action: string;
   onClose: () => void;
 }) => {
+  const [formData, setFormData] = useState({});
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log(`Submitting for ${action}:`, formData);
+    onClose();
+  };
+
+  const renderFormContent = () => {
+    switch (action) {
+      case "Take Attendance":
+        return (
+          <div>
+            <label htmlFor="class" className="block text-sm font-medium text-gray-700 mb-2">
+              Select Class
+            </label>
+            <select
+              id="class"
+              name="class"
+              onChange={handleChange}
+              className="w-full p-3 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-slate-500 focus:bg-white"
+            >
+              <option>Math 101</option>
+              <option>History 202</option>
+              <option>Science 9</option>
+            </select>
+          </div>
+        );
+      case "Enter Grades":
+        return (
+          <div className="space-y-4">
+            <div>
+              <label htmlFor="class" className="block text-sm font-medium text-gray-700 mb-2">
+                Select Class
+              </label>
+              <select
+                id="class"
+                name="class"
+                onChange={handleChange}
+                className="w-full p-3 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-slate-500 focus:bg-white"
+              >
+                <option>English Lit</option>
+                <option>Physics I</option>
+              </select>
+            </div>
+            <div>
+              <label htmlFor="student" className="block text-sm font-medium text-gray-700 mb-2">
+                Select Student
+              </label>
+              <select
+                id="student"
+                name="student"
+                onChange={handleChange}
+                className="w-full p-3 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-slate-500 focus:bg-white"
+              >
+                <option>John Doe</option>
+                <option>Jane Smith</option>
+              </select>
+            </div>
+            <div>
+              <label htmlFor="grade" className="block text-sm font-medium text-gray-700 mb-2">
+                Grade
+              </label>
+              <input
+                type="text"
+                id="grade"
+                name="grade"
+                onChange={handleChange}
+                className="w-full p-3 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-slate-500 focus:bg-white"
+                placeholder="e.g., A+, 95, etc."
+              />
+            </div>
+          </div>
+        );
+      case "Create Schedule":
+        return (
+          <div className="space-y-4">
+            <div>
+              <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-2">
+                Event Title
+              </label>
+              <input
+                type="text"
+                id="title"
+                name="title"
+                onChange={handleChange}
+                className="w-full p-3 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-slate-500 focus:bg-white"
+                placeholder="e.g., Staff Meeting"
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label htmlFor="date" className="block text-sm font-medium text-gray-700 mb-2">
+                  Date
+                </label>
+                <input
+                  type="date"
+                  id="date"
+                  name="date"
+                  onChange={handleChange}
+                  className="w-full p-3 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-slate-500 focus:bg-white"
+                />
+              </div>
+              <div>
+                <label htmlFor="time" className="block text-sm font-medium text-gray-700 mb-2">
+                  Time
+                </label>
+                <input
+                  type="time"
+                  id="time"
+                  name="time"
+                  onChange={handleChange}
+                  className="w-full p-3 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-slate-500 focus:bg-white"
+                />
+              </div>
+            </div>
+          </div>
+        );
+      default:
+        return <p>No action configured.</p>;
+    }
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
       <div className="relative w-full max-w-lg rounded-2xl bg-white p-8 shadow-2xl">
@@ -21,22 +151,31 @@ const QuickActionModal = ({
           &times;
         </button>
         <h3 className="text-2xl font-semibold text-slate-900 mb-6">{action}</h3>
-        <p className="text-slate-600">
-          This is a placeholder modal for the "{action}" action. You can add the specific functionality here.
-        </p>
-        <div className="flex justify-end mt-6">
-          <button
-            type="button"
-            onClick={onClose}
-            className="rounded-full border border-gray-300 bg-white px-6 py-2.5 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
-          >
-            Close
-          </button>
-        </div>
+        
+        <form onSubmit={handleSubmit}>
+          <div className="mb-6">{renderFormContent()}</div>
+          
+          <div className="flex justify-end gap-4">
+            <button
+              type="button"
+              onClick={onClose}
+              className="rounded-full border border-gray-300 bg-white px-6 py-2.5 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="rounded-full bg-slate-700 px-6 py-2.5 text-sm font-medium text-white transition hover:bg-slate-800"
+            >
+              Submit
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );
 };
+
 
 export default function TeacherOverview() {
   const [isModalOpen, setIsModalOpen] = useState(false);

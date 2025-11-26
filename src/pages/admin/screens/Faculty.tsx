@@ -1,14 +1,16 @@
+
 import Banner from "@/components/shared/Banner";
-import { useState, useEffect } from "react";
+import { useState, useEffect, FormEvent } from "react";
+import { teacherAuthService } from "@/services/Authentication/teacherAuthService";
 import { facultyRecordService } from "@/services/facultyRecordService";
 
-// Define the type for a faculty record
+// Updated interface to better match teacher data
 interface FacultyRecord {
   id: string;
   name: string;
   department: string;
-  subjects: number | string; // Adjust based on what the API returns
-  contact: string;
+  email: string;
+  employeeId: string;
 }
 
 const AddTeacherModal = ({
@@ -16,21 +18,52 @@ const AddTeacherModal = ({
   onSubmit,
 }: {
   onClose: () => void;
-  onSubmit: (data: any) => void;
+  onSubmit: (data: any) => Promise<void>;
 }) => {
-  const [name, setName] = useState("");
-  const [department, setDepartment] = useState("");
-  const [subjects, setSubjects] = useState("");
-  const [contact, setContact] = useState("");
+  const [formData, setFormData] = useState({
+    name: "",
+    employeeId: "",
+    email: "",
+    phone: "",
+    address: "",
+    dateOfBirth: "",
+    hiredDate: "",
+    department: "",
+    adviserOf: "",
+    loadHours: "",
+    password: "",
+    confirmPassword: "",
+    emergencyContactName: "",
+    emergencyContactRelationship: "",
+    emergencyContactPhone: "",
+    emergencyContactEmail: "",
+  });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    onSubmit({ name, department, subjects, contact });
+    setLoading(true);
+    setError("");
+
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords do not match!");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      await onSubmit(formData);
+    } catch (err: any) {
+      setError(err.message || "Failed to add teacher. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="relative w-full max-w-lg rounded-2xl bg-white p-8 shadow-2xl">
+      <div className="relative w-full max-w-3xl rounded-2xl bg-white p-8 shadow-2xl">
         <button
           type="button"
           onClick={onClose}
@@ -41,74 +74,79 @@ const AddTeacherModal = ({
         <h3 className="text-2xl font-semibold text-slate-900 mb-6">
           Add New Teacher
         </h3>
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <div>
-              <label
-                htmlFor="teacherName"
-                className="block text-sm font-medium text-gray-700 mb-2"
-              >
-                Full Name
-              </label>
-              <input
-                type="text"
-                id="teacherName"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="w-full p-3 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-indigo-500 focus:bg-white"
-                required
-              />
+        <form onSubmit={handleSubmit} className="max-h-[80vh] overflow-y-auto pr-4">
+          {error && (
+            <div className="bg-red-50 text-red-600 px-4 py-3 rounded-lg text-sm mb-4">
+              {error}
             </div>
-            <div>
-              <label
-                htmlFor="teacherDepartment"
-                className="block text-sm font-medium text-gray-700 mb-2"
-              >
-                Department
-              </label>
-              <input
-                type="text"
-                id="teacherDepartment"
-                value={department}
-                onChange={(e) => setDepartment(e.target.value)}
-                className="w-full p-3 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-indigo-500 focus:bg-white"
-                required
-              />
-            </div>
-          </div>
-          <div className="mb-4">
-            <label
-              htmlFor="teacherSubjects"
-              className="block text-sm font-medium text-gray-700 mb-2"
-            >
-              Subjects (comma-separated)
-            </label>
+          )}
+
+          <div className="mb-5">
+            <label className="block font-semibold text-gray-700 mb-2 text-sm">Full Name</label>
             <input
               type="text"
-              id="teacherSubjects"
-              value={subjects}
-              onChange={(e) => setSubjects(e.target.value)}
+              value={formData.name}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               className="w-full p-3 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-indigo-500 focus:bg-white"
               required
             />
           </div>
-          <div className="mb-6">
-            <label
-              htmlFor="teacherContact"
-              className="block text-sm font-medium text-gray-700 mb-2"
-            >
-              Contact Email
-            </label>
-            <input
-              type="email"
-              id="teacherContact"
-              value={contact}
-              onChange={(e) => setContact(e.target.value)}
-              className="w-full p-3 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-indigo-500 focus:bg-white"
-              required
-            />
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
+            <div>
+              <label className="block font-semibold text-gray-700 mb-2 text-sm">Employee ID</label>
+              <input
+                type="text"
+                value={formData.employeeId}
+                onChange={(e) => setFormData({ ...formData, employeeId: e.target.value })}
+                className="w-full p-3 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-indigo-500 focus:bg-white"
+                required
+              />
+            </div>
+            <div>
+              <label className="block font-semibold text-gray-700 mb-2 text-sm">Email</label>
+              <input
+                type="email"
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                className="w-full p-3 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-indigo-500 focus:bg-white"
+                required
+              />
+            </div>
           </div>
-          <div className="flex justify-end gap-4">
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
+            <div>
+                <label className="block font-semibold text-gray-700 mb-2 text-sm">
+                    Password
+                </label>
+                <input
+                    type="password"
+                    value={formData.password}
+                    onChange={(e) =>
+                    setFormData({ ...formData, password: e.target.value })
+                    }
+                    className="w-full p-3 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-indigo-500 focus:bg-white"
+                    required
+                />
+            </div>
+            <div>
+                <label className="block font-semibold text-gray-700 mb-2 text-sm">
+                    Confirm Password
+                </label>
+                <input
+                    type="password"
+                    value={formData.confirmPassword}
+                    onChange={(e) =>
+                    setFormData({ ...formData, confirmPassword: e.target.value })
+                    }
+                    className="w-full p-3 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-indigo-500 focus:bg-white"
+                    required
+                />
+            </div>
+          </div>
+
+          <div className="flex justify-end gap-4 mt-8">
             <button
               type="button"
               onClick={onClose}
@@ -118,9 +156,10 @@ const AddTeacherModal = ({
             </button>
             <button
               type="submit"
-              className="rounded-full bg-indigo-500 px-6 py-2.5 text-sm font-medium text-white transition hover:bg-indigo-600"
+              disabled={loading}
+              className="rounded-full bg-indigo-500 px-6 py-2.5 text-sm font-medium text-white transition hover:bg-indigo-600 disabled:opacity-50"
             >
-              Add Teacher
+              {loading ? "Adding..." : "Add Teacher"}
             </button>
           </div>
         </form>
@@ -133,31 +172,58 @@ const Faculty = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [facultyRecords, setFacultyRecords] = useState<FacultyRecord[]>([]);
 
+  const fetchFaculty = async () => {
+    try {
+      const data = await facultyRecordService.getFacultyRecords();
+      // Map the response to the updated FacultyRecord interface
+      const formattedData = data.map((teacher: any) => ({
+        id: teacher._id,
+        name: teacher.teacherInfo.name,
+        department: teacher.teacherInfo.department,
+        email: teacher.teacherInfo.email,
+        employeeId: teacher.teacherInfo.employeeId,
+      }));
+      setFacultyRecords(formattedData);
+    } catch (error) {
+      console.error("Failed to fetch faculty records:", error);
+    }
+  };
+
   useEffect(() => {
-    const fetchFaculty = async () => {
-      try {
-        const data = await facultyRecordService.getFacultyRecords();
-        setFacultyRecords(data);
-      } catch (error) {
-        console.error("Failed to fetch faculty records:", error);
-      }
-    };
     fetchFaculty();
   }, []);
 
-  const handleAddTeacher = async (teacherData: any) => {
-    try {
-      // Assuming subjects are comma-separated and we need to send them as an array or count
-      const dataToSubmit = {
-        ...teacherData,
-        subjects: teacherData.subjects.split(',').map((s: string) => s.trim())
-      };
+  const handleAddTeacher = async (formData: any) => {
+    const teacherData = {
+      teacherInfo: {
+        name: formData.name,
+        employeeId: formData.employeeId,
+        email: formData.email,
+        phone: formData.phone,
+        role: "teacher",
+        address: formData.address,
+        dateOfBirth: formData.dateOfBirth,
+        hiredDate: formData.hiredDate,
+        department: formData.department,
+        adviserOf: formData.adviserOf,
+        loadHours: formData.loadHours,
+        password: formData.password,
+      },
+      emergencyContact: {
+        name: formData.emergencyContactName,
+        relationship: formData.emergencyContactRelationship,
+        phone: formData.emergencyContactPhone,
+        email: formData.emergencyContactEmail,
+      },
+    };
 
-      const newTeacher = await facultyRecordService.createFacultyRecord(dataToSubmit);
-      setFacultyRecords([...facultyRecords, newTeacher]);
+    const response = await teacherAuthService.register(teacherData);
+    if (response.success) {
+      alert("Teacher account created successfully!");
       setIsModalOpen(false);
-    } catch (error) {
-      console.error("Failed to add teacher:", error);
+      fetchFaculty(); // Refresh the faculty list
+    } else {
+      throw new Error(response.message || "Registration failed. Please try again.");
     }
   };
 
@@ -191,7 +257,6 @@ const Faculty = () => {
                 <tr>
                   <th className="px-4 py-3">Name</th>
                   <th className="px-4 py-3">Department</th>
-                  <th className="px-4 py-3">Subjects</th>
                   <th className="px-4 py-3">Contact</th>
                 </tr>
               </thead>
@@ -200,14 +265,10 @@ const Faculty = () => {
                   <tr key={teacher.id} className="bg-white">
                     <td className="px-4 py-3">
                       <div className="font-medium text-slate-900">{teacher.name}</div>
-                      <div className="text-xs text-slate-400">ID: {teacher.id}</div>
+                      <div className="text-xs text-slate-400">ID: {teacher.employeeId}</div>
                     </td>
                     <td className="px-4 py-3 text-sm text-slate-700">{teacher.department}</td>
-                    <td className="px-4 py-3 text-sm text-slate-700">
-                      {/* Adjust based on your data structure, this assumes 'subjects' is a number or can be counted */}
-                      {Array.isArray(teacher.subjects) ? teacher.subjects.length : teacher.subjects} subjects
-                    </td>
-                    <td className="px-4 py-3 text-sm text-indigo-600">{teacher.contact}</td>
+                    <td className="px-4 py-3 text-sm text-indigo-600">{teacher.email}</td>
                   </tr>
                 ))}
               </tbody>

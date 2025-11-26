@@ -1,12 +1,9 @@
 import Navbar from "@/components/Navbar";
 import { useAuth } from "@/context/AuthContext";
-
+import { adminAuthService } from "@/services/Authentication/adminAuthService";
 import { ArrowRight, Eye, EyeOff } from "lucide-react";
 import { type FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-const validAdmin = { email: "admin@synced.com", password: "admin123" };
-const validTeacher = { email: "teacher@synced.com", password: "teacher123" }; // teacher can log in here
 
 const AdminLoginPage = () => {
   const [email, setEmail] = useState("");
@@ -24,54 +21,26 @@ const AdminLoginPage = () => {
     setError("");
 
     try {
-      // Call API login endpoint
-      const response = await authAPI.login({
-        email,
-        password,
-      });
+      const user = await adminAuthService.login(email, password);
 
-      if (response.success && response.user) {
-        login(response.user.email, response.user.role);
-        if (response.user.role === "admin") {
+      if (user && user._id) {
+        login(user.email, user.role);
+        if (user.role === "admin" || user.role === "superadmin") {
           navigate("/admin");
-        } else if (response.user.role === "teacher") {
-          navigate("/teacher/overview");
+        } else {
+          setError("You do not have permission to access this page.");
         }
       } else {
-        setError(response.message || "Login failed. Please try again.");
-        setPassword("");
+        setError("Login failed. Please check your credentials.");
       }
-    } catch (err) {
-      // Fallback to local validation if API fails
-      const enteredEmail = email.trim().toLowerCase();
-      const enteredPassword = password.trim();
-
-      const isAdminMatch =
-        enteredEmail === validAdmin.email.toLowerCase() &&
-        enteredPassword === validAdmin.password;
-      const isTeacherMatch =
-        enteredEmail === validTeacher.email.toLowerCase() &&
-        enteredPassword === validTeacher.password;
-
-      if (isAdminMatch) {
-        login(validAdmin.email, "admin");
-        navigate("/admin");
-      } else if (isTeacherMatch) {
-        login(validTeacher.email, "teacher");
-        navigate("/teacher/overview");
-      } else {
-        setError(
-          err instanceof Error
-            ? err.message
-            : "Invalid email or password. Please try again."
-        );
-        setPassword("");
-      }
+    } catch (err: any) {
+      const errorMessage =
+        err.response?.data?.message ||
+        err.message ||
+        "An unexpected error occurred.";
+      setError(errorMessage);
     } finally {
       setLoading(false);
-      if (error) {
-        setTimeout(() => setError(""), 3000);
-      }
     }
   };
 
@@ -83,7 +52,7 @@ const AdminLoginPage = () => {
           <div className="relative bg-white p-10 rounded-2xl border border-gray-200 shadow-sm">
             <div className="absolute inset-x-0 -top-0.5 h-1.5 rounded-t-2xl bg-primary" />
             <h1 className="text-2xl font-semibold text-primary text-center mb-8">
-              Admin / Teacher Login
+              Admin Login
             </h1>
             <form onSubmit={handleSubmit}>
               {error && (
@@ -164,21 +133,12 @@ const AdminLoginPage = () => {
               </button>
               <div className="text-center mt-6 pt-6 border-t border-gray-200">
                 <p className="text-gray-500 text-sm">
-                  Don't have an account?{" "}
+                  Not an Admin?{" "}
                   <a
-                    href="/register-form"
+                    href="/login"
                     className="text-blue-500 no-underline hover:underline"
                   >
-                    Create one here
-                  </a>
-                </p>
-                <p className="text-gray-500 text-sm mt-3">
-                  Not a Admin/Teacher?{" "}
-                  <a
-                    href="/register"
-                    className="text-blue-500 no-underline hover:underline"
-                  >
-                    Click here
+                    Return to main login selection
                   </a>
                 </p>
               </div>

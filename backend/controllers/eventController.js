@@ -11,7 +11,11 @@ export const getEvents = async (req, res) => {
 
 export const createEvent = async (req, res) => {
   try {
-    const event = new Event(req.body);
+    const newEvent = {
+      ...req.body,
+      status: 'pending',
+    };
+    const event = new Event(newEvent);
     await event.save();
     res.status(201).json(event);
   } catch (error) {

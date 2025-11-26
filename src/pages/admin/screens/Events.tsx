@@ -9,6 +9,7 @@ interface Event {
   date: string;
   description: string;
   audience: string;
+  status: string;
 }
 
 const CreateEventModal = ({
@@ -16,7 +17,7 @@ const CreateEventModal = ({
   onSubmit,
 }: {
   onClose: () => void;
-  onSubmit: (data: Omit<Event, 'id'>) => void;
+  onSubmit: (data: Omit<Event, 'id' | 'status'>) => void;
 }) => {
   const [title, setTitle] = useState("");
   const [date, setDate] = useState("");
@@ -69,7 +70,7 @@ const CreateEventModal = ({
               type="date"
               id="eventDate"
               value={date}
-              onChange={(e) => setDate(e.target.value)}
+              onChange={(e) => setDate(e.target..value)}
               className="w-full p-3 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-sky-500 focus:bg-white"
               required
             />
@@ -146,7 +147,7 @@ const Events = () => {
     fetchEvents();
   }, []);
 
-  const handleCreateEvent = async (eventData: Omit<Event, 'id'>) => {
+  const handleCreateEvent = async (eventData: Omit<Event, 'id' | 'status'>) => {
     try {
       const newEvent = await eventService.createEvent(eventData);
       setEvents([...events, newEvent]);
@@ -189,9 +190,12 @@ const Events = () => {
                 <h3 className="font-semibold text-gray-800">{event.title}</h3>
                 <p className="text-sm text-gray-600">{new Date(event.date).toLocaleDateString()}</p>
                 <p className="mt-2 text-sm text-gray-500">{event.description}</p>
-                <div className="mt-3">
+                <div className="mt-3 flex justify-between items-center">
                   <span className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800">
                     Audience: {event.audience}
+                  </span>
+                  <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${event.status === 'pending' ? 'bg-yellow-100 text-yellow-800' : 'bg-green-100 text-green-800'}`}>
+                    {event.status}
                   </span>
                 </div>
               </div>

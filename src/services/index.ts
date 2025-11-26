@@ -7,8 +7,7 @@ import {
   fetchParentData,
   fetchStudentData,
   fetchTeacherData,
-} from "./dataService";
-import {
+} from "./dataService";import {
   downloadDocument,
   fetchDocumentById,
   fetchStudentDocuments,

@@ -12,12 +12,14 @@ const teacherInfoSchema = new mongoose.Schema({
   employeeId: String,
   email: String,
   phone: String,
+  role: String,
   address: String,
   dateOfBirth: String,
   hiredDate: String,
   department: String,
   adviserOf: String,
   loadHours: String,
+  password: { type: String, required: true },
 });
 
 const teacherProfileSchema = new mongoose.Schema({

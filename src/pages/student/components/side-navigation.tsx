@@ -20,8 +20,12 @@ type SideNavigationProps = {
 // Full side navigation matching styles in student.css (.side-navigation, .nav-*)
 // Use relative path to avoid alias resolution issues
 import logoUrl from "../../../assets/ISE_logo.png";
+import { useAuth } from "@/context/AuthContext";
 
-const SideNavigation: React.FC<SideNavigationProps> = ({ className = "", onLinkClick }) => {
+const SideNavigation: React.FC<SideNavigationProps> = ({
+  className = "",
+  onLinkClick,
+}) => {
   const [collapsed, setCollapsed] = useState<boolean>(() => {
     try {
       return localStorage.getItem("student.sidebar.collapsed") === "1";
@@ -29,6 +33,8 @@ const SideNavigation: React.FC<SideNavigationProps> = ({ className = "", onLinkC
       return false;
     }
   });
+
+  const { userData } = useAuth();
 
   const navItems = [
     { to: "/student/overview", label: "Dashboard", icon: LayoutDashboard },
@@ -49,7 +55,11 @@ const SideNavigation: React.FC<SideNavigationProps> = ({ className = "", onLinkC
   }, [collapsed]);
 
   return (
-    <nav className={`side-navigation ${collapsed ? "collapsed" : ""} ${className}`.trim()}>
+    <nav
+      className={`side-navigation ${
+        collapsed ? "collapsed" : ""
+      } ${className}`.trim()}
+    >
       {/* Header */}
       <div className="nav-header">
         <button
@@ -70,7 +80,9 @@ const SideNavigation: React.FC<SideNavigationProps> = ({ className = "", onLinkC
             <li key={to}>
               <NavLink
                 to={to}
-                className={({ isActive }) => `nav-item ${isActive ? "active" : ""}`}
+                className={({ isActive }) =>
+                  `nav-item ${isActive ? "active" : ""}`
+                }
                 end
                 onClick={onLinkClick}
               >
@@ -85,10 +97,10 @@ const SideNavigation: React.FC<SideNavigationProps> = ({ className = "", onLinkC
       {/* Footer */}
       <div className="nav-footer">
         <div className="user-info">
-          <div className="user-avatar">AT</div>
+          <div className="user-avatar">{userData.name.slice(0, 1)}</div>
           <div className="user-details">
-            <div className="user-name">Alex Thompson</div>
-            <div className="user-id">Student ID: 12345</div>
+            <div className="user-name">{userData.name}</div>
+            <div className="user-id">Student ID: {userData.studentId}</div>
           </div>
         </div>
         <NavLink

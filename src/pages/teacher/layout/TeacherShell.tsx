@@ -8,7 +8,7 @@ import "@/pages/student/styles/student.css";
 import SideNavigation from "../components/side-navigation";
 
 export default function TeacherShell() {
-  const { user, logout } = useAuth();
+  const { userData, logout } = useAuth();
   const loc = useLocation();
   const contentRef = useRef<HTMLDivElement>(null);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
@@ -20,11 +20,14 @@ export default function TeacherShell() {
   const searchInputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
 
+  console.log(userData)
+
   // Scroll to top on route change within teacher area (always declare hooks before conditional returns)
   // biome-ignore lint/correctness/useExhaustiveDependencies: Only depend on pathname for scroll reset.
   useEffect(() => {
     const id = requestAnimationFrame(() => {
-      if (contentRef.current) contentRef.current.scrollTo({ top: 0, left: 0, behavior: "auto" });
+      if (contentRef.current)
+        contentRef.current.scrollTo({ top: 0, left: 0, behavior: "auto" });
     });
     return () => cancelAnimationFrame(id);
   }, [loc.pathname]);
@@ -119,32 +122,37 @@ export default function TeacherShell() {
         to: "/teacher/settings",
       },
     ],
-    [lastSubjectId],
+    [lastSubjectId]
   );
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) return searchItems.slice(0, 6);
     return searchItems
-      .filter((i) => i.title.toLowerCase().includes(q) || i.subtitle.toLowerCase().includes(q))
+      .filter(
+        (i) =>
+          i.title.toLowerCase().includes(q) ||
+          i.subtitle.toLowerCase().includes(q)
+      )
       .slice(0, 8);
   }, [query, searchItems]);
 
   const initials = useMemo(() => {
-    const handle = user?.email?.split("@")[0] || "";
+    const handle = userData?.email?.split("@")[0] || "";
     if (!handle) return "TR";
     const parts = handle
       .replace(/[^a-zA-Z]/g, " ")
       .trim()
       .split(/\s+/);
-    const chars = (parts[0]?.[0] || "") + (parts[1]?.[0] || parts[0]?.[1] || "");
+    const chars =
+      (parts[0]?.[0] || "") + (parts[1]?.[0] || parts[0]?.[1] || "");
     return chars.toUpperCase() || "TR";
-  }, [user?.email]);
+  }, [userData?.email]);
 
   // Guard: allow only teacher role
-  if (user === null) return null; // wait for auth resolution
-  if (user.role !== "teacher") {
-    return <Navigate to="/admin-login" state={{ from: loc }} replace />;
+  if (userData === null) return null; // wait for auth resolution
+  if (userData?.role !== "teacher") {
+    return <Navigate to="/teacher-login" state={{ from: loc }} replace />;
   }
 
   return (
@@ -184,7 +192,11 @@ export default function TeacherShell() {
                 aria-label={mobileNavOpen ? "Close menu" : "Open menu"}
                 onClick={() => setMobileNavOpen((v) => !v)}
               >
-                {mobileNavOpen ? <X className="header-icon" /> : <Menu className="header-icon" />}
+                {mobileNavOpen ? (
+                  <X className="header-icon" />
+                ) : (
+                  <Menu className="header-icon" />
+                )}
               </button>
               <h1>TEACHER_PORTAL</h1>
               <p>Academic Management Tool</p>
@@ -196,7 +208,11 @@ export default function TeacherShell() {
                 aria-label={searchOpen ? "Close search" : "Search"}
                 onClick={() => setSearchOpen((v) => !v)}
               >
-                {searchOpen ? <X className="header-icon" /> : <Search className="header-icon" />}
+                {searchOpen ? (
+                  <X className="header-icon" />
+                ) : (
+                  <Search className="header-icon" />
+                )}
               </button>
               {searchOpen && (
                 <div className="absolute right-0 top-full mt-2 w-[min(92vw,480px)] bg-white border border-gray-200 rounded-lg shadow-lg z-[99]">
@@ -212,7 +228,9 @@ export default function TeacherShell() {
                   </div>
                   <ul className="max-h-72 overflow-auto py-1">
                     {filtered.length === 0 ? (
-                      <li className="px-3 py-2 text-sm text-gray-500">No results</li>
+                      <li className="px-3 py-2 text-sm text-gray-500">
+                        No results
+                      </li>
                     ) : (
                       filtered.map((item) => (
                         <li key={item.id}>
@@ -226,18 +244,26 @@ export default function TeacherShell() {
                               if (item.id === "nav-class-records") {
                                 const id = ((): string => {
                                   try {
-                                    return localStorage.getItem("teacher.lastSubjectId") || "1";
+                                    return (
+                                      localStorage.getItem(
+                                        "teacher.lastSubjectId"
+                                      ) || "1"
+                                    );
                                   } catch {
                                     return "1";
                                   }
                                 })();
-                                navigate(`/teacher/subjects/${id}?tab=class-records`);
+                                navigate(
+                                  `/teacher/subjects/${id}?tab=class-records`
+                                );
                               } else {
                                 navigate(item.to);
                               }
                             }}
                           >
-                            <div className="text-sm font-medium">{item.title}</div>
+                            <div className="text-sm font-medium">
+                              {item.title}
+                            </div>
                             <div className="text-xs text-gray-500">
                               {item.kind} • {item.subtitle}
                             </div>
@@ -248,7 +274,11 @@ export default function TeacherShell() {
                   </ul>
                 </div>
               )}
-              <button type="button" className="header-btn" aria-label="Notifications">
+              <button
+                type="button"
+                className="header-btn"
+                aria-label="Notifications"
+              >
                 <Bell className="header-icon" />
               </button>
               <div className="header-profile" ref={profileRef}>
@@ -271,9 +301,11 @@ export default function TeacherShell() {
                       <div className="profile-initials">{initials}</div>
                       <div className="profile-texts">
                         <div className="profile-name">
-                          {user?.email?.split("@")[0] || "Teacher"}
+                          {userData?.email?.split("@")[0] || "Teacher"}
                         </div>
-                        <div className="profile-email">{user?.email || "teacher@example.com"}</div>
+                        <div className="profile-email">
+                          {userData?.email || "teacher@example.com"}
+                        </div>
                       </div>
                     </div>
                     <button
@@ -282,7 +314,7 @@ export default function TeacherShell() {
                       onClick={() => {
                         setProfileOpen(false);
                         logout();
-                        navigate("/admin-login", { replace: true });
+                        navigate("/teacher-login", { replace: true });
                       }}
                     >
                       Logout

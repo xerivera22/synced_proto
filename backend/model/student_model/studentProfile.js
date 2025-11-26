@@ -20,6 +20,7 @@ const studentInfoSchema = new mongoose.Schema({
   studentId: String,
   email: String,
   phone: String,
+  role: String,
   address: String,
   dateOfBirth: String,
   enrollmentDate: String,
@@ -29,6 +30,7 @@ const studentInfoSchema = new mongoose.Schema({
   advisor: String,
   gpa: String,
   creditHours: String,
+  password: { type: String, required: true },
 });
 
 const studentProfileSchema = new mongoose.Schema({

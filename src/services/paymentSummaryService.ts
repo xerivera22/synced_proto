@@ -1,5 +1,4 @@
-import API_BASE_URL from "../config/api.js";
-
+import API_BASE_URL from "@/config/api";
 export const paymentSummaryService = {
   async getPaymentSummary() {
     const response = await fetch(`${API_BASE_URL}/payment-summary`);

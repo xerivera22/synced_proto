@@ -11,7 +11,7 @@ import SideNavigation from "../components/side-navigation";
 import "../styles/student.css";
 
 const StudentShell = () => {
-  const { user, logout } = useAuth();
+  const { userData, logout } = useAuth();
   const navigate = useNavigate();
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
@@ -123,22 +123,26 @@ const StudentShell = () => {
         to: "/student/settings",
       },
     ],
-    [],
+    []
   );
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) return searchItems.slice(0, 6);
     return searchItems
-      .filter((i) => i.title.toLowerCase().includes(q) || i.subtitle.toLowerCase().includes(q))
+      .filter(
+        (i) =>
+          i.title.toLowerCase().includes(q) ||
+          i.subtitle.toLowerCase().includes(q)
+      )
       .slice(0, 8);
   }, [query, searchItems]);
 
   // Wait for session restoration in AuthProvider before deciding
-  if (user === null) return null;
+  if (userData === null) return null;
 
   // Allow students and parents to access student area
-  if (user.role !== "student" && user.role !== "parent") {
+  if (userData.role !== "student" && userData.role !== "parent") {
     return <Navigate to="/student-login" state={{ from: loc }} replace />;
   }
 
@@ -180,7 +184,11 @@ const StudentShell = () => {
                 aria-label={mobileNavOpen ? "Close menu" : "Open menu"}
                 onClick={() => setMobileNavOpen((v) => !v)}
               >
-                {mobileNavOpen ? <X className="header-icon" /> : <Menu className="header-icon" />}
+                {mobileNavOpen ? (
+                  <X className="header-icon" />
+                ) : (
+                  <Menu className="header-icon" />
+                )}
               </button>
               <h1>STUDENT_UI_PROTOTYPE</h1>
               <p>Academic Management Tool</p>
@@ -192,7 +200,11 @@ const StudentShell = () => {
                 aria-label={searchOpen ? "Close search" : "Search"}
                 onClick={() => setSearchOpen((v) => !v)}
               >
-                {searchOpen ? <X className="header-icon" /> : <Search className="header-icon" />}
+                {searchOpen ? (
+                  <X className="header-icon" />
+                ) : (
+                  <Search className="header-icon" />
+                )}
               </button>
               {searchOpen && (
                 <div className="absolute right-0 top-full mt-2 w-[min(92vw,480px)] bg-white border border-gray-200 rounded-lg shadow-lg z-[99]">
@@ -208,7 +220,9 @@ const StudentShell = () => {
                   </div>
                   <ul className="max-h-72 overflow-auto py-1">
                     {filtered.length === 0 ? (
-                      <li className="px-3 py-2 text-sm text-gray-500">No results</li>
+                      <li className="px-3 py-2 text-sm text-gray-500">
+                        No results
+                      </li>
                     ) : (
                       filtered.map((item) => (
                         <li key={item.id}>
@@ -222,7 +236,9 @@ const StudentShell = () => {
                               navigate(item.to);
                             }}
                           >
-                            <div className="text-sm font-medium">{item.title}</div>
+                            <div className="text-sm font-medium">
+                              {item.title}
+                            </div>
                             <div className="text-xs text-gray-500">
                               {item.kind} • {item.subtitle}
                             </div>
@@ -233,7 +249,11 @@ const StudentShell = () => {
                   </ul>
                 </div>
               )}
-              <button type="button" className="header-btn" aria-label="Notifications">
+              <button
+                type="button"
+                className="header-btn"
+                aria-label="Notifications"
+              >
                 <Bell className="header-icon" />
               </button>
               <div className="header-profile" ref={profileRef}>
@@ -248,17 +268,21 @@ const StudentShell = () => {
                     if (e.key === "Escape") setProfileOpen(false);
                   }}
                 >
-                  AT
+                  {userData.name.slice(0, 1)}
                 </button>
                 {profileOpen && (
                   <div className="profile-menu">
                     <div className="profile-meta" aria-hidden="true">
-                      <div className="profile-initials">AT</div>
+                      <div className="profile-initials">
+                        {userData.name.slice(0, 1)}
+                      </div>
                       <div className="profile-texts">
                         <div className="profile-name">
-                          {user?.email?.split("@")[0] || "Student"}
+                          {userData?.email?.split("@")[0] || "Student"}
                         </div>
-                        <div className="profile-email">{user?.email || "student@example.com"}</div>
+                        <div className="profile-email">
+                          {userData?.email || "student@example.com"}
+                        </div>
                       </div>
                     </div>
                     <button

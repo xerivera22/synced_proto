@@ -8,7 +8,12 @@ import {
   AdminSettings,
   AdminStudents,
 } from "@/pages/admin/screens";
-import { Navigate, Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import {
+  Navigate,
+  Route,
+  BrowserRouter as Router,
+  Routes,
+} from "react-router-dom";
 // Dashboards remain at root pages for now; will be reorganized later
 import AdminLoginPage from "@/pages/landing/AdminLoginPage";
 // Landing/public/auth pages grouped under pages/landing
@@ -54,6 +59,9 @@ import {
   ParentSchedule,
   ParentSettings,
 } from "./pages/parent/screens";
+import StudentRegistration from "./pages/landing/Registration/StudentRegistration";
+import TeacherRegistration from "./pages/landing/Registration/TeacherRegistration";
+import TeacherLoginPage from "./pages/landing/Login/TeacherLoginPage";
 
 function App() {
   return (
@@ -76,8 +84,12 @@ function App() {
             <Route path="announcements" element={<AdminAnnouncements />} />
             <Route path="settings" element={<AdminSettings />} />
           </Route>
-          <Route path="/admin-dashboard" element={<Navigate to="/admin" replace />} />
+          <Route
+            path="/admin-dashboard"
+            element={<Navigate to="/admin" replace />}
+          />
           <Route path="/student-login" element={<StudentLoginPage />} />
+          <Route path="/student-register" element={<StudentRegistration />} />
           {/* Removed legacy redirect for old single dashboard route */}
           {/* Nested student portal */}
           <Route path="/student" element={<StudentShell />}>
@@ -94,7 +106,10 @@ function App() {
           <Route path="/parent" element={<ParentShell />}>
             <Route index element={<ParentOverview />} />
             <Route path="overview" element={<ParentOverview />} />
-            <Route path="academic-progress" element={<ParentAcademicProgress />} />
+            <Route
+              path="academic-progress"
+              element={<ParentAcademicProgress />}
+            />
             <Route path="attendance" element={<ParentAttendance />} />
             <Route path="schedule" element={<ParentSchedule />} />
             <Route path="payments" element={<ParentPayments />} />
@@ -104,7 +119,12 @@ function App() {
             <Route path="settings" element={<ParentSettings />} />
           </Route>
           {/* Legacy teacher dashboard route now redirects to new portal */}
-          <Route path="/teacher-dashboard" element={<Navigate to="/teacher/overview" replace />} />
+          <Route
+            path="/teacher-dashboard"
+            element={<Navigate to="/teacher/overview" replace />}
+          />
+          <Route path="/teacher-registration" element={<TeacherRegistration />} />
+          <Route path="/teacher-login" element={<TeacherLoginPage />} />
           <Route path="/teacher" element={<TeacherShell />}>
             <Route index element={<TeacherOverview />} />
             <Route path="overview" element={<TeacherOverview />} />

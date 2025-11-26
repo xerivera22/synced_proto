@@ -1,39 +1,63 @@
 import Card from "@/components/shared/Card";
 import { useAuth } from "@/context/AuthContext";
-import { Avatar, AvatarFallback, AvatarImage } from "@/pages/student/components/ui/avatar";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/pages/student/components/ui/avatar";
 import { Button } from "@/pages/student/components/ui/button";
-import { Calendar, Edit, GraduationCap, Mail, MapPin, Phone, Save, User, X } from "lucide-react";
-import { useState } from "react";
+import {
+  Calendar,
+  Edit,
+  GraduationCap,
+  Mail,
+  MapPin,
+  Phone,
+  Save,
+  User,
+  X,
+} from "lucide-react";
+import { useState, useEffect } from "react";
 
 export default function TeacherProfile() {
-  const { user } = useAuth();
+  const { userData } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
   const [editingSection, setEditingSection] = useState<string | null>(null);
 
-  const handle = user?.email?.split("@")[0];
-  const derivedName = handle
-    ? handle.replace(/\./g, " ").replace(/\b\w/g, (m) => m.toUpperCase())
-    : undefined;
+  // Use the flat userData structure directly
+  const teacherInfo = userData || {
+    name: "",
+    employeeId: "",
+    email: "",
+    phone: "",
+    address: "",
+    dateOfBirth: "",
+    hiredDate: "",
+    department: "",
+    adviserOf: "",
+    loadHours: "",
+  };
 
-  const [teacherInfo, setTeacherInfo] = useState({
-    name: "Jordan Reyes",
-    employeeId: "EMP-4589",
-    email: user?.email || "jordan.reyes@school.edu",
-    phone: "+1 (555) 234-9876",
-    address: "45 Faculty Rd, Campus City, CA",
-    dateOfBirth: "July 12, 1989",
-    hiredDate: "June 2020",
-    department: "Mathematics",
-    adviserOf: "Grade 10 - Section A",
-    loadHours: "24",
-  });
+  const emergencyContact = userData?.emergencyContact || {
+    name: "",
+    relationship: "",
+    phone: "",
+    email: "",
+  };
 
-  const [emergencyContact, setEmergencyContact] = useState({
-    name: "Pat Reyes",
-    relationship: "Spouse",
-    phone: "+1 (555) 765-4321",
-    email: "pat.reyes@email.com",
-  });
+  const [tempTeacherInfo, setTempTeacherInfo] = useState(teacherInfo);
+  const [tempEmergencyContact, setTempEmergencyContact] =
+    useState(emergencyContact);
+
+  // Update temp state when userData changes
+  useEffect(() => {
+    if (userData) {
+      setTempTeacherInfo(userData);
+    }
+    if (userData?.emergencyContact) {
+      setTempEmergencyContact(userData.emergencyContact);
+    }
+  }, [userData]);
 
   const handleEdit = (section: string) => {
     setIsEditing(true);
@@ -43,25 +67,43 @@ export default function TeacherProfile() {
   const handleSave = (section: string) => {
     setIsEditing(false);
     setEditingSection(null);
-    console.log(`Saving ${section} data:`, section === "personal" ? teacherInfo : emergencyContact);
+    console.log("Saving data for section:", section);
+    console.log("Teacher Info:", tempTeacherInfo);
+    console.log("Emergency Contact:", tempEmergencyContact);
   };
 
   const handleCancel = () => {
     setIsEditing(false);
     setEditingSection(null);
+    // Reset to original data
+    if (userData) {
+      setTempTeacherInfo(userData);
+    }
+    if (userData?.emergencyContact) {
+      setTempEmergencyContact(userData.emergencyContact);
+    }
   };
 
-  const handleInputChange = (field: string, value: string, section: "personal" | "emergency") => {
+  const handleInputChange = (
+    field: string,
+    value: string,
+    section: "personal" | "emergency"
+  ) => {
     if (section === "personal") {
-      setTeacherInfo((prev) => ({ ...prev, [field]: value }));
+      setTempTeacherInfo((prev: any) => ({ ...prev, [field]: value }));
     } else {
-      setEmergencyContact((prev) => ({ ...prev, [field]: value }));
+      setTempEmergencyContact((prev: any) => ({ ...prev, [field]: value }));
     }
   };
 
   const isEditingSection = (section: string) => {
     return isEditing && editingSection === section;
   };
+
+  const displayTeacherInfo = isEditing ? tempTeacherInfo : teacherInfo;
+  const displayEmergencyContact = isEditing
+    ? tempEmergencyContact
+    : emergencyContact;
 
   // Render edit buttons function for consistency
   const renderEditButtons = (section: string) => {
@@ -112,7 +154,9 @@ export default function TeacherProfile() {
           </div>
           <div>
             <h1 className="text-base font-semibold">Teacher Profile</h1>
-            <p className="text-white/80 text-sm mt-0.5">Manage your personal information</p>
+            <p className="text-white/80 text-sm mt-0.5">
+              Manage your personal information
+            </p>
           </div>
         </div>
       </div>
@@ -122,11 +166,14 @@ export default function TeacherProfile() {
         <div className="mb-4 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div className="flex items-center">
             <Avatar className="w-12 h-12 mr-3 shadow-sm">
-              <AvatarImage src="/placeholder-avatar.jpg" alt={derivedName || teacherInfo.name} />
+              <AvatarImage
+                src="/placeholder-avatar.jpg"
+                alt={displayTeacherInfo.name}
+              />
               <AvatarFallback className="bg-gradient-to-br from-[#647FBC] to-[#5a73b3] text-white text-sm">
-                {(derivedName || teacherInfo.name)
+                {displayTeacherInfo.name
                   .split(" ")
-                  .map((n) => n[0])
+                  .map((n: any) => n[0])
                   .join("")}
               </AvatarFallback>
             </Avatar>
@@ -134,28 +181,32 @@ export default function TeacherProfile() {
               {isEditingSection("overview") ? (
                 <input
                   type="text"
-                  value={teacherInfo.name}
-                  onChange={(e) => handleInputChange("name", e.target.value, "personal")}
+                  value={displayTeacherInfo.name}
+                  onChange={(e) =>
+                    handleInputChange("name", e.target.value, "personal")
+                  }
                   className="text-base font-semibold text-slate-900 bg-white border border-gray-300 rounded-md px-2 py-1 mb-1"
                 />
               ) : (
                 <h2 className="text-base font-semibold text-slate-900">
-                  {derivedName || teacherInfo.name}
+                  {displayTeacherInfo.name}
                 </h2>
               )}
               <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-                ID: {teacherInfo.employeeId}
+                ID: {displayTeacherInfo.employeeId}
               </p>
               {isEditingSection("overview") ? (
                 <input
                   type="text"
-                  value={teacherInfo.department}
-                  onChange={(e) => handleInputChange("department", e.target.value, "personal")}
+                  value={displayTeacherInfo.department}
+                  onChange={(e) =>
+                    handleInputChange("department", e.target.value, "personal")
+                  }
                   className="mt-1 text-sm font-semibold text-[#647FBC] bg-white border border-gray-300 rounded-md px-2 py-1 w-full"
                 />
               ) : (
                 <p className="mt-1 text-sm font-semibold text-[#647FBC]">
-                  {teacherInfo.department}
+                  {displayTeacherInfo.department}
                 </p>
               )}
             </div>
@@ -175,12 +226,16 @@ export default function TeacherProfile() {
               {isEditingSection("overview") ? (
                 <input
                   type="text"
-                  value={teacherInfo.loadHours}
-                  onChange={(e) => handleInputChange("loadHours", e.target.value, "personal")}
+                  value={displayTeacherInfo.loadHours}
+                  onChange={(e) =>
+                    handleInputChange("loadHours", e.target.value, "personal")
+                  }
                   className="text-sm font-semibold text-slate-900 bg-white border border-gray-300 rounded-md px-2 py-1 w-16"
                 />
               ) : (
-                <p className="text-sm font-semibold text-slate-900">{teacherInfo.loadHours} hrs</p>
+                <p className="text-sm font-semibold text-slate-900">
+                  {displayTeacherInfo.loadHours} hrs
+                </p>
               )}
             </div>
           </div>
@@ -195,12 +250,16 @@ export default function TeacherProfile() {
               {isEditingSection("overview") ? (
                 <input
                   type="text"
-                  value={teacherInfo.hiredDate}
-                  onChange={(e) => handleInputChange("hiredDate", e.target.value, "personal")}
+                  value={displayTeacherInfo.hiredDate}
+                  onChange={(e) =>
+                    handleInputChange("hiredDate", e.target.value, "personal")
+                  }
                   className="text-sm font-semibold text-slate-900 bg-white border border-gray-300 rounded-md px-2 py-1 w-full"
                 />
               ) : (
-                <p className="text-sm font-semibold text-slate-900">{teacherInfo.hiredDate}</p>
+                <p className="text-sm font-semibold text-slate-900">
+                  {displayTeacherInfo.hiredDate}
+                </p>
               )}
             </div>
           </div>
@@ -210,7 +269,9 @@ export default function TeacherProfile() {
       {/* Personal Information */}
       <Card className="p-6 bg-[#647FBC]/5 border-[#647FBC]/15">
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-base font-semibold text-slate-900">Personal Information</h2>
+          <h2 className="text-base font-semibold text-slate-900">
+            Personal Information
+          </h2>
           {renderEditButtons("personal")}
         </div>
         <div className="grid grid-cols-1 gap-3">
@@ -223,12 +284,16 @@ export default function TeacherProfile() {
               {isEditingSection("personal") ? (
                 <input
                   type="email"
-                  value={teacherInfo.email}
-                  onChange={(e) => handleInputChange("email", e.target.value, "personal")}
+                  value={displayTeacherInfo.email}
+                  onChange={(e) =>
+                    handleInputChange("email", e.target.value, "personal")
+                  }
                   className="text-xs text-slate-500 bg-white border border-gray-300 rounded-md px-2 py-1 w-full"
                 />
               ) : (
-                <p className="text-xs text-slate-500">{teacherInfo.email}</p>
+                <p className="text-xs text-slate-500">
+                  {displayTeacherInfo.email}
+                </p>
               )}
             </div>
           </div>
@@ -241,12 +306,16 @@ export default function TeacherProfile() {
               {isEditingSection("personal") ? (
                 <input
                   type="tel"
-                  value={teacherInfo.phone}
-                  onChange={(e) => handleInputChange("phone", e.target.value, "personal")}
+                  value={displayTeacherInfo.phone}
+                  onChange={(e) =>
+                    handleInputChange("phone", e.target.value, "personal")
+                  }
                   className="text-xs text-slate-500 bg-white border border-gray-300 rounded-md px-2 py-1 w-full"
                 />
               ) : (
-                <p className="text-xs text-slate-500">{teacherInfo.phone}</p>
+                <p className="text-xs text-slate-500">
+                  {displayTeacherInfo.phone}
+                </p>
               )}
             </div>
           </div>
@@ -258,13 +327,17 @@ export default function TeacherProfile() {
               <p className="text-sm font-semibold text-slate-900">Address</p>
               {isEditingSection("personal") ? (
                 <textarea
-                  value={teacherInfo.address}
-                  onChange={(e) => handleInputChange("address", e.target.value, "personal")}
+                  value={displayTeacherInfo.address}
+                  onChange={(e) =>
+                    handleInputChange("address", e.target.value, "personal")
+                  }
                   className="text-xs text-slate-500 bg-white border border-gray-300 rounded-md px-2 py-1 w-full resize-none"
                   rows={2}
                 />
               ) : (
-                <p className="text-xs text-slate-500">{teacherInfo.address}</p>
+                <p className="text-xs text-slate-500">
+                  {displayTeacherInfo.address}
+                </p>
               )}
             </div>
           </div>
@@ -273,16 +346,22 @@ export default function TeacherProfile() {
               <Calendar className="w-3 h-3 text-[#647FBC]" />
             </div>
             <div className="flex-1">
-              <p className="text-sm font-semibold text-slate-900">Date of Birth</p>
+              <p className="text-sm font-semibold text-slate-900">
+                Date of Birth
+              </p>
               {isEditingSection("personal") ? (
                 <input
                   type="text"
-                  value={teacherInfo.dateOfBirth}
-                  onChange={(e) => handleInputChange("dateOfBirth", e.target.value, "personal")}
+                  value={displayTeacherInfo.dateOfBirth}
+                  onChange={(e) =>
+                    handleInputChange("dateOfBirth", e.target.value, "personal")
+                  }
                   className="text-xs text-slate-500 bg-white border border-gray-300 rounded-md px-2 py-1 w-full"
                 />
               ) : (
-                <p className="text-xs text-slate-500">{teacherInfo.dateOfBirth}</p>
+                <p className="text-xs text-slate-500">
+                  {displayTeacherInfo.dateOfBirth}
+                </p>
               )}
             </div>
           </div>
@@ -292,7 +371,9 @@ export default function TeacherProfile() {
       {/* Assignment & Advisory */}
       <Card className="p-6 bg-[#647FBC]/5 border-[#647FBC]/15">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-base font-semibold text-slate-900">Teaching Information</h2>
+          <h2 className="text-base font-semibold text-slate-900">
+            Teaching Information
+          </h2>
           {renderEditButtons("academic")}
         </div>
         <div className="mt-4 grid grid-cols-1 gap-3 md:grid-cols-2">
@@ -303,12 +384,16 @@ export default function TeacherProfile() {
             {isEditingSection("academic") ? (
               <input
                 type="text"
-                value={teacherInfo.department}
-                onChange={(e) => handleInputChange("department", e.target.value, "personal")}
+                value={displayTeacherInfo.department}
+                onChange={(e) =>
+                  handleInputChange("department", e.target.value, "personal")
+                }
                 className="mt-1 text-sm font-semibold text-slate-900 bg-white border border-gray-300 rounded-md px-2 py-1 w-full"
               />
             ) : (
-              <p className="mt-1 text-sm font-semibold text-slate-900">{teacherInfo.department}</p>
+              <p className="mt-1 text-sm font-semibold text-slate-900">
+                {displayTeacherInfo.department}
+              </p>
             )}
           </div>
           <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
@@ -318,12 +403,16 @@ export default function TeacherProfile() {
             {isEditingSection("academic") ? (
               <input
                 type="text"
-                value={teacherInfo.adviserOf}
-                onChange={(e) => handleInputChange("adviserOf", e.target.value, "personal")}
+                value={displayTeacherInfo.adviserOf}
+                onChange={(e) =>
+                  handleInputChange("adviserOf", e.target.value, "personal")
+                }
                 className="mt-1 text-sm font-semibold text-slate-900 bg-white border border-gray-300 rounded-md px-2 py-1 w-full"
               />
             ) : (
-              <p className="mt-1 text-sm font-semibold text-slate-900">{teacherInfo.adviserOf}</p>
+              <p className="mt-1 text-sm font-semibold text-slate-900">
+                {displayTeacherInfo.adviserOf}
+              </p>
             )}
           </div>
         </div>
@@ -332,7 +421,9 @@ export default function TeacherProfile() {
       {/* Emergency Contact */}
       <Card className="p-6 bg-[#647FBC]/5 border-[#647FBC]/15">
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-base font-semibold text-slate-900">Emergency Contact</h2>
+          <h2 className="text-base font-semibold text-slate-900">
+            Emergency Contact
+          </h2>
           {renderEditButtons("emergency")}
         </div>
         <div className="space-y-3">
@@ -344,53 +435,70 @@ export default function TeacherProfile() {
               <div className="space-y-2">
                 <input
                   type="text"
-                  value={emergencyContact.name}
-                  onChange={(e) => handleInputChange("name", e.target.value, "emergency")}
+                  value={displayEmergencyContact.name}
+                  onChange={(e) =>
+                    handleInputChange("name", e.target.value, "emergency")
+                  }
                   className="mt-1 text-sm font-semibold text-slate-900 bg-white border border-gray-300 rounded-md px-2 py-1 w-full"
                   placeholder="Name"
                 />
                 <input
                   type="text"
-                  value={emergencyContact.relationship}
-                  onChange={(e) => handleInputChange("relationship", e.target.value, "emergency")}
+                  value={displayEmergencyContact.relationship}
+                  onChange={(e) =>
+                    handleInputChange(
+                      "relationship",
+                      e.target.value,
+                      "emergency"
+                    )
+                  }
                   className="text-sm font-semibold text-slate-900 bg-white border border-gray-300 rounded-md px-2 py-1 w-full"
                   placeholder="Relationship"
                 />
               </div>
             ) : (
               <p className="mt-1 text-sm font-semibold text-slate-900">
-                {emergencyContact.name} ({emergencyContact.relationship})
+                {displayEmergencyContact.name} (
+                {displayEmergencyContact.relationship})
               </p>
             )}
           </div>
           <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
             <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
-              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Phone</p>
+              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                Phone
+              </p>
               {isEditingSection("emergency") ? (
                 <input
                   type="tel"
-                  value={emergencyContact.phone}
-                  onChange={(e) => handleInputChange("phone", e.target.value, "emergency")}
+                  value={displayEmergencyContact.phone}
+                  onChange={(e) =>
+                    handleInputChange("phone", e.target.value, "emergency")
+                  }
                   className="mt-1 text-sm font-semibold text-slate-900 bg-white border border-gray-300 rounded-md px-2 py-1 w-full"
                 />
               ) : (
                 <p className="mt-1 text-sm font-semibold text-slate-900">
-                  {emergencyContact.phone}
+                  {displayEmergencyContact.phone}
                 </p>
               )}
             </div>
             <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
-              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Email</p>
+              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                Email
+              </p>
               {isEditingSection("emergency") ? (
                 <input
                   type="email"
-                  value={emergencyContact.email}
-                  onChange={(e) => handleInputChange("email", e.target.value, "emergency")}
+                  value={displayEmergencyContact.email}
+                  onChange={(e) =>
+                    handleInputChange("email", e.target.value, "emergency")
+                  }
                   className="mt-1 text-sm font-semibold text-slate-900 bg-white border border-gray-300 rounded-md px-2 py-1 w-full"
                 />
               ) : (
                 <p className="mt-1 text-sm font-semibold text-slate-900">
-                  {emergencyContact.email}
+                  {displayEmergencyContact.email}
                 </p>
               )}
             </div>

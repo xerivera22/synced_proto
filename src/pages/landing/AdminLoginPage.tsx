@@ -1,6 +1,6 @@
 import Navbar from "@/components/Navbar";
 import { useAuth } from "@/context/AuthContext";
-import { authAPI } from "@/services";
+
 import { ArrowRight, Eye, EyeOff } from "lucide-react";
 import { type FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -47,7 +47,8 @@ const AdminLoginPage = () => {
       const enteredPassword = password.trim();
 
       const isAdminMatch =
-        enteredEmail === validAdmin.email.toLowerCase() && enteredPassword === validAdmin.password;
+        enteredEmail === validAdmin.email.toLowerCase() &&
+        enteredPassword === validAdmin.password;
       const isTeacherMatch =
         enteredEmail === validTeacher.email.toLowerCase() &&
         enteredPassword === validTeacher.password;
@@ -60,7 +61,9 @@ const AdminLoginPage = () => {
         navigate("/teacher/overview");
       } else {
         setError(
-          err instanceof Error ? err.message : "Invalid email or password. Please try again.",
+          err instanceof Error
+            ? err.message
+            : "Invalid email or password. Please try again."
         );
         setPassword("");
       }
@@ -124,7 +127,9 @@ const AdminLoginPage = () => {
                     type="button"
                     onClick={() => setShowPassword((v) => !v)}
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-blue-500 px-2 py-1"
-                    aria-label={showPassword ? "Hide password" : "Show password"}
+                    aria-label={
+                      showPassword ? "Hide password" : "Show password"
+                    }
                     title={showPassword ? "Hide password" : "Show password"}
                   >
                     {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
@@ -160,13 +165,19 @@ const AdminLoginPage = () => {
               <div className="text-center mt-6 pt-6 border-t border-gray-200">
                 <p className="text-gray-500 text-sm">
                   Don't have an account?{" "}
-                  <a href="/register-form" className="text-blue-500 no-underline hover:underline">
+                  <a
+                    href="/register-form"
+                    className="text-blue-500 no-underline hover:underline"
+                  >
                     Create one here
                   </a>
                 </p>
                 <p className="text-gray-500 text-sm mt-3">
                   Not a Admin/Teacher?{" "}
-                  <a href="/register" className="text-blue-500 no-underline hover:underline">
+                  <a
+                    href="/register"
+                    className="text-blue-500 no-underline hover:underline"
+                  >
                     Click here
                   </a>
                 </p>

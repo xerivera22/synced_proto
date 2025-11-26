@@ -13,6 +13,8 @@ import paymentRecordRouter from "./routes/paymentRecordRouter.js";
 import studentProfileRouter from "./routes/studentProfileRouter.js";
 import teacherProfileRouter from "./routes/teacherProfileRouter.js";
 import subjectRouter from "./routes/subjectRouter.js";
+import studentAuthRouter from "./routes/Authentication/studentAuthRouter.js";
+import teacherAuthRouter from "./routes/Authentication/teacherAuthRouter.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -45,6 +47,9 @@ app.use("/api/payment-records", paymentRecordRouter);
 app.use("/api/student-profiles", studentProfileRouter);
 app.use("/api/teacher-profiles", teacherProfileRouter);
 app.use("/api/subjects", subjectRouter);
+
+app.use("/api/auth/student", studentAuthRouter);
+app.use("/api/auth/teacher", teacherAuthRouter);
 
 app.use((req, res) => {
   res.status(404).json({ message: "Resource not found" });

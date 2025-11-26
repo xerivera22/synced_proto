@@ -1,4 +1,4 @@
-import API_BASE_URL from "../config/api.js";
+import API_BASE_URL from "@/config/api";
 
 export const eventService = {
   async getEvents() {
@@ -6,7 +6,7 @@ export const eventService = {
     return response.json();
   },
 
-  async createEvent(data:any) {
+  async createEvent(data: any) {
     const response = await fetch(`${API_BASE_URL}/events`, {
       method: "POST",
       headers: {

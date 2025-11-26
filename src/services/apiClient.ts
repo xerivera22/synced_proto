@@ -1,25 +1,12 @@
-const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:4000";
+import axios from "axios";
 
-const apiClient = async (endpoint, options = {}) => {
-  const url = `${API_BASE_URL}${endpoint}`;
+const API_BASE_URL = import.meta.env.VITE_API_URL;
 
-  const config = {
-    headers: {
-      "Content-Type": "application/json",
-      ...options.headers,
-    },
-    ...options,
-  };
-
-  const response = await fetch(url, config);
-
-  if (!response.ok) {
-    const error = new Error(`API Error: ${response.statusText}`);
-    error.status = response.status;
-    throw error;
-  }
-
-  return response.json();
-};
+const apiClient = axios.create({
+  baseURL: API_BASE_URL,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
 
 export default apiClient;

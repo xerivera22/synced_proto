@@ -1,15 +1,49 @@
-import { AlertCircle, BookOpen, Calendar, CheckCircle, Clock, TrendingUp } from "lucide-react";
+import {
+  AlertCircle,
+  BookOpen,
+  Calendar,
+  CheckCircle,
+  Clock,
+  TrendingUp,
+} from "lucide-react";
 import { useMemo } from "react";
 import { Card } from "./ui/card";
+import { useAuth } from "@/context/AuthContext";
 
 export function Dashboard() {
+  const { userData } = useAuth();
+
+  const currentDate = new Date().toLocaleDateString("en-US", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
+  console.log(currentDate);
+
   const upcomingClasses = useMemo(
     () => [
-      { subject: "Mathematics", time: "09:00 AM", room: "Room 201", status: "upcoming" },
-      { subject: "Physics", time: "11:00 AM", room: "Lab 3", status: "upcoming" },
-      { subject: "English", time: "02:00 PM", room: "Room 105", status: "upcoming" },
+      {
+        subject: "Mathematics",
+        time: "09:00 AM",
+        room: "Room 201",
+        status: "upcoming",
+      },
+      {
+        subject: "Physics",
+        time: "11:00 AM",
+        room: "Lab 3",
+        status: "upcoming",
+      },
+      {
+        subject: "English",
+        time: "02:00 PM",
+        room: "Room 105",
+        status: "upcoming",
+      },
     ],
-    [],
+    []
   );
 
   const quickStats = [
@@ -53,11 +87,19 @@ export function Dashboard() {
 
   const recentAnnouncements = useMemo(
     () => [
-      { title: "Mid-term Exam Schedule Released", date: "2 hours ago", type: "important" },
+      {
+        title: "Mid-term Exam Schedule Released",
+        date: "2 hours ago",
+        type: "important",
+      },
       { title: "Library Hours Extended", date: "1 day ago", type: "info" },
-      { title: "Sports Day Registration Open", date: "3 days ago", type: "event" },
+      {
+        title: "Sports Day Registration Open",
+        date: "3 days ago",
+        type: "event",
+      },
     ],
-    [],
+    []
   );
 
   return (
@@ -66,11 +108,15 @@ export function Dashboard() {
       <div className="bg-gradient-to-br from-[#647FBC] to-[#5a73b3] text-white h-20 md:h-24 rounded-[12px] shadow-sm">
         <div className="h-full flex items-center justify-between px-3 md:px-4">
           <div className="flex flex-col gap-1">
-            <h1 className="text-base md:text-lg font-semibold leading-snug">Welcome back, Alex!</h1>
-            <p className="text-white/80 text-sm">Here's what's happening with your studies today</p>
+            <h1 className="text-base md:text-lg font-semibold leading-snug">
+              Welcome back, {userData.name}!
+            </h1>
+            <p className="text-white/80 text-sm">
+              Here's what's happening with your studies today
+            </p>
           </div>
           <p className="text-white/80 text-xs md:text-sm whitespace-nowrap">
-            Tuesday, September 16, 2025
+            {currentDate}
           </p>
         </div>
       </div>
@@ -85,13 +131,17 @@ export function Dashboard() {
               className={`p-5 ${stat.containerClass} flex flex-col justify-between`}
             >
               <div className="flex items-center justify-between">
-                <p className={`text-xs font-semibold uppercase tracking-wide ${stat.labelClass}`}>
+                <p
+                  className={`text-xs font-semibold uppercase tracking-wide ${stat.labelClass}`}
+                >
                   {stat.label}
                 </p>
                 <Icon className={`h-4 w-4 ${stat.iconClass}`} />
               </div>
               <div>
-                <p className="mt-3 text-3xl font-semibold text-slate-900">{stat.value}</p>
+                <p className="mt-3 text-3xl font-semibold text-slate-900">
+                  {stat.value}
+                </p>
                 <p className="text-xs text-slate-600">{stat.description}</p>
               </div>
             </Card>
@@ -118,7 +168,9 @@ export function Dashboard() {
                   <p className="text-gray-600 mt-0.5 text-xs">{cls.room}</p>
                 </div>
                 <div className="text-right">
-                  <p className="font-medium text-slate-900 text-xs">{cls.time}</p>
+                  <p className="font-medium text-slate-900 text-xs">
+                    {cls.time}
+                  </p>
                   <div className="flex items-center text-slate-500 mt-0.5">
                     <Clock className="w-3 h-3 mr-1" />
                     <span className="text-xs">50 min</span>
@@ -137,9 +189,14 @@ export function Dashboard() {
           </div>
           <div className="space-y-2">
             {recentAnnouncements.map((announcement, index) => (
-              <div key={index} className="rounded-xl border border-slate-200 bg-white p-3">
+              <div
+                key={index}
+                className="rounded-xl border border-slate-200 bg-white p-3"
+              >
                 <p className="font-medium text-sm">{announcement.title}</p>
-                <p className="text-slate-500 mt-0.5 text-xs">{announcement.date}</p>
+                <p className="text-slate-500 mt-0.5 text-xs">
+                  {announcement.date}
+                </p>
               </div>
             ))}
           </div>
@@ -157,7 +214,9 @@ export function Dashboard() {
                 <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
                 <span className="font-medium text-sm">Classes Attended</span>
               </div>
-              <span className="text-sm font-semibold text-green-600">18/20</span>
+              <span className="text-sm font-semibold text-green-600">
+                18/20
+              </span>
             </div>
             <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white p-3">
               <div className="flex items-center">

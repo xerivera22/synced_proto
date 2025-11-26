@@ -44,7 +44,9 @@ const RegisterFormPage = () => {
           <div className="bg-white rounded-2xl shadow-sm border border-gray-200 min-h-[80vh]">
             <div className="p-16">
               <div className="text-center mb-10">
-                <h2 className="text-4xl font-bold text-text mb-2">Create Your Account</h2>
+                <h2 className="text-4xl font-bold text-text mb-2">
+                  Create Your Account
+                </h2>
                 <p className="text-muted text-lg">Register now with SyncED</p>
               </div>
               <form onSubmit={handleSubmit} className="max-w-lg mx-auto">
@@ -60,7 +62,9 @@ const RegisterFormPage = () => {
                       id="firstName"
                       type="text"
                       value={formData.firstName}
-                      onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({ ...formData, firstName: e.target.value })
+                      }
                       className="w-full p-4 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-blue-500 focus:bg-white"
                       required
                     />
@@ -76,7 +80,9 @@ const RegisterFormPage = () => {
                       id="lastName"
                       type="text"
                       value={formData.lastName}
-                      onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({ ...formData, lastName: e.target.value })
+                      }
                       className="w-full p-4 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-blue-500 focus:bg-white"
                       required
                     />
@@ -93,7 +99,9 @@ const RegisterFormPage = () => {
                     id="emailAddress"
                     type="email"
                     value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, email: e.target.value })
+                    }
                     className="w-full p-4 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-blue-500 focus:bg-white"
                     required
                   />
@@ -111,7 +119,9 @@ const RegisterFormPage = () => {
                         id="password"
                         type={showPassword ? "text" : "password"}
                         value={formData.password}
-                        onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                        onChange={(e) =>
+                          setFormData({ ...formData, password: e.target.value })
+                        }
                         className="w-full p-4 pr-16 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-blue-500 focus:bg-white"
                         required
                       />
@@ -119,7 +129,9 @@ const RegisterFormPage = () => {
                         type="button"
                         onClick={() => setShowPassword((v) => !v)}
                         className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-blue-500 hover:underline px-2 py-1"
-                        aria-label={showPassword ? "Hide password" : "Show password"}
+                        aria-label={
+                          showPassword ? "Hide password" : "Show password"
+                        }
                       >
                         {showPassword ? "Hide" : "Show"}
                       </button>
@@ -138,7 +150,10 @@ const RegisterFormPage = () => {
                         type={showConfirmPassword ? "text" : "password"}
                         value={formData.confirmPassword}
                         onChange={(e) =>
-                          setFormData({ ...formData, confirmPassword: e.target.value })
+                          setFormData({
+                            ...formData,
+                            confirmPassword: e.target.value,
+                          })
                         }
                         className="w-full p-4 pr-16 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-blue-500 focus:bg-white"
                         required
@@ -147,7 +162,11 @@ const RegisterFormPage = () => {
                         type="button"
                         onClick={() => setShowConfirmPassword((v) => !v)}
                         className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-blue-500 hover:underline px-2 py-1"
-                        aria-label={showConfirmPassword ? "Hide password" : "Show password"}
+                        aria-label={
+                          showConfirmPassword
+                            ? "Hide password"
+                            : "Show password"
+                        }
                       >
                         {showConfirmPassword ? "Hide" : "Show"}
                       </button>
@@ -155,7 +174,9 @@ const RegisterFormPage = () => {
                   </div>
                 </div>
                 <div className="mt-8 mb-5 pb-3 border-b-2 border-gray-200">
-                  <h3 className="text-gray-700 text-lg font-semibold">School Information</h3>
+                  <h3 className="text-gray-700 text-lg font-semibold">
+                    School Information
+                  </h3>
                 </div>
                 <div className="mb-5">
                   <label
@@ -168,7 +189,9 @@ const RegisterFormPage = () => {
                     id="schoolName"
                     type="text"
                     value={formData.schoolName}
-                    onChange={(e) => setFormData({ ...formData, schoolName: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, schoolName: e.target.value })
+                    }
                     className="w-full p-4 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-blue-500 focus:bg-white"
                     required
                   />
@@ -178,12 +201,20 @@ const RegisterFormPage = () => {
                     <input
                       type="checkbox"
                       checked={formData.agreeToTerms}
-                      onChange={(e) => setFormData({ ...formData, agreeToTerms: e.target.checked })}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          agreeToTerms: e.target.checked,
+                        })
+                      }
                       className="w-auto m-0 mt-1"
                     />
                     <span>
                       I agree to the{" "}
-                      <a href="/terms" className="text-blue-500 no-underline hover:underline">
+                      <a
+                        href="/terms"
+                        className="text-blue-500 no-underline hover:underline"
+                      >
                         Terms and Conditions
                       </a>
                     </span>

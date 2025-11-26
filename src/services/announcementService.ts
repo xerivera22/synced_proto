@@ -1,19 +1,14 @@
 import API_BASE_URL from "@/config/api";
+import axios from "axios";
 
 export const announcementService = {
   async getAnnouncements() {
-    const response = await fetch(`${API_BASE_URL}/announcements`);
-    return response.json();
+    const response = await axios.get(`${API_BASE_URL}/announcements`);
+    return response.data;
   },
 
   async createAnnouncement(data: any) {
-    const response = await fetch(`${API_BASE_URL}/announcements`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-    return response.json();
+    const response = await axios.post(`${API_BASE_URL}/announcements`, data);
+    return response.data;
   },
 };

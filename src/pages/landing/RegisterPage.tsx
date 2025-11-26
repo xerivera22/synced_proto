@@ -10,7 +10,9 @@ const RegisterPage = () => {
       <section className="bg-white py-20">
         <div className="max-w-7xl mx-auto px-8">
           <div className="text-center mb-16">
-            <h1 className="text-5xl font-bold text-text mb-4">Get Started with SyncED</h1>
+            <h1 className="text-5xl font-bold text-text mb-4">
+              Get Started with SyncED
+            </h1>
             <p className="text-xl text-muted">
               Choose your role to access the appropriate dashboard
             </p>
@@ -23,7 +25,9 @@ const RegisterPage = () => {
               <div className="mb-6 flex justify-center">
                 <Building className="text-primary" size={64} />
               </div>
-              <h3 className="text-2xl font-semibold text-text mb-4">School Administrator</h3>
+              <h3 className="text-2xl font-semibold text-text mb-4">
+                School Administrator
+              </h3>
               <p className="text-muted leading-relaxed mb-6">
                 Manage school operations, finances, and reports
               </p>
@@ -41,7 +45,9 @@ const RegisterPage = () => {
               <div className="mb-6 flex justify-center">
                 <GraduationCap className="text-primary" size={64} />
               </div>
-              <h3 className="text-2xl font-semibold text-text mb-4">Student / Parent</h3>
+              <h3 className="text-2xl font-semibold text-text mb-4">
+                Student / Parent
+              </h3>
               <p className="text-muted leading-relaxed mb-6">
                 View grades, attendance, and stay connected
               </p>

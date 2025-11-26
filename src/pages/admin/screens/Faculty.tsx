@@ -1,6 +1,15 @@
 import Banner from "@/components/shared/Banner";
-import { useState } from "react";
-import { facultyRecords as initialFaculty } from "../data/mockData";
+import { useState, useEffect } from "react";
+import { facultyRecordService } from "@/services/facultyRecordService";
+
+// Define the type for a faculty record
+interface FacultyRecord {
+  id: string;
+  name: string;
+  department: string;
+  subjects: number | string; // Adjust based on what the API returns
+  contact: string;
+}
 
 const AddTeacherModal = ({
   onClose,
@@ -122,14 +131,34 @@ const AddTeacherModal = ({
 
 const Faculty = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  // The static data is preserved as requested.
-  const [facultyRecords, setFacultyRecords] = useState(initialFaculty);
+  const [facultyRecords, setFacultyRecords] = useState<FacultyRecord[]>([]);
 
-  const handleAddTeacher = (teacherData: any) => {
-    console.log("New Teacher Data:", teacherData);
-    // You could optionally add the new teacher to the state:
-    // setFacultyRecords([...facultyRecords, { id: Date.now().toString(), ...teacherData, subjects: teacherData.subjects.split(',').length }]);
-    setIsModalOpen(false);
+  useEffect(() => {
+    const fetchFaculty = async () => {
+      try {
+        const data = await facultyRecordService.getFacultyRecords();
+        setFacultyRecords(data);
+      } catch (error) {
+        console.error("Failed to fetch faculty records:", error);
+      }
+    };
+    fetchFaculty();
+  }, []);
+
+  const handleAddTeacher = async (teacherData: any) => {
+    try {
+      // Assuming subjects are comma-separated and we need to send them as an array or count
+      const dataToSubmit = {
+        ...teacherData,
+        subjects: teacherData.subjects.split(',').map((s: string) => s.trim())
+      };
+
+      const newTeacher = await facultyRecordService.createFacultyRecord(dataToSubmit);
+      setFacultyRecords([...facultyRecords, newTeacher]);
+      setIsModalOpen(false);
+    } catch (error) {
+      console.error("Failed to add teacher:", error);
+    }
   };
 
   return (
@@ -152,7 +181,7 @@ const Faculty = () => {
             onClick={() => setIsModalOpen(true)}
             className="rounded-full border border-indigo-200 bg-white px-4 py-2 text-sm font-medium text-indigo-700 transition hover:bg-indigo-50"
           >
-            Add teacher (mock)
+            Add Teacher
           </button>
         </header>
         <div className="overflow-x-auto">
@@ -175,7 +204,8 @@ const Faculty = () => {
                     </td>
                     <td className="px-4 py-3 text-sm text-slate-700">{teacher.department}</td>
                     <td className="px-4 py-3 text-sm text-slate-700">
-                      {teacher.subjects} subjects
+                      {/* Adjust based on your data structure, this assumes 'subjects' is a number or can be counted */}
+                      {Array.isArray(teacher.subjects) ? teacher.subjects.length : teacher.subjects} subjects
                     </td>
                     <td className="px-4 py-3 text-sm text-indigo-600">{teacher.contact}</td>
                   </tr>
@@ -184,9 +214,6 @@ const Faculty = () => {
             </table>
           </div>
         </div>
-        <p className="mt-4 text-xs text-indigo-700/70">
-          This directory uses mock data — clicking "Add teacher" will log to console.
-        </p>
       </div>
 
       {isModalOpen && (

@@ -1,12 +1,22 @@
 import Banner from "@/components/shared/Banner";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { eventService } from "@/services/eventService";
+
+// Define the type for an event
+interface Event {
+  id: string;
+  title: string;
+  date: string;
+  description: string;
+  audience: string;
+}
 
 const CreateEventModal = ({
   onClose,
   onSubmit,
 }: {
   onClose: () => void;
-  onSubmit: (data: any) => void;
+  onSubmit: (data: Omit<Event, 'id'>) => void;
 }) => {
   const [title, setTitle] = useState("");
   const [date, setDate] = useState("");
@@ -122,10 +132,28 @@ const CreateEventModal = ({
 
 const Events = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [events, setEvents] = useState<Event[]>([]);
 
-  const handleCreateEvent = (eventData: any) => {
-    console.log("New Event Data:", eventData);
-    setIsModalOpen(false);
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const data = await eventService.getEvents();
+        setEvents(data);
+      } catch (error) {
+        console.error("Failed to fetch events:", error);
+      }
+    };
+    fetchEvents();
+  }, []);
+
+  const handleCreateEvent = async (eventData: Omit<Event, 'id'>) => {
+    try {
+      const newEvent = await eventService.createEvent(eventData);
+      setEvents([...events, newEvent]);
+      setIsModalOpen(false);
+    } catch (error) {
+      console.error("Failed to create event:", error);
+    }
   };
 
   return (
@@ -150,11 +178,28 @@ const Events = () => {
             onClick={() => setIsModalOpen(true)}
             className="rounded-full border border-sky-200 bg-white px-4 py-2 text-sm font-medium text-sky-700 transition hover:bg-sky-50"
           >
-            Create new event (mock)
+            Create New Event
           </button>
         </header>
 
-        {/* List of events would go here */}
+        <div className="mt-6 space-y-4">
+          {events.length > 0 ? (
+            events.map((event) => (
+              <div key={event.id} className="rounded-lg border border-gray-200 p-4">
+                <h3 className="font-semibold text-gray-800">{event.title}</h3>
+                <p className="text-sm text-gray-600">{new Date(event.date).toLocaleDateString()}</p>
+                <p className="mt-2 text-sm text-gray-500">{event.description}</p>
+                <div className="mt-3">
+                  <span className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800">
+                    Audience: {event.audience}
+                  </span>
+                </div>
+              </div>
+            ))
+          ) : (
+            <p className="text-center text-gray-500">No upcoming events.</p>
+          )}
+        </div>
       </section>
 
       {isModalOpen && (

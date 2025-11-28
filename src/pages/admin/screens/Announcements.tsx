@@ -1,13 +1,13 @@
-
 import Banner from "@/components/shared/Banner";
 import { useEffect, useState } from "react";
 import { announcementService } from "@/services/announcementService";
 
 interface Announcement {
   _id: string;
+  id: string; // Add this field
   title: string;
-  date: string;
-  audience: string;
+  target: string; // Changed from 'audience'
+  scheduledFor: string; // Changed from 'date'
   status: string;
 }
 
@@ -19,13 +19,23 @@ const AddAnnouncementModal = ({
   onSubmit: (data: Omit<Announcement, "_id">) => void;
 }) => {
   const [title, setTitle] = useState("");
-  const [date, setDate] = useState("");
-  const [audience, setAudience] = useState("all");
+  const [scheduledFor, setScheduledFor] = useState(""); // Changed from 'date'
+  const [target, setTarget] = useState("all"); // Changed from 'audience'
   const [status, setStatus] = useState("Draft");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit({ title, date, audience, status });
+
+    // Generate a simple ID (you might want a better ID generation method)
+    const id = `announcement-${Date.now()}`;
+
+    onSubmit({
+      id, // Add the required id field
+      title,
+      target, // Changed from audience
+      scheduledFor, // Changed from date
+      status,
+    });
   };
 
   return (
@@ -61,16 +71,16 @@ const AddAnnouncementModal = ({
           <div className="mb-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
               <label
-                htmlFor="announcementDate"
+                htmlFor="announcementScheduledFor"
                 className="block text-sm font-medium text-gray-700 mb-2"
               >
-                Date
+                Scheduled For
               </label>
               <input
                 type="date"
-                id="announcementDate"
-                value={date}
-                onChange={(e) => setDate(e.target.value)}
+                id="announcementScheduledFor"
+                value={scheduledFor}
+                onChange={(e) => setScheduledFor(e.target.value)}
                 className="w-full p-3 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-purple-500 focus:bg-white"
                 required
               />
@@ -95,15 +105,15 @@ const AddAnnouncementModal = ({
           </div>
           <div className="mb-6">
             <label
-              htmlFor="announcementAudience"
+              htmlFor="announcementTarget"
               className="block text-sm font-medium text-gray-700 mb-2"
             >
-              Audience
+              Target Audience
             </label>
             <select
-              id="announcementAudience"
-              value={audience}
-              onChange={(e) => setAudience(e.target.value)}
+              id="announcementTarget"
+              value={target}
+              onChange={(e) => setTarget(e.target.value)}
               className="w-full p-3 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-purple-500 focus:bg-white"
             >
               <option value="all">All</option>
@@ -138,12 +148,17 @@ const Announcements = () => {
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
 
   useEffect(() => {
-    announcementService.getAnnouncements().then(setAnnouncements).catch(error => console.error("Failed to fetch announcements:", error));
+    announcementService
+      .getAnnouncements()
+      .then(setAnnouncements)
+      .catch((error) => console.error("Failed to fetch announcements:", error));
   }, []);
 
   const handleNewAnnouncement = async (data: Omit<Announcement, "_id">) => {
     try {
-      const newAnnouncement = await announcementService.createAnnouncement(data);
+      const newAnnouncement = await announcementService.createAnnouncement(
+        data
+      );
       setAnnouncements([...announcements, newAnnouncement]);
       setIsModalOpen(false);
     } catch (error) {
@@ -161,9 +176,12 @@ const Announcements = () => {
       <section className="rounded-2xl border border-purple-100 bg-white p-6 shadow-sm">
         <header className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h2 className="text-xl font-semibold text-purple-900">Communication queue</h2>
+            <h2 className="text-xl font-semibold text-purple-900">
+              Communication queue
+            </h2>
             <p className="text-sm text-purple-700/80">
-              Draft, schedule, and monitor communications for the school community.
+              Draft, schedule, and monitor communications for the school
+              community.
             </p>
           </div>
           <button
@@ -176,23 +194,34 @@ const Announcements = () => {
         </header>
         <div className="mt-6 divide-y divide-purple-100/60">
           {announcements.map((announcement) => (
-            <div key={announcement._id} className="flex flex-col gap-3 py-4 sm:flex-row sm:items-center">
+            <div
+              key={announcement._id}
+              className="flex flex-col gap-3 py-4 sm:flex-row sm:items-center"
+            >
               <div className="flex-1">
-                <p className="font-semibold text-purple-900">{announcement.title}</p>
+                <p className="font-semibold text-purple-900">
+                  {announcement.title}
+                </p>
                 <p className="text-xs text-slate-500">
-                  Scheduled for {new Date(announcement.date).toLocaleDateString()} &bull; Audience: {announcement.audience}
+                  Scheduled for{" "}
+                  {new Date(announcement.scheduledFor).toLocaleDateString()}{" "}
+                  &bull; Audience: {announcement.target}
                 </p>
               </div>
               <div className="flex items-center gap-4">
                 <span
-                  className={`rounded-full px-2 py-0.5 text-xs font-medium ${announcement.status === "Scheduled"
+                  className={`rounded-full px-2 py-0.5 text-xs font-medium ${
+                    announcement.status === "Scheduled"
                       ? "bg-sky-100 text-sky-800"
                       : "bg-amber-100 text-amber-800"
-                    }`}>{announcement.status}</span>
+                  }`}
+                >
+                  {announcement.status}
+                </span>
               </div>
             </div>
           ))}
-           {announcements.length === 0 && (
+          {announcements.length === 0 && (
             <div className="py-8 text-center text-sm text-gray-500">
               No announcements found.
             </div>

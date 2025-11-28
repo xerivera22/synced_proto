@@ -1,33 +1,61 @@
+
 import Banner from "@/components/shared/Banner";
-import { paymentRecords, paymentSummaries } from "../data/mockData";
+import { useEffect, useState } from "react";
+import { paymentRecordService } from "@/services/paymentRecordService";
+import { paymentSummaryService } from "@/services/paymentSummaryService";
+
+interface PaymentRecord {
+  _id: string;
+  student: string;
+  gradeLevel: string;
+  amountDue: number;
+  amountPaid: number;
+  dueDate: string;
+  status: "paid" | "partial" | "overdue";
+}
+
+interface PaymentSummary {
+  totalDueThisMonth: number;
+  collectedThisMonth: number;
+  overdueInvoices: number;
+  scholarshipsGranted: number;
+}
 
 const Payments = () => {
-  const metrics = [
+  const [paymentRecords, setPaymentRecords] = useState<PaymentRecord[]>([]);
+  const [paymentSummary, setPaymentSummary] = useState<PaymentSummary | null>(null);
+
+  useEffect(() => {
+    paymentRecordService.getPaymentRecords().then(setPaymentRecords);
+    paymentSummaryService.getPaymentSummary().then(setPaymentSummary);
+  }, []);
+
+  const metrics = paymentSummary ? [
     {
       label: "Total Due",
-      value: `₱${paymentSummaries.totalDueThisMonth.toLocaleString()}`,
+      value: `₱${paymentSummary.totalDueThisMonth.toLocaleString()}`,
       containerClass: "border-blue-100 bg-blue-50",
       chipClass: "bg-white/80 text-blue-800",
     },
     {
       label: "Collected",
-      value: `₱${paymentSummaries.collectedThisMonth.toLocaleString()}`,
+      value: `₱${paymentSummary.collectedThisMonth.toLocaleString()}`,
       containerClass: "border-emerald-100 bg-emerald-50",
       chipClass: "bg-white/80 text-emerald-800",
     },
     {
       label: "Overdue Invoices",
-      value: paymentSummaries.overdueInvoices,
+      value: paymentSummary.overdueInvoices,
       containerClass: "border-amber-100 bg-amber-50",
       chipClass: "bg-white/80 text-amber-800",
     },
     {
       label: "Scholarships",
-      value: paymentSummaries.scholarshipsGranted,
+      value: paymentSummary.scholarshipsGranted,
       containerClass: "border-purple-100 bg-purple-50",
       chipClass: "bg-white/80 text-purple-800",
     },
-  ] as const;
+  ] : [];
 
   return (
     <div className="space-y-6">
@@ -55,12 +83,6 @@ const Payments = () => {
               Monitor balances and follow-ups for this month.
             </p>
           </div>
-          <button
-            type="button"
-            className="rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-50"
-          >
-            Export mock report
-          </button>
         </header>
 
         <div className="mt-4 overflow-x-auto">
@@ -79,9 +101,9 @@ const Payments = () => {
               </thead>
               <tbody className="divide-y divide-slate-100">
                 {paymentRecords.map((payment) => (
-                  <tr key={payment.id} className="bg-white">
+                  <tr key={payment._id} className="bg-white">
                     <td className="px-4 py-3">
-                      <div className="font-medium text-slate-900">{payment.id}</div>
+                      <div className="font-medium text-slate-900">{payment._id}</div>
                     </td>
                     <td className="px-4 py-3 text-sm text-slate-700">{payment.student}</td>
                     <td className="px-4 py-3 text-sm text-slate-700">{payment.gradeLevel}</td>
@@ -91,7 +113,7 @@ const Payments = () => {
                     <td className="px-4 py-3 text-sm text-slate-700">
                       ₱{payment.amountPaid.toLocaleString()}
                     </td>
-                    <td className="px-4 py-3 text-sm text-slate-700">{payment.dueDate}</td>
+                    <td className="px-4 py-3 text-sm text-slate-700">{new Date(payment.dueDate).toLocaleDateString()}</td>
                     <td className="px-4 py-3">
                       <StatusBadge status={payment.status} />
                     </td>
@@ -99,11 +121,13 @@ const Payments = () => {
                 ))}
               </tbody>
             </table>
+             {paymentRecords.length === 0 && (
+            <div className="py-8 text-center text-sm text-gray-500">
+              No payment records found.
+            </div>
+          )}
           </div>
         </div>
-        <p className="mt-4 text-xs text-slate-500">
-          Replace these rows with live billing data when the finance service endpoint is available.
-        </p>
       </section>
     </div>
   );

@@ -1,13 +1,22 @@
+
 import Banner from "@/components/shared/Banner";
-import { useState } from "react";
-import { announcements as initialAnnouncements } from "../data/mockData";
+import { useEffect, useState } from "react";
+import { announcementService } from "@/services/announcementService";
+
+interface Announcement {
+  _id: string;
+  title: string;
+  date: string;
+  audience: string;
+  status: string;
+}
 
 const AddAnnouncementModal = ({
   onClose,
   onSubmit,
 }: {
   onClose: () => void;
-  onSubmit: (data: any) => void;
+  onSubmit: (data: Omit<Announcement, "_id">) => void;
 }) => {
   const [title, setTitle] = useState("");
   const [date, setDate] = useState("");
@@ -126,11 +135,20 @@ const AddAnnouncementModal = ({
 
 const Announcements = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [announcements, setAnnouncements] = useState(initialAnnouncements);
+  const [announcements, setAnnouncements] = useState<Announcement[]>([]);
 
-  const handleNewAnnouncement = (data: any) => {
-    console.log("New Announcement Data:", data);
-    setIsModalOpen(false);
+  useEffect(() => {
+    announcementService.getAnnouncements().then(setAnnouncements).catch(error => console.error("Failed to fetch announcements:", error));
+  }, []);
+
+  const handleNewAnnouncement = async (data: Omit<Announcement, "_id">) => {
+    try {
+      const newAnnouncement = await announcementService.createAnnouncement(data);
+      setAnnouncements([...announcements, newAnnouncement]);
+      setIsModalOpen(false);
+    } catch (error) {
+      console.error("Failed to create announcement:", error);
+    }
   };
 
   return (
@@ -153,16 +171,16 @@ const Announcements = () => {
             onClick={() => setIsModalOpen(true)}
             className="rounded-full border border-purple-200 bg-white px-4 py-2 text-sm font-medium text-purple-700 transition hover:bg-purple-50"
           >
-            New announcement (mock)
+            New announcement
           </button>
         </header>
         <div className="mt-6 divide-y divide-purple-100/60">
           {announcements.map((announcement) => (
-            <div key={announcement.id} className="flex flex-col gap-3 py-4 sm:flex-row sm:items-center">
+            <div key={announcement._id} className="flex flex-col gap-3 py-4 sm:flex-row sm:items-center">
               <div className="flex-1">
                 <p className="font-semibold text-purple-900">{announcement.title}</p>
                 <p className="text-xs text-slate-500">
-                  Scheduled for {announcement.date} &bull; Audience: {announcement.audience}
+                  Scheduled for {new Date(announcement.date).toLocaleDateString()} &bull; Audience: {announcement.audience}
                 </p>
               </div>
               <div className="flex items-center gap-4">
@@ -170,16 +188,16 @@ const Announcements = () => {
                   className={`rounded-full px-2 py-0.5 text-xs font-medium ${announcement.status === "Scheduled"
                       ? "bg-sky-100 text-sky-800"
                       : "bg-amber-100 text-amber-800"
-                    }`}>
-                  {announcement.status}
-                </span>
+                    }`}>{announcement.status}</span>
               </div>
             </div>
           ))}
+           {announcements.length === 0 && (
+            <div className="py-8 text-center text-sm text-gray-500">
+              No announcements found.
+            </div>
+          )}
         </div>
-        <p className="mt-4 text-xs text-purple-700/70">
-          This queue uses mock data — clicking "New announcement" will log to console.
-        </p>
       </section>
 
       {isModalOpen && (

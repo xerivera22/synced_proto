@@ -1,23 +1,23 @@
-import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
 import {
-  School,
-  Zap,
-  Lock,
-  DollarSign,
-  Users,
-  GraduationCap,
+  ArrowUp,
   BarChart3,
+  Bell,
+  Building,
+  Calendar,
+  Check,
   ClipboardList,
   CreditCard,
-  Calendar,
+  DollarSign,
+  GraduationCap,
+  Lock,
+  School,
   Smartphone,
-  Bell,
-  Check,
-  Building,
   UserCircle,
-  ArrowUp,
+  Users,
+  Zap,
 } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
@@ -193,7 +193,7 @@ const LandingPage = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition-shadow">
+            <div className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition-shadow text-center">
               <div className="mb-4 flex justify-center">
                 <Zap className="text-primary" size={48} />
               </div>
@@ -203,7 +203,7 @@ const LandingPage = () => {
                 efficiency.
               </p>
             </div>
-            <div className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition-shadow">
+            <div className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition-shadow text-center">
               <div className="mb-4 flex justify-center">
                 <Lock className="text-primary" size={48} />
               </div>
@@ -212,7 +212,7 @@ const LandingPage = () => {
                 Your data is protected with bank-level encryption and regular security audits.
               </p>
             </div>
-            <div className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition-shadow">
+            <div className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition-shadow text-center">
               <div className="mb-4 flex justify-center">
                 <DollarSign className="text-primary" size={48} />
               </div>
@@ -282,7 +282,7 @@ const LandingPage = () => {
             {features.map((feature, index) => (
               <div
                 key={index}
-                className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition-all hover:-translate-y-1"
+                className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition-all hover:-translate-y-1 text-center"
               >
                 <div className="mb-4 flex justify-center">{feature.icon}</div>
                 <h3 className="text-xl font-bold mb-3 text-text">{feature.title}</h3>

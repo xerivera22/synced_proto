@@ -1,7 +1,7 @@
-import { Link } from "react-router-dom";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
-import { Building, GraduationCap, Briefcase } from "lucide-react";
+import { Briefcase, Building, GraduationCap } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const RegisterPage = () => {
   return (
@@ -33,7 +33,7 @@ const RegisterPage = () => {
               </p>
               <button
                 type="button"
-                className="bg-primary text-white border-0 px-6 py-3 rounded-md font-semibold text-base hover:bg-blue-700"
+                className="bg-primary text-white border-0 px-6 py-3 rounded-md font-semibold text-base hover:bg-primary-dark"
               >
                 Admin Login
               </button>
@@ -53,7 +53,7 @@ const RegisterPage = () => {
               </p>
               <button
                 type="button"
-                className="bg-primary text-white border-0 px-6 py-3 rounded-md font-semibold text-base hover:bg-blue-700"
+                className="bg-primary text-white border-0 px-6 py-3 rounded-md font-semibold text-base hover:bg-primary-dark"
               >
                 Teacher Login
               </button>
@@ -73,7 +73,7 @@ const RegisterPage = () => {
               </p>
               <button
                 type="button"
-                className="bg-primary text-white border-0 px-6 py-3 rounded-md font-semibold text-base hover:bg-blue-700"
+                className="bg-primary text-white border-0 px-6 py-3 rounded-md font-semibold text-base hover:bg-primary-dark"
               >
                 Student Login
               </button>

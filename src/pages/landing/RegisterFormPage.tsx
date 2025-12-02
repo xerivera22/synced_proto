@@ -1,6 +1,6 @@
+import Navbar from "@/components/Navbar";
 import { type FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Navbar from "@/components/Navbar";
 
 const RegisterFormPage = () => {
   const navigate = useNavigate();
@@ -65,7 +65,7 @@ const RegisterFormPage = () => {
                       onChange={(e) =>
                         setFormData({ ...formData, firstName: e.target.value })
                       }
-                      className="w-full p-4 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-blue-500 focus:bg-white"
+                      className="w-full p-4 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-primary focus:bg-white"
                       required
                     />
                   </div>
@@ -83,7 +83,7 @@ const RegisterFormPage = () => {
                       onChange={(e) =>
                         setFormData({ ...formData, lastName: e.target.value })
                       }
-                      className="w-full p-4 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-blue-500 focus:bg-white"
+                      className="w-full p-4 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-primary focus:bg-white"
                       required
                     />
                   </div>
@@ -102,7 +102,7 @@ const RegisterFormPage = () => {
                     onChange={(e) =>
                       setFormData({ ...formData, email: e.target.value })
                     }
-                    className="w-full p-4 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-blue-500 focus:bg-white"
+                    className="w-full p-4 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-primary focus:bg-white"
                     required
                   />
                 </div>
@@ -122,13 +122,13 @@ const RegisterFormPage = () => {
                         onChange={(e) =>
                           setFormData({ ...formData, password: e.target.value })
                         }
-                        className="w-full p-4 pr-16 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-blue-500 focus:bg-white"
+                        className="w-full p-4 pr-16 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-primary focus:bg-white"
                         required
                       />
                       <button
                         type="button"
                         onClick={() => setShowPassword((v) => !v)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-blue-500 hover:underline px-2 py-1"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-primary hover:underline px-2 py-1"
                         aria-label={
                           showPassword ? "Hide password" : "Show password"
                         }
@@ -155,13 +155,13 @@ const RegisterFormPage = () => {
                             confirmPassword: e.target.value,
                           })
                         }
-                        className="w-full p-4 pr-16 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-blue-500 focus:bg-white"
+                        className="w-full p-4 pr-16 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-primary focus:bg-white"
                         required
                       />
                       <button
                         type="button"
                         onClick={() => setShowConfirmPassword((v) => !v)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-blue-500 hover:underline px-2 py-1"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-primary hover:underline px-2 py-1"
                         aria-label={
                           showConfirmPassword
                             ? "Hide password"
@@ -192,7 +192,7 @@ const RegisterFormPage = () => {
                     onChange={(e) =>
                       setFormData({ ...formData, schoolName: e.target.value })
                     }
-                    className="w-full p-4 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-blue-500 focus:bg-white"
+                    className="w-full p-4 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-primary focus:bg-white"
                     required
                   />
                 </div>
@@ -213,7 +213,7 @@ const RegisterFormPage = () => {
                       I agree to the{" "}
                       <a
                         href="/terms"
-                        className="text-blue-500 no-underline hover:underline"
+                        className="text-primary no-underline hover:underline"
                       >
                         Terms and Conditions
                       </a>
@@ -222,7 +222,7 @@ const RegisterFormPage = () => {
                 </div>
                 <button
                   type="submit"
-                  className="w-full p-4 bg-blue-500 text-white border-0 rounded-md text-base font-semibold cursor-pointer hover:bg-blue-600 mt-6"
+                  className="w-full p-4 bg-primary text-white border-0 rounded-md text-base font-semibold cursor-pointer hover:bg-primary-dark mt-6"
                 >
                   Create Account
                 </button>
@@ -231,7 +231,7 @@ const RegisterFormPage = () => {
                     Already have an account?{" "}
                     <a
                       href="/register"
-                      className="text-blue-500 no-underline font-semibold hover:underline"
+                      className="text-primary no-underline font-semibold hover:underline"
                     >
                       Sign in
                     </a>

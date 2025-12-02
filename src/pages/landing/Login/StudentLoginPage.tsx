@@ -1,11 +1,11 @@
 import Navbar from "@/components/Navbar";
 import { useAuth } from "@/context/AuthContext";
-import { adminAuthService } from "@/services/Authentication/adminAuthService";
+import { studentAuthService } from "@/services/Authentication/studentAuthService";
 import { ArrowRight, Eye, EyeOff } from "lucide-react";
 import { type FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const AdminLoginPage = () => {
+const StudentLoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
@@ -13,7 +13,7 @@ const AdminLoginPage = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { login, setUserData } = useAuth();
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -21,24 +21,25 @@ const AdminLoginPage = () => {
     setError("");
 
     try {
-      const user = await adminAuthService.login(email, password);
+      const response = await studentAuthService.login(email, password);
 
-      if (user && user._id) {
-        login(user.email, user.role);
-        if (user.role === "admin" || user.role === "superadmin") {
-          navigate("/admin");
-        } else {
-          setError("You do not have permission to access this page.");
-        }
+      if (response.message === "Login successful" && response.student) {
+        login(response.student.email, "student");
+
+        // Set user data globally
+        setUserData({
+          ...response.student,
+          profile: response.profile, // Include full profile data
+        });
+
+        navigate("/student/overview");
       } else {
-        setError("Login failed. Please check your credentials.");
+        setError(response.message || "Login failed. Please try again.");
+        setPassword("");
       }
-    } catch (err: any) {
-      const errorMessage =
-        err.response?.data?.message ||
-        err.message ||
-        "An unexpected error occurred.";
-      setError(errorMessage);
+    } catch (err) {
+      setError("Invalid email or password. Please try again.");
+      setPassword("");
     } finally {
       setLoading(false);
     }
@@ -52,7 +53,7 @@ const AdminLoginPage = () => {
           <div className="relative bg-white p-10 rounded-2xl border border-gray-200 shadow-sm">
             <div className="absolute inset-x-0 -top-0.5 h-1.5 rounded-t-2xl bg-primary" />
             <h1 className="text-2xl font-semibold text-primary text-center mb-8">
-              Admin Login
+              Student/Parent Login
             </h1>
             <form onSubmit={handleSubmit}>
               {error && (
@@ -62,23 +63,23 @@ const AdminLoginPage = () => {
               )}
               <div className="mb-5">
                 <label
-                  htmlFor="adminEmail"
+                  htmlFor="studentEmail"
                   className="block text-sm font-medium text-gray-700 mb-2"
                 >
                   Email Address
                 </label>
                 <input
                   type="email"
-                  id="adminEmail"
+                  id="studentEmail"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full p-4 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-blue-500 focus:bg-white"
+                  className="w-full p-4 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-primary focus:bg-white"
                   required
                 />
               </div>
               <div className="mb-5">
                 <label
-                  htmlFor="adminPassword"
+                  htmlFor="studentPassword"
                   className="block text-sm font-medium text-gray-700 mb-2"
                 >
                   Password
@@ -86,16 +87,16 @@ const AdminLoginPage = () => {
                 <div className="relative">
                   <input
                     type={showPassword ? "text" : "password"}
-                    id="adminPassword"
+                    id="studentPassword"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full p-4 pr-16 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-blue-500 focus:bg-white"
+                    className="w-full p-4 pr-16 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-primary focus:bg-white"
                     required
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword((v) => !v)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-blue-500 px-2 py-1"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-primary px-2 py-1"
                     aria-label={
                       showPassword ? "Hide password" : "Show password"
                     }
@@ -117,8 +118,10 @@ const AdminLoginPage = () => {
                 </label>
                 <button
                   type="button"
-                  onClick={() => alert("Please contact support@synced.com")}
-                  className="text-sm text-blue-500 no-underline whitespace-nowrap flex-shrink-0 hover:underline"
+                  onClick={() =>
+                    console.log("TODO: implement password reset flow")
+                  }
+                  className="bg-transparent border-0 p-0 text-sm text-primary whitespace-nowrap cursor-pointer hover:underline"
                 >
                   Forgot password?
                 </button>
@@ -126,19 +129,28 @@ const AdminLoginPage = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full px-6 py-3 bg-blue-500 text-white border-0 rounded-lg text-base font-semibold cursor-pointer hover:bg-blue-600 transition-colors shadow flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full px-6 py-3 bg-primary text-white border-0 rounded-lg text-base font-semibold cursor-pointer hover:bg-primary-dark shadow flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {loading ? "Logging in..." : "Login"}
                 {!loading && <ArrowRight size={18} />}
               </button>
               <div className="text-center mt-6 pt-6 border-t border-gray-200">
                 <p className="text-gray-500 text-sm">
-                  Not an Admin?{" "}
+                  Don't have an account?{" "}
                   <a
-                    href="/login"
-                    className="text-blue-500 no-underline hover:underline"
+                    href="/register-form"
+                    className="text-primary no-underline hover:underline"
                   >
-                    Return to main login selection
+                    Create one here
+                  </a>
+                </p>
+                <p className="text-gray-500 text-sm mt-3">
+                  You're not a Student/Parent?{" "}
+                  <a
+                    href="/register"
+                    className="text-primary no-underline hover:underline"
+                  >
+                    Click here
                   </a>
                 </p>
               </div>
@@ -150,4 +162,4 @@ const AdminLoginPage = () => {
   );
 };
 
-export default AdminLoginPage;
+export default StudentLoginPage;

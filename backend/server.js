@@ -4,21 +4,30 @@ import connectDB from "./config/db.js";
 
 // Import routers
 import announcementRouter from "./routes/announcementRouter.js";
-import studentMetricsRouter from "./routes/studentMetricsRouter.js";
-import studentRecordRouter from "./routes/studentRecordRouter.js";
-import facultyRecordRouter from "./routes/facultyRecordRouter.js";
-import eventRouter from "./routes/eventRouter.js";
-import paymentSummaryRouter from "./routes/paymentSummaryRouter.js";
-import paymentRecordRouter from "./routes/paymentRecordRouter.js";
-import studentProfileRouter from "./routes/studentProfileRouter.js";
-import teacherProfileRouter from "./routes/teacherProfileRouter.js";
-import subjectRouter from "./routes/subjectRouter.js";
+import adminAuthRouter from "./routes/Authentication/adminAuthRouter.js";
 import studentAuthRouter from "./routes/Authentication/studentAuthRouter.js";
 import teacherAuthRouter from "./routes/Authentication/teacherAuthRouter.js";
-import adminAuthRouter from "./routes/Authentication/adminAuthRouter.js";
+import eventRouter from "./routes/eventRouter.js";
+import facultyRecordRouter from "./routes/facultyRecordRouter.js";
+import paymentRecordRouter from "./routes/paymentRecordRouter.js";
+import paymentSummaryRouter from "./routes/paymentSummaryRouter.js";
+import studentMetricsRouter from "./routes/studentMetricsRouter.js";
+import studentProfileRouter from "./routes/studentProfileRouter.js";
+import studentRecordRouter from "./routes/studentRecordRouter.js";
+import subjectRouter from "./routes/subjectRouter.js";
+import teacherProfileRouter from "./routes/teacherProfileRouter.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// Global error handlers to aid debugging and avoid hard exits during dev
+process.on("unhandledRejection", (reason) => {
+  console.error("Unhandled Promise Rejection:", reason);
+});
+
+process.on("uncaughtException", (err) => {
+  console.error("Uncaught Exception:", err);
+});
 
 connectDB();
 
@@ -35,6 +44,11 @@ app.use((req, res, next) => {
     return res.sendStatus(204);
   }
   next();
+});
+
+// Lightweight healthcheck to verify server process is running
+app.get("/health", (req, res) => {
+  res.json({ status: "ok" });
 });
 
 // Use routers

@@ -1,11 +1,11 @@
 import Navbar from "@/components/Navbar";
 import { useAuth } from "@/context/AuthContext";
-import { teacherAuthService } from "@/services/Authentication/teacherAuthService";
+import { adminAuthService } from "@/services/Authentication/adminAuthService";
 import { ArrowRight, Eye, EyeOff } from "lucide-react";
-import { useState } from "react";
+import { type FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const TeacherLoginPage = () => {
+const AdminLoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
@@ -13,39 +13,34 @@ const TeacherLoginPage = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { login, setUserData } = useAuth();
+  const { login } = useAuth();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError("");
 
     try {
-      const response = await teacherAuthService.login(email, password);
+      const user = await adminAuthService.login(email, password);
 
-      if (response.message === "Login successful" && response.teacher) {
-        login(response.teacher.email, "teacher");
-        setUserData({
-          ...response.teacher,
-          profile: response.profile,
-        });
-        navigate("/teacher/overview");
+      if (user && user._id) {
+        login(user.email, user.role);
+        if (user.role === "admin" || user.role === "superadmin") {
+          navigate("/admin");
+        } else {
+          setError("You do not have permission to access this page.");
+        }
       } else {
-        setError(response.message || "Login failed. Please try again.");
-        setPassword("");
+        setError("Login failed. Please check your credentials.");
       }
-    } catch (err) {
-      setError(
-        err instanceof Error
-          ? err.message
-          : "Invalid email or password. Please try again."
-      );
-      setPassword("");
+    } catch (err: any) {
+      const errorMessage =
+        err.response?.data?.message ||
+        err.message ||
+        "An unexpected error occurred.";
+      setError(errorMessage);
     } finally {
       setLoading(false);
-      if (error) {
-        setTimeout(() => setError(""), 3000);
-      }
     }
   };
 
@@ -57,7 +52,7 @@ const TeacherLoginPage = () => {
           <div className="relative bg-white p-10 rounded-2xl border border-gray-200 shadow-sm">
             <div className="absolute inset-x-0 -top-0.5 h-1.5 rounded-t-2xl bg-primary" />
             <h1 className="text-2xl font-semibold text-primary text-center mb-8">
-              Teacher Login
+              Admin Login
             </h1>
             <form onSubmit={handleSubmit}>
               {error && (
@@ -67,23 +62,23 @@ const TeacherLoginPage = () => {
               )}
               <div className="mb-5">
                 <label
-                  htmlFor="teacherEmail"
+                  htmlFor="adminEmail"
                   className="block text-sm font-medium text-gray-700 mb-2"
                 >
                   Email Address
                 </label>
                 <input
                   type="email"
-                  id="teacherEmail"
+                  id="adminEmail"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full p-4 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-blue-500 focus:bg-white"
+                  className="w-full p-4 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-primary focus:bg-white"
                   required
                 />
               </div>
               <div className="mb-5">
                 <label
-                  htmlFor="teacherPassword"
+                  htmlFor="adminPassword"
                   className="block text-sm font-medium text-gray-700 mb-2"
                 >
                   Password
@@ -91,16 +86,16 @@ const TeacherLoginPage = () => {
                 <div className="relative">
                   <input
                     type={showPassword ? "text" : "password"}
-                    id="teacherPassword"
+                    id="adminPassword"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full p-4 pr-16 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-blue-500 focus:bg-white"
+                    className="w-full p-4 pr-16 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-primary focus:bg-white"
                     required
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword((v) => !v)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-blue-500 px-2 py-1"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-primary px-2 py-1"
                     aria-label={
                       showPassword ? "Hide password" : "Show password"
                     }
@@ -123,7 +118,7 @@ const TeacherLoginPage = () => {
                 <button
                   type="button"
                   onClick={() => alert("Please contact support@synced.com")}
-                  className="text-sm text-blue-500 no-underline whitespace-nowrap flex-shrink-0 hover:underline"
+                  className="text-sm text-primary no-underline whitespace-nowrap flex-shrink-0 hover:underline"
                 >
                   Forgot password?
                 </button>
@@ -131,28 +126,19 @@ const TeacherLoginPage = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full px-6 py-3 bg-blue-500 text-white border-0 rounded-lg text-base font-semibold cursor-pointer hover:bg-blue-600 transition-colors shadow flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full px-6 py-3 bg-primary text-white border-0 rounded-lg text-base font-semibold cursor-pointer hover:bg-primary-dark transition-colors shadow flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {loading ? "Logging in..." : "Login"}
                 {!loading && <ArrowRight size={18} />}
               </button>
               <div className="text-center mt-6 pt-6 border-t border-gray-200">
                 <p className="text-gray-500 text-sm">
-                  Don't have an account?{" "}
+                  Not an Admin?{" "}
                   <a
-                    href="/teacher-registration"
-                    className="text-blue-500 no-underline hover:underline"
+                    href="/login"
+                    className="text-primary no-underline hover:underline"
                   >
-                    Create one here
-                  </a>
-                </p>
-                <p className="text-gray-500 text-sm mt-3">
-                  Not a Teacher?{" "}
-                  <a
-                    href="/register"
-                    className="text-blue-500 no-underline hover:underline"
-                  >
-                    Click here
+                    Return to main login selection
                   </a>
                 </p>
               </div>
@@ -164,4 +150,4 @@ const TeacherLoginPage = () => {
   );
 };
 
-export default TeacherLoginPage;
+export default AdminLoginPage;

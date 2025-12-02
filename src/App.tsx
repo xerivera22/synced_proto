@@ -15,13 +15,13 @@ import {
   Routes,
 } from "react-router-dom";
 // Dashboards remain at root pages for now; will be reorganized later
-import AdminLoginPage from "@/pages/landing/AdminLoginPage";
+import AdminLoginPage from "@/pages/landing/Login/AdminLoginPage";
 // Landing/public/auth pages grouped under pages/landing
 import LandingPage from "@/pages/landing/LandingPage";
+import StudentLoginPage from "@/pages/landing/Login/StudentLoginPage";
 import PricingPage from "@/pages/landing/PricingPage";
 import RegisterFormPage from "@/pages/landing/RegisterFormPage";
 import RegisterPage from "@/pages/landing/RegisterPage";
-import StudentLoginPage from "@/pages/landing/StudentLoginPage";
 import StudentShell from "@/pages/student/layout/StudentShell";
 import {
   AcademicProgress,
@@ -47,6 +47,9 @@ import {
 import TeacherGradebookRedirect from "@/pages/teacher/screens/gradebook-redirect";
 import ScrollToTop from "./components/ScrollToTop";
 import { AuthProvider } from "./context/AuthContext";
+import TeacherLoginPage from "./pages/landing/Login/TeacherLoginPage";
+import StudentRegistration from "./pages/landing/Registration/StudentRegistration";
+import TeacherRegistration from "./pages/landing/Registration/TeacherRegistration";
 import ParentShell from "./pages/parent/layout/ParentShell";
 import {
   ParentAcademicProgress,
@@ -59,9 +62,6 @@ import {
   ParentSchedule,
   ParentSettings,
 } from "./pages/parent/screens";
-import StudentRegistration from "./pages/landing/Registration/StudentRegistration";
-import TeacherRegistration from "./pages/landing/Registration/TeacherRegistration";
-import TeacherLoginPage from "./pages/landing/Login/TeacherLoginPage";
 
 function App() {
   return (

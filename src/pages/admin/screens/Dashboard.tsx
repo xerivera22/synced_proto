@@ -8,12 +8,9 @@ import {
 import type { FC } from "react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import {
-  announcements,
-  paymentSummaries,
-  studentMetrics,
-} from "../data/mockData";
+import { paymentSummaries, studentMetrics } from "../data/mockData";
 import { eventService } from "@/services/eventService";
+import { announcementService } from "@/services/announcementService";
 
 interface Event {
   id: string;
@@ -24,8 +21,18 @@ interface Event {
   status: string;
 }
 
+interface Announcement {
+  _id: string;
+  id: string;
+  title: string;
+  target: string;
+  scheduledFor: string;
+  status: string;
+}
+
 const AdminDashboard: FC = () => {
   const [upcomingEvents, setUpcomingEvents] = useState<Event[]>([]);
+  const [announcements, setAnnouncements] = useState<Announcement[]>([]);
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -37,6 +44,18 @@ const AdminDashboard: FC = () => {
       }
     };
     fetchEvents();
+  }, []);
+
+  useEffect(() => {
+    const fetchAnnouncements = async () => {
+      try {
+        const data = await announcementService.getAnnouncements();
+        setAnnouncements(data);
+      } catch (error) {
+        console.error("Failed to fetch announcements:", error);
+      }
+    };
+    fetchAnnouncements();
   }, []);
 
   const summaryCards = [

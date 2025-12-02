@@ -1,6 +1,8 @@
 import logoUrl from "@/assets/ISE_logo.png";
 import {
+  Building,
   CalendarClock,
+  File,
   FileStack,
   GraduationCap,
   Home,
@@ -24,9 +26,14 @@ const navItems = [
   { to: "/admin/events", label: "Events & Schedule", icon: CalendarClock },
   { to: "/admin/payments", label: "Payment Ledger", icon: FileStack },
   { to: "/admin/announcements", label: "Announcements", icon: Megaphone },
+  { to: "/admin/subjects", label: "Subjects", icon: File },
+  { to: "/admin/section", label: "Section", icon: Building },
 ];
 
-const AdminSideNavigation: React.FC<SideNavigationProps> = ({ className = "", onLinkClick }) => {
+const AdminSideNavigation: React.FC<SideNavigationProps> = ({
+  className = "",
+  onLinkClick,
+}) => {
   const location = useLocation();
   const [collapsed, setCollapsed] = useState<boolean>(() => {
     try {
@@ -45,7 +52,11 @@ const AdminSideNavigation: React.FC<SideNavigationProps> = ({ className = "", on
   }, [collapsed]);
 
   return (
-    <nav className={`side-navigation ${collapsed ? "collapsed" : ""} ${className}`.trim()}>
+    <nav
+      className={`side-navigation ${
+        collapsed ? "collapsed" : ""
+      } ${className}`.trim()}
+    >
       <div className="nav-header">
         <button
           type="button"
@@ -66,7 +77,8 @@ const AdminSideNavigation: React.FC<SideNavigationProps> = ({ className = "", on
                 className={({ isActive }) => {
                   const highlight =
                     isActive ||
-                    (to === "/admin" && location.pathname.startsWith("/admin/dashboard"));
+                    (to === "/admin" &&
+                      location.pathname.startsWith("/admin/dashboard"));
                   return `nav-item ${highlight ? "active" : ""}`;
                 }}
                 end

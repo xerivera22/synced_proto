@@ -5,13 +5,84 @@ import {
   CheckCircle,
   Clock,
   TrendingUp,
+  Users,
+  Building,
+  BookOpenCheck,
+  AlertTriangle,
 } from "lucide-react";
-import { useMemo } from "react";
+import { useEffect, useState } from "react";
 import { Card } from "./ui/card";
 import { useAuth } from "@/context/AuthContext";
+import { subjectService } from "@/services/subjectService";
+
+interface Subject {
+  _id: string;
+  subjectName: string;
+  subjectCode: string;
+  department: string;
+  schedules: string[];
+  sectionId?: string;
+  sectionName?: string;
+}
+
+interface DashboardClass {
+  subject: string;
+  subjectCode: string;
+  time: string;
+  room?: string;
+  department: string;
+  sectionName?: string;
+  status: "upcoming" | "ongoing" | "completed";
+}
 
 export function Dashboard() {
   const { userData } = useAuth();
+  const [subjects, setSubjects] = useState<Subject[]>([]);
+  const [todayClasses, setTodayClasses] = useState<DashboardClass[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [quickStats, setQuickStats] = useState([
+    {
+      label: userData.role === "teacher" ? "Total Subjects" : "Attendance Rate",
+      value: "0",
+      description:
+        userData.role === "teacher" ? "Assigned subjects" : "Past 30 days",
+      icon: userData.role === "teacher" ? BookOpen : CheckCircle,
+      containerClass: "border-emerald-100 bg-emerald-50",
+      labelClass: "text-emerald-700",
+      iconClass: "text-emerald-700",
+    },
+    {
+      label: userData.role === "teacher" ? "Today's Classes" : "Overall GPA",
+      value: "0",
+      description:
+        userData.role === "teacher" ? "Scheduled today" : "Current semester",
+      icon: userData.role === "teacher" ? Calendar : TrendingUp,
+      containerClass: "border-sky-100 bg-sky-50",
+      labelClass: "text-sky-700",
+      iconClass: "text-sky-700",
+    },
+    {
+      label: userData.role === "teacher" ? "Sections" : "Pending Tasks",
+      value: "0",
+      description:
+        userData.role === "teacher" ? "Assigned sections" : "Due soon",
+      icon: userData.role === "teacher" ? Users : AlertCircle,
+      containerClass: "border-amber-100 bg-amber-50",
+      labelClass: "text-amber-700",
+      iconClass: "text-amber-700",
+    },
+    {
+      label: userData.role === "teacher" ? "Teaching Hours" : "Study Time",
+      value: "0h",
+      description:
+        userData.role === "teacher" ? "Weekly total" : "Logged this week",
+      icon: Clock,
+      containerClass: "border-indigo-100 bg-indigo-50",
+      labelClass: "text-indigo-700",
+      iconClass: "text-indigo-700",
+    },
+  ]);
 
   const currentDate = new Date().toLocaleDateString("en-US", {
     weekday: "long",
@@ -20,91 +91,247 @@ export function Dashboard() {
     day: "numeric",
   });
 
-  console.log(currentDate);
+  // Fetch subjects on component mount
+  useEffect(() => {
+    fetchSubjects();
+  }, []);
 
-  const upcomingClasses = useMemo(
-    () => [
-      {
-        subject: "Mathematics",
-        time: "09:00 AM",
-        room: "Room 201",
-        status: "upcoming",
-      },
-      {
-        subject: "Physics",
-        time: "11:00 AM",
-        room: "Lab 3",
-        status: "upcoming",
-      },
-      {
-        subject: "English",
-        time: "02:00 PM",
-        room: "Room 105",
-        status: "upcoming",
-      },
-    ],
-    []
-  );
+  const fetchSubjects = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const data = await subjectService.getSubjects();
+      setSubjects(data);
+      processDashboardData(data);
+    } catch (err) {
+      console.error("Error fetching subjects:", err);
+      setError("Failed to load dashboard data. Please try again later.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  const quickStats = [
+  // Process dashboard data
+  const processDashboardData = (subjectsData: Subject[]) => {
+    const today = new Date();
+    const todayString = today.toISOString().split("T")[0]; // YYYY-MM-DD
+    const currentTime = today.getHours() * 60 + today.getMinutes(); // Current time in minutes
+
+    const todayClassesData: DashboardClass[] = [];
+    let totalTeachingHours = 0;
+    const uniqueSections = new Set<string>();
+
+    subjectsData.forEach((subject) => {
+      // Count unique sections
+      if (subject.sectionName) {
+        uniqueSections.add(subject.sectionName);
+      }
+
+      // Process today's classes
+      subject.schedules.forEach((schedule) => {
+        const [date, time] = schedule.split(" ");
+
+        // Check if schedule is for today
+        if (date === todayString) {
+          const [classHours, classMinutes] = time.split(":").map(Number);
+          const classTimeInMinutes = classHours * 60 + classMinutes;
+
+          // Determine status based on current time
+          let status: "upcoming" | "ongoing" | "completed" = "upcoming";
+
+          if (classTimeInMinutes < currentTime - 50) {
+            // Class finished (assuming 50 min classes)
+            status = "completed";
+          } else if (classTimeInMinutes <= currentTime) {
+            // Class is happening now or just started
+            status = "ongoing";
+          } else {
+            // Future class
+            status = "upcoming";
+          }
+
+          // Add teaching hours
+          totalTeachingHours += 1; // 1 hour per class
+
+          todayClassesData.push({
+            subject: subject.subjectName,
+            subjectCode: subject.subjectCode,
+            time: formatTime(time),
+            department: subject.department,
+            sectionName: subject.sectionName,
+            status: status,
+          });
+        }
+      });
+    });
+
+    // Sort by time
+    todayClassesData.sort((a, b) => {
+      // Extract time from the original schedule string
+      const timeA = a.time.split(" ")[0];
+      const timeB = b.time.split(" ")[0];
+      return timeA.localeCompare(timeB);
+    });
+
+    setTodayClasses(todayClassesData);
+    updateQuickStats(
+      subjectsData.length,
+      todayClassesData.length,
+      uniqueSections.size,
+      totalTeachingHours
+    );
+  };
+
+  // Format time from "09:00" to "09:00 AM"
+  const formatTime = (time: string) => {
+    const [hours, minutes] = time.split(":").map(Number);
+    const ampm = hours >= 12 ? "PM" : "AM";
+    const displayHours = hours % 12 || 12;
+    return `${displayHours}:${minutes.toString().padStart(2, "0")} ${ampm}`;
+  };
+
+  // Update quick stats
+  const updateQuickStats = (
+    totalSubjects: number,
+    todayClassesCount: number,
+    sectionsCount: number,
+    teachingHours: number
+  ) => {
+    const updatedStats = [...quickStats];
+
+    if (userData.role === "teacher") {
+      // Update for teacher
+      updatedStats[0] = {
+        ...updatedStats[0],
+        value: totalSubjects.toString(),
+        description: `${totalSubjects} assigned subject${
+          totalSubjects !== 1 ? "s" : ""
+        }`,
+      };
+
+      updatedStats[1] = {
+        ...updatedStats[1],
+        value: todayClassesCount.toString(),
+        description: `${todayClassesCount} class${
+          todayClassesCount !== 1 ? "es" : ""
+        } today`,
+      };
+
+      updatedStats[2] = {
+        ...updatedStats[2],
+        value: sectionsCount.toString(),
+        description: `${sectionsCount} section${
+          sectionsCount !== 1 ? "s" : ""
+        } assigned`,
+      };
+
+      updatedStats[3] = {
+        ...updatedStats[3],
+        value: `${teachingHours}h`,
+        description: `${teachingHours} teaching hour${
+          teachingHours !== 1 ? "s" : ""
+        }`,
+      };
+    } else {
+      // Update for student (placeholder data - replace with actual student data)
+      updatedStats[0] = {
+        ...updatedStats[0],
+        value: "92%",
+        description: "Past 30 days",
+      };
+
+      updatedStats[1] = {
+        ...updatedStats[1],
+        value: "3.8",
+        description: "Current semester",
+      };
+
+      updatedStats[2] = {
+        ...updatedStats[2],
+        value: "₱250",
+        description: "Due Oct 15",
+      };
+
+      updatedStats[3] = {
+        ...updatedStats[3],
+        value: "25h",
+        description: "Logged this week",
+      };
+    }
+
+    setQuickStats(updatedStats);
+  };
+
+  // Get status color
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case "ongoing":
+        return "border-green-200 bg-green-50";
+      case "completed":
+        return "border-slate-200 bg-slate-50";
+      case "upcoming":
+        return "border-blue-200 bg-blue-50";
+      default:
+        return "border-slate-200 bg-slate-50";
+    }
+  };
+
+  // Get status icon
+  const getStatusIcon = (status: string) => {
+    switch (status) {
+      case "ongoing":
+        return <AlertTriangle className="w-3 h-3 text-green-600" />;
+      case "completed":
+        return <CheckCircle className="w-3 h-3 text-slate-600" />;
+      case "upcoming":
+        return <Clock className="w-3 h-3 text-blue-600" />;
+      default:
+        return <Clock className="w-3 h-3 text-slate-600" />;
+    }
+  };
+
+  // Recent announcements (mock data - can be replaced with API)
+  const recentAnnouncements = [
     {
-      label: "Attendance Rate",
-      value: "92%",
-      description: "Past 30 days",
-      icon: CheckCircle,
-      containerClass: "border-emerald-100 bg-emerald-50",
-      labelClass: "text-emerald-700",
-      iconClass: "text-emerald-700",
+      title: "Mid-term Exam Schedule Released",
+      date: "2 hours ago",
+      type: "important",
     },
+    { title: "Library Hours Extended", date: "1 day ago", type: "info" },
     {
-      label: "Overall GPA",
-      value: "3.8",
-      description: "Current semester",
-      icon: TrendingUp,
-      containerClass: "border-sky-100 bg-sky-50",
-      labelClass: "text-sky-700",
-      iconClass: "text-sky-700",
-    },
-    {
-      label: "Pending Balance",
-      value: "₱250",
-      description: "Due Oct 15",
-      icon: AlertCircle,
-      containerClass: "border-amber-100 bg-amber-50",
-      labelClass: "text-amber-700",
-      iconClass: "text-amber-700",
-    },
-    {
-      label: "Study Time",
-      value: "25h",
-      description: "Logged this week",
-      icon: Clock,
-      containerClass: "border-indigo-100 bg-indigo-50",
-      labelClass: "text-indigo-700",
-      iconClass: "text-indigo-700",
+      title: "Sports Day Registration Open",
+      date: "3 days ago",
+      type: "event",
     },
   ];
 
-  const recentAnnouncements = useMemo(
-    () => [
-      {
-        title: "Mid-term Exam Schedule Released",
-        date: "2 hours ago",
-        type: "important",
-      },
-      { title: "Library Hours Extended", date: "1 day ago", type: "info" },
-      {
-        title: "Sports Day Registration Open",
-        date: "3 days ago",
-        type: "event",
-      },
-    ],
-    []
-  );
+  if (loading) {
+    return (
+      <div className="space-y-2">
+        <div className="bg-gradient-to-br from-[#647FBC] to-[#5a73b3] text-white h-20 md:h-24 rounded-[12px] shadow-sm">
+          <div className="h-full flex items-center justify-between px-3 md:px-4">
+            <div className="flex flex-col gap-1">
+              <h1 className="text-base md:text-lg font-semibold leading-snug">
+                Welcome back, {userData.name}!
+              </h1>
+              <p className="text-white/80 text-sm">Loading your dashboard...</p>
+            </div>
+            <p className="text-white/80 text-xs md:text-sm whitespace-nowrap">
+              {currentDate}
+            </p>
+          </div>
+        </div>
+        <div className="text-center py-12">
+          <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#647FBC] mb-2"></div>
+          <p className="text-gray-600">Loading dashboard data...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-2">
-      {/* Banner: date always on the right, vertically centered; shorter height */}
+      {/* Banner */}
       <div className="bg-gradient-to-br from-[#647FBC] to-[#5a73b3] text-white h-20 md:h-24 rounded-[12px] shadow-sm">
         <div className="h-full flex items-center justify-between px-3 md:px-4">
           <div className="flex flex-col gap-1">
@@ -112,7 +339,9 @@ export function Dashboard() {
               Welcome back, {userData.name}!
             </h1>
             <p className="text-white/80 text-sm">
-              Here's what's happening with your studies today
+              {userData.role === "teacher"
+                ? "Here's your teaching overview for today"
+                : "Here's what's happening with your studies today"}
             </p>
           </div>
           <p className="text-white/80 text-xs md:text-sm whitespace-nowrap">
@@ -121,7 +350,7 @@ export function Dashboard() {
         </div>
       </div>
 
-      {/* Quick Stats: fill available width with 4 equal cards on md+ */}
+      {/* Quick Stats */}
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
         {quickStats.map((stat) => {
           const Icon = stat.icon;
@@ -153,32 +382,66 @@ export function Dashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
         {/* Today's Schedule */}
         <Card className="p-6">
-          <div className="flex items-center mb-3">
-            <Calendar className="w-4 h-4 text-[#647FBC] mr-2" />
-            <h2 className="font-semibold text-sm">Today's Schedule</h2>
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center">
+              <Calendar className="w-4 h-4 text-[#647FBC] mr-2" />
+              <h2 className="font-semibold text-sm">Today's Schedule</h2>
+            </div>
+            <span className="text-xs text-slate-500">
+              {todayClasses.length} class{todayClasses.length !== 1 ? "es" : ""}
+            </span>
           </div>
-          <div className="space-y-2">
-            {upcomingClasses.map((cls, index) => (
-              <div
-                key={index}
-                className="flex items-center justify-between rounded-xl border border-slate-200 bg-white p-3"
-              >
-                <div>
-                  <p className="font-medium text-sm">{cls.subject}</p>
-                  <p className="text-gray-600 mt-0.5 text-xs">{cls.room}</p>
-                </div>
-                <div className="text-right">
-                  <p className="font-medium text-slate-900 text-xs">
-                    {cls.time}
-                  </p>
-                  <div className="flex items-center text-slate-500 mt-0.5">
-                    <Clock className="w-3 h-3 mr-1" />
-                    <span className="text-xs">50 min</span>
+          {todayClasses.length === 0 ? (
+            <div className="text-center py-4">
+              <p className="text-gray-500 text-sm">
+                No classes scheduled for today
+              </p>
+            </div>
+          ) : (
+            <div className="space-y-2">
+              {todayClasses.map((cls, index) => (
+                <div
+                  key={index}
+                  className={`flex items-center justify-between rounded-xl border ${getStatusColor(
+                    cls.status
+                  )} p-3`}
+                >
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <p className="font-medium text-sm">{cls.subject}</p>
+                      <span className="text-xs text-[#647FBC] bg-[#647FBC]/10 px-2 py-0.5 rounded-full">
+                        {cls.subjectCode}
+                      </span>
+                    </div>
+                    <div className="flex flex-wrap gap-2 mt-1 text-xs text-gray-600">
+                      <div className="flex items-center">
+                        <Building className="w-3 h-3 mr-1" />
+                        <span>{cls.department}</span>
+                      </div>
+                      {cls.sectionName && (
+                        <div className="flex items-center">
+                          <Users className="w-3 h-3 mr-1" />
+                          <span>{cls.sectionName}</span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <div className="flex items-center justify-end gap-1 mb-1">
+                      {getStatusIcon(cls.status)}
+                      <p className="font-medium text-slate-900 text-xs">
+                        {cls.time}
+                      </p>
+                    </div>
+                    <div className="flex items-center text-slate-500">
+                      <Clock className="w-3 h-3 mr-1" />
+                      <span className="text-xs">50 min</span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </Card>
 
         {/* Recent Announcements */}
@@ -202,36 +465,86 @@ export function Dashboard() {
           </div>
         </Card>
 
-        {/* Activity Card with Horizontal Layout */}
+        {/* Activity Summary */}
         <Card className="p-6">
-          <div className="flex items-center mb-3">
-            <TrendingUp className="w-4 h-4 text-green-600 mr-2" />
-            <h2 className="font-semibold text-sm">Weekly Activity</h2>
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center">
+              <BookOpenCheck className="w-4 h-4 text-green-600 mr-2" />
+              <h2 className="font-semibold text-sm">
+                {userData.role === "teacher"
+                  ? "Teaching Summary"
+                  : "Weekly Activity"}
+              </h2>
+            </div>
           </div>
           <div className="space-y-2">
-            <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white p-3">
-              <div className="flex items-center">
-                <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-                <span className="font-medium text-sm">Classes Attended</span>
-              </div>
-              <span className="text-sm font-semibold text-green-600">
-                18/20
-              </span>
-            </div>
-            <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white p-3">
-              <div className="flex items-center">
-                <div className="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>
-                <span className="font-medium text-sm">Assignments Done</span>
-              </div>
-              <span className="text-sm font-semibold text-blue-600">12/15</span>
-            </div>
-            <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white p-3">
-              <div className="flex items-center">
-                <div className="w-2 h-2 bg-orange-500 rounded-full mr-2"></div>
-                <span className="font-medium text-sm">Study Hours</span>
-              </div>
-              <span className="text-sm font-semibold text-orange-600">28h</span>
-            </div>
+            {userData.role === "teacher" ? (
+              <>
+                <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white p-3">
+                  <div className="flex items-center">
+                    <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
+                    <span className="font-medium text-sm">Total Subjects</span>
+                  </div>
+                  <span className="text-sm font-semibold text-green-600">
+                    {subjects.length}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white p-3">
+                  <div className="flex items-center">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>
+                    <span className="font-medium text-sm">
+                      Upcoming Classes
+                    </span>
+                  </div>
+                  <span className="text-sm font-semibold text-blue-600">
+                    {todayClasses.filter((c) => c.status === "upcoming").length}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white p-3">
+                  <div className="flex items-center">
+                    <div className="w-2 h-2 bg-orange-500 rounded-full mr-2"></div>
+                    <span className="font-medium text-sm">Teaching Hours</span>
+                  </div>
+                  <span className="text-sm font-semibold text-orange-600">
+                    {quickStats[3].value}
+                  </span>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white p-3">
+                  <div className="flex items-center">
+                    <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
+                    <span className="font-medium text-sm">
+                      Classes Attended
+                    </span>
+                  </div>
+                  <span className="text-sm font-semibold text-green-600">
+                    18/20
+                  </span>
+                </div>
+                <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white p-3">
+                  <div className="flex items-center">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>
+                    <span className="font-medium text-sm">
+                      Assignments Done
+                    </span>
+                  </div>
+                  <span className="text-sm font-semibold text-blue-600">
+                    12/15
+                  </span>
+                </div>
+                <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white p-3">
+                  <div className="flex items-center">
+                    <div className="w-2 h-2 bg-orange-500 rounded-full mr-2"></div>
+                    <span className="font-medium text-sm">Study Hours</span>
+                  </div>
+                  <span className="text-sm font-semibold text-orange-600">
+                    28h
+                  </span>
+                </div>
+              </>
+            )}
           </div>
         </Card>
       </div>

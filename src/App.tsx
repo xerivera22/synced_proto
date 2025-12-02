@@ -62,10 +62,14 @@ import {
   ParentSchedule,
   ParentSettings,
 } from "./pages/parent/screens";
+import Subjects from "./pages/admin/screens/Subjects";
+import { Toaster } from "sonner";
+import Section from "./pages/admin/screens/Section";
 
 function App() {
   return (
     <AuthProvider>
+      <Toaster position="top-right" richColors />
       <Router basename={import.meta.env.BASE_URL}>
         <ScrollToTop />
         <Routes>
@@ -82,6 +86,8 @@ function App() {
             <Route path="events" element={<AdminEvents />} />
             <Route path="payments" element={<AdminPayments />} />
             <Route path="announcements" element={<AdminAnnouncements />} />
+            <Route path="subjects" element={<Subjects />} />
+            <Route path="section" element={<Section />} />
             <Route path="settings" element={<AdminSettings />} />
           </Route>
           <Route
@@ -123,7 +129,10 @@ function App() {
             path="/teacher-dashboard"
             element={<Navigate to="/teacher/overview" replace />}
           />
-          <Route path="/teacher-registration" element={<TeacherRegistration />} />
+          <Route
+            path="/teacher-registration"
+            element={<TeacherRegistration />}
+          />
           <Route path="/teacher-login" element={<TeacherLoginPage />} />
           <Route path="/teacher" element={<TeacherShell />}>
             <Route index element={<TeacherOverview />} />

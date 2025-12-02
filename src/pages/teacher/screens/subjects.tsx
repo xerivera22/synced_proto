@@ -1,120 +1,86 @@
 import Card from "@/components/shared/Card";
-import { Table } from "lucide-react";
-import { useState } from "react";
+import { Table, Plus, Clock, Building } from "lucide-react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { subjectService } from "@/services/subjectService";
 
-const AddSubjectModal = ({
-  onClose,
-  onSubmit,
-}: {
-  onClose: () => void;
-  onSubmit: (data: any) => void;
-}) => {
-  const [subjectName, setSubjectName] = useState("");
-  const [section, setSection] = useState("");
-  const [students, setStudents] = useState("");
+interface Subject {
+  _id: string;
+  subjectName: string;
+  subjectCode: string;
+  department: string;
+  schedules: string[];
+  sectionId?: string;
+  sectionName?: string;
+}
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    onSubmit({ subjectName, section, students });
-  };
-
+// Helper function to format schedule display
+const formatScheduleDisplay = (schedule: string) => {
+  const [date, time] = schedule.split(" ");
+  const dateObj = new Date(`${date}T${time}:00`);
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="relative w-full max-w-lg rounded-2xl bg-white p-8 shadow-2xl">
-        <button
-          type="button"
-          onClick={onClose}
-          className="absolute top-4 right-4 rounded-full p-2 text-gray-500 transition hover:bg-gray-100"
-        >
-          &times;
-        </button>
-        <h3 className="text-2xl font-semibold text-slate-900 mb-6">
-          Add New Subject
-        </h3>
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label
-              htmlFor="subjectName"
-              className="block text-sm font-medium text-gray-700 mb-2"
-            >
-              Subject Name
-            </label>
-            <input
-              type="text"
-              id="subjectName"
-              value={subjectName}
-              onChange={(e) => setSubjectName(e.target.value)}
-              className="w-full p-3 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-slate-500 focus:bg-white"
-              required
-            />
-          </div>
-          <div className="mb-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <div>
-              <label
-                htmlFor="section"
-                className="block text-sm font-medium text-gray-700 mb-2"
-              >
-                Section
-              </label>
-              <input
-                type="text"
-                id="section"
-                value={section}
-                onChange={(e) => setSection(e.target.value)}
-                className="w-full p-3 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-slate-500 focus:bg-white"
-                required
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="students"
-                className="block text-sm font-medium text-gray-700 mb-2"
-              >
-                Number of Students
-              </label>
-              <input
-                type="number"
-                id="students"
-                value={students}
-                onChange={(e) => setStudents(e.target.value)}
-                className="w-full p-3 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-slate-500 focus:bg-white"
-                required
-              />
-            </div>
-          </div>
-          <div className="flex justify-end gap-4 mt-6">
-            <button
-              type="button"
-              onClick={onClose}
-              className="rounded-full border border-gray-300 bg-white px-6 py-2.5 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              className="rounded-full bg-slate-700 px-6 py-2.5 text-sm font-medium text-white transition hover:bg-slate-800"
-            >
-              Add Subject
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
+    dateObj.toLocaleDateString("en-US", {
+      weekday: "short",
+      month: "short",
+      day: "numeric",
+    }) +
+    " " +
+    time
   );
 };
 
 export default function TeacherSubjects() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [subjects, setSubjects] = useState<Subject[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleAddSubject = (subjectData: any) => {
-    console.log("New Subject Data:", subjectData);
-    setIsModalOpen(false);
+  // Fetch subjects on component mount
+  useEffect(() => {
+    fetchSubjects();
+  }, []);
+
+  const fetchSubjects = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const data = await subjectService.getSubjects();
+      setSubjects(data);
+    } catch (err) {
+      console.error("Error fetching subjects:", err);
+      setError("Failed to load subjects. Please try again later.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleAddSubject = async (subjectData: any) => {
+    try {
+      setIsSubmitting(true);
+      const newSubject = await subjectService.createSubject(subjectData);
+      setSubjects([...subjects, newSubject]);
+      setIsModalOpen(false);
+
+      // Reset form
+      setSubjects([...subjects, newSubject]);
+    } catch (error) {
+      console.error("Error adding subject:", error);
+      alert("Failed to add subject. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  // Calculate total students (mock calculation - you can replace with real data)
+  const calculateTotalStudents = () => {
+    // For now, using a mock calculation based on number of subjects
+    return subjects.length * 25; // Assuming 25 students per subject on average
   };
 
   return (
     <div className="space-y-3">
-      {/* Title banner (student-style) */}
+      {/* Title banner */}
       <div className="bg-gradient-to-br from-[#647FBC] to-[#5a73b3] text-white h-20 md:h-24 rounded-[12px] shadow-sm">
         <div className="h-full flex items-center px-3 md:px-4">
           <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center mr-2">
@@ -122,62 +88,134 @@ export default function TeacherSubjects() {
           </div>
           <div>
             <h1 className="text-base font-semibold">Subjects</h1>
-            <p className="text-white/80 text-sm mt-0.5">Manage classes and sections</p>
+            <p className="text-white/80 text-sm mt-0.5">
+              Manage classes and sections • {subjects.length} subjects •{" "}
+              {calculateTotalStudents()} students
+            </p>
           </div>
         </div>
       </div>
+
       <Card className="p-6 bg-[#647FBC]/5 border-[#647FBC]/15">
         <header className="flex items-center justify-between">
           <div>
-            <h2 className="text-base font-semibold text-slate-900">Subjects</h2>
+            <h2 className="text-base font-semibold text-slate-900">
+              My Subjects
+            </h2>
             <p className="text-sm text-slate-500">
-              Select a subject to manage overview, class records, attendance, and materials.
+              Select a subject to manage overview, class records, attendance,
+              and materials.
             </p>
           </div>
-          <button
-            type="button"
-            onClick={() => setIsModalOpen(true)}
-            className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
-          >
-            Add Subject (mock)
-          </button>
         </header>
-        <div className="mt-5 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {[1, 2, 3].map((id) => (
-            <div
-              key={id}
-              className="rounded-xl border border-[#647FBC]/20 bg-white/80 p-4 shadow-sm transition hover:border-[#647FBC]/40"
+
+        {/* Loading State */}
+        {loading && (
+          <div className="mt-5 text-center py-12">
+            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#647FBC] mb-2"></div>
+            <p className="text-gray-600">Loading subjects...</p>
+          </div>
+        )}
+
+        {/* Error State */}
+        {error && !loading && (
+          <div className="mt-5 text-center py-12">
+            <div className="text-red-600 mb-2">{error}</div>
+            <button
+              onClick={fetchSubjects}
+              className="px-4 py-2 text-sm font-medium text-[#647FBC] hover:text-[#5a73b3]"
             >
-              <div className="flex items-start justify-between gap-3">
-                <div>
-                  <p className="text-sm font-semibold text-slate-900">Sample Subject {id}</p>
-                  <p className="text-xs text-slate-500">Section A • 30 students</p>
-                </div>
-                <div className="flex flex-col gap-2">
-                  <Link
-                    to={`/teacher/subjects/${id}`}
-                    className="rounded-full border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-600 transition hover:text-slate-900"
-                  >
-                    Open
-                  </Link>
-                  <Link
-                    to={`/teacher/subjects/${id}?tab=class-records`}
-                    className="rounded-full border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-600 transition hover:text-slate-900"
-                  >
-                    Class Records
-                  </Link>
-                </div>
+              Try Again
+            </button>
+          </div>
+        )}
+
+        {/* Subjects Grid */}
+        {!loading && !error && (
+          <div className="mt-5 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {subjects.length === 0 ? (
+              <div className="col-span-full text-center py-12">
+                <div className="text-gray-400 mb-2">No subjects found</div>
+                <p className="text-sm text-gray-500">
+                  Click "Add Subject" to create your first subject
+                </p>
               </div>
-            </div>
-          ))}
-        </div>
+            ) : (
+              subjects.map((subject) => (
+                <div
+                  key={subject._id}
+                  className="rounded-xl border border-[#647FBC]/20 bg-white/80 p-4 shadow-sm transition hover:border-[#647FBC]/40 hover:shadow-md"
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between mb-2">
+                        <p className="text-sm font-semibold text-slate-900">
+                          {subject.subjectName}
+                        </p>
+                        <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-[#647FBC]/10 text-[#647FBC]">
+                          {subject.subjectCode}
+                        </span>
+                      </div>
+
+                      <div className="space-y-2">
+                        <div className="flex items-center gap-2 text-xs text-slate-600">
+                          <Building size={12} />
+                          <span>{subject.department}</span>
+                        </div>
+
+                        {subject.sectionName && (
+                          <div className="flex items-center gap-2 text-xs text-slate-600">
+                            <div className="w-3 h-3 rounded-full bg-blue-100 border border-blue-200"></div>
+                            <span>Section: {subject.sectionName}</span>
+                          </div>
+                        )}
+
+                        {subject.schedules.length > 0 && (
+                          <div className="flex items-start gap-2 text-xs text-slate-600">
+                            <Clock size={12} className="mt-0.5 flex-shrink-0" />
+                            <div>
+                              {subject.schedules
+                                .slice(0, 1)
+                                .map((schedule, index) => (
+                                  <div key={index}>
+                                    {formatScheduleDisplay(schedule)}
+                                  </div>
+                                ))}
+                              {subject.schedules.length > 1 && (
+                                <div className="text-slate-400 mt-1">
+                                  +{subject.schedules.length - 1} more schedule
+                                  {subject.schedules.length - 1 !== 1
+                                    ? "s"
+                                    : ""}
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="flex flex-col gap-2 min-w-[100px]">
+                      <Link
+                        to={`/teacher/subjects/${subject._id}`}
+                        className="rounded-full border border-slate-200 px-3 py-1.5 text-xs font-semibold text-slate-600 transition hover:text-slate-900 hover:border-slate-300 text-center"
+                      >
+                        Open
+                      </Link>
+                      <Link
+                        to={`/teacher/subjects/${subject._id}?tab=class-records`}
+                        className="rounded-full border border-slate-200 px-3 py-1.5 text-xs font-semibold text-slate-600 transition hover:text-slate-900 hover:border-slate-300 text-center"
+                      >
+                        Class Records
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        )}
       </Card>
-      {isModalOpen && (
-        <AddSubjectModal
-          onClose={() => setIsModalOpen(false)}
-          onSubmit={handleAddSubject}
-        />
-      )}
     </div>
   );
 }

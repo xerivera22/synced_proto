@@ -1,4 +1,3 @@
-
 import Banner from "@/components/shared/Banner";
 import { useEffect, useState } from "react";
 import { studentProfileService } from "@/services/studentProfileService";
@@ -58,7 +57,9 @@ const Students = () => {
       <section className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h2 className="text-lg font-semibold text-gray-900">Detailed Records</h2>
+            <h2 className="text-lg font-semibold text-gray-900">
+              Detailed Records
+            </h2>
           </div>
         </div>
 
@@ -82,17 +83,27 @@ const Students = () => {
             <tbody className="divide-y divide-gray-100">
               {studentProfiles.map((profile, index) => (
                 <tr key={index} className="bg-white">
-                  <td className="px-4 py-3 font-medium text-gray-900">{profile.studentInfo.name}</td>
+                  <td className="px-4 py-3 font-medium text-gray-900">
+                    {profile.studentInfo.name}
+                  </td>
                   <td className="px-4 py-3">{profile.studentInfo.studentId}</td>
                   <td className="px-4 py-3">{profile.studentInfo.email}</td>
                   <td className="px-4 py-3">{profile.studentInfo.phone}</td>
                   <td className="px-4 py-3">{profile.studentInfo.address}</td>
-                  <td className="px-4 py-3">{profile.studentInfo.dateOfBirth}</td>
-                  <td className="px-4 py-3">{profile.studentInfo.enrollmentDate}</td>
-                  <td className="px-4 py-3">{profile.studentInfo.expectedGraduation}</td>
+                  <td className="px-4 py-3">
+                    {profile.studentInfo.dateOfBirth}
+                  </td>
+                  <td className="px-4 py-3">
+                    {profile.studentInfo.enrollmentDate}
+                  </td>
+                  <td className="px-4 py-3">
+                    {profile.studentInfo.expectedGraduation}
+                  </td>
                   <td className="px-4 py-3">{profile.studentInfo.major}</td>
                   <td className="px-4 py-3">{profile.studentInfo.advisor}</td>
-                  <td className="px-4 py-3 font-semibold text-gray-900">{profile.studentInfo.gpa}</td>
+                  <td className="px-4 py-3 font-semibold text-gray-900">
+                    {profile.studentInfo.gpa}
+                  </td>
                 </tr>
               ))}
             </tbody>

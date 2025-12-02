@@ -16,6 +16,7 @@ import studentProfileRouter from "./routes/studentProfileRouter.js";
 import studentRecordRouter from "./routes/studentRecordRouter.js";
 import subjectRouter from "./routes/subjectRouter.js";
 import teacherProfileRouter from "./routes/teacherProfileRouter.js";
+import sectionRouter from "./routes/sectionRouter.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -62,6 +63,7 @@ app.use("/api/payment-records", paymentRecordRouter);
 app.use("/api/student-profiles", studentProfileRouter);
 app.use("/api/teacher-profiles", teacherProfileRouter);
 app.use("/api/subjects", subjectRouter);
+app.use("/api/sections", sectionRouter);
 
 app.use("/api/auth/admin", adminAuthRouter);
 app.use("/api/auth/student", studentAuthRouter);

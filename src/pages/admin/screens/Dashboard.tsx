@@ -1,10 +1,44 @@
 import Banner from "@/components/shared/Banner";
-import { ArrowUpRight, ClipboardList, GraduationCap, Megaphone } from "lucide-react";
+import {
+  ArrowUpRight,
+  ClipboardList,
+  GraduationCap,
+  Megaphone,
+} from "lucide-react";
 import type { FC } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { announcements, paymentSummaries, studentMetrics, upcomingEvents } from "../data/mockData";
+import {
+  announcements,
+  paymentSummaries,
+  studentMetrics,
+} from "../data/mockData";
+import { eventService } from "@/services/eventService";
+
+interface Event {
+  id: string;
+  title: string;
+  date: string;
+  description: string;
+  audience: string;
+  status: string;
+}
 
 const AdminDashboard: FC = () => {
+  const [upcomingEvents, setUpcomingEvents] = useState<Event[]>([]);
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const data = await eventService.getEvents();
+        setUpcomingEvents(data);
+      } catch (error) {
+        console.error("Failed to fetch events:", error);
+      }
+    };
+    fetchEvents();
+  }, []);
+
   const summaryCards = [
     {
       title: "Active Students",
@@ -46,7 +80,16 @@ const AdminDashboard: FC = () => {
       />
       <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
         {summaryCards.map(
-          ({ title, value, change, icon: Icon, to, containerClass, changeClass, iconClass }) => (
+          ({
+            title,
+            value,
+            change,
+            icon: Icon,
+            to,
+            containerClass,
+            changeClass,
+            iconClass,
+          }) => (
             <Link
               key={title}
               to={to}
@@ -55,7 +98,9 @@ const AdminDashboard: FC = () => {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-gray-500">{title}</p>
-                  <h3 className="mt-2 text-2xl font-semibold text-gray-900">{value}</h3>
+                  <h3 className="mt-2 text-2xl font-semibold text-gray-900">
+                    {value}
+                  </h3>
                   <p className={`mt-1 text-xs ${changeClass}`}>{change}</p>
                 </div>
                 <div
@@ -69,7 +114,7 @@ const AdminDashboard: FC = () => {
                 <ArrowUpRight className="h-4 w-4 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </div>
             </Link>
-          ),
+          )
         )}
       </section>
 
@@ -77,8 +122,12 @@ const AdminDashboard: FC = () => {
         <div className="rounded-2xl border border-sky-100 bg-white p-6 shadow-sm">
           <header className="mb-4 flex items-center justify-between">
             <div>
-              <h2 className="text-lg font-semibold text-gray-900">Upcoming Events</h2>
-              <p className="text-sm text-gray-500">Stay on top of planning and approvals</p>
+              <h2 className="text-lg font-semibold text-gray-900">
+                Upcoming Events
+              </h2>
+              <p className="text-sm text-gray-500">
+                Stay on top of planning and approvals
+              </p>
             </div>
             <Link
               to="/admin/events"
@@ -89,14 +138,21 @@ const AdminDashboard: FC = () => {
           </header>
           <ul className="space-y-3">
             {upcomingEvents.map((event) => (
-              <li key={event.id} className="rounded-xl border border-sky-100/60 bg-white p-4">
+              <li
+                key={event.id}
+                className="rounded-xl border border-sky-100/60 bg-white p-4"
+              >
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-gray-900">{event.title}</p>
-                    <p className="text-xs text-gray-500">Audience: {event.audience}</p>
+                    <p className="text-sm font-medium text-gray-900">
+                      {event.title}
+                    </p>
+                    <p className="text-xs text-gray-500">
+                      Audience: {event.audience}
+                    </p>
                   </div>
                   <span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-600">
-                    {event.date}
+                    {new Date(event.date).toLocaleDateString()}
                   </span>
                 </div>
               </li>
@@ -106,8 +162,12 @@ const AdminDashboard: FC = () => {
         <div className="rounded-2xl border border-purple-100 bg-white p-6 shadow-sm">
           <header className="mb-4 flex items-center justify-between">
             <div>
-              <h2 className="text-lg font-semibold text-gray-900">Announcements</h2>
-              <p className="text-sm text-gray-500">Track scheduled broadcasts</p>
+              <h2 className="text-lg font-semibold text-gray-900">
+                Announcements
+              </h2>
+              <p className="text-sm text-gray-500">
+                Track scheduled broadcasts
+              </p>
             </div>
             <Link
               to="/admin/announcements"
@@ -118,17 +178,26 @@ const AdminDashboard: FC = () => {
           </header>
           <ul className="space-y-3">
             {announcements.slice(0, 3).map((item) => (
-              <li key={item.id} className="rounded-xl border border-purple-100/60 bg-white p-4">
+              <li
+                key={item.id}
+                className="rounded-xl border border-purple-100/60 bg-white p-4"
+              >
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-gray-900">{item.title}</p>
-                    <p className="text-xs text-gray-500">Target: {item.target}</p>
+                    <p className="text-sm font-medium text-gray-900">
+                      {item.title}
+                    </p>
+                    <p className="text-xs text-gray-500">
+                      Target: {item.target}
+                    </p>
                   </div>
                   <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-600">
                     {item.status}
                   </span>
                 </div>
-                <p className="mt-2 text-xs text-gray-400">Schedule: {item.scheduledFor}</p>
+                <p className="mt-2 text-xs text-gray-400">
+                  Schedule: {item.scheduledFor}
+                </p>
               </li>
             ))}
           </ul>
@@ -138,8 +207,12 @@ const AdminDashboard: FC = () => {
       <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
         <header className="mb-4 flex items-center justify-between">
           <div>
-            <h2 className="text-lg font-semibold text-gray-900">Finance Snapshot</h2>
-            <p className="text-sm text-gray-500">Billing overview for the current month</p>
+            <h2 className="text-lg font-semibold text-gray-900">
+              Finance Snapshot
+            </h2>
+            <p className="text-sm text-gray-500">
+              Billing overview for the current month
+            </p>
           </div>
           <Link
             to="/admin/payments"
@@ -150,25 +223,33 @@ const AdminDashboard: FC = () => {
         </header>
         <dl className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <div className="rounded-xl bg-blue-50 p-4">
-            <dt className="text-xs uppercase tracking-wide text-blue-800">Total Due</dt>
+            <dt className="text-xs uppercase tracking-wide text-blue-800">
+              Total Due
+            </dt>
             <dd className="mt-2 text-lg font-semibold text-blue-900">
               ₱{paymentSummaries.totalDueThisMonth.toLocaleString()}
             </dd>
           </div>
           <div className="rounded-xl bg-emerald-50 p-4">
-            <dt className="text-xs uppercase tracking-wide text-emerald-800">Collected</dt>
+            <dt className="text-xs uppercase tracking-wide text-emerald-800">
+              Collected
+            </dt>
             <dd className="mt-2 text-lg font-semibold text-emerald-900">
               ₱{paymentSummaries.collectedThisMonth.toLocaleString()}
             </dd>
           </div>
           <div className="rounded-xl bg-amber-50 p-4">
-            <dt className="text-xs uppercase tracking-wide text-amber-800">Overdue</dt>
+            <dt className="text-xs uppercase tracking-wide text-amber-800">
+              Overdue
+            </dt>
             <dd className="mt-2 text-lg font-semibold text-amber-900">
               {paymentSummaries.overdueInvoices} invoices
             </dd>
           </div>
           <div className="rounded-xl bg-purple-50 p-4">
-            <dt className="text-xs uppercase tracking-wide text-purple-800">Scholarships</dt>
+            <dt className="text-xs uppercase tracking-wide text-purple-800">
+              Scholarships
+            </dt>
             <dd className="mt-2 text-lg font-semibold text-purple-900">
               {paymentSummaries.scholarshipsGranted} students
             </dd>

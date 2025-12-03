@@ -136,7 +136,7 @@ const TeacherLoginPage = () => {
                 {loading ? "Logging in..." : "Login"}
                 {!loading && <ArrowRight size={18} />}
               </button>
-              <div className="text-center mt-6 pt-6 border-t border-gray-200">
+              <div className="text-center mt-6 pt-4 border-t border-gray-200 space-y-3">
                 <p className="text-gray-500 text-sm">
                   Don't have an account?{" "}
                   <a
@@ -146,8 +146,8 @@ const TeacherLoginPage = () => {
                     Create one here
                   </a>
                 </p>
-                <p className="text-gray-500 text-sm mt-3">
-                  Not a Teacher?{" "}
+                <p className="text-gray-500 text-sm">
+                  You're not a Teacher?{" "}
                   <a
                     href="/register"
                     className="text-primary no-underline hover:underline"

@@ -1,10 +1,12 @@
 import Navbar from "@/components/Navbar";
+import { adminAuthService } from "@/services/Authentication/adminAuthService";
+import { Eye, EyeOff } from "lucide-react";
 import { type FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const RegisterFormPage = () => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
+  const initialFormData = {
     firstName: "",
     lastName: "",
     email: "",
@@ -17,23 +19,56 @@ const RegisterFormPage = () => {
     numberOfStudents: "",
     position: "",
     agreeToTerms: false,
-  });
+  };
+  const [formData, setFormData] = useState(initialFormData);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    setError("");
+
     if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match!");
+      setError("Passwords do not match!");
       return;
     }
     if (!formData.agreeToTerms) {
-      alert("Please agree to the terms and conditions");
+      setError("Please agree to the terms and conditions");
       return;
     }
-    console.log("Form submitted:", formData);
-    alert("Account created successfully!");
-    navigate("/admin-login");
+
+    try {
+      setLoading(true);
+      const response = await adminAuthService.register({
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+        password: formData.password,
+        phone: formData.phone,
+        schoolName: formData.schoolName,
+        schoolAddress: formData.schoolAddress,
+        schoolType: formData.schoolType,
+        numberOfStudents: formData.numberOfStudents,
+        position: formData.position,
+      });
+      if (response?.success === false) {
+        setError(response?.message || "Registration failed. Please try again.");
+        return;
+      }
+      setFormData({ ...initialFormData });
+      alert("Account created successfully!");
+      navigate("/register");
+    } catch (err: any) {
+      const errorMessage =
+        err?.response?.data?.message ||
+        err?.message ||
+        "Registration failed. Please try again.";
+      setError(errorMessage);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -50,6 +85,11 @@ const RegisterFormPage = () => {
                 <p className="text-muted text-lg">Register now with SyncED</p>
               </div>
               <form onSubmit={handleSubmit} className="max-w-lg mx-auto">
+                {error && (
+                  <div className="bg-red-50 text-red-600 px-4 py-3 rounded-lg text-sm mb-4">
+                    {error}
+                  </div>
+                )}
                 <div className="grid grid-cols-2 gap-4 mb-5">
                   <div>
                     <label
@@ -128,12 +168,13 @@ const RegisterFormPage = () => {
                       <button
                         type="button"
                         onClick={() => setShowPassword((v) => !v)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-primary hover:underline px-2 py-1"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-primary p-2"
                         aria-label={
                           showPassword ? "Hide password" : "Show password"
                         }
+                        title={showPassword ? "Hide password" : "Show password"}
                       >
-                        {showPassword ? "Hide" : "Show"}
+                        {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                       </button>
                     </div>
                   </div>
@@ -161,14 +202,23 @@ const RegisterFormPage = () => {
                       <button
                         type="button"
                         onClick={() => setShowConfirmPassword((v) => !v)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-primary hover:underline px-2 py-1"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-primary p-2"
                         aria-label={
                           showConfirmPassword
                             ? "Hide password"
                             : "Show password"
                         }
+                        title={
+                          showConfirmPassword
+                            ? "Hide password"
+                            : "Show password"
+                        }
                       >
-                        {showConfirmPassword ? "Hide" : "Show"}
+                        {showConfirmPassword ? (
+                          <EyeOff size={18} />
+                        ) : (
+                          <Eye size={18} />
+                        )}
                       </button>
                     </div>
                   </div>
@@ -222,9 +272,10 @@ const RegisterFormPage = () => {
                 </div>
                 <button
                   type="submit"
-                  className="w-full p-4 bg-primary text-white border-0 rounded-md text-base font-semibold cursor-pointer hover:bg-primary-dark mt-6"
+                  disabled={loading}
+                  className="w-full p-4 bg-primary text-white border-0 rounded-md text-base font-semibold cursor-pointer hover:bg-primary-dark mt-6 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Create Account
+                  {loading ? "Creating Account..." : "Create Account"}
                 </button>
                 <div className="text-center mt-6">
                   <p className="text-muted text-sm">

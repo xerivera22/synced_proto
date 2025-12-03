@@ -1,7 +1,8 @@
-import { type FormEvent, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import { teacherAuthService } from "@/services/Authentication/teacherAuthService";
+import { Eye, EyeOff } from "lucide-react";
+import { type FormEvent, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const TeacherRegistration = () => {
   const navigate = useNavigate();
@@ -95,9 +96,9 @@ const TeacherRegistration = () => {
 
         agreeToTerms: false,
       });
-      navigate("/teacher-login");
       if (response.success) {
         alert("Teacher account created successfully!");
+        navigate("/register");
       } else {
         setError(response.message || "Registration failed. Please try again.");
       }
@@ -388,12 +389,13 @@ const TeacherRegistration = () => {
                       <button
                         type="button"
                         onClick={() => setShowPassword((v) => !v)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-blue-500 hover:underline px-2 py-1"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-blue-500 p-2"
                         aria-label={
                           showPassword ? "Hide password" : "Show password"
                         }
+                        title={showPassword ? "Hide password" : "Show password"}
                       >
-                        {showPassword ? "Hide" : "Show"}
+                        {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                       </button>
                     </div>
                   </div>
@@ -417,14 +419,23 @@ const TeacherRegistration = () => {
                       <button
                         type="button"
                         onClick={() => setShowConfirmPassword((v) => !v)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-blue-500 hover:underline px-2 py-1"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-blue-500 p-2"
                         aria-label={
                           showConfirmPassword
                             ? "Hide password"
                             : "Show password"
                         }
+                        title={
+                          showConfirmPassword
+                            ? "Hide password"
+                            : "Show password"
+                        }
                       >
-                        {showConfirmPassword ? "Hide" : "Show"}
+                        {showConfirmPassword ? (
+                          <EyeOff size={18} />
+                        ) : (
+                          <Eye size={18} />
+                        )}
                       </button>
                     </div>
                   </div>

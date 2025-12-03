@@ -131,14 +131,23 @@ const AdminLoginPage = () => {
                 {loading ? "Logging in..." : "Login"}
                 {!loading && <ArrowRight size={18} />}
               </button>
-              <div className="text-center mt-6 pt-6 border-t border-gray-200">
+              <div className="text-center mt-6 pt-4 border-t border-gray-200 space-y-3">
                 <p className="text-gray-500 text-sm">
-                  Not an Admin?{" "}
+                  Don't have an account?{" "}
                   <a
-                    href="/login"
+                    href="/admin-registration"
                     className="text-primary no-underline hover:underline"
                   >
-                    Return to main login selection
+                    Create one here
+                  </a>
+                </p>
+                <p className="text-gray-500 text-sm">
+                  You're not an Admin?{" "}
+                  <a
+                    href="/register"
+                    className="text-primary no-underline hover:underline"
+                  >
+                    Click here
                   </a>
                 </p>
               </div>

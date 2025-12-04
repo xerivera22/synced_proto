@@ -37,6 +37,8 @@ const StudentRegistration = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  console.log(formData.name)
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -79,6 +81,8 @@ const StudentRegistration = () => {
         },
         achievements: [],
       };
+
+      console.log(studentData);
 
       const response = await studentAuthService.register(studentData);
 
@@ -430,7 +434,11 @@ const StudentRegistration = () => {
                         }
                         title={showPassword ? "Hide password" : "Show password"}
                       >
-                        {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                        {showPassword ? (
+                          <EyeOff size={18} />
+                        ) : (
+                          <Eye size={18} />
+                        )}
                       </button>
                     </div>
                   </div>

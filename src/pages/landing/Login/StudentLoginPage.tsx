@@ -147,7 +147,7 @@ const StudentLoginPage = () => {
                 <p className="text-gray-500 text-sm mt-3">
                   You're not a Student/Parent?{" "}
                   <a
-                    href="/register"
+                    href="/student-register"
                     className="text-primary no-underline hover:underline"
                   >
                     Click here

@@ -11,11 +11,15 @@ export const studentAuthService = {
   },
 
   async register(studentData: any) {
-    const response = await axios.post(
-      `${API_BASE_URL}/auth/student/register`,
-      studentData
-    );
-    return response.data;
+    try {
+      const response = await axios.post(
+        `${API_BASE_URL}/auth/student/register`,
+        studentData
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error:", error);
+    }
   },
 
   async getProfile(studentId: string) {

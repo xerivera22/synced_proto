@@ -1,3 +1,7 @@
+import syncEDLogo from "@/assets/syncED.png";
+import Footer from "@/components/Footer";
+import Navbar from "@/components/Navbar";
+import type { FAQ, Feature } from "@/types";
 import {
   ArrowUp,
   BarChart3,
@@ -18,10 +22,6 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-
-import Footer from "@/components/Footer";
-import Navbar from "@/components/Navbar";
-import type { FAQ, Feature } from "@/types";
 
 const LandingPage = () => {
   const { hash, pathname } = useLocation();
@@ -146,10 +146,10 @@ const LandingPage = () => {
 
           <div className="flex gap-4 items-center pt-4">
             <Link
-              to="/register-form"
+              to="/register"
               className="bg-primary text-white px-9 py-4 rounded-xl font-semibold text-lg shadow-lg hover:bg-primary-dark hover:-translate-y-1 transition-all"
             >
-              Get Started Free
+              Get Started
             </Link>
             <Link
               to="/pricing"
@@ -174,8 +174,8 @@ const LandingPage = () => {
         <div className="relative min-h-[560px] flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-200 rounded-3xl overflow-hidden">
           <div className="absolute inset-x-0 bottom-0 h-3/4 bg-gradient-to-br from-primary to-blue-600 opacity-10 rounded-t-[50%]"></div>
           <img
-            src="/syncED.png"
-            alt="SyncED Dashboard Preview"
+            src={syncEDLogo}
+            alt="SyncED platform preview"
             className="relative rounded-2xl shadow-2xl w-[90%] h-auto object-cover max-w-[800px] transition-transform hover:scale-[1.02]"
           />
         </div>

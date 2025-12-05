@@ -138,7 +138,7 @@ const StudentLoginPage = () => {
                 <p className="text-gray-500 text-sm">
                   Don't have an account?{" "}
                   <a
-                    href="/register-form"
+                    href="/student-register"
                     className="text-primary no-underline hover:underline"
                   >
                     Create one here
@@ -147,7 +147,7 @@ const StudentLoginPage = () => {
                 <p className="text-gray-500 text-sm mt-3">
                   You're not a Student/Parent?{" "}
                   <a
-                    href="/student-register"
+                    href="/register"
                     className="text-primary no-underline hover:underline"
                   >
                     Click here

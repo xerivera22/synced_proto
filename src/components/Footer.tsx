@@ -1,3 +1,5 @@
+import syncEDLogo from "@/assets/syncED.png";
+import { Mail, MapPin, Phone } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
@@ -10,7 +12,7 @@ const Footer = () => {
           {/* Brand Section */}
           <div>
             <Link to="/" className="flex items-center gap-2.5 font-bold text-2xl text-white mb-4">
-              <img src="/syncED.png" alt="SyncED Logo" className="w-9 h-9" />
+              <img src={syncEDLogo} alt="SyncED Logo" className="w-9 h-9" />
               <span>SyncED</span>
             </Link>
             <p className="leading-relaxed mb-6">
@@ -61,8 +63,8 @@ const Footer = () => {
           <div>
             <h4 className="font-semibold text-lg mb-4 text-white">Contact Us</h4>
             <ul className="space-y-3">
-              <li className="flex items-center gap-2">
-                <span>📧</span>
+              <li className="flex items-center gap-3">
+                <Mail className="h-5 w-5 text-white" aria-hidden />
                 <a
                   href="mailto:support@synced.com"
                   className="transition-colors text-gray-300 hover:text-white"
@@ -70,12 +72,12 @@ const Footer = () => {
                   support@synced.com
                 </a>
               </li>
-              <li className="flex items-center gap-2">
-                <span>📞</span>
+              <li className="flex items-center gap-3">
+                <Phone className="h-5 w-5 text-white" aria-hidden />
                 <span className="text-gray-300">+63 912 345 6789</span>
               </li>
-              <li className="flex items-center gap-2">
-                <span>📍</span>
+              <li className="flex items-center gap-3">
+                <MapPin className="h-5 w-5 text-white" aria-hidden />
                 <span className="text-gray-300">Manila, Philippines</span>
               </li>
             </ul>

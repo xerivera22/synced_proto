@@ -1,3 +1,4 @@
+import syncEDLogo from "@/assets/syncED.png";
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
@@ -43,7 +44,7 @@ const Navbar: React.FC<NavbarProps> = ({ showSignIn = true, showRegister = false
             className="flex items-center gap-2.5 font-bold text-2xl text-primary transition-opacity hover:opacity-80 shrink-0"
           >
             <img
-              src="/syncED.png"
+              src={syncEDLogo}
               alt="SyncED Logo"
               className="w-9 h-9 object-contain bg-white p-1 rounded-md"
             />

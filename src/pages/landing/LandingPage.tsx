@@ -1,4 +1,6 @@
 import syncEDLogo from "@/assets/syncED.png";
+import AIChatIcon from "@/components/AI/AIChatIcon";
+import AIWindow from "@/components/AI/AIWindow";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import type { FAQ, Feature } from "@/types";
@@ -27,7 +29,12 @@ const LandingPage = () => {
   const { hash, pathname } = useLocation();
   const [activeQuestion, setActiveQuestion] = useState<number | null>(null);
   const [showScrollTop, setShowScrollTop] = useState(false);
-  const [contactForm, setContactForm] = useState({ name: "", email: "", message: "" });
+  const [isChatOpen, setIsChatOpen] = useState(false);
+  const [contactForm, setContactForm] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
   const [contactSubmitted, setContactSubmitted] = useState(false);
 
   useEffect(() => {
@@ -49,7 +56,10 @@ const LandingPage = () => {
       const el = document.getElementById(id);
       if (el) {
         // Slight delay to ensure layout is ready
-        setTimeout(() => el.scrollIntoView({ behavior: "smooth", block: "start" }), 0);
+        setTimeout(
+          () => el.scrollIntoView({ behavior: "smooth", block: "start" }),
+          0
+        );
       }
     }
   }, [hash, pathname]);
@@ -58,12 +68,14 @@ const LandingPage = () => {
     {
       icon: <BarChart3 className="text-primary" size={48} />,
       title: "Attendance Tracking",
-      description: "Real-time attendance monitoring with automated reports and notifications.",
+      description:
+        "Real-time attendance monitoring with automated reports and notifications.",
     },
     {
       icon: <ClipboardList className="text-primary" size={48} />,
       title: "Grade Management",
-      description: "Comprehensive grade tracking and performance analytics for students.",
+      description:
+        "Comprehensive grade tracking and performance analytics for students.",
     },
     {
       icon: <CreditCard className="text-primary" size={48} />,
@@ -73,17 +85,20 @@ const LandingPage = () => {
     {
       icon: <Calendar className="text-primary" size={48} />,
       title: "Schedule Management",
-      description: "Easy-to-use class scheduling and calendar management tools.",
+      description:
+        "Easy-to-use class scheduling and calendar management tools.",
     },
     {
       icon: <Smartphone className="text-primary" size={48} />,
       title: "Mobile Access",
-      description: "Access your dashboard anywhere with our mobile-friendly platform.",
+      description:
+        "Access your dashboard anywhere with our mobile-friendly platform.",
     },
     {
       icon: <Bell className="text-primary" size={48} />,
       title: "Notifications",
-      description: "Stay updated with instant notifications for important events.",
+      description:
+        "Stay updated with instant notifications for important events.",
     },
   ];
 
@@ -136,12 +151,14 @@ const LandingPage = () => {
           </div>
 
           <h1 className="text-5xl lg:text-6xl font-extrabold leading-tight text-primary tracking-tight">
-            Smart Campus <span className="gradient-text">Management</span> Made Simple
+            Smart Campus <span className="gradient-text">Management</span> Made
+            Simple
           </h1>
 
           <p className="text-xl text-muted leading-relaxed max-w-[540px]">
-            Transform your school administration with SyncED. Streamline operations, enhance
-            communication, and focus on what matters most—education.
+            Transform your school administration with SyncED. Streamline
+            operations, enhance communication, and focus on what matters
+            most—education.
           </p>
 
           <div className="flex gap-4 items-center pt-4">
@@ -185,10 +202,12 @@ const LandingPage = () => {
       <section id="why" className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-8">
           <div className="text-center mb-16">
-            <h2 className="text-5xl font-bold text-primary mb-4">Why Choose SyncED?</h2>
+            <h2 className="text-5xl font-bold text-primary mb-4">
+              Why Choose SyncED?
+            </h2>
             <p className="text-xl text-muted max-w-3xl mx-auto">
-              We understand the challenges of managing a school. SyncED simplifies everything from
-              attendance to payments.
+              We understand the challenges of managing a school. SyncED
+              simplifies everything from attendance to payments.
             </p>
           </div>
 
@@ -197,26 +216,33 @@ const LandingPage = () => {
               <div className="mb-4 flex justify-center">
                 <Zap className="text-primary" size={48} />
               </div>
-              <h3 className="text-2xl font-bold mb-3 text-text">Lightning Fast</h3>
+              <h3 className="text-2xl font-bold mb-3 text-text">
+                Lightning Fast
+              </h3>
               <p className="text-muted leading-relaxed">
-                Access your dashboard instantly with our optimized platform built for speed and
-                efficiency.
+                Access your dashboard instantly with our optimized platform
+                built for speed and efficiency.
               </p>
             </div>
             <div className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition-shadow text-center">
               <div className="mb-4 flex justify-center">
                 <Lock className="text-primary" size={48} />
               </div>
-              <h3 className="text-2xl font-bold mb-3 text-text">Secure & Reliable</h3>
+              <h3 className="text-2xl font-bold mb-3 text-text">
+                Secure & Reliable
+              </h3>
               <p className="text-muted leading-relaxed">
-                Your data is protected with bank-level encryption and regular security audits.
+                Your data is protected with bank-level encryption and regular
+                security audits.
               </p>
             </div>
             <div className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition-shadow text-center">
               <div className="mb-4 flex justify-center">
                 <DollarSign className="text-primary" size={48} />
               </div>
-              <h3 className="text-2xl font-bold mb-3 text-text">Cost-Effective</h3>
+              <h3 className="text-2xl font-bold mb-3 text-text">
+                Cost-Effective
+              </h3>
               <p className="text-muted leading-relaxed">
                 Start free and scale as you grow. Only pay for what you need.
               </p>
@@ -229,7 +255,9 @@ const LandingPage = () => {
       <section id="who" className="py-20">
         <div className="max-w-7xl mx-auto px-8">
           <div className="text-center mb-16">
-            <h2 className="text-5xl font-bold text-primary mb-4">Who Can Use SyncED?</h2>
+            <h2 className="text-5xl font-bold text-primary mb-4">
+              Who Can Use SyncED?
+            </h2>
             <p className="text-xl text-muted max-w-3xl mx-auto">
               Built for everyone in the education ecosystem
             </p>
@@ -240,29 +268,39 @@ const LandingPage = () => {
               <div className="mb-4 flex justify-center">
                 <Building className="text-primary" size={48} />
               </div>
-              <h3 className="text-xl font-semibold mb-2 text-text">Administrators</h3>
-              <p className="text-muted text-sm">Manage operations, finances, and reports</p>
+              <h3 className="text-xl font-semibold mb-2 text-text">
+                Administrators
+              </h3>
+              <p className="text-muted text-sm">
+                Manage operations, finances, and reports
+              </p>
             </div>
             <div className="bg-soft p-6 rounded-2xl text-center hover:shadow-md transition-shadow">
               <div className="mb-4 flex justify-center">
                 <UserCircle className="text-primary" size={48} />
               </div>
               <h3 className="text-xl font-semibold mb-2 text-text">Teachers</h3>
-              <p className="text-muted text-sm">Track attendance, grades, and assignments</p>
+              <p className="text-muted text-sm">
+                Track attendance, grades, and assignments
+              </p>
             </div>
             <div className="bg-soft p-6 rounded-2xl text-center hover:shadow-md transition-shadow">
               <div className="mb-4 flex justify-center">
                 <GraduationCap className="text-primary" size={48} />
               </div>
               <h3 className="text-xl font-semibold mb-2 text-text">Students</h3>
-              <p className="text-muted text-sm">View grades, schedules, and assignments</p>
+              <p className="text-muted text-sm">
+                View grades, schedules, and assignments
+              </p>
             </div>
             <div className="bg-soft p-6 rounded-2xl text-center hover:shadow-md transition-shadow">
               <div className="mb-4 flex justify-center">
                 <Users className="text-primary" size={48} />
               </div>
               <h3 className="text-xl font-semibold mb-2 text-text">Parents</h3>
-              <p className="text-muted text-sm">Monitor progress and communicate</p>
+              <p className="text-muted text-sm">
+                Monitor progress and communicate
+              </p>
             </div>
           </div>
         </div>
@@ -272,7 +310,9 @@ const LandingPage = () => {
       <section id="services" className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-8">
           <div className="text-center mb-16">
-            <h2 className="text-5xl font-bold text-primary mb-4">Powerful Features</h2>
+            <h2 className="text-5xl font-bold text-primary mb-4">
+              Powerful Features
+            </h2>
             <p className="text-xl text-muted max-w-3xl mx-auto">
               Everything you need to run a modern school
             </p>
@@ -285,8 +325,12 @@ const LandingPage = () => {
                 className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition-all hover:-translate-y-1 text-center"
               >
                 <div className="mb-4 flex justify-center">{feature.icon}</div>
-                <h3 className="text-xl font-bold mb-3 text-text">{feature.title}</h3>
-                <p className="text-muted leading-relaxed">{feature.description}</p>
+                <h3 className="text-xl font-bold mb-3 text-text">
+                  {feature.title}
+                </h3>
+                <p className="text-muted leading-relaxed">
+                  {feature.description}
+                </p>
               </div>
             ))}
           </div>
@@ -297,7 +341,9 @@ const LandingPage = () => {
       <section id="how" className="py-20">
         <div className="max-w-7xl mx-auto px-8">
           <div className="text-center mb-16">
-            <h2 className="text-5xl font-bold text-primary mb-4">How It Works</h2>
+            <h2 className="text-5xl font-bold text-primary mb-4">
+              How It Works
+            </h2>
             <p className="text-xl text-muted max-w-3xl mx-auto">
               Get started in three simple steps
             </p>
@@ -318,14 +364,18 @@ const LandingPage = () => {
                 2
               </div>
               <h3 className="text-2xl font-bold mb-3 text-text">Set Up</h3>
-              <p className="text-muted">Add your school data, teachers, and students in minutes</p>
+              <p className="text-muted">
+                Add your school data, teachers, and students in minutes
+              </p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-primary text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-6">
                 3
               </div>
               <h3 className="text-2xl font-bold mb-3 text-text">Get Started</h3>
-              <p className="text-muted">Start managing your school efficiently from day one</p>
+              <p className="text-muted">
+                Start managing your school efficiently from day one
+              </p>
             </div>
           </div>
         </div>
@@ -335,25 +385,38 @@ const LandingPage = () => {
       <section id="faq" className="py-20 bg-gray-50">
         <div className="max-w-4xl mx-auto px-8">
           <div className="text-center mb-16">
-            <h2 className="text-5xl font-bold text-primary mb-4">Frequently Asked Questions</h2>
-            <p className="text-xl text-muted">Got questions? We've got answers</p>
+            <h2 className="text-5xl font-bold text-primary mb-4">
+              Frequently Asked Questions
+            </h2>
+            <p className="text-xl text-muted">
+              Got questions? We've got answers
+            </p>
           </div>
 
           <div className="space-y-4">
             {faqs.map((faq, index) => (
-              <div key={faq.question} className="bg-white rounded-xl overflow-hidden shadow-sm">
+              <div
+                key={faq.question}
+                className="bg-white rounded-xl overflow-hidden shadow-sm"
+              >
                 <button
                   type="button"
-                  onClick={() => setActiveQuestion(activeQuestion === index ? null : index)}
+                  onClick={() =>
+                    setActiveQuestion(activeQuestion === index ? null : index)
+                  }
                   className="w-full px-8 py-6 text-left flex justify-between items-center hover:bg-gray-50 transition-colors"
                 >
-                  <span className="font-semibold text-lg text-text pr-8">{faq.question}</span>
+                  <span className="font-semibold text-lg text-text pr-8">
+                    {faq.question}
+                  </span>
                   <span className="text-2xl text-primary flex-shrink-0">
                     {activeQuestion === index ? "−" : "+"}
                   </span>
                 </button>
                 {activeQuestion === index && (
-                  <div className="px-8 pb-6 text-muted leading-relaxed">{faq.answer}</div>
+                  <div className="px-8 pb-6 text-muted leading-relaxed">
+                    {faq.answer}
+                  </div>
                 )}
               </div>
             ))}
@@ -365,11 +428,18 @@ const LandingPage = () => {
       <section id="contact" className="py-20">
         <div className="max-w-4xl mx-auto px-8">
           <div className="text-center mb-12">
-            <h2 className="text-5xl font-bold text-primary mb-4">Get In Touch</h2>
-            <p className="text-xl text-muted">Have questions? We'd love to hear from you</p>
+            <h2 className="text-5xl font-bold text-primary mb-4">
+              Get In Touch
+            </h2>
+            <p className="text-xl text-muted">
+              Have questions? We'd love to hear from you
+            </p>
           </div>
 
-          <form onSubmit={handleContactSubmit} className="bg-white p-8 rounded-2xl shadow-lg">
+          <form
+            onSubmit={handleContactSubmit}
+            className="bg-white p-8 rounded-2xl shadow-lg"
+          >
             {contactSubmitted && (
               <div className="mb-6 p-4 bg-green-50 text-green-700 rounded-lg">
                 Thank you! Your message has been sent successfully.
@@ -378,27 +448,37 @@ const LandingPage = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
               <div>
-                <label htmlFor="name" className="block text-sm font-semibold text-text mb-2">
+                <label
+                  htmlFor="name"
+                  className="block text-sm font-semibold text-text mb-2"
+                >
                   Name
                 </label>
                 <input
                   type="text"
                   id="name"
                   value={contactForm.name}
-                  onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
+                  onChange={(e) =>
+                    setContactForm({ ...contactForm, name: e.target.value })
+                  }
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                   required
                 />
               </div>
               <div>
-                <label htmlFor="email" className="block text-sm font-semibold text-text mb-2">
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-semibold text-text mb-2"
+                >
                   Email
                 </label>
                 <input
                   type="email"
                   id="email"
                   value={contactForm.email}
-                  onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
+                  onChange={(e) =>
+                    setContactForm({ ...contactForm, email: e.target.value })
+                  }
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                   required
                 />
@@ -406,13 +486,18 @@ const LandingPage = () => {
             </div>
 
             <div className="mb-6">
-              <label htmlFor="message" className="block text-sm font-semibold text-text mb-2">
+              <label
+                htmlFor="message"
+                className="block text-sm font-semibold text-text mb-2"
+              >
                 Message
               </label>
               <textarea
                 id="message"
                 value={contactForm.message}
-                onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
+                onChange={(e) =>
+                  setContactForm({ ...contactForm, message: e.target.value })
+                }
                 rows={6}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary resize-none"
                 required
@@ -442,6 +527,8 @@ const LandingPage = () => {
       )}
 
       <Footer />
+      <AIChatIcon onClick={() => setIsChatOpen(true)} />
+      <AIWindow isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
     </div>
   );
 };

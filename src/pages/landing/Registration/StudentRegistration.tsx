@@ -84,7 +84,7 @@ const StudentRegistration = () => {
 
       if (response.success) {
         alert("Account created successfully!");
-        navigate("/register");
+        navigate("/student-login");
       } else {
         setError(response.message || "Registration failed. Please try again.");
       }
@@ -103,7 +103,9 @@ const StudentRegistration = () => {
           <div className="bg-white rounded-2xl shadow-sm border border-gray-200">
             <div className="p-16">
               <div className="text-center mb-10">
-                <h2 className="text-4xl font-bold text-text mb-2">Create Student Account</h2>
+                <h2 className="text-4xl font-bold text-text mb-2">
+                  Create Student Account
+                </h2>
                 <p className="text-muted text-lg">Register now with SyncED</p>
               </div>
               <form onSubmit={handleSubmit} className="max-w-lg mx-auto">
@@ -120,7 +122,9 @@ const StudentRegistration = () => {
                   <input
                     type="text"
                     value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, name: e.target.value })
+                    }
                     className="w-full p-4 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-primary focus:bg-white"
                     required
                   />
@@ -134,17 +138,23 @@ const StudentRegistration = () => {
                     <input
                       type="text"
                       value={formData.studentId}
-                      onChange={(e) => setFormData({ ...formData, studentId: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({ ...formData, studentId: e.target.value })
+                      }
                       className="w-full p-4 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-primary focus:bg-white"
                       required
                     />
                   </div>
                   <div>
-                    <label className="block font-semibold text-gray-700 mb-2 text-sm">Email</label>
+                    <label className="block font-semibold text-gray-700 mb-2 text-sm">
+                      Email
+                    </label>
                     <input
                       type="email"
                       value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({ ...formData, email: e.target.value })
+                      }
                       className="w-full p-4 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-primary focus:bg-white"
                       required
                     />
@@ -153,11 +163,16 @@ const StudentRegistration = () => {
 
                 <div className="grid grid-cols-2 gap-4 mb-5">
                   <div>
-                    <label className="block font-semibold text-gray-700 mb-2 text-sm">Phone</label>
+                    <label className="block font-semibold text-gray-700 mb-2 text-sm">
+                      Phone
+                    </label>
                     <input
                       type="tel"
                       value={formData.phone}
-                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      maxLength={11}
+                      onChange={(e) =>
+                        setFormData({ ...formData, phone: e.target.value })
+                      }
                       className="w-full p-4 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-primary focus:bg-white"
                       required
                     />
@@ -182,11 +197,15 @@ const StudentRegistration = () => {
                 </div>
 
                 <div className="mb-5">
-                  <label className="block font-semibold text-gray-700 mb-2 text-sm">Address</label>
+                  <label className="block font-semibold text-gray-700 mb-2 text-sm">
+                    Address
+                  </label>
                   <input
                     type="text"
                     value={formData.address}
-                    onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, address: e.target.value })
+                    }
                     className="w-full p-4 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-primary focus:bg-white"
                     required
                   />
@@ -229,66 +248,10 @@ const StudentRegistration = () => {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4 mb-5">
-                  <div>
-                    <label className="block font-semibold text-gray-700 mb-2 text-sm">Major</label>
-                    <input
-                      type="text"
-                      value={formData.major}
-                      onChange={(e) => setFormData({ ...formData, major: e.target.value })}
-                      className="w-full p-4 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-primary focus:bg-white"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label className="block font-semibold text-gray-700 mb-2 text-sm">Minor</label>
-                    <input
-                      type="text"
-                      value={formData.minor}
-                      onChange={(e) => setFormData({ ...formData, minor: e.target.value })}
-                      className="w-full p-4 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-primary focus:bg-white"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4 mb-5">
-                  <div>
-                    <label className="block font-semibold text-gray-700 mb-2 text-sm">
-                      Advisor
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.advisor}
-                      onChange={(e) => setFormData({ ...formData, advisor: e.target.value })}
-                      className="w-full p-4 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-primary focus:bg-white"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label className="block font-semibold text-gray-700 mb-2 text-sm">GPA</label>
-                    <input
-                      type="text"
-                      value={formData.gpa}
-                      onChange={(e) => setFormData({ ...formData, gpa: e.target.value })}
-                      className="w-full p-4 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-primary focus:bg-white"
-                    />
-                  </div>
-                </div>
-
-                <div className="mb-5">
-                  <label className="block font-semibold text-gray-700 mb-2 text-sm">
-                    Credit Hours
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.creditHours}
-                    onChange={(e) => setFormData({ ...formData, creditHours: e.target.value })}
-                    className="w-full p-4 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-primary focus:bg-white"
-                  />
-                </div>
-
                 <div className="mt-8 mb-5 pb-3 border-b-2 border-gray-200">
-                  <h3 className="text-gray-700 text-lg font-semibold">Emergency Contact</h3>
+                  <h3 className="text-gray-700 text-lg font-semibold">
+                    Emergency Contact
+                  </h3>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4 mb-5">
@@ -336,6 +299,7 @@ const StudentRegistration = () => {
                     <input
                       type="tel"
                       value={formData.emergencyContactPhone}
+                      maxLength={11}
                       onChange={(e) =>
                         setFormData({
                           ...formData,
@@ -365,7 +329,9 @@ const StudentRegistration = () => {
                 </div>
 
                 <div className="mt-8 mb-5 pb-3 border-b-2 border-gray-200">
-                  <h3 className="text-gray-700 text-lg font-semibold">Account Security</h3>
+                  <h3 className="text-gray-700 text-lg font-semibold">
+                    Account Security
+                  </h3>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4 mb-5">
@@ -377,7 +343,9 @@ const StudentRegistration = () => {
                       <input
                         type={showPassword ? "text" : "password"}
                         value={formData.password}
-                        onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                        onChange={(e) =>
+                          setFormData({ ...formData, password: e.target.value })
+                        }
                         className="w-full p-4 pr-16 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-primary focus:bg-white"
                         required
                       />
@@ -385,10 +353,16 @@ const StudentRegistration = () => {
                         type="button"
                         onClick={() => setShowPassword((v) => !v)}
                         className="absolute right-3 top-1/2 -translate-y-1/2 text-primary p-2"
-                        aria-label={showPassword ? "Hide password" : "Show password"}
+                        aria-label={
+                          showPassword ? "Hide password" : "Show password"
+                        }
                         title={showPassword ? "Hide password" : "Show password"}
                       >
-                        {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                        {showPassword ? (
+                          <EyeOff size={18} />
+                        ) : (
+                          <Eye size={18} />
+                        )}
                       </button>
                     </div>
                   </div>
@@ -413,10 +387,22 @@ const StudentRegistration = () => {
                         type="button"
                         onClick={() => setShowConfirmPassword((v) => !v)}
                         className="absolute right-3 top-1/2 -translate-y-1/2 text-primary p-2"
-                        aria-label={showConfirmPassword ? "Hide password" : "Show password"}
-                        title={showConfirmPassword ? "Hide password" : "Show password"}
+                        aria-label={
+                          showConfirmPassword
+                            ? "Hide password"
+                            : "Show password"
+                        }
+                        title={
+                          showConfirmPassword
+                            ? "Hide password"
+                            : "Show password"
+                        }
                       >
-                        {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                        {showConfirmPassword ? (
+                          <EyeOff size={18} />
+                        ) : (
+                          <Eye size={18} />
+                        )}
                       </button>
                     </div>
                   </div>
@@ -437,7 +423,10 @@ const StudentRegistration = () => {
                     />
                     <span>
                       I agree to the{" "}
-                      <a href="/terms" className="text-primary no-underline hover:underline">
+                      <a
+                        href="/terms"
+                        className="text-primary no-underline hover:underline"
+                      >
                         Terms and Conditions
                       </a>
                     </span>

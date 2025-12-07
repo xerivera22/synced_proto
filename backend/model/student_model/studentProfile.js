@@ -20,7 +20,10 @@ const studentInfoSchema = new mongoose.Schema({
   studentId: String,
   email: String,
   phone: String,
-  role: String,
+  role: {
+    type: String,
+    default: "student",
+  },
   address: String,
   dateOfBirth: String,
   enrollmentDate: String,

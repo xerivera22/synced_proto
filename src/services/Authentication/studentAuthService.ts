@@ -3,11 +3,20 @@ import axios from "axios";
 
 export const studentAuthService = {
   async login(email: string, password: string) {
-    const response = await axios.post(`${API_BASE_URL}/auth/student/login`, {
-      email,
-      password,
-    });
-    return response.data;
+    try {
+      const response = await axios.post(`${API_BASE_URL}/auth/student/login`, {
+        email,
+        password,
+      });
+      return response.data;
+    } catch (error: any) {
+      console.error("Login error:", error);
+      // Return error response so UI can display it
+      if (error.response) {
+        return error.response.data;
+      }
+      throw error;
+    }
   },
 
   async register(studentData: any) {

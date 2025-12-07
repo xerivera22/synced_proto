@@ -3,27 +3,36 @@ import StudentProfile from "../../model/student_model/studentProfile.js";
 export const studentLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
+    console.log("Login attempt for email:", email);
 
     const student = await StudentProfile.findOne({
       "studentInfo.email": email,
     });
 
+    console.log(
+      "Found student:",
+      student ? student.studentInfo.name : "No student found"
+    );
+
     if (!student) {
+      console.log("No student found with email:", email);
       return res.status(401).json({ message: "Invalid email or password" });
     }
 
     // Simple password check
     if (student.studentInfo.password !== password) {
+      console.log("Password mismatch for student:", student.studentInfo.name);
       return res.status(401).json({ message: "Invalid email or password" });
     }
 
+    console.log("Login successful for:", student.studentInfo.name);
     res.json({
       message: "Login successful",
       student: student.studentInfo,
       profile: student,
     });
-    console.log(student);
   } catch (error) {
+    console.error("Login error:", error);
     res.status(500).json({ message: error.message });
   }
 };

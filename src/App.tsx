@@ -1,18 +1,18 @@
 import AdminShell from "@/pages/admin/layout/AdminShell";
 import {
-    AdminAnnouncements,
-    AdminDashboard,
-    AdminEvents,
-    AdminFaculty,
-    AdminPayments,
-    AdminSettings,
-    AdminStudents,
+  AdminAnnouncements,
+  AdminDashboard,
+  AdminEvents,
+  AdminFaculty,
+  AdminPayments,
+  AdminSettings,
+  AdminStudents,
 } from "@/pages/admin/screens";
 import {
-    Navigate,
-    Route,
-    BrowserRouter as Router,
-    Routes,
+  Navigate,
+  Route,
+  BrowserRouter as Router,
+  Routes,
 } from "react-router-dom";
 // Dashboards remain at root pages for now; will be reorganized later
 import AdminLoginPage from "@/pages/landing/Login/AdminLoginPage";
@@ -24,25 +24,25 @@ import RegisterFormPage from "@/pages/landing/RegisterFormPage";
 import RegisterPage from "@/pages/landing/RegisterPage";
 import StudentShell from "@/pages/student/layout/StudentShell";
 import {
-    AcademicProgress,
-    Attendance,
-    Documents,
-    Overview,
-    Payments,
-    Profile,
-    Schedule,
-    Settings,
+  AcademicProgress,
+  Attendance,
+  Documents,
+  Overview,
+  Payments,
+  Profile,
+  Schedule,
+  Settings,
 } from "@/pages/student/screens";
 import TeacherShell from "@/pages/teacher/layout/TeacherShell";
 import {
-    TeacherAttendance,
-    TeacherChat,
-    TeacherOverview,
-    TeacherProfile,
-    TeacherSchedule,
-    TeacherSettings,
-    TeacherSubjectDetail,
-    TeacherSubjects,
+  TeacherAttendance,
+  TeacherChat,
+  TeacherOverview,
+  TeacherProfile,
+  TeacherSchedule,
+  TeacherSettings,
+  TeacherSubjectDetail,
+  TeacherSubjects,
 } from "@/pages/teacher/screens";
 import TeacherGradebookRedirect from "@/pages/teacher/screens/gradebook-redirect";
 import { Toaster } from "sonner";
@@ -51,21 +51,21 @@ import { AuthProvider } from "./context/AuthContext";
 import Section from "./pages/admin/screens/Section";
 import Subjects from "./pages/admin/screens/Subjects";
 import TeacherLoginPage from "./pages/landing/Login/TeacherLoginPage";
-import AdminRegistration from "./pages/landing/Registration/AdminRegistration";
 import StudentRegistration from "./pages/landing/Registration/StudentRegistration";
 import TeacherRegistration from "./pages/landing/Registration/TeacherRegistration";
 import ParentShell from "./pages/parent/layout/ParentShell";
 import {
-    ParentAcademicProgress,
-    ParentAttendance,
-    ParentDocuments,
-    ParentMessages,
-    ParentOverview,
-    ParentPayments,
-    ParentProfile,
-    ParentSchedule,
-    ParentSettings,
+  ParentAcademicProgress,
+  ParentAttendance,
+  ParentDocuments,
+  ParentMessages,
+  ParentOverview,
+  ParentPayments,
+  ParentProfile,
+  ParentSchedule,
+  ParentSettings,
 } from "./pages/parent/screens";
+import Message from "./pages/student/components/message";
 
 function App() {
   return (
@@ -78,7 +78,6 @@ function App() {
           <Route path="/pricing" element={<PricingPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/register-form" element={<RegisterFormPage />} />
-          <Route path="/admin-registration" element={<AdminRegistration />} />
           <Route path="/admin-login" element={<AdminLoginPage />} />
           <Route path="/admin" element={<AdminShell />}>
             <Route index element={<AdminDashboard />} />
@@ -107,6 +106,7 @@ function App() {
             <Route path="attendance" element={<Attendance />} />
             <Route path="payments" element={<Payments />} />
             <Route path="profile" element={<Profile />} />
+            <Route path="message" element={<Message />} />
             <Route path="settings" element={<Settings />} />
             <Route path="schedule" element={<Schedule />} />
             <Route path="documents" element={<Documents />} />

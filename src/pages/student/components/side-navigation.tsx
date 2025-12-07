@@ -7,6 +7,7 @@ import {
   Settings,
   UserCircle,
   Wallet,
+  MessageCircle,
 } from "lucide-react";
 import type React from "react";
 import { useEffect, useState } from "react";
@@ -44,6 +45,7 @@ const SideNavigation: React.FC<SideNavigationProps> = ({
     { to: "/student/payments", label: "Payment Status", icon: Wallet },
     { to: "/student/documents", label: "Documents", icon: FileText },
     { to: "/student/profile", label: "Profile", icon: UserCircle },
+    { to: "/student/message", label: "Message", icon: MessageCircle },
   ];
 
   useEffect(() => {

@@ -23,7 +23,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const [userData, setUserData] = useState<any | null>(null); // Add user data state
 
   useEffect(() => {
-    // Check for existing session
+    // Check for existing session on mount
     const adminLoggedIn = sessionStorage.getItem("adminLoggedIn");
     const studentLoggedIn = sessionStorage.getItem("studentLoggedIn");
     const teacherLoggedIn = sessionStorage.getItem("teacherLoggedIn");

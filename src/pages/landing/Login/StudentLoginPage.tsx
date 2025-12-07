@@ -13,12 +13,15 @@ const StudentLoginPage = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { login, setUserData } = useAuth();
+  const { login, setUserData, logout, user } = useAuth();
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError("");
+
+    // Logout first to clear any existing session
+    logout();
 
     try {
       const response = await studentAuthService.login(email, password);
@@ -31,6 +34,8 @@ const StudentLoginPage = () => {
           ...response.student,
           profile: response.profile, // Include full profile data
         });
+
+        console.log(user);
 
         navigate("/student/overview");
       } else {
@@ -110,6 +115,8 @@ const StudentLoginPage = () => {
                 <label className="flex items-center gap-2 text-sm text-gray-500 cursor-pointer m-0">
                   <input
                     type="checkbox"
+                    id="rememberMe"
+                    name="rememberMe"
                     checked={rememberMe}
                     onChange={(e) => setRememberMe(e.target.checked)}
                     className="w-4 h-4 m-0 cursor-pointer"

@@ -133,15 +133,6 @@ const AdminLoginPage = () => {
               </button>
               <div className="text-center mt-6 pt-4 border-t border-gray-200 space-y-3">
                 <p className="text-gray-500 text-sm">
-                  Don't have an account?{" "}
-                  <a
-                    href="/admin-registration"
-                    className="text-primary no-underline hover:underline"
-                  >
-                    Create one here
-                  </a>
-                </p>
-                <p className="text-gray-500 text-sm">
                   You're not an Admin?{" "}
                   <a
                     href="/register"

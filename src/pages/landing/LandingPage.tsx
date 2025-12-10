@@ -1,26 +1,26 @@
-import syncEDLogo from "@/assets/syncED.png";
+import heroBg from "@/assets/re_herobg.png";
 import AIChatIcon from "@/components/AI/AIChatIcon";
 import AIWindow from "@/components/AI/AIWindow";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import type { FAQ, Feature } from "@/types";
 import {
-  ArrowUp,
-  BarChart3,
-  Bell,
-  Building,
-  Calendar,
-  Check,
-  ClipboardList,
-  CreditCard,
-  DollarSign,
-  GraduationCap,
-  Lock,
-  School,
-  Smartphone,
-  UserCircle,
-  Users,
-  Zap,
+    ArrowUp,
+    BarChart3,
+    Bell,
+    Building,
+    Calendar,
+    Check,
+    ClipboardList,
+    CreditCard,
+    DollarSign,
+    GraduationCap,
+    Lock,
+    School,
+    Smartphone,
+    UserCircle,
+    Users,
+    Zap,
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
@@ -143,58 +143,59 @@ const LandingPage = () => {
       <Navbar />
 
       {/* Hero Section */}
-      <header className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center px-8 py-16 lg:py-24 max-w-[1440px] mx-auto">
-        <div className="space-y-6">
-          <div className="inline-flex items-center gap-2 bg-blue-50 px-4 py-2 rounded-full text-sm font-medium text-primary">
+      <header className="relative px-8 py-24 lg:py-32 overflow-hidden">
+        {/* Background Image */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src={heroBg}
+            alt="Background"
+            className="w-full h-full object-cover object-center"
+          />
+          {/* Overlay for better text readability */}
+          <div className="absolute inset-0 bg-black/40" />
+        </div>
+
+        <div className="relative z-10 max-w-4xl mx-auto text-center space-y-8">
+          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-medium text-white border border-white/20 mx-auto">
             <School size={20} />
             <span>Trusted by 500+ Schools</span>
           </div>
 
-          <h1 className="text-5xl lg:text-6xl font-extrabold leading-tight text-primary tracking-tight">
-            Smart Campus <span className="gradient-text">Management</span> Made
-            Simple
+          <h1 className="text-5xl lg:text-7xl font-extrabold leading-tight text-white tracking-tight">
+            Smart Campus Management Made Simple
           </h1>
 
-          <p className="text-xl text-muted leading-relaxed max-w-[540px]">
+          <p className="text-xl text-gray-100 leading-relaxed max-w-2xl mx-auto">
             Transform your school administration with SyncED. Streamline
             operations, enhance communication, and focus on what matters
             most—education.
           </p>
 
-          <div className="flex gap-4 items-center pt-4">
+          <div className="flex flex-col sm:flex-row gap-4 items-center justify-center pt-4">
             <Link
               to="/register"
               className="bg-primary text-white px-9 py-4 rounded-xl font-semibold text-lg shadow-lg hover:bg-primary-dark hover:-translate-y-1 transition-all"
             >
-              Get Started
+              Get Started Free
             </Link>
             <Link
               to="/pricing"
-              className="bg-transparent text-primary border-2 border-primary px-9 py-4 rounded-xl font-semibold text-lg hover:bg-soft hover:-translate-y-1 transition-all"
+              className="bg-transparent text-white border-2 border-white px-9 py-4 rounded-xl font-semibold text-lg hover:bg-white/10 hover:-translate-y-1 transition-all"
             >
               View Pricing
             </Link>
           </div>
 
-          <div className="flex gap-8 pt-6 text-sm text-muted">
+          <div className="flex flex-col sm:flex-row gap-8 pt-6 text-sm text-gray-200 justify-center">
             <div className="flex items-center gap-2">
-              <Check className="text-green-500" size={16} />
+              <Check className="text-green-400" size={16} />
               <span>No credit card required</span>
             </div>
             <div className="flex items-center gap-2">
-              <Check className="text-green-500" size={16} />
+              <Check className="text-green-400" size={16} />
               <span>Free tier available</span>
             </div>
           </div>
-        </div>
-
-        <div className="relative min-h-[560px] flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-200 rounded-3xl overflow-hidden">
-          <div className="absolute inset-x-0 bottom-0 h-3/4 bg-gradient-to-br from-primary to-blue-600 opacity-10 rounded-t-[50%]"></div>
-          <img
-            src={syncEDLogo}
-            alt="SyncED platform preview"
-            className="relative rounded-2xl shadow-2xl w-[90%] h-auto object-cover max-w-[800px] transition-transform hover:scale-[1.02]"
-          />
         </div>
       </header>
 

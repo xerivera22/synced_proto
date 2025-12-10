@@ -66,6 +66,8 @@ import {
   ParentSettings,
 } from "./pages/parent/screens";
 import Message from "./pages/student/components/message";
+import ParentLoginPage from "./pages/landing/Login/ParentLoginPage";
+import ParentRegistration from "./pages/landing/Registration/ParentRegistration";
 
 function App() {
   return (
@@ -110,6 +112,8 @@ function App() {
             <Route path="schedule" element={<Schedule />} />
             <Route path="documents" element={<Documents />} />
           </Route>
+          <Route path="/parent-login" element={<ParentLoginPage />} />
+          <Route path="/parent-register" element={<ParentRegistration />} />
           <Route path="/parent" element={<ParentShell />}>
             <Route index element={<ParentOverview />} />
             <Route path="overview" element={<ParentOverview />} />

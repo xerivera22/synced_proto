@@ -1,0 +1,282 @@
+import Navbar from "@/components/Navbar";
+import { useAuth } from "@/context/AuthContext";
+import { parentAuthService } from "@/services/Authentication/parentAuthService";
+import { ArrowRight, Eye, EyeOff, Users, UserPlus } from "lucide-react";
+import { type FormEvent, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+const ParentLoginPage = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const { login, setUserData, logout } = useAuth();
+
+  // In your handleSubmit function
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+
+    logout();
+
+    try {
+      console.log("Sending login request with:", { email, password });
+
+      const response = await parentAuthService.login(email, password);
+      console.log("Login successful:", response);
+
+      // ADD THIS SECTION TO HANDLE SUCCESS
+      if (response.message === "Login successful" && response.parent) {
+        login(response.parent.email, "parent");
+        setUserData({
+          ...response.parent,
+          children: response.children || [],
+        });
+        navigate("/parent/overview");
+      } else {
+        setError(response.message || "Login failed. Please try again.");
+        setPassword("");
+      }
+    } catch (err: any) {
+      console.error("Full error object:", err);
+      console.error("Error response data:", err.response?.data);
+      console.error("Error status:", err.response?.status);
+      console.error("Error headers:", err.response?.headers);
+
+      setError(
+        err.response?.data?.message ||
+          "Invalid email or password. Please try again."
+      );
+      setPassword("");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDemoLogin = async () => {
+    setLoading(true);
+    setError("");
+
+    try {
+      // Demo parent credentials
+      const demoEmail = "demo.parent@example.com";
+      const demoPassword = "demoparent123";
+
+      setEmail(demoEmail);
+
+      // Simulate typing effect
+      await new Promise((resolve) => setTimeout(resolve, 500));
+
+      const response = await parentAuthService.login(demoEmail, demoPassword);
+
+      if (response.message === "Login successful" && response.parent) {
+        login(response.parent.email, "parent");
+        setUserData({
+          ...response.parent,
+          profile: response.profile,
+          children: response.children || [],
+        });
+        navigate("/parent/dashboard");
+      }
+    } catch (err) {
+      setError("Demo login failed. Please use regular login.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-slate-50">
+      <Navbar showSignIn={false} />
+      <section className="py-20 min-h-[80vh] flex items-center">
+        <div className="max-w-lg mx-auto px-8 w-full">
+          {/* Header Section */}
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-4">
+              <Users className="w-8 h-8 text-blue-600" />
+            </div>
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">
+              Parent Portal
+            </h1>
+            <p className="text-gray-600">
+              Track your child's progress and manage their education
+            </p>
+          </div>
+
+          {/* Login Card */}
+          <div className="relative bg-white p-10 rounded-2xl border border-gray-200 shadow-lg">
+            <div className="absolute inset-x-0 -top-0.5 h-1.5 rounded-t-2xl bg-gradient-to-r from-blue-500 to-purple-500" />
+
+            <h2 className="text-xl font-semibold text-gray-800 text-center mb-8">
+              Parent Login
+            </h2>
+
+            <form onSubmit={handleSubmit}>
+              {error && (
+                <div className="bg-red-50 text-red-600 px-4 py-3 rounded-lg text-sm mb-4">
+                  {error}
+                </div>
+              )}
+
+              {/* Email Field */}
+              <div className="mb-5">
+                <label
+                  htmlFor="parentEmail"
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                >
+                  Parent Email
+                </label>
+                <input
+                  type="email"
+                  placeholder="parent@example.com"
+                  id="parentEmail"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full p-4 border border-gray-300 rounded-lg text-base bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                  required
+                />
+              </div>
+
+              {/* Password Field */}
+              <div className="mb-5">
+                <label
+                  htmlFor="parentPassword"
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                >
+                  Password
+                </label>
+                <div className="relative">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    id="parentPassword"
+                    placeholder="••••••••"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="w-full p-4 pr-16 border border-gray-300 rounded-lg text-base bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                    required
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword((v) => !v)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-blue-600 p-2"
+                    aria-label={
+                      showPassword ? "Hide password" : "Show password"
+                    }
+                  >
+                    {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                  </button>
+                </div>
+              </div>
+
+              {/* Remember Me & Forgot Password */}
+              <div className="flex justify-between items-center mb-6">
+                <label className="flex items-center gap-2 text-sm text-gray-600 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    id="rememberMe"
+                    name="rememberMe"
+                    checked={rememberMe}
+                    onChange={(e) => setRememberMe(e.target.checked)}
+                    className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
+                  />
+                  <span>Remember me</span>
+                </label>
+                <button
+                  type="button"
+                  onClick={() => navigate("/forgot-password")}
+                  className="text-sm text-blue-600 hover:text-blue-800 hover:underline"
+                >
+                  Forgot password?
+                </button>
+              </div>
+
+              {/* Login Button */}
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full px-6 py-3.5 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg text-base font-semibold hover:from-blue-700 hover:to-blue-800 shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed mb-4"
+              >
+                {loading ? (
+                  <>
+                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    Logging in...
+                  </>
+                ) : (
+                  <>
+                    Login as Parent
+                    <ArrowRight size={18} />
+                  </>
+                )}
+              </button>
+
+              {/* Demo Login Button */}
+              <button
+                type="button"
+                onClick={handleDemoLogin}
+                disabled={loading}
+                className="w-full px-6 py-3.5 bg-gradient-to-r from-slate-600 to-slate-700 text-white rounded-lg text-base font-semibold hover:from-slate-700 hover:to-slate-800 shadow hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed mb-6"
+              >
+                <Users size={18} />
+                Try Demo Parent Account
+              </button>
+
+              {/* Divider */}
+              <div className="relative my-6">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t border-gray-300"></div>
+                </div>
+                <div className="relative flex justify-center text-sm">
+                  <span className="px-4 bg-white text-gray-500">
+                    Don't have an account?
+                  </span>
+                </div>
+              </div>
+
+              {/* Registration Links */}
+              <div className="space-y-4">
+                <button
+                  type="button"
+                  onClick={() => navigate("/parent-register")}
+                  className="w-full px-6 py-3 bg-white border-2 border-blue-600 text-blue-600 rounded-lg text-base font-semibold hover:bg-blue-50 transition-colors duration-200 flex items-center justify-center gap-2"
+                >
+                  <UserPlus size={18} />
+                  Register as Parent
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => navigate("/student-login")}
+                  className="w-full px-6 py-3 bg-slate-100 text-slate-700 rounded-lg text-base font-medium hover:bg-slate-200 transition-colors duration-200"
+                >
+                  I'm a Student
+                </button>
+              </div>
+
+              {/* Additional Info */}
+              <div className="mt-8 pt-6 border-t border-gray-200">
+                <p className="text-gray-600 text-sm text-center">
+                  Need help?{" "}
+                  <a
+                    href="/support"
+                    className="text-blue-600 hover:text-blue-800 hover:underline font-medium"
+                  >
+                    Contact Support
+                  </a>
+                </p>
+                <p className="text-gray-500 text-xs text-center mt-2">
+                  Parent accounts allow you to monitor multiple children
+                </p>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+export default ParentLoginPage;

@@ -69,6 +69,7 @@ const AdminLoginPage = () => {
                 </label>
                 <input
                   type="email"
+                  placeholder="johndoe@gmail.com"
                   id="adminEmail"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -87,6 +88,7 @@ const AdminLoginPage = () => {
                   <input
                     type={showPassword ? "text" : "password"}
                     id="adminPassword"
+                    placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     className="w-full p-4 pr-16 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-primary focus:bg-white"

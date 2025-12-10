@@ -75,6 +75,7 @@ const TeacherLoginPage = () => {
                 <input
                   type="email"
                   id="teacherEmail"
+                  placeholder="johndoe@gmail.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full p-4 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-primary focus:bg-white"
@@ -92,6 +93,7 @@ const TeacherLoginPage = () => {
                   <input
                     type={showPassword ? "text" : "password"}
                     id="teacherPassword"
+                    placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     className="w-full p-4 pr-16 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-primary focus:bg-white"

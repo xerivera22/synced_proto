@@ -17,6 +17,7 @@ import studentRecordRouter from "./routes/studentRecordRouter.js";
 import subjectRouter from "./routes/subjectRouter.js";
 import teacherProfileRouter from "./routes/teacherProfileRouter.js";
 import sectionRouter from "./routes/sectionRouter.js";
+import parentAuthRouter from "./routes/Authentication/parentAuthRouter.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -68,6 +69,7 @@ app.use("/api/sections", sectionRouter);
 app.use("/api/auth/admin", adminAuthRouter);
 app.use("/api/auth/student", studentAuthRouter);
 app.use("/api/auth/teacher", teacherAuthRouter);
+app.use("/api/auth/parent", parentAuthRouter);
 
 app.use((req, res) => {
   res.status(404).json({ message: "Resource not found" });

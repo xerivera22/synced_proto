@@ -75,6 +75,7 @@ const StudentLoginPage = () => {
                 </label>
                 <input
                   type="email"
+                  placeholder="johndoe@gmail.com"
                   id="studentEmail"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -93,6 +94,7 @@ const StudentLoginPage = () => {
                   <input
                     type={showPassword ? "text" : "password"}
                     id="studentPassword"
+                    placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     className="w-full p-4 pr-16 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-primary focus:bg-white"
@@ -152,9 +154,9 @@ const StudentLoginPage = () => {
                   </a>
                 </p>
                 <p className="text-gray-500 text-sm mt-3">
-                  You're not a Student/Parent?{" "}
+                  You're not a Student?{" "}
                   <a
-                    href="/register"
+                    href="/parent-login"
                     className="text-primary no-underline hover:underline"
                   >
                     Click here

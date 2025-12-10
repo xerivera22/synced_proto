@@ -6,15 +6,30 @@ import { Navigate, Outlet, useLocation, useNavigate } from "react-router-dom";
 import ParentSideNavigation from "../components/side-navigation";
 
 const searchShortcuts = [
-  { id: "overview", title: "Overview", description: "Dashboard summary", to: "/parent/overview" },
+  {
+    id: "overview",
+    title: "Overview",
+    description: "Dashboard summary",
+    to: "/parent/overview",
+  },
   {
     id: "academic-progress",
     title: "Academic Progress",
     description: "Grades and assignments",
     to: "/parent/academic-progress",
   },
-  { id: "attendance", title: "Attendance", description: "Daily records", to: "/parent/attendance" },
-  { id: "schedule", title: "Schedule", description: "Class timetable", to: "/parent/schedule" },
+  {
+    id: "attendance",
+    title: "Attendance",
+    description: "Daily records",
+    to: "/parent/attendance",
+  },
+  {
+    id: "schedule",
+    title: "Schedule",
+    description: "Class timetable",
+    to: "/parent/schedule",
+  },
   {
     id: "payments",
     title: "Payments",
@@ -27,7 +42,12 @@ const searchShortcuts = [
     description: "Forms and reports",
     to: "/parent/documents",
   },
-  { id: "messages", title: "Messages", description: "Conversations", to: "/parent/messages" },
+  {
+    id: "messages",
+    title: "Messages",
+    description: "Conversations",
+    to: "/parent/messages",
+  },
   {
     id: "settings",
     title: "Settings",
@@ -95,7 +115,9 @@ const ParentShell = () => {
     const q = query.trim().toLowerCase();
     if (!q) return searchShortcuts.slice(0, 5);
     return searchShortcuts.filter(
-      (item) => item.title.toLowerCase().includes(q) || item.description.toLowerCase().includes(q),
+      (item) =>
+        item.title.toLowerCase().includes(q) ||
+        item.description.toLowerCase().includes(q)
     );
   }, [query]);
 
@@ -106,23 +128,26 @@ const ParentShell = () => {
       .replace(/[^a-zA-Z]/g, " ")
       .trim()
       .split(/\s+/);
-    const chars = (parts[0]?.[0] || "") + (parts[1]?.[0] || parts[0]?.[1] || "");
+    const chars =
+      (parts[0]?.[0] || "") + (parts[1]?.[0] || parts[0]?.[1] || "");
     return chars.toUpperCase() || "PA";
   }, [user?.email]);
 
   if (user === null) return null;
   if (user.role !== "parent") {
-    return <Navigate to="/student-login" state={{ from: location }} replace />;
+    return <Navigate to="/parent-login" state={{ from: location }} replace />;
   }
 
   const currentTitle = () => {
-    if (location.pathname.includes("academic-progress")) return "Academic Progress";
+    if (location.pathname.includes("academic-progress"))
+      return "Academic Progress";
     if (location.pathname.includes("attendance")) return "Attendance";
     if (location.pathname.includes("schedule")) return "Schedule";
     if (location.pathname.includes("payments")) return "Payments";
     if (location.pathname.includes("documents")) return "Documents";
     if (location.pathname.includes("messages")) return "Messages";
-    if (location.pathname.includes("settings")) return "Settings & Notifications";
+    if (location.pathname.includes("settings"))
+      return "Settings & Notifications";
     return "Overview";
   };
 
@@ -158,7 +183,11 @@ const ParentShell = () => {
                 aria-label={mobileNavOpen ? "Close menu" : "Open menu"}
                 onClick={() => setMobileNavOpen((v) => !v)}
               >
-                {mobileNavOpen ? <X className="header-icon" /> : <Menu className="header-icon" />}
+                {mobileNavOpen ? (
+                  <X className="header-icon" />
+                ) : (
+                  <Menu className="header-icon" />
+                )}
               </button>
               <h1>PARENT_PORTAL</h1>
               <p>{currentTitle()}</p>
@@ -170,7 +199,11 @@ const ParentShell = () => {
                 aria-label={searchOpen ? "Close search" : "Search"}
                 onClick={() => setSearchOpen((v) => !v)}
               >
-                {searchOpen ? <X className="header-icon" /> : <Search className="header-icon" />}
+                {searchOpen ? (
+                  <X className="header-icon" />
+                ) : (
+                  <Search className="header-icon" />
+                )}
               </button>
               {searchOpen && (
                 <div className="absolute right-0 top-full mt-2 w-[min(92vw,480px)] bg-white border border-gray-200 rounded-lg shadow-lg z-[99]">
@@ -186,7 +219,9 @@ const ParentShell = () => {
                   </div>
                   <ul className="max-h-72 overflow-auto py-1">
                     {filteredShortcuts.length === 0 ? (
-                      <li className="px-3 py-2 text-sm text-gray-500">No results</li>
+                      <li className="px-3 py-2 text-sm text-gray-500">
+                        No results
+                      </li>
                     ) : (
                       filteredShortcuts.map((item) => (
                         <li key={item.id}>
@@ -200,8 +235,12 @@ const ParentShell = () => {
                               navigate(item.to);
                             }}
                           >
-                            <div className="text-sm font-medium">{item.title}</div>
-                            <div className="text-xs text-gray-500">{item.description}</div>
+                            <div className="text-sm font-medium">
+                              {item.title}
+                            </div>
+                            <div className="text-xs text-gray-500">
+                              {item.description}
+                            </div>
                           </button>
                         </li>
                       ))
@@ -209,7 +248,11 @@ const ParentShell = () => {
                   </ul>
                 </div>
               )}
-              <button type="button" className="header-btn" aria-label="Notifications">
+              <button
+                type="button"
+                className="header-btn"
+                aria-label="Notifications"
+              >
                 <Bell className="header-icon" />
               </button>
               <div className="header-profile" ref={profileRef}>
@@ -231,8 +274,12 @@ const ParentShell = () => {
                     <div className="profile-meta" aria-hidden="true">
                       <div className="profile-initials">{initials}</div>
                       <div className="profile-texts">
-                        <div className="profile-name">{user?.email?.split("@")[0] || "Parent"}</div>
-                        <div className="profile-email">{user?.email || "parent@example.com"}</div>
+                        <div className="profile-name">
+                          {user?.email?.split("@")[0] || "Parent"}
+                        </div>
+                        <div className="profile-email">
+                          {user?.email || "parent@example.com"}
+                        </div>
                       </div>
                     </div>
                     <button

@@ -1,4 +1,5 @@
 import AdminShell from "@/pages/admin/layout/AdminShell";
+import PWAInstallButton from "./components/PWAInstallButton";
 import {
   AdminAnnouncements,
   AdminDashboard,
@@ -20,7 +21,6 @@ import AdminLoginPage from "@/pages/landing/Login/AdminLoginPage";
 import LandingPage from "@/pages/landing/LandingPage";
 import StudentLoginPage from "@/pages/landing/Login/StudentLoginPage";
 import PricingPage from "@/pages/landing/PricingPage";
-import RegisterFormPage from "@/pages/landing/RegisterFormPage";
 import RegisterPage from "@/pages/landing/RegisterPage";
 import StudentShell from "@/pages/student/layout/StudentShell";
 import {
@@ -77,7 +77,6 @@ function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/pricing" element={<PricingPage />} />
           <Route path="/register" element={<RegisterPage />} />
-          <Route path="/register-form" element={<RegisterFormPage />} />
           <Route path="/admin-login" element={<AdminLoginPage />} />
           <Route path="/admin" element={<AdminShell />}>
             <Route index element={<AdminDashboard />} />
@@ -149,6 +148,7 @@ function App() {
             <Route path="settings" element={<TeacherSettings />} />
           </Route>
         </Routes>
+        <PWAInstallButton />
       </Router>
     </AuthProvider>
   );

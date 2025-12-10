@@ -1,9 +1,62 @@
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
+import { VitePWA } from "vite-plugin-pwa";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command }) => ({
-  plugins: [react()],
+  plugins: [
+    react(),
+    VitePWA({
+      registerType: "autoUpdate",
+      includeAssets: ["favicon.ico", "apple-touch-icon.png", "masked-icon.svg"],
+      manifest: {
+        name: "Synced Proto",
+        short_name: "SyncedProto",
+        description: "A synchronized prototyping application",
+        theme_color: "#ffffff",
+        background_color: "#ffffff",
+        display: "standalone",
+        start_url: command === "build" ? "/synced_proto/" : "/",
+        icons: [
+          {
+            src: "pwa-192x192.png",
+            sizes: "192x192",
+            type: "image/png",
+          },
+          {
+            src: "pwa-512x512.png",
+            sizes: "512x512",
+            type: "image/png",
+          },
+          {
+            src: "pwa-512x512.png",
+            sizes: "512x512",
+            type: "image/png",
+            purpose: "maskable",
+          },
+        ],
+      },
+      workbox: {
+        globPatterns: ["**/*.{js,css,html,ico,png,svg}"],
+        runtimeCaching: [
+          {
+            urlPattern: /^https:\/\/fonts\.(googleapis|gstatic)\.com\/.*/i,
+            handler: "CacheFirst",
+            options: {
+              cacheName: "google-fonts-cache",
+              expiration: {
+                maxEntries: 10,
+                maxAgeSeconds: 60 * 60 * 24 * 365,
+              },
+            },
+          },
+        ],
+      },
+      devOptions: {
+        enabled: false,
+      },
+    }),
+  ],
   // Use root in dev, subfolder in production builds
   base: command === "build" ? "/synced_proto/" : "/",
   resolve: {
@@ -39,7 +92,8 @@ export default defineConfig(({ command }) => ({
       "@radix-ui/react-hover-card@1.1.6": "@radix-ui/react-hover-card",
       "@radix-ui/react-label@2.1.2": "@radix-ui/react-label",
       "@radix-ui/react-menubar@1.1.6": "@radix-ui/react-menubar",
-      "@radix-ui/react-navigation-menu@1.2.5": "@radix-ui/react-navigation-menu",
+      "@radix-ui/react-navigation-menu@1.2.5":
+        "@radix-ui/react-navigation-menu",
       "@radix-ui/react-popover@1.1.6": "@radix-ui/react-popover",
       "@radix-ui/react-radio-group@1.2.3": "@radix-ui/react-radio-group",
       "@radix-ui/react-scroll-area@1.2.3": "@radix-ui/react-scroll-area",

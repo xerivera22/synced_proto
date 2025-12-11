@@ -4,6 +4,7 @@ import { Bell, Menu, Search, X } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Navigate, Outlet, useLocation, useNavigate } from "react-router-dom";
 import ParentSideNavigation from "../components/side-navigation";
+import SplashScreen from "@/components/SplashScreen";
 
 const searchShortcuts = [
   {
@@ -303,6 +304,7 @@ const ParentShell = () => {
           <Outlet />
         </main>
       </div>
+      <SplashScreen />
     </div>
   );
 };

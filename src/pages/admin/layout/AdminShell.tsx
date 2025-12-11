@@ -4,6 +4,7 @@ import { Bell, Menu, Search, X } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Navigate, Outlet, useLocation, useNavigate } from "react-router-dom";
 import AdminSideNavigation from "../components/side-navigation";
+import SplashScreen from "@/components/SplashScreen";
 
 type SearchShortcut = {
   id: string;
@@ -13,7 +14,12 @@ type SearchShortcut = {
 };
 
 const searchShortcuts: SearchShortcut[] = [
-  { id: "dashboard", title: "Dashboard", description: "Executive summary", to: "/admin/dashboard" },
+  {
+    id: "dashboard",
+    title: "Dashboard",
+    description: "Executive summary",
+    to: "/admin/dashboard",
+  },
   {
     id: "students",
     title: "Student Records",
@@ -44,7 +50,12 @@ const searchShortcuts: SearchShortcut[] = [
     description: "Broadcast center",
     to: "/admin/announcements",
   },
-  { id: "settings", title: "Settings", description: "Portal configuration", to: "/admin/settings" },
+  {
+    id: "settings",
+    title: "Settings",
+    description: "Portal configuration",
+    to: "/admin/settings",
+  },
 ];
 
 const AdminShell = () => {
@@ -100,7 +111,9 @@ const AdminShell = () => {
     const q = query.trim().toLowerCase();
     if (!q) return searchShortcuts.slice(0, 5);
     return searchShortcuts.filter(
-      (item) => item.title.toLowerCase().includes(q) || item.description.toLowerCase().includes(q),
+      (item) =>
+        item.title.toLowerCase().includes(q) ||
+        item.description.toLowerCase().includes(q)
     );
   }, [query]);
 
@@ -111,7 +124,8 @@ const AdminShell = () => {
       .replace(/[^a-zA-Z]/g, " ")
       .trim()
       .split(/\s+/);
-    const chars = (parts[0]?.[0] || "") + (parts[1]?.[0] || parts[0]?.[1] || "");
+    const chars =
+      (parts[0]?.[0] || "") + (parts[1]?.[0] || parts[0]?.[1] || "");
     return chars.toUpperCase() || "AD";
   }, [user?.email]);
 
@@ -162,7 +176,11 @@ const AdminShell = () => {
                 aria-label={mobileNavOpen ? "Close menu" : "Open menu"}
                 onClick={() => setMobileNavOpen((v) => !v)}
               >
-                {mobileNavOpen ? <X className="header-icon" /> : <Menu className="header-icon" />}
+                {mobileNavOpen ? (
+                  <X className="header-icon" />
+                ) : (
+                  <Menu className="header-icon" />
+                )}
               </button>
               <h1>ADMIN_PORTAL</h1>
               <p>{currentTitle()}</p>
@@ -174,7 +192,11 @@ const AdminShell = () => {
                 aria-label={searchOpen ? "Close search" : "Search"}
                 onClick={() => setSearchOpen((v) => !v)}
               >
-                {searchOpen ? <X className="header-icon" /> : <Search className="header-icon" />}
+                {searchOpen ? (
+                  <X className="header-icon" />
+                ) : (
+                  <Search className="header-icon" />
+                )}
               </button>
               {searchOpen && (
                 <div className="absolute right-0 top-full mt-2 w-[min(92vw,480px)] bg-white border border-gray-200 rounded-lg shadow-lg z-[99]">
@@ -190,7 +212,9 @@ const AdminShell = () => {
                   </div>
                   <ul className="max-h-72 overflow-auto py-1">
                     {filteredShortcuts.length === 0 ? (
-                      <li className="px-3 py-2 text-sm text-gray-500">No results</li>
+                      <li className="px-3 py-2 text-sm text-gray-500">
+                        No results
+                      </li>
                     ) : (
                       filteredShortcuts.map((item) => (
                         <li key={item.id}>
@@ -204,8 +228,12 @@ const AdminShell = () => {
                               navigate(item.to);
                             }}
                           >
-                            <div className="text-sm font-medium">{item.title}</div>
-                            <div className="text-xs text-gray-500">{item.description}</div>
+                            <div className="text-sm font-medium">
+                              {item.title}
+                            </div>
+                            <div className="text-xs text-gray-500">
+                              {item.description}
+                            </div>
                           </button>
                         </li>
                       ))
@@ -213,7 +241,11 @@ const AdminShell = () => {
                   </ul>
                 </div>
               )}
-              <button type="button" className="header-btn" aria-label="Notifications">
+              <button
+                type="button"
+                className="header-btn"
+                aria-label="Notifications"
+              >
                 <Bell className="header-icon" />
               </button>
               <div className="header-profile" ref={profileRef}>
@@ -235,8 +267,12 @@ const AdminShell = () => {
                     <div className="profile-meta" aria-hidden="true">
                       <div className="profile-initials">{initials}</div>
                       <div className="profile-texts">
-                        <div className="profile-name">{user?.email?.split("@")[0] || "Admin"}</div>
-                        <div className="profile-email">{user?.email || "admin@example.com"}</div>
+                        <div className="profile-name">
+                          {user?.email?.split("@")[0] || "Admin"}
+                        </div>
+                        <div className="profile-email">
+                          {user?.email || "admin@example.com"}
+                        </div>
                       </div>
                     </div>
                     <button
@@ -260,6 +296,7 @@ const AdminShell = () => {
           <Outlet />
         </main>
       </div>
+      <SplashScreen />
     </div>
   );
 };

@@ -6,6 +6,7 @@ import { useAuth } from "@/context/AuthContext";
 // Reuse student styling conventions via shared components and existing CSS tokens
 import "@/pages/student/styles/student.css";
 import SideNavigation from "../components/side-navigation";
+import SplashScreen from "@/components/SplashScreen";
 
 export default function TeacherShell() {
   const { userData, logout } = useAuth();
@@ -20,7 +21,7 @@ export default function TeacherShell() {
   const searchInputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
 
-  console.log(userData)
+  console.log(userData);
 
   // Scroll to top on route change within teacher area (always declare hooks before conditional returns)
   // biome-ignore lint/correctness/useExhaustiveDependencies: Only depend on pathname for scroll reset.
@@ -329,6 +330,7 @@ export default function TeacherShell() {
           <Outlet />
         </main>
       </div>
+      <SplashScreen />
     </div>
   );
 }

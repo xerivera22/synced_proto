@@ -9,6 +9,7 @@ import SideNavigation from "../components/side-navigation";
 
 // Scoped student styles (isolated to the student area)
 import "../styles/student.css";
+import SplashScreen from "@/components/SplashScreen";
 
 const StudentShell = () => {
   const { userData, logout } = useAuth();
@@ -311,6 +312,7 @@ const StudentShell = () => {
           <BottomNavigation />
         </div>
       </div>
+      <SplashScreen />
     </div>
   );
 };

@@ -15,16 +15,9 @@ const TeacherRegistration = () => {
     dateOfBirth: "",
     hiredDate: "",
     department: "",
-    adviserOf: "",
     loadHours: "",
     password: "",
     confirmPassword: "",
-
-    // Emergency Contact
-    emergencyContactName: "",
-    emergencyContactRelationship: "",
-    emergencyContactPhone: "",
-    emergencyContactEmail: "",
 
     agreeToTerms: false,
   });
@@ -61,15 +54,8 @@ const TeacherRegistration = () => {
           dateOfBirth: formData.dateOfBirth,
           hiredDate: formData.hiredDate,
           department: formData.department,
-          adviserOf: formData.adviserOf,
           loadHours: formData.loadHours,
           password: formData.password,
-        },
-        emergencyContact: {
-          name: formData.emergencyContactName,
-          relationship: formData.emergencyContactRelationship,
-          phone: formData.emergencyContactPhone,
-          email: formData.emergencyContactEmail,
         },
       };
 
@@ -83,16 +69,9 @@ const TeacherRegistration = () => {
         dateOfBirth: "",
         hiredDate: "",
         department: "",
-        adviserOf: "",
         loadHours: "",
         password: "",
         confirmPassword: "",
-
-        // Emergency Contact
-        emergencyContactName: "",
-        emergencyContactRelationship: "",
-        emergencyContactPhone: "",
-        emergencyContactEmail: "",
 
         agreeToTerms: false,
       });
@@ -243,36 +222,6 @@ const TeacherRegistration = () => {
                   </div>
                   <div>
                     <label className="block font-semibold text-gray-700 mb-2 text-sm">
-                      Department
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.department}
-                      onChange={(e) =>
-                        setFormData({ ...formData, department: e.target.value })
-                      }
-                      className="w-full p-4 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-primary focus:bg-white"
-                      required
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4 mb-5">
-                  <div>
-                    <label className="block font-semibold text-gray-700 mb-2 text-sm">
-                      Adviser Of
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.adviserOf}
-                      onChange={(e) =>
-                        setFormData({ ...formData, adviserOf: e.target.value })
-                      }
-                      className="w-full p-4 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-primary focus:bg-white"
-                    />
-                  </div>
-                  <div>
-                    <label className="block font-semibold text-gray-700 mb-2 text-sm">
                       Load Hours
                     </label>
                     <input
@@ -286,83 +235,19 @@ const TeacherRegistration = () => {
                   </div>
                 </div>
 
-                <div className="mt-8 mb-5 pb-3 border-b-2 border-gray-200">
-                  <h3 className="text-gray-700 text-lg font-semibold">
-                    Emergency Contact
-                  </h3>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4 mb-5">
-                  <div>
-                    <label className="block font-semibold text-gray-700 mb-2 text-sm">
-                      Contact Name
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.emergencyContactName}
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          emergencyContactName: e.target.value,
-                        })
-                      }
-                      className="w-full p-4 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-primary focus:bg-white"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label className="block font-semibold text-gray-700 mb-2 text-sm">
-                      Relationship
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.emergencyContactRelationship}
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          emergencyContactRelationship: e.target.value,
-                        })
-                      }
-                      className="w-full p-4 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-primary focus:bg-white"
-                      required
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4 mb-5">
-                  <div>
-                    <label className="block font-semibold text-gray-700 mb-2 text-sm">
-                      Contact Phone
-                    </label>
-                    <input
-                      type="tel"
-                      value={formData.emergencyContactPhone}
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          emergencyContactPhone: e.target.value,
-                        })
-                      }
-                      className="w-full p-4 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-primary focus:bg-white"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label className="block font-semibold text-gray-700 mb-2 text-sm">
-                      Contact Email
-                    </label>
-                    <input
-                      type="email"
-                      value={formData.emergencyContactEmail}
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          emergencyContactEmail: e.target.value,
-                        })
-                      }
-                      className="w-full p-4 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-primary focus:bg-white"
-                    />
-                  </div>
+                <div className="mb-5">
+                  <label className="block font-semibold text-gray-700 mb-2 text-sm">
+                    Department
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.department}
+                    onChange={(e) =>
+                      setFormData({ ...formData, department: e.target.value })
+                    }
+                    className="w-full p-4 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-primary focus:bg-white"
+                    required
+                  />
                 </div>
 
                 <div className="mt-8 mb-5 pb-3 border-b-2 border-gray-200">

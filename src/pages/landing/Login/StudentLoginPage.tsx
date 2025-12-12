@@ -1,7 +1,7 @@
 import Navbar from "@/components/Navbar";
 import { useAuth } from "@/context/AuthContext";
 import { studentAuthService } from "@/services/Authentication/studentAuthService";
-import { ArrowRight, Eye, EyeOff } from "lucide-react";
+import { ArrowRight, Eye, EyeOff, GraduationCap } from "lucide-react";
 import { type FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -51,21 +51,35 @@ const StudentLoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-slate-50">
       <Navbar showSignIn={false} />
-      <section className="bg-white py-20 min-h-[80vh] flex items-center">
+      <section className="py-20 min-h-[80vh] flex items-center">
         <div className="max-w-lg mx-auto px-8 w-full">
-          <div className="relative bg-white p-10 rounded-2xl border border-gray-200 shadow-sm">
-            <div className="absolute inset-x-0 -top-0.5 h-1.5 rounded-t-2xl bg-primary" />
-            <h1 className="text-2xl font-semibold text-primary text-center mb-8">
-              Student/Parent Login
+          {/* Header Section */}
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-full mb-4">
+              <GraduationCap className="w-8 h-8 text-primary" />
+            </div>
+            <h1 className="text-3xl font-bold text-primary mb-2">
+              Student Portal
             </h1>
+            <p className="text-gray-600">
+              Access your courses and track your progress
+            </p>
+          </div>
+
+          {/* Login Card */}
+          <div className="relative bg-white p-10 rounded-2xl border border-gray-200 shadow-lg">
+            <div className="absolute inset-x-0 -top-0.5 h-1.5 rounded-t-2xl bg-primary" />
+
             <form onSubmit={handleSubmit}>
               {error && (
                 <div className="bg-red-50 text-red-600 px-4 py-3 rounded-lg text-sm mb-4">
                   {error}
                 </div>
               )}
+
+              {/* Email Field */}
               <div className="mb-5">
                 <label
                   htmlFor="studentEmail"
@@ -79,10 +93,12 @@ const StudentLoginPage = () => {
                   id="studentEmail"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full p-4 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-primary focus:bg-white"
+                  className="w-full p-4 border border-gray-300 rounded-lg text-base bg-white focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition"
                   required
                 />
               </div>
+
+              {/* Password Field */}
               <div className="mb-5">
                 <label
                   htmlFor="studentPassword"
@@ -97,52 +113,66 @@ const StudentLoginPage = () => {
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full p-4 pr-16 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-primary focus:bg-white"
+                    className="w-full p-4 pr-16 border border-gray-300 rounded-lg text-base bg-white focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition"
                     required
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword((v) => !v)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-primary px-2 py-1"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-primary p-2"
                     aria-label={
                       showPassword ? "Hide password" : "Show password"
                     }
-                    title={showPassword ? "Hide password" : "Show password"}
                   >
                     {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                   </button>
                 </div>
               </div>
-              <div className="flex justify-between items-center mb-6 mt-4 w-full">
-                <label className="flex items-center gap-2 text-sm text-gray-500 cursor-pointer m-0">
+
+              {/* Remember Me & Forgot Password */}
+              <div className="flex justify-between items-center mb-6">
+                <label className="flex items-center gap-2 text-sm text-gray-600 cursor-pointer">
                   <input
                     type="checkbox"
                     id="rememberMe"
                     name="rememberMe"
                     checked={rememberMe}
                     onChange={(e) => setRememberMe(e.target.checked)}
-                    className="w-4 h-4 m-0 cursor-pointer"
+                    className="w-4 h-4 text-primary rounded focus:ring-primary"
                   />
-                  <span className="select-none">Remember me</span>
+                  <span>Remember me</span>
                 </label>
                 <button
                   type="button"
                   onClick={() =>
                     console.log("TODO: implement password reset flow")
                   }
-                  className="bg-transparent border-0 p-0 text-sm text-primary whitespace-nowrap cursor-pointer hover:underline"
+                  className="text-sm text-primary hover:text-primary-dark hover:underline"
                 >
                   Forgot password?
                 </button>
               </div>
+
+              {/* Login Button */}
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full px-6 py-3 bg-primary text-white border-0 rounded-lg text-base font-semibold cursor-pointer hover:bg-primary-dark shadow flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full px-6 py-3.5 bg-primary text-white rounded-lg text-base font-semibold hover:bg-primary-dark shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed mb-4"
               >
-                {loading ? "Logging in..." : "Login"}
-                {!loading && <ArrowRight size={18} />}
+                {loading ? (
+                  <>
+                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    Logging in...
+                  </>
+                ) : (
+                  <>
+                    Login
+                    <ArrowRight size={18} />
+                  </>
+                )}
               </button>
+
+              {/* Divider */}
               <div className="text-center mt-6 pt-6 border-t border-gray-200">
                 <p className="text-gray-500 text-sm">
                   Don't have an account?{" "}
@@ -153,10 +183,11 @@ const StudentLoginPage = () => {
                     Create one here
                   </a>
                 </p>
+                
                 <p className="text-gray-500 text-sm mt-3">
                   You're not a Student?{" "}
                   <a
-                    href="/parent-login"
+                    href="/register"
                     className="text-primary no-underline hover:underline"
                   >
                     Click here

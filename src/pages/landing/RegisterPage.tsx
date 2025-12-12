@@ -20,46 +20,55 @@ const RegisterPage = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
             <Link
               to="/admin-login"
+<<<<<<< Updated upstream
               className="bg-white p-8 text-center cursor-pointer hover:bg-gray-50 transition-colors"
+=======
+              className="bg-white p-8 text-center cursor-pointer hover:bg-gray-50 transition-colors rounded-xl border border-gray-100 shadow-sm hover:shadow-md"
+>>>>>>> Stashed changes
             >
               <div className="mb-6 flex justify-center">
-                <Building className="text-primary" size={64} />
+                <Building className="text-primary" size={56} />
               </div>
-              <h3 className="text-2xl font-semibold text-text mb-4">
+              <h3 className="text-xl font-semibold text-text mb-3">
                 School Administrator
               </h3>
-              <p className="text-muted leading-relaxed mb-6">
+              <p className="text-muted leading-relaxed mb-6 text-sm">
                 Manage school operations, finances, and reports
               </p>
               <button
                 type="button"
-                className="bg-primary text-white border-0 px-6 py-3 rounded-md font-semibold text-base hover:bg-primary-dark"
+                className="bg-primary text-white border-0 px-6 py-2.5 rounded-lg font-semibold text-sm hover:bg-primary-dark w-full"
               >
                 Admin Login
               </button>
             </Link>
             <Link
               to="/teacher-login"
+<<<<<<< Updated upstream
               className="bg-white p-8 text-center cursor-pointer hover:bg-gray-50 transition-colors"
+=======
+              className="bg-white p-8 text-center cursor-pointer hover:bg-gray-50 transition-colors rounded-xl border border-gray-100 shadow-sm hover:shadow-md"
+>>>>>>> Stashed changes
             >
               <div className="mb-6 flex justify-center">
-                <Briefcase className="text-primary" size={64} />
+                <Briefcase className="text-primary" size={56} />
               </div>
-              <h3 className="text-2xl font-semibold text-text mb-4">
+              <h3 className="text-xl font-semibold text-text mb-3">
                 Teacher
               </h3>
-              <p className="text-muted leading-relaxed mb-6">
+              <p className="text-muted leading-relaxed mb-6 text-sm">
                 Manage classes, grades, and student interactions
               </p>
               <button
                 type="button"
-                className="bg-primary text-white border-0 px-6 py-3 rounded-md font-semibold text-base hover:bg-primary-dark"
+                className="bg-primary text-white border-0 px-6 py-2.5 rounded-lg font-semibold text-sm hover:bg-primary-dark w-full"
               >
                 Teacher Login
               </button>
             </Link>
             <Link
               to="/parent-login"
+<<<<<<< Updated upstream
               className="bg-white p-8 text-center cursor-pointer hover:bg-gray-50 transition-colors"
             >
               <div className="mb-6 flex justify-center">
@@ -81,19 +90,47 @@ const RegisterPage = () => {
             <Link
               to="/student-login"
               className="bg-white p-8 text-center cursor-pointer hover:bg-gray-50 transition-colors"
+=======
+              className="bg-white p-8 text-center cursor-pointer hover:bg-gray-50 transition-colors rounded-xl border border-gray-100 shadow-sm hover:shadow-md"
+>>>>>>> Stashed changes
             >
               <div className="mb-6 flex justify-center">
-                <GraduationCap className="text-primary" size={64} />
+                <Users className="text-primary" size={56} />
               </div>
+<<<<<<< Updated upstream
               <h3 className="text-2xl font-semibold text-text mb-4">
                 Student
+=======
+              <h3 className="text-xl font-semibold text-text mb-3">
+                Parent
+>>>>>>> Stashed changes
               </h3>
-              <p className="text-muted leading-relaxed mb-6">
+              <p className="text-muted leading-relaxed mb-6 text-sm">
+                Monitor your child's progress and stay informed
+              </p>
+              <button
+                type="button"
+                className="bg-primary text-white border-0 px-6 py-2.5 rounded-lg font-semibold text-sm hover:bg-primary-dark w-full"
+              >
+                Parent Login
+              </button>
+            </Link>
+            <Link
+              to="/student-login"
+              className="bg-white p-8 text-center cursor-pointer hover:bg-gray-50 transition-colors rounded-xl border border-gray-100 shadow-sm hover:shadow-md"
+            >
+              <div className="mb-6 flex justify-center">
+                <GraduationCap className="text-primary" size={56} />
+              </div>
+              <h3 className="text-xl font-semibold text-text mb-3">
+                Student
+              </h3>
+              <p className="text-muted leading-relaxed mb-6 text-sm">
                 View grades, attendance, and stay connected
               </p>
               <button
                 type="button"
-                className="bg-primary text-white border-0 px-6 py-3 rounded-md font-semibold text-base hover:bg-primary-dark"
+                className="bg-primary text-white border-0 px-6 py-2.5 rounded-lg font-semibold text-sm hover:bg-primary-dark w-full"
               >
                 Student Login
               </button>

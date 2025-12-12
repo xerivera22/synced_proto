@@ -5,9 +5,14 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 interface NavbarProps {
   showSignIn?: boolean;
   showRegister?: boolean;
+  variant?: "transparent" | "primary";
 }
 
-const Navbar: React.FC<NavbarProps> = ({ showSignIn = true, showRegister = false }) => {
+const Navbar: React.FC<NavbarProps> = ({ 
+  showSignIn = true, 
+  showRegister = false, 
+  variant = "transparent" 
+}) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const navigate = useNavigate();
@@ -44,10 +49,14 @@ const Navbar: React.FC<NavbarProps> = ({ showSignIn = true, showRegister = false
     navigate("/register");
   };
 
+  const isPrimary = variant === "primary";
+
   return (
     <nav
       className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-        isScrolled
+        isPrimary
+          ? "bg-primary shadow-md"
+          : isScrolled
           ? "bg-white/75 backdrop-blur-lg shadow-sm border-b border-black/5"
           : "bg-transparent border-transparent"
       }`}
@@ -57,7 +66,7 @@ const Navbar: React.FC<NavbarProps> = ({ showSignIn = true, showRegister = false
           <Link
             to="/"
             className={`flex items-center gap-2.5 font-bold text-2xl transition-opacity hover:opacity-80 shrink-0 ${
-              isScrolled ? "text-primary" : "text-white"
+              isPrimary || !isScrolled ? "text-white" : "text-primary"
             }`}
           >
             <img
@@ -81,7 +90,9 @@ const Navbar: React.FC<NavbarProps> = ({ showSignIn = true, showRegister = false
                 <Link
                   to={`/#${item.id}`}
                   className={`font-medium text-[0.95rem] transition-colors ${
-                    isScrolled
+                    isPrimary
+                      ? "text-white hover:text-white/80"
+                      : isScrolled
                       ? "text-text hover:text-primary"
                       : "text-white hover:text-white/80"
                   }`}
@@ -95,7 +106,7 @@ const Navbar: React.FC<NavbarProps> = ({ showSignIn = true, showRegister = false
 
           <div
             className={`hidden md:flex gap-2 ml-3 pl-3 border-l ${
-              isScrolled ? "border-black/10" : "border-white/20"
+              isPrimary || !isScrolled ? "border-white/20" : "border-black/10"
             }`}
           >
             {showSignIn && (
@@ -120,7 +131,7 @@ const Navbar: React.FC<NavbarProps> = ({ showSignIn = true, showRegister = false
           <button
             type="button"
             className={`md:hidden bg-transparent border-0 text-2xl cursor-pointer ml-auto ${
-              isScrolled ? "text-text" : "text-white"
+              isPrimary || !isScrolled ? "text-white" : "text-text"
             }`}
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="menu"

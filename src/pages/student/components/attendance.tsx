@@ -1,185 +1,165 @@
 import Banner from "@/components/shared/Banner";
-import { AlertTriangle } from "lucide-react";
-import { Card } from "./ui/card";
-import { Progress } from "./ui/progress";
+import { AlertCircle, CalendarCheck, CheckCircle, XCircle } from "lucide-react";
+import { getStudentPortalDate } from "../utils/date";
 
 export function Attendance() {
-  const attendanceData = [
-    { subject: "Mathematics", attended: 28, total: 30, percentage: 93, status: "good" },
-    { subject: "Physics", attended: 26, total: 28, percentage: 93, status: "good" },
-    { subject: "Chemistry", attended: 22, total: 25, percentage: 88, status: "warning" },
-    { subject: "English", attended: 25, total: 27, percentage: 93, status: "good" },
-    { subject: "History", attended: 20, total: 26, percentage: 77, status: "critical" },
-    { subject: "Biology", attended: 24, total: 26, percentage: 92, status: "good" },
+  const dateLabel = getStudentPortalDate();
+
+  // Subject Attendance - matches schedule subjects
+  const subjectAttendance = [
+    { subject: "Mathematics", attended: 28, total: 30, percentage: 93, room: "Room 201", professor: "Dr. Smith" },
+    { subject: "Physics", attended: 26, total: 28, percentage: 93, room: "Lab 3", professor: "Dr. Wilson" },
+    { subject: "Chemistry", attended: 22, total: 25, percentage: 88, room: "Lab 2", professor: "Dr. Johnson" },
+    { subject: "English", attended: 25, total: 27, percentage: 93, room: "Room 105", professor: "Ms. Davis" },
+    { subject: "History", attended: 20, total: 26, percentage: 77, room: "Room 301", professor: "Mr. Brown" },
+    { subject: "Biology", attended: 24, total: 26, percentage: 92, room: "Lab 1", professor: "Dr. Lee" },
   ];
 
-  const overallStats = {
-    totalClasses: 162,
-    attendedClasses: 145,
-    overallPercentage: 90,
-    requiredPercentage: 75,
+  // Event Attendance - matches schedule events
+  const eventAttendance = [
+    { title: "Mid-term Exam Week", date: "Oct 14-18", status: "attended", type: "academic" },
+    { title: "Career Fair", date: "Oct 20", status: "attended", type: "event" },
+    { title: "Guest Lecture: AI in Healthcare", date: "Oct 28", status: "registered", type: "lecture" },
+    { title: "Science Fair", date: "Nov 5", status: "missed", type: "event" },
+  ];
+
+  const getPercentageColor = (percentage: number) => {
+    if (percentage >= 90) return "text-emerald-600";
+    if (percentage >= 80) return "text-amber-600";
+    return "text-rose-600";
   };
 
-  const attendanceSummary = [
-    {
-      label: "Attendance Rate",
-      value: `${overallStats.overallPercentage}%`,
-      subtext: "Overall attendance",
-      containerClass: "border-emerald-100 bg-emerald-50",
-      labelClass: "text-emerald-700",
-    },
-    {
-      label: "Classes Attended",
-      value: String(overallStats.attendedClasses),
-      subtext: `${overallStats.totalClasses} total`,
-      containerClass: "border-sky-100 bg-sky-50",
-      labelClass: "text-sky-700",
-    },
-  ];
+  const getPercentageBg = (percentage: number) => {
+    if (percentage >= 90) return "bg-emerald-50 border-emerald-200";
+    if (percentage >= 80) return "bg-amber-50 border-amber-200";
+    return "bg-rose-50 border-rose-200";
+  };
 
-  const recentAttendance = [
-    { date: "Sep 16", subject: "Mathematics", status: "present", time: "09:00 AM" },
-    { date: "Sep 16", subject: "Physics", status: "present", time: "11:00 AM" },
-    { date: "Sep 15", subject: "Chemistry", status: "absent", time: "10:00 AM" },
-    { date: "Sep 15", subject: "English", status: "present", time: "02:00 PM" },
-    { date: "Sep 14", subject: "History", status: "late", time: "01:00 PM" },
-  ];
-
-  const getStatusColor = (status: string) => {
+  const getEventStatusIcon = (status: string) => {
     switch (status) {
-      case "good":
-        return "text-green-600";
-      case "warning":
-        return "text-yellow-600";
-      case "critical":
-        return "text-red-600";
+      case "attended":
+        return <CheckCircle className="w-4 h-4 text-emerald-600" />;
+      case "registered":
+        return <AlertCircle className="w-4 h-4 text-sky-600" />;
+      case "missed":
+        return <XCircle className="w-4 h-4 text-rose-600" />;
       default:
-        return "text-gray-600";
+        return <CalendarCheck className="w-4 h-4 text-slate-600" />;
     }
   };
 
-  const getAttendanceStatusColor = (status: string) => {
+  const getEventStatusColor = (status: string) => {
     switch (status) {
-      case "present":
-        return "bg-green-100 text-green-700";
-      case "absent":
-        return "bg-red-100 text-red-700";
-      case "late":
-        return "bg-yellow-100 text-yellow-700";
+      case "attended":
+        return "text-emerald-600";
+      case "registered":
+        return "text-sky-600";
+      case "missed":
+        return "text-rose-600";
       default:
-        return "bg-gray-100 text-gray-700";
+        return "text-slate-600";
     }
   };
 
   return (
     <div className="space-y-6">
-      {/* Header */}
       <Banner
         title="Attendance"
-        subtitle="Monitor your class attendance and participation record."
+        subtitle="Monitor your class and event participation record."
+        right={<p className="text-white/80 text-xs md:text-sm whitespace-nowrap">{dateLabel}</p>}
       />
 
-      {/* Overall Statistics */}
-      <div className="grid grid-cols-2 gap-3">
-        {attendanceSummary.map((item) => (
-          <Card
-            key={item.label}
-            className={`p-5 ${item.containerClass} flex flex-col justify-between`}
-          >
-            <p className={`text-xs font-semibold uppercase tracking-wide ${item.labelClass}`}>
-              {item.label}
-            </p>
-            <div>
-              <p className="mt-3 text-3xl font-semibold text-slate-900">{item.value}</p>
-              <p className="text-xs text-slate-600">{item.subtext}</p>
-            </div>
-          </Card>
-        ))}
-      </div>
+      {/* Summary Cards */}
+      <section className="grid grid-cols-3 gap-4">
+        <article className="rounded-2xl border border-emerald-200 bg-emerald-50 p-6 shadow-sm text-center">
+          <p className="text-3xl font-bold text-emerald-600">
+            {eventAttendance.filter(e => e.status === "attended").length}
+          </p>
+          <p className="text-sm text-slate-600 mt-2">Attended</p>
+        </article>
+        <article className="rounded-2xl border border-sky-200 bg-sky-50 p-6 shadow-sm text-center">
+          <p className="text-3xl font-bold text-sky-600">
+            {eventAttendance.filter(e => e.status === "registered").length}
+          </p>
+          <p className="text-sm text-slate-600 mt-2">Registered</p>
+        </article>
+        <article className="rounded-2xl border border-rose-200 bg-rose-50 p-6 shadow-sm text-center">
+          <p className="text-3xl font-bold text-rose-600">
+            {eventAttendance.filter(e => e.status === "missed").length}
+          </p>
+          <p className="text-sm text-slate-600 mt-2">Missed</p>
+        </article>
+      </section>
 
-      {/* Overall Progress */}
-      <Card className="p-6">
-        <h2 className="text-sm font-semibold mb-3 text-[#647FBC]">Overall Progress</h2>
-        <div className="space-y-3">
-          <div className="flex justify-between font-medium text-sm">
-            <span className="text-gray-700">Attended Classes</span>
-            <span className="text-[#647FBC]">
-              {overallStats.attendedClasses}/{overallStats.totalClasses}
-            </span>
-          </div>
-          <Progress value={overallStats.overallPercentage} className="h-2" />
-          <div className="flex justify-between text-xs">
-            <span className="text-gray-600">Required: {overallStats.requiredPercentage}%</span>
-            <span className="font-semibold text-[#647FBC]">
-              {overallStats.overallPercentage}% Complete
-            </span>
-          </div>
-        </div>
-      </Card>
-
-      {/* Subject-wise Attendance */}
-      <Card className="p-6">
-        <h2 className="text-sm font-semibold mb-3 text-[#647FBC]">Subject-wise Attendance</h2>
-        <div className="space-y-2">
-          {attendanceData.map((subject, index) => (
-            <div
-              key={index}
-              className="bg-gradient-to-r from-gray-50 to-white p-3 rounded-lg border border-gray-100 hover:shadow-sm transition-shadow"
-            >
-              <div className="flex justify-between items-center mb-2">
-                <span className="font-semibold text-gray-900 text-sm">{subject.subject}</span>
-                <div className="flex items-center">
-                  {subject.percentage < 80 && (
-                    <AlertTriangle className="w-3 h-3 text-red-500 mr-1" />
-                  )}
-                  <span className={`text-sm font-bold ${getStatusColor(subject.status)}`}>
-                    {subject.percentage}%
+      <section className="grid gap-6 lg:grid-cols-2">
+        {/* Subject Attendance */}
+        <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+          <h2 className="text-base font-semibold text-slate-900 mb-4">Subject Attendance</h2>
+          <div className="space-y-3">
+            {subjectAttendance.map((subject) => (
+              <div
+                key={subject.subject}
+                className={`rounded-xl border p-4 ${getPercentageBg(subject.percentage)}`}
+              >
+                <div className="flex items-start justify-between mb-3">
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-slate-900 text-sm">{subject.subject}</h3>
+                    <p className="text-xs text-slate-500 mt-0.5">
+                      {subject.professor} • {subject.room}
+                    </p>
+                  </div>
+                  <div className="text-right">
+                    <p className={`text-2xl font-bold ${getPercentageColor(subject.percentage)}`}>
+                      {subject.percentage}%
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1 text-xs text-slate-600">
+                      <CheckCircle className="w-3.5 h-3.5 text-emerald-600" />
+                      <span className="font-medium">{subject.attended} Present</span>
+                    </div>
+                    <div className="flex items-center gap-1 text-xs text-slate-600">
+                      <XCircle className="w-3.5 h-3.5 text-rose-600" />
+                      <span className="font-medium">{subject.total - subject.attended} Absent</span>
+                    </div>
+                  </div>
+                  <span className="text-xs font-medium text-slate-500">
+                    {subject.attended}/{subject.total} classes
                   </span>
                 </div>
               </div>
-              <div className="flex items-center justify-between mb-1">
-                <Progress value={subject.percentage} className="flex-1 mr-2 h-2" />
-                <span className="text-xs font-medium text-gray-700">
-                  {subject.attended}/{subject.total}
-                </span>
-              </div>
-              {subject.percentage < 80 && (
-                <div className="flex items-center mt-2 p-2 bg-red-50 rounded-md">
-                  <AlertTriangle className="w-3 h-3 text-red-500 mr-1" />
-                  <p className="text-xs text-red-600 font-medium">
-                    Below required attendance threshold
-                  </p>
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-      </Card>
+            ))}
+          </div>
+        </article>
 
-      {/* Recent Attendance */}
-      <Card className="p-6">
-        <h2 className="text-sm font-semibold mb-3 text-[#647FBC]">Recent Attendance</h2>
-        <div className="space-y-2">
-          {recentAttendance.map((record, index) => (
-            <div
-              key={index}
-              className="flex items-center justify-between p-2 bg-gray-50/50 rounded-lg hover:bg-gray-100/50 transition-colors"
-            >
-              <div className="flex-1">
-                <p className="font-semibold text-gray-900 text-sm">{record.subject}</p>
-                <p className="text-xs text-gray-600">
-                  {record.date} • {record.time}
-                </p>
-              </div>
-              <span
-                className={`text-xs px-2 py-1 rounded-full capitalize font-medium ${getAttendanceStatusColor(record.status)}`}
+        {/* Event Attendance */}
+        <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+          <h2 className="text-base font-semibold text-slate-900 mb-4">Event Attendance</h2>
+          <div className="space-y-3">
+            {eventAttendance.map((event) => (
+              <div
+                key={event.title}
+                className="rounded-xl border border-slate-100 bg-slate-50 p-4 hover:shadow-sm transition-shadow"
               >
-                {record.status}
-              </span>
-            </div>
-          ))}
-        </div>
-      </Card>
+                <div className="flex items-start gap-3">
+                  <div className="mt-0.5">{getEventStatusIcon(event.status)}</div>
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-slate-900 text-sm">{event.title}</h3>
+                    <p className="text-xs text-slate-500 mt-1">{event.date}</p>
+                  </div>
+                  <span
+                    className={`text-xs font-semibold uppercase tracking-wide ${getEventStatusColor(event.status)}`}
+                  >
+                    {event.status}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </article>
+      </section>
     </div>
   );
 }

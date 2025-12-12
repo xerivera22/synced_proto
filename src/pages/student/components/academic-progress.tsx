@@ -1,9 +1,11 @@
 import Banner from "@/components/shared/Banner";
 import { Award, BookOpen, Calendar, Target, TrendingUp } from "lucide-react";
+import { getStudentPortalDate } from "../utils/date";
 import { Card } from "./ui/card";
 import { Progress } from "./ui/progress";
 
 export function AcademicProgress() {
+  const dateLabel = getStudentPortalDate();
   const subjects = [
     { name: "Mathematics", grade: "A-", percentage: 88, credits: 4, color: "bg-green-500" },
     { name: "Physics", grade: "B+", percentage: 85, credits: 4, color: "bg-blue-500" },
@@ -82,10 +84,10 @@ export function AcademicProgress() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
       <Banner
         title="Academic Progress"
         subtitle="Track your grades, subjects, and degree completion."
+        right={<p className="text-white/80 text-xs md:text-sm whitespace-nowrap">{dateLabel}</p>}
       />
 
       {/* GPA and Credits Overview */}

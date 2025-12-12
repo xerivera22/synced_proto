@@ -2,10 +2,12 @@ import Banner from "@/components/shared/Banner";
 import { useAuth } from "@/context/AuthContext";
 import { Edit, Mail, Phone, Save, X } from "lucide-react";
 import { useEffect, useState } from "react";
+import { getStudentPortalDate } from "../utils/date";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 
 export function Profile() {
+  const dateLabel = getStudentPortalDate();
   const [isEditing, setIsEditing] = useState(false);
   const { userData } = useAuth();
 
@@ -61,7 +63,11 @@ export function Profile() {
 
   return (
     <div className="space-y-6">
-      <Banner title="Profile" subtitle="Manage your personal information and contacts." />
+      <Banner
+        title="Profile"
+        subtitle="Manage your personal information and contacts."
+        right={<p className="text-white/80 text-xs md:text-sm whitespace-nowrap">{dateLabel}</p>}
+      />
 
       <section className="grid gap-6 md:grid-cols-3">
         {/* Student Profile */}

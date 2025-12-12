@@ -1,10 +1,12 @@
 import Banner from "@/components/shared/Banner";
 import { Bell, Globe, Mail, MessageSquare, Palette, Settings as SettingsIcon } from "lucide-react";
+import { getStudentPortalDate } from "../utils/date";
 import { Button } from "./ui/button";
 import { Card } from "./ui/card";
 import { Switch } from "./ui/switch";
 
 export function Settings() {
+  const dateLabel = getStudentPortalDate();
   const notificationPreferences = [
     {
       id: "email",
@@ -48,10 +50,10 @@ export function Settings() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
       <Banner
         title="Settings"
         subtitle="Manage your preferences and notifications."
+        right={<p className="text-white/80 text-xs md:text-sm whitespace-nowrap">{dateLabel}</p>}
       />
 
       {/* Notification Preferences */}

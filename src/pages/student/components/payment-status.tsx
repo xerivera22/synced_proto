@@ -1,4 +1,5 @@
 import Banner from "@/components/shared/Banner";
+import { getStudentPortalDate } from "../utils/date";
 
 type PaymentSummaryItem = {
   label: string;
@@ -78,11 +79,14 @@ const statusTone: Record<PaymentStatus, string> = {
 };
 
 export function PaymentStatus() {
+  const dateLabel = getStudentPortalDate();
+
   return (
     <div className="space-y-6">
       <Banner
         title="Payment & Billings"
         subtitle="Review balances, upcoming dues, and recent transactions."
+        right={<p className="text-white/80 text-xs md:text-sm whitespace-nowrap">{dateLabel}</p>}
       />
 
       <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">

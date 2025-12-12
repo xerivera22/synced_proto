@@ -2,6 +2,7 @@ import Banner from "@/components/shared/Banner";
 import { documentAPI } from "@/services";
 import { AlertCircle, CheckCircle, Clock, Download, Eye, FileText, Upload } from "lucide-react";
 import { useEffect, useState } from "react";
+import { getStudentPortalDate } from "../utils/date";
 import { DocumentModal } from "./DocumentModal";
 import { Button } from "./ui/button";
 import { Card } from "./ui/card";
@@ -17,6 +18,7 @@ interface Document {
 }
 
 export function StudentDocuments() {
+  const dateLabel = getStudentPortalDate();
   const [selectedDocument, setSelectedDocument] = useState<Document | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -169,10 +171,10 @@ export function StudentDocuments() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
       <Banner
         title="Documents"
         subtitle="Manage your academic documents and certificates."
+        right={<p className="text-white/80 text-xs md:text-sm whitespace-nowrap">{dateLabel}</p>}
       />
 
       {/* Quick Stats */}

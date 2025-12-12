@@ -14,6 +14,7 @@ import {
   Users,
 } from "lucide-react";
 import { useEffect, useState } from "react";
+import { getStudentPortalDate } from "../utils/date";
 import { Card } from "./ui/card";
 
 interface Subject {
@@ -37,6 +38,7 @@ interface DashboardClass {
 }
 
 export function Dashboard() {
+  const dateLabel = getStudentPortalDate();
   const { userData } = useAuth();
   const [subjects, setSubjects] = useState<Subject[]>([]);
   const [todayClasses, setTodayClasses] = useState<DashboardClass[]>([]);
@@ -308,7 +310,7 @@ export function Dashboard() {
         <Banner
           title={`Welcome back, ${userData.name}!`}
           subtitle="Loading your dashboard..."
-          right={<p className="text-white/80 text-xs md:text-sm whitespace-nowrap">{currentDate}</p>}
+          right={<p className="text-white/80 text-xs md:text-sm whitespace-nowrap">{dateLabel}</p>}
         />
         <div className="text-center py-12">
           <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#647FBC] mb-2"></div>
@@ -326,7 +328,7 @@ export function Dashboard() {
         subtitle={userData.role === "teacher"
           ? "Here's your teaching overview for today"
           : "Here's what's happening with your studies today"}
-        right={<p className="text-white/80 text-xs md:text-sm whitespace-nowrap">{currentDate}</p>}
+        right={<p className="text-white/80 text-xs md:text-sm whitespace-nowrap">{dateLabel}</p>}
       />
 
       {/* Quick Stats */}

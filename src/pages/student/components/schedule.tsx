@@ -8,10 +8,12 @@ import {
   Droplets,
   Wind,
 } from "lucide-react";
+import { getStudentPortalDate } from "../utils/date";
 import { ScheduleOverview, type ScheduleItem as OverviewItem } from "./schedule-overview";
 import { Card } from "./ui/card";
 
 export function Schedule() {
+  const dateLabel = getStudentPortalDate();
   const currentDay = 1; // Tuesday
 
   const schedule = {
@@ -163,10 +165,10 @@ export function Schedule() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
       <Banner
         title="Schedule"
         subtitle="View your weekly class timetable and events."
+        right={<p className="text-white/80 text-xs md:text-sm whitespace-nowrap">{dateLabel}</p>}
       />
 
       {/* Weather & Events Overview */}

@@ -1,3 +1,4 @@
+import Banner from "@/components/shared/Banner";
 import { Award, BookOpen, Calendar, Target, TrendingUp } from "lucide-react";
 import { Card } from "./ui/card";
 import { Progress } from "./ui/progress";
@@ -80,19 +81,12 @@ export function AcademicProgress() {
   ];
 
   return (
-    <div className="space-y-3">
-      {/* Header (standardized height and spacing like Overview) */}
-      <div className="bg-gradient-to-br from-[#647FBC] to-[#5a73b3] text-white h-20 md:h-24 rounded-[12px] shadow-sm">
-        <div className="h-full flex items-center px-3 md:px-4">
-          <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center mr-3">
-            <TrendingUp className="w-5 h-5" />
-          </div>
-          <div>
-            <h1 className="font-semibold text-base">Academic Progress</h1>
-            <p className="text-white/80 mt-1 text-sm">Fall Semester 2025</p>
-          </div>
-        </div>
-      </div>
+    <div className="space-y-6">
+      {/* Header */}
+      <Banner
+        title="Academic Progress"
+        subtitle="Track your grades, subjects, and degree completion."
+      />
 
       {/* GPA and Credits Overview */}
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
@@ -212,10 +206,10 @@ export function AcademicProgress() {
                     </div>
                     <span
                       className={`px-2.5 py-1 rounded-full font-medium text-xs ${assignment.status === "urgent"
-                          ? "bg-red-100 text-red-700"
-                          : assignment.status === "draft"
-                            ? "bg-amber-100 text-amber-700"
-                            : "bg-blue-100 text-blue-700"
+                        ? "bg-red-100 text-red-700"
+                        : assignment.status === "draft"
+                          ? "bg-amber-100 text-amber-700"
+                          : "bg-blue-100 text-blue-700"
                         }`}
                     >
                       {assignment.status}

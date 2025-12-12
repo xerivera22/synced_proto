@@ -1,15 +1,15 @@
+import { useAuth } from "@/context/AuthContext";
 import { Bell, Menu, Search, X } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Navigate, Outlet, useLocation, useNavigate } from "react-router-dom";
-import { useAuth } from "@/context/AuthContext";
 import BottomNavigation from "../components/bottom-navigation";
 // Import the navigation components from the student's components folder
 // These were copied from the other app as dash-case files
 import SideNavigation from "../components/side-navigation";
 
 // Scoped student styles (isolated to the student area)
-import "../styles/student.css";
 import SplashScreen from "@/components/SplashScreen";
+import "../styles/student.css";
 
 const StudentShell = () => {
   const { userData, logout } = useAuth();
@@ -147,6 +147,18 @@ const StudentShell = () => {
     return <Navigate to="/student-login" state={{ from: loc }} replace />;
   }
 
+  const currentTitle = () => {
+    if (loc.pathname.includes("progress")) return "Academic Progress";
+    if (loc.pathname.includes("attendance")) return "Attendance";
+    if (loc.pathname.includes("schedule")) return "Schedule";
+    if (loc.pathname.includes("payments")) return "Payments";
+    if (loc.pathname.includes("documents")) return "Documents";
+    if (loc.pathname.includes("message")) return "Messages";
+    if (loc.pathname.includes("profile")) return "Profile";
+    if (loc.pathname.includes("settings")) return "Settings";
+    return "Overview";
+  };
+
   return (
     <div data-student-ui className="app-container">
       {/* Sidebar (desktop and up) */}
@@ -191,8 +203,8 @@ const StudentShell = () => {
                   <Menu className="header-icon" />
                 )}
               </button>
-              <h1>STUDENT_UI_PROTOTYPE</h1>
-              <p>Academic Management Tool</p>
+              <h1>STUDENT_PORTAL</h1>
+              <p>{currentTitle()}</p>
             </div>
             <div className="header-right relative" ref={searchRef}>
               <button

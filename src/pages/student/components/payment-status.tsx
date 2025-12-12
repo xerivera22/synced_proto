@@ -1,255 +1,171 @@
-import { AlertCircle, Calendar, CheckCircle, Clock, CreditCard } from "lucide-react";
-import { Button } from "./ui/button";
-import { Card } from "./ui/card";
+import Banner from "@/components/shared/Banner";
+
+type PaymentSummaryItem = {
+  label: string;
+  value: string;
+  containerClass: string;
+  labelClass: string;
+  valueClass?: string;
+};
+
+type PaymentStatus = "Completed" | "Pending" | "Failed";
+
+type PaymentTransaction = {
+  id: string;
+  date: string;
+  description: string;
+  amount: string;
+  status: PaymentStatus;
+};
+
+const paymentSummary: PaymentSummaryItem[] = [
+  {
+    label: "Current Balance",
+    value: "$1,240",
+    containerClass: "border-amber-100 bg-amber-50",
+    labelClass: "text-amber-700",
+    valueClass: "text-amber-700",
+  },
+  {
+    label: "Next Due Date",
+    value: "Oct 01, 2024",
+    containerClass: "border-sky-100 bg-sky-50",
+    labelClass: "text-sky-700",
+  },
+  {
+    label: "Auto-Pay",
+    value: "Enabled",
+    containerClass: "border-emerald-100 bg-emerald-50",
+    labelClass: "text-emerald-700",
+    valueClass: "text-emerald-700",
+  },
+  {
+    label: "Last Payment",
+    value: "$620 on Aug 01",
+    containerClass: "border-indigo-100 bg-indigo-50",
+    labelClass: "text-indigo-700",
+  },
+];
+
+const transactions: PaymentTransaction[] = [
+  {
+    id: "INV-1021",
+    date: "Aug 01, 2024",
+    description: "Tuition Installment",
+    amount: "$620.00",
+    status: "Completed",
+  },
+  {
+    id: "INV-1018",
+    date: "Jul 01, 2024",
+    description: "Tuition Installment",
+    amount: "$620.00",
+    status: "Completed",
+  },
+  {
+    id: "INV-1015",
+    date: "Jun 01, 2024",
+    description: "Tuition Installment",
+    amount: "$620.00",
+    status: "Completed",
+  },
+];
+
+const statusTone: Record<PaymentStatus, string> = {
+  Completed: "text-emerald-600",
+  Pending: "text-amber-600",
+  Failed: "text-rose-600",
+};
 
 export function PaymentStatus() {
-  const paymentSummary = {
-    totalFees: 5000,
-    paidAmount: 4750,
-    pendingAmount: 250,
-    nextDueDate: "Oct 15, 2025",
-  };
-
-  const summaryCards = [
-    {
-      label: "Total Fees",
-      value: `$${paymentSummary.totalFees.toLocaleString()}`,
-      subtext: "Academic year",
-      containerClass: "border-indigo-100 bg-indigo-50",
-      labelClass: "text-indigo-700",
-    },
-    {
-      label: "Paid Amount",
-      value: `$${paymentSummary.paidAmount.toLocaleString()}`,
-      subtext: "Cleared to date",
-      containerClass: "border-emerald-100 bg-emerald-50",
-      labelClass: "text-emerald-700",
-      valueClass: "text-emerald-700",
-    },
-    {
-      label: "Pending Balance",
-      value: `$${paymentSummary.pendingAmount.toLocaleString()}`,
-      subtext: "Awaiting payment",
-      containerClass: "border-amber-100 bg-amber-50",
-      labelClass: "text-amber-700",
-      valueClass: "text-amber-700",
-    },
-    {
-      label: "Next Due Date",
-      value: paymentSummary.nextDueDate,
-      subtext: "Auto-pay enabled",
-      containerClass: "border-sky-100 bg-sky-50",
-      labelClass: "text-sky-700",
-    },
-  ];
-
-  const feeStructure = [
-    { category: "Tuition Fee", amount: 3500, status: "paid", dueDate: "Aug 15" },
-    { category: "Lab Fee", amount: 500, status: "paid", dueDate: "Aug 15" },
-    { category: "Library Fee", amount: 200, status: "paid", dueDate: "Aug 15" },
-    { category: "Sports Fee", amount: 300, status: "paid", dueDate: "Sep 15" },
-    { category: "Examination Fee", amount: 250, status: "pending", dueDate: "Oct 15" },
-    { category: "Technology Fee", amount: 250, status: "paid", dueDate: "Sep 15" },
-  ];
-
-  const paymentHistory = [
-    {
-      date: "Sep 10, 2025",
-      description: "Sports Fee",
-      amount: 300,
-      method: "Credit Card",
-      status: "completed",
-    },
-    {
-      date: "Sep 1, 2025",
-      description: "Technology Fee",
-      amount: 250,
-      method: "Bank Transfer",
-      status: "completed",
-    },
-    {
-      date: "Aug 15, 2025",
-      description: "Tuition Fee",
-      amount: 3500,
-      method: "Bank Transfer",
-      status: "completed",
-    },
-    {
-      date: "Aug 15, 2025",
-      description: "Lab Fee",
-      amount: 500,
-      method: "Credit Card",
-      status: "completed",
-    },
-    {
-      date: "Aug 15, 2025",
-      description: "Library Fee",
-      amount: 200,
-      method: "Credit Card",
-      status: "completed",
-    },
-  ];
-
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case "paid":
-      case "completed":
-        return <CheckCircle className="w-4 h-4 text-green-600" />;
-      case "pending":
-        return <AlertCircle className="w-4 h-4 text-orange-600" />;
-      case "overdue":
-        return <AlertCircle className="w-4 h-4 text-red-600" />;
-      default:
-        return <Clock className="w-4 h-4 text-gray-600" />;
-    }
-  };
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "paid":
-      case "completed":
-        return "text-green-600";
-      case "pending":
-        return "text-orange-600";
-      case "overdue":
-        return "text-red-600";
-      default:
-        return "text-gray-600";
-    }
-  };
-
   return (
-    <div className="space-y-3">
-      {/* Header */}
-      <div className="bg-gradient-to-br from-[#647FBC] to-[#5a73b3] text-white h-20 md:h-24 rounded-[12px] shadow-sm">
-        <div className="h-full flex items-center px-3 md:px-4">
-          <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center mr-3">
-            <CreditCard className="w-5 h-5" />
-          </div>
-          <div>
-            <h1 className="text-base font-semibold">Payment Status</h1>
-            <p className="text-white/80 text-sm mt-0.5">Academic Year 2025-26</p>
-          </div>
-        </div>
-      </div>
+    <div className="space-y-6">
+      <Banner
+        title="Payment & Billings"
+        subtitle="Review balances, upcoming dues, and recent transactions."
+      />
 
-      {/* Payment Summary */}
-      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-        {summaryCards.map((item) => (
-          <Card
+      <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+        {paymentSummary.map((item) => (
+          <article
             key={item.label}
-            className={`p-5 ${item.containerClass} flex flex-col justify-between`}
+            className={`rounded-2xl border p-6 shadow-sm ${item.containerClass}`}
           >
             <p className={`text-xs font-semibold uppercase tracking-wide ${item.labelClass}`}>
               {item.label}
             </p>
-            <div>
-              <p className={`mt-3 text-3xl font-semibold ${item.valueClass ?? "text-slate-900"}`}>
-                {item.value}
-              </p>
-              <p className="text-xs text-slate-600">{item.subtext}</p>
-            </div>
-          </Card>
+            <p className={`mt-3 text-2xl font-semibold ${item.valueClass ?? "text-slate-900"}`}>
+              {item.value}
+            </p>
+          </article>
         ))}
-      </div>
+      </section>
 
-      {/* Payment Progress */}
-      <Card className="p-6">
-        <h2 className="text-sm font-semibold mb-3 text-[#647FBC]">Payment Progress</h2>
-        <div className="space-y-3">
-          <div className="flex justify-between font-medium text-sm">
-            <span className="text-gray-700">Total Fees Paid</span>
-            <span className="text-[#647FBC]">
-              ${paymentSummary.paidAmount}/${paymentSummary.totalFees}
-            </span>
+      <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+        <header className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+          <div>
+            <h2 className="text-base font-semibold text-slate-900">Payment History</h2>
+            <p className="text-xs text-slate-500">
+              View transactions, receipts, and upcoming schedules.
+            </p>
           </div>
-          <div className="w-full bg-gray-200 rounded-full h-2">
-            <div
-              className="bg-gradient-to-r from-[#647FBC] to-[#5a73b3] h-2 rounded-full transition-all duration-300 shadow-sm"
-              style={{ width: `${(paymentSummary.paidAmount / paymentSummary.totalFees) * 100}%` }}
-            ></div>
-          </div>
-          <div className="flex justify-between text-xs">
-            <span className="font-semibold text-[#647FBC]">95% Complete</span>
-            <span className="text-gray-600">Next Due: {paymentSummary.nextDueDate}</span>
-          </div>
-        </div>
-      </Card>
-
-      {/* Pending Payments */}
-      {paymentSummary.pendingAmount > 0 && (
-        <Card className="border-orange-200 bg-orange-50 p-6">
-          <div className="flex items-center justify-between mb-2">
-            <h2 className="font-semibold text-orange-800 text-sm">Pending Payment</h2>
-            <Calendar className="w-4 h-4 text-orange-600" />
-          </div>
-          <div className="space-y-2">
-            <div className="flex justify-between text-sm">
-              <span className="text-orange-800">Examination Fee</span>
-              <span className="font-bold text-orange-800">${paymentSummary.pendingAmount}</span>
-            </div>
-            <p className="text-xs text-orange-700">Due Date: {paymentSummary.nextDueDate}</p>
-            <Button className="w-full mt-2 bg-gradient-to-r from-[#647FBC] to-[#5a73b3] hover:from-[#5a73b3] hover:to-[#4d6aa3] text-white shadow-sm text-sm h-8">
-              Pay Now
-            </Button>
-          </div>
-        </Card>
-      )}
-
-      {/* Fee Structure */}
-      <Card className="p-6">
-        <h2 className="text-sm font-semibold mb-3 text-[#647FBC]">Fee Structure</h2>
-        <div className="space-y-2">
-          {feeStructure.map((fee, index) => (
-            <div
-              key={index}
-              className="flex items-center justify-between p-2 bg-gray-50/50 rounded-lg hover:bg-gray-100/50 transition-colors"
+          <div className="flex gap-2">
+            <button
+              type="button"
+              className="rounded-full border border-slate-200 px-4 py-2 text-sm font-medium text-slate-600 transition hover:text-slate-900"
             >
-              <div className="flex items-center">
-                <div className="w-6 h-6 bg-white rounded-md flex items-center justify-center mr-3 shadow-sm">
-                  {getStatusIcon(fee.status)}
-                </div>
-                <div>
-                  <p className="font-semibold text-gray-900 text-sm">{fee.category}</p>
-                  <p className="text-xs text-gray-600">Due: {fee.dueDate}</p>
-                </div>
-              </div>
-              <div className="text-right">
-                <p className="text-sm font-bold text-gray-900">${fee.amount}</p>
-                <p className={`text-xs capitalize font-medium ${getStatusColor(fee.status)}`}>
-                  {fee.status}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </Card>
-
-      {/* Payment History */}
-      <Card className="p-6">
-        <h2 className="text-sm font-semibold mb-3 text-[#647FBC]">Payment History</h2>
-        <div className="space-y-2">
-          {paymentHistory.map((payment, index) => (
-            <div
-              key={index}
-              className="flex items-center justify-between p-2 bg-gray-50/50 rounded-lg hover:bg-gray-100/50 transition-colors"
+              Make a payment
+            </button>
+            <button
+              type="button"
+              className="rounded-full border border-slate-200 px-4 py-2 text-sm font-medium text-slate-600 transition hover:text-slate-900"
             >
-              <div className="flex items-center">
-                <div className="w-6 h-6 bg-green-100 rounded-md flex items-center justify-center mr-3">
-                  <CheckCircle className="w-3 h-3 text-green-600" />
-                </div>
-                <div>
-                  <p className="font-semibold text-gray-900 text-sm">{payment.description}</p>
-                  <p className="text-xs text-gray-600">
-                    {payment.date} • {payment.method}
-                  </p>
-                </div>
-              </div>
-              <p className="text-sm font-bold text-green-600">${payment.amount}</p>
-            </div>
-          ))}
+              Download statement
+            </button>
+          </div>
+        </header>
+
+        <div className="mt-6 overflow-hidden rounded-xl border border-slate-100">
+          <table className="min-w-full divide-y divide-slate-100">
+            <thead className="bg-slate-50">
+              <tr>
+                <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+                  Invoice
+                </th>
+                <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+                  Date
+                </th>
+                <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+                  Description
+                </th>
+                <th className="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wide text-slate-500">
+                  Amount
+                </th>
+                <th className="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wide text-slate-500">
+                  Status
+                </th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100 bg-white">
+              {transactions.map((txn) => (
+                <tr key={txn.id}>
+                  <td className="px-4 py-4 text-sm font-semibold text-slate-900">{txn.id}</td>
+                  <td className="px-4 py-4 text-sm text-slate-500">{txn.date}</td>
+                  <td className="px-4 py-4 text-sm text-slate-500">{txn.description}</td>
+                  <td className="px-4 py-4 text-right text-sm font-medium text-slate-900">
+                    {txn.amount}
+                  </td>
+                  <td
+                    className={`px-4 py-4 text-right text-sm font-medium ${statusTone[txn.status]}`}
+                  >
+                    {txn.status}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
-      </Card>
+      </section>
     </div>
   );
 }

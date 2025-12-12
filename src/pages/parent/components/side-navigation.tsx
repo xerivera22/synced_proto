@@ -6,6 +6,7 @@ import {
   LayoutDashboard,
   MessageSquare,
   Settings,
+  UserCircle,
   Wallet,
 } from "lucide-react";
 import type React from "react";
@@ -35,6 +36,7 @@ const ParentSideNavigation: React.FC<SideNavigationProps> = ({ className = "", o
     { to: "/parent/payments", label: "Payments", icon: Wallet },
     { to: "/parent/documents", label: "Documents", icon: FileText },
     { to: "/parent/messages", label: "Messages", icon: MessageSquare },
+    { to: "/parent/profile", label: "Profile", icon: UserCircle },
   ];
 
   useEffect(() => {

@@ -1,4 +1,5 @@
-import { AlertTriangle, ClipboardCheck } from "lucide-react";
+import Banner from "@/components/shared/Banner";
+import { AlertTriangle } from "lucide-react";
 import { Card } from "./ui/card";
 import { Progress } from "./ui/progress";
 
@@ -71,19 +72,12 @@ export function Attendance() {
   };
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-6">
       {/* Header */}
-      <div className="bg-gradient-to-br from-[#647FBC] to-[#5a73b3] text-white h-20 md:h-24 rounded-[12px] shadow-sm">
-        <div className="h-full flex items-center px-3 md:px-4">
-          <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center mr-3">
-            <ClipboardCheck className="w-5 h-5" />
-          </div>
-          <div>
-            <h1 className="text-base font-semibold">Attendance Record</h1>
-            <p className="text-white/80 text-sm mt-0.5">Fall Semester 2025</p>
-          </div>
-        </div>
-      </div>
+      <Banner
+        title="Attendance"
+        subtitle="Monitor your class attendance and participation record."
+      />
 
       {/* Overall Statistics */}
       <div className="grid grid-cols-2 gap-3">

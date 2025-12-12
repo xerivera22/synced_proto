@@ -1,10 +1,10 @@
+import SplashScreen from "@/components/SplashScreen";
 import { useAuth } from "@/context/AuthContext";
 import "@/pages/student/styles/student.css";
 import { Bell, Menu, Search, X } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Navigate, Outlet, useLocation, useNavigate } from "react-router-dom";
 import ParentSideNavigation from "../components/side-navigation";
-import SplashScreen from "@/components/SplashScreen";
 
 const searchShortcuts = [
   {
@@ -147,6 +147,7 @@ const ParentShell = () => {
     if (location.pathname.includes("payments")) return "Payments";
     if (location.pathname.includes("documents")) return "Documents";
     if (location.pathname.includes("messages")) return "Messages";
+    if (location.pathname.includes("profile")) return "Profile";
     if (location.pathname.includes("settings"))
       return "Settings & Notifications";
     return "Overview";

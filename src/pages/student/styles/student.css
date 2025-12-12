@@ -98,7 +98,6 @@
      SCOPED THEME VARIABLES (merged from globals.css)
      =================================== */
 [data-student-ui] {
-  --font-size: 18px;
   --background: #ffffff;
   --foreground: oklch(0.145 0 0);
   --card: #ffffff;
@@ -136,7 +135,6 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
-  font-size: var(--font-size);
 }
 
 [data-student-ui].dark {
@@ -187,13 +185,40 @@
 [data-student-ui] {
   height: 100%;
   font-family: var(--font-family);
-  font-size: var(--font-size-base);
+  font-size: 1.0625rem;
   line-height: 1.5;
   color: var(--gray-900);
   background-color: var(--gray-50);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
+
+/* Override Tailwind font-weight utilities for lighter text */
+[data-student-ui] .font-semibold {
+  font-weight: 600;
+}
+
+[data-student-ui] .font-medium {
+  font-weight: 500;
+}
+
+[data-student-ui] .font-bold {
+  font-weight: 600;
+}
+
+[data-parent-ui] {
+  height: 100%;
+  font-family: var(--font-family);
+  font-size: 1.0625rem;
+  line-height: 1.5;
+  color: var(--gray-900);
+  background-color: var(--gray-50);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
 [data-student-ui] svg {
   display: block;
   width: 1rem;
@@ -314,10 +339,11 @@
 }
 
 .nav-logo {
-  font-size: 1.1rem;
+  font-size: 0.95rem;
   font-weight: 700;
   color: var(--primary-color);
   margin: 0;
+  letter-spacing: 0.02em;
   transition: all 0.15s ease;
 }
 
@@ -344,9 +370,9 @@
   align-items: center;
   padding: var(--spacing-sm) var(--spacing-md);
   border-radius: var(--radius-md);
-  color: var(--gray-700);
-  font-size: var(--font-size-sm);
-  font-weight: 500;
+  color: var(--gray-600);
+  font-size: 0.875rem;
+  font-weight: 400;
   transition: all 0.15s ease;
   min-width: 0;
 }
@@ -358,6 +384,7 @@
 .nav-item.active {
   background-color: var(--primary-color);
   color: var(--white);
+  font-weight: 500;
 }
 
 .nav-icon {
@@ -365,7 +392,7 @@
   height: 1rem;
   margin-right: var(--spacing-sm);
   flex-shrink: 0;
-  color: var(--gray-500);
+  color: var(--gray-600);
 }
 
 .nav-item.active .nav-icon {
@@ -417,13 +444,13 @@
 }
 
 .user-name {
-  font-size: var(--font-size-sm);
+  font-size: 0.8125rem;
   font-weight: 500;
-  color: var(--gray-900);
+  color: var(--gray-700);
 }
 
 .user-id {
-  font-size: var(--font-size-xs);
+  font-size: 0.6875rem;
   color: var(--gray-500);
 }
 
@@ -454,14 +481,17 @@
 }
 
 .header-left h1 {
-  font-size: var(--font-size-sm);
-  font-weight: 700;
+  font-size: var(--font-size-xs);
+  font-weight: 600;
   color: var(--primary-color);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
   margin-bottom: 2px;
 }
 
 .header-left p {
   font-size: var(--font-size-xs);
+  font-weight: 500;
   color: var(--gray-600);
   margin-top: 2px;
 }

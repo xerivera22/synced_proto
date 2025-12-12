@@ -1,4 +1,5 @@
 import Banner from "@/components/shared/Banner";
+import { useAuth } from "@/context/AuthContext";
 import { getParentPortalDate } from "../utils/date";
 
 const studentInfo = {
@@ -26,6 +27,8 @@ const guardianInfo = [
 
 const ParentProfile = () => {
   const dateLabel = getParentPortalDate();
+  const { userData } = useAuth();
+  const accountName = userData?.name || "Jaime Erivera";
 
   return (
     <div className="space-y-6">
@@ -35,84 +38,58 @@ const ParentProfile = () => {
         right={<p className="text-white/80 text-xs md:text-sm whitespace-nowrap">{dateLabel}</p>}
       />
 
-      <section className="grid gap-6 md:grid-cols-3">
-        <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm md:col-span-2">
-          <h2 className="text-base font-semibold text-slate-900">Student Profile</h2>
-          <p className="mt-2 text-sm text-slate-500">
-            Keep personal, guardian, and contact information updated.
-          </p>
-
-          <div className="mt-6 grid gap-4 md:grid-cols-2">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-                Student
-              </p>
-              <p className="mt-1 text-base font-semibold text-slate-900">{studentInfo.name}</p>
-            </div>
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Grade</p>
-              <p className="mt-1 text-base font-semibold text-slate-900">{studentInfo.grade}</p>
-            </div>
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-                Advisor
-              </p>
-              <p className="mt-1 text-base font-semibold text-slate-900">{studentInfo.advisor}</p>
-            </div>
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Email</p>
-              <p className="mt-1 text-base font-semibold text-slate-900">{studentInfo.email}</p>
-            </div>
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Phone</p>
-              <p className="mt-1 text-base font-semibold text-slate-900">{studentInfo.phone}</p>
-            </div>
-          </div>
-        </article>
-
-        <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-          <h3 className="text-base font-semibold text-slate-900">Preferences</h3>
-          <div className="mt-4 space-y-4 text-sm text-slate-500">
-            <p>Email notifications for attendance updates</p>
-            <p>SMS alerts for payment reminders</p>
-            <p>Weekly academic digest summary</p>
-          </div>
-          <button
-            type="button"
-            className="mt-6 w-full rounded-full border border-slate-200 px-4 py-2 text-sm font-medium text-slate-600 transition hover:text-slate-900"
-          >
-            Edit preferences
-          </button>
-        </article>
-      </section>
-
       <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-        <h2 className="text-base font-semibold text-slate-900">Emergency Contacts</h2>
-        <p className="mt-2 text-sm text-slate-500">
-          Confirm that contact details are accurate in case of urgent updates.
-        </p>
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <h2 className="text-base font-semibold text-slate-900">Account Information</h2>
+            <p className="text-sm text-slate-500">Logged in as: <span className="font-semibold text-slate-900">{accountName}</span></p>
+          </div>
+        </div>
 
-        <div className="mt-6 grid gap-4 md:grid-cols-2">
-          {guardianInfo.map((guardian) => (
-            <article key={guardian.email} className="rounded-xl border border-slate-100 p-4">
-              <p className="text-sm font-semibold text-slate-900">{guardian.name}</p>
-              <p className="text-xs text-slate-500">{guardian.relation}</p>
-              <dl className="mt-3 space-y-2 text-sm text-slate-500">
+        <div className="grid gap-6 md:grid-cols-2">
+          <article className="rounded-xl border border-slate-100 p-4">
+            <h3 className="text-base font-semibold text-slate-900 mb-4">Student Profile</h3>
+            <div className="space-y-3">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Student</p>
+                <p className="mt-1 text-base font-semibold text-slate-900">{studentInfo.name}</p>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <dt className="text-xs font-semibold uppercase tracking-wide text-slate-400">
-                    Phone
-                  </dt>
-                  <dd className="text-slate-900">{guardian.phone}</dd>
+                  <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Grade</p>
+                  <p className="mt-1 text-base font-semibold text-slate-900">{studentInfo.grade}</p>
                 </div>
                 <div>
-                  <dt className="text-xs font-semibold uppercase tracking-wide text-slate-400">
-                    Email
-                  </dt>
-                  <dd className="text-slate-900">{guardian.email}</dd>
+                  <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Advisor</p>
+                  <p className="mt-1 text-base font-semibold text-slate-900">{studentInfo.advisor}</p>
                 </div>
-              </dl>
-            </article>
-          ))}
+              </div>
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Email</p>
+                <p className="mt-1 text-base font-semibold text-slate-900">{studentInfo.email}</p>
+              </div>
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Phone</p>
+                <p className="mt-1 text-base font-semibold text-slate-900">{studentInfo.phone}</p>
+              </div>
+            </div>
+          </article>
+
+          <article className="rounded-xl border border-slate-100 p-4">
+            <h3 className="text-base font-semibold text-slate-900 mb-4">Guardian Information</h3>
+            <div className="space-y-4">
+              {guardianInfo.map((guardian) => (
+                <div key={guardian.email} className="pb-4 border-b border-slate-100 last:border-0 last:pb-0">
+                  <p className="text-sm font-semibold text-slate-900">{guardian.name}</p>
+                  <p className="text-xs text-slate-500 mb-2">{guardian.relation}</p>
+                  <div className="space-y-1 text-sm">
+                    <p className="text-slate-600">{guardian.phone}</p>
+                    <p className="text-slate-600">{guardian.email}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </article>
         </div>
       </section>
     </div>

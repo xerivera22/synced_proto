@@ -1,13 +1,13 @@
 import {
-  CalendarDays,
-  ClipboardList,
+  CalendarCheck,
+  ClipboardCheck,
   FileText,
+  GraduationCap,
   LayoutDashboard,
-  LineChart,
+  MessageSquare,
   Settings,
   UserCircle,
   Wallet,
-  MessageCircle,
 } from "lucide-react";
 import type React from "react";
 import { useEffect, useState } from "react";
@@ -20,8 +20,8 @@ type SideNavigationProps = {
 
 // Full side navigation matching styles in student.css (.side-navigation, .nav-*)
 // Use relative path to avoid alias resolution issues
-import logoUrl from "../../../assets/ISE_logo.png";
 import { useAuth } from "@/context/AuthContext";
+import logoUrl from "../../../assets/ISE_logo.png";
 
 const SideNavigation: React.FC<SideNavigationProps> = ({
   className = "",
@@ -38,14 +38,14 @@ const SideNavigation: React.FC<SideNavigationProps> = ({
   const { userData } = useAuth();
 
   const navItems = [
-    { to: "/student/overview", label: "Dashboard", icon: LayoutDashboard },
-    { to: "/student/schedule", label: "Schedule", icon: CalendarDays },
-    { to: "/student/progress", label: "Academic Progress", icon: LineChart },
-    { to: "/student/attendance", label: "Attendance", icon: ClipboardList },
-    { to: "/student/payments", label: "Payment Status", icon: Wallet },
+    { to: "/student/overview", label: "Overview", icon: LayoutDashboard },
+    { to: "/student/progress", label: "Academic Progress", icon: GraduationCap },
+    { to: "/student/attendance", label: "Attendance", icon: ClipboardCheck },
+    { to: "/student/schedule", label: "Schedule", icon: CalendarCheck },
+    { to: "/student/payments", label: "Payments", icon: Wallet },
     { to: "/student/documents", label: "Documents", icon: FileText },
+    { to: "/student/message", label: "Messages", icon: MessageSquare },
     { to: "/student/profile", label: "Profile", icon: UserCircle },
-    { to: "/student/message", label: "Message", icon: MessageCircle },
   ];
 
   useEffect(() => {
@@ -58,9 +58,8 @@ const SideNavigation: React.FC<SideNavigationProps> = ({
 
   return (
     <nav
-      className={`side-navigation ${
-        collapsed ? "collapsed" : ""
-      } ${className}`.trim()}
+      className={`side-navigation ${collapsed ? "collapsed" : ""
+        } ${className}`.trim()}
     >
       {/* Header */}
       <div className="nav-header">

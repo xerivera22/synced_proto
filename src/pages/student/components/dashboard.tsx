@@ -1,19 +1,20 @@
+import Banner from "@/components/shared/Banner";
+import { useAuth } from "@/context/AuthContext";
+import { subjectService } from "@/services/subjectService";
 import {
   AlertCircle,
+  AlertTriangle,
   BookOpen,
+  BookOpenCheck,
+  Building,
   Calendar,
   CheckCircle,
   Clock,
   TrendingUp,
   Users,
-  Building,
-  BookOpenCheck,
-  AlertTriangle,
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Card } from "./ui/card";
-import { useAuth } from "@/context/AuthContext";
-import { subjectService } from "@/services/subjectService";
 
 interface Subject {
   _id: string;
@@ -204,33 +205,29 @@ export function Dashboard() {
       updatedStats[0] = {
         ...updatedStats[0],
         value: totalSubjects.toString(),
-        description: `${totalSubjects} assigned subject${
-          totalSubjects !== 1 ? "s" : ""
-        }`,
+        description: `${totalSubjects} assigned subject${totalSubjects !== 1 ? "s" : ""
+          }`,
       };
 
       updatedStats[1] = {
         ...updatedStats[1],
         value: todayClassesCount.toString(),
-        description: `${todayClassesCount} class${
-          todayClassesCount !== 1 ? "es" : ""
-        } today`,
+        description: `${todayClassesCount} class${todayClassesCount !== 1 ? "es" : ""
+          } today`,
       };
 
       updatedStats[2] = {
         ...updatedStats[2],
         value: sectionsCount.toString(),
-        description: `${sectionsCount} section${
-          sectionsCount !== 1 ? "s" : ""
-        } assigned`,
+        description: `${sectionsCount} section${sectionsCount !== 1 ? "s" : ""
+          } assigned`,
       };
 
       updatedStats[3] = {
         ...updatedStats[3],
         value: `${teachingHours}h`,
-        description: `${teachingHours} teaching hour${
-          teachingHours !== 1 ? "s" : ""
-        }`,
+        description: `${teachingHours} teaching hour${teachingHours !== 1 ? "s" : ""
+          }`,
       };
     } else {
       // Update for student (placeholder data - replace with actual student data)
@@ -307,20 +304,12 @@ export function Dashboard() {
 
   if (loading) {
     return (
-      <div className="space-y-2">
-        <div className="bg-gradient-to-br from-[#647FBC] to-[#5a73b3] text-white h-20 md:h-24 rounded-[12px] shadow-sm">
-          <div className="h-full flex items-center justify-between px-3 md:px-4">
-            <div className="flex flex-col gap-1">
-              <h1 className="text-base md:text-lg font-semibold leading-snug">
-                Welcome back, {userData.name}!
-              </h1>
-              <p className="text-white/80 text-sm">Loading your dashboard...</p>
-            </div>
-            <p className="text-white/80 text-xs md:text-sm whitespace-nowrap">
-              {currentDate}
-            </p>
-          </div>
-        </div>
+      <div className="space-y-6">
+        <Banner
+          title={`Welcome back, ${userData.name}!`}
+          subtitle="Loading your dashboard..."
+          right={<p className="text-white/80 text-xs md:text-sm whitespace-nowrap">{currentDate}</p>}
+        />
         <div className="text-center py-12">
           <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#647FBC] mb-2"></div>
           <p className="text-gray-600">Loading dashboard data...</p>
@@ -330,25 +319,15 @@ export function Dashboard() {
   }
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-6">
       {/* Banner */}
-      <div className="bg-gradient-to-br from-[#647FBC] to-[#5a73b3] text-white h-20 md:h-24 rounded-[12px] shadow-sm">
-        <div className="h-full flex items-center justify-between px-3 md:px-4">
-          <div className="flex flex-col gap-1">
-            <h1 className="text-base md:text-lg font-semibold leading-snug">
-              Welcome back, {userData.name}!
-            </h1>
-            <p className="text-white/80 text-sm">
-              {userData.role === "teacher"
-                ? "Here's your teaching overview for today"
-                : "Here's what's happening with your studies today"}
-            </p>
-          </div>
-          <p className="text-white/80 text-xs md:text-sm whitespace-nowrap">
-            {currentDate}
-          </p>
-        </div>
-      </div>
+      <Banner
+        title={`Welcome back, ${userData.name}!`}
+        subtitle={userData.role === "teacher"
+          ? "Here's your teaching overview for today"
+          : "Here's what's happening with your studies today"}
+        right={<p className="text-white/80 text-xs md:text-sm whitespace-nowrap">{currentDate}</p>}
+      />
 
       {/* Quick Stats */}
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">

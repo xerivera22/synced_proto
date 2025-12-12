@@ -1,3 +1,4 @@
+import Banner from "@/components/shared/Banner";
 import { documentAPI } from "@/services";
 import { AlertCircle, CheckCircle, Clock, Download, Eye, FileText, Upload } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -167,19 +168,12 @@ export function StudentDocuments() {
   ];
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-6">
       {/* Header */}
-      <div className="bg-gradient-to-br from-[#647FBC] to-[#5a73b3] text-white h-20 md:h-24 rounded-[12px] shadow-sm">
-        <div className="h-full flex items-center px-3 md:px-4">
-          <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center mr-3">
-            <FileText className="w-5 h-5" />
-          </div>
-          <div>
-            <h1 className="text-base font-semibold">Student Documents</h1>
-            <p className="text-white/80 text-sm mt-0.5">Manage your academic documents</p>
-          </div>
-        </div>
-      </div>
+      <Banner
+        title="Documents"
+        subtitle="Manage your academic documents and certificates."
+      />
 
       {/* Quick Stats */}
       <div className="grid grid-cols-3 gap-3">

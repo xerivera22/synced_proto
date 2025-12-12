@@ -1,4 +1,4 @@
-import { Award, BookOpen, Target, TrendingUp } from "lucide-react";
+import { Award, BookOpen, Calendar, Target, TrendingUp } from "lucide-react";
 import { Card } from "./ui/card";
 import { Progress } from "./ui/progress";
 
@@ -122,28 +122,41 @@ export function AcademicProgress() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
         {/* Subject Grades - spans 2 columns */}
         <div className="lg:col-span-2">
-          <Card className="p-6">
-            <h2 className="font-semibold mb-3 text-[#647FBC] text-sm">Current Subjects</h2>
+          <Card className="p-6 bg-white border-0 shadow-sm">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-lg flex items-center justify-center">
+                  <BookOpen className="w-4 h-4 text-indigo-600" />
+                </div>
+                <h2 className="font-semibold text-slate-800 text-sm">Subjects</h2>
+              </div>
+              <span className="text-xs text-slate-500">This Semester</span>
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {subjects.map((subject, index) => (
                 <div
                   key={index}
-                  className="bg-gradient-to-r from-gray-50 to-white p-3 rounded-lg border border-gray-100 hover:shadow-sm transition-shadow"
+                  className="bg-gradient-to-br from-slate-50 to-white p-4 rounded-xl border border-slate-100 hover:shadow-md hover:border-slate-200 transition-all duration-200"
                 >
-                  <div className="flex justify-between items-center mb-2">
-                    <div className="flex items-center">
-                      <div className={`w-3 h-3 rounded-full ${subject.color} mr-2`}></div>
-                      <span className="font-semibold text-gray-900 text-sm">{subject.name}</span>
+                  <div className="flex justify-between items-start mb-3">
+                    <div className="flex items-center gap-2">
+                      <div className={`w-3 h-3 rounded-full ${subject.color}`} />
+                      <span className="font-semibold text-slate-900 text-sm">{subject.name}</span>
                     </div>
-                    <div className="text-right">
-                      <span className="text-sm font-bold text-[#647FBC]">{subject.grade}</span>
+                    <span className="text-lg font-bold text-indigo-600">{subject.grade}</span>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-3">
+                      <Progress value={subject.percentage} className="flex-1 h-2" />
+                      <span className="font-medium text-slate-700 text-xs w-10 text-right">{subject.percentage}%</span>
+                    </div>
+                    <div className="flex items-center justify-between pt-1">
+                      <span className="text-slate-500 text-xs">{subject.credits} credits</span>
+                      <span className={`text-xs font-medium ${subject.percentage >= 90 ? 'text-emerald-600' : subject.percentage >= 80 ? 'text-blue-600' : 'text-amber-600'}`}>
+                        {subject.percentage >= 90 ? 'Excellent' : subject.percentage >= 80 ? 'Good' : 'Needs Work'}
+                      </span>
                     </div>
                   </div>
-                  <div className="flex items-center justify-between mb-1">
-                    <Progress value={subject.percentage} className="flex-1 mr-3 h-2" />
-                    <span className="font-medium text-gray-700 text-xs">{subject.percentage}%</span>
-                  </div>
-                  <p className="text-gray-500 text-xs">{subject.credits} credits</p>
                 </div>
               ))}
             </div>
@@ -176,36 +189,41 @@ export function AcademicProgress() {
           </Card>
 
           {/* Upcoming Assignments */}
-          <Card className="p-6">
-            <div className="flex items-center mb-3">
-              <div className="w-8 h-8 bg-[#647FBC]/10 rounded-md flex items-center justify-center mr-2">
-                <BookOpen className="w-4 h-4 text-[#647FBC]" />
+          <Card className="p-6 bg-white border-0 shadow-sm">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 bg-gradient-to-br from-amber-100 to-orange-100 rounded-lg flex items-center justify-center">
+                  <BookOpen className="w-4 h-4 text-amber-600" />
+                </div>
+                <h2 className="font-semibold text-slate-800 text-sm">Assignments</h2>
               </div>
-              <h2 className="font-semibold text-[#647FBC] text-sm">Upcoming Assignments</h2>
+              <span className="text-xs text-slate-500">Due Soon</span>
             </div>
-            <div className="space-y-2">
+            <div className="space-y-3">
               {upcomingAssignments.map((assignment, index) => (
                 <div
                   key={index}
-                  className="p-2 bg-gray-50/50 rounded-lg hover:bg-gray-100/50 transition-colors"
+                  className="bg-gradient-to-br from-slate-50 to-white p-4 rounded-xl border border-slate-100 hover:shadow-md hover:border-slate-200 transition-all duration-200"
                 >
-                  <div className="mb-2">
-                    <p className="font-semibold text-gray-900 text-sm">{assignment.assignment}</p>
-                    <p className="text-gray-600 mt-0.5 text-xs">{assignment.subject}</p>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <p className="font-medium text-gray-900 text-xs">{assignment.dueDate}</p>
+                  <div className="flex items-start justify-between mb-2">
+                    <div className="flex-1">
+                      <p className="font-semibold text-slate-900 text-sm">{assignment.assignment}</p>
+                      <p className="text-slate-500 mt-0.5 text-xs">{assignment.subject}</p>
+                    </div>
                     <span
-                      className={`px-2 py-1 rounded-full font-medium text-xs ${
-                        assignment.status === "urgent"
+                      className={`px-2.5 py-1 rounded-full font-medium text-xs ${assignment.status === "urgent"
                           ? "bg-red-100 text-red-700"
                           : assignment.status === "draft"
                             ? "bg-amber-100 text-amber-700"
                             : "bg-blue-100 text-blue-700"
-                      }`}
+                        }`}
                     >
                       {assignment.status}
                     </span>
+                  </div>
+                  <div className="flex items-center pt-2 border-t border-slate-100">
+                    <Calendar className="w-3.5 h-3.5 text-slate-400 mr-1.5" />
+                    <span className="font-medium text-slate-600 text-xs">{assignment.dueDate}</span>
                   </div>
                 </div>
               ))}

@@ -6,18 +6,10 @@ import {
   Clock,
   Cloud,
   Droplets,
-  Sun,
   Wind,
 } from "lucide-react";
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
+import { ScheduleOverview, type ScheduleItem as OverviewItem } from "./schedule-overview";
 import { Card } from "./ui/card";
-import {
-  ChartContainer,
-  ChartLegend,
-  ChartLegendContent,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "./ui/chart";
 
 export function Schedule() {
   const currentDay = 1; // Tuesday
@@ -54,51 +46,36 @@ export function Schedule() {
 
   const scheduleKeys = ["monday", "tuesday", "wednesday", "thursday", "friday"] as const;
 
-  const parseDurationHours = (timeRange: string) => {
-    const [start, end] = timeRange.split("-");
-    const toMinutes = (value: string) => {
-      const [hours, minutes] = value.split(":").map(Number);
-      return hours * 60 + minutes;
-    };
-    const duration = toMinutes(end) - toMinutes(start);
-    return duration > 0 ? duration / 60 : 0;
+  // Build data for ScheduleOverview from existing schedule object
+  const dayIndexMap: Record<(typeof scheduleKeys)[number], 0 | 1 | 2 | 3 | 4> = {
+    monday: 0,
+    tuesday: 1,
+    wednesday: 2,
+    thursday: 3,
+    friday: 4,
   };
 
-  const semestralScheduleData = scheduleKeys.map((dayKey) => {
-    const classes = schedule[dayKey];
-    const totalHours = classes.reduce((sum, cls) => sum + parseDurationHours(cls.time), 0);
-    const prettyDay = `${dayKey.charAt(0).toUpperCase()}${dayKey.slice(1, 3)}`;
-    return {
-      day: prettyDay,
-      fullDayLabel: dayKey.charAt(0).toUpperCase() + dayKey.slice(1),
-      hours: Number(totalHours.toFixed(1)),
-      classes: classes.length,
-    };
-  });
-
-  const semestralChartConfig = {
-    hours: {
-      label: "Scheduled Hours",
-      color: "hsl(224 70% 50%)",
-    },
-  };
-
-  const totalSemesterHours = semestralScheduleData.reduce((sum, day) => sum + day.hours, 0);
+  const scheduleOverviewData: OverviewItem[] = scheduleKeys.flatMap((dayKey) =>
+    schedule[dayKey].map((cls) => {
+      const [start_time, end_time] = cls.time.split("-");
+      return {
+        day: dayIndexMap[dayKey],
+        subject_name: cls.subject,
+        start_time,
+        end_time,
+        room: cls.room,
+      };
+    }),
+  );
 
   const weatherData = {
-    current: {
-      temperature: 72,
-      condition: "Partly Cloudy",
-      humidity: 65,
-      windSpeed: 8,
-      icon: Cloud,
-    },
-    forecast: [
-      { day: "Today", high: 75, low: 58, condition: "Partly Cloudy", icon: Cloud },
-      { day: "Tomorrow", high: 68, low: 52, condition: "Rain", icon: Droplets },
-      { day: "Thursday", high: 71, low: 55, condition: "Sunny", icon: Sun },
-      { day: "Friday", high: 74, low: 60, condition: "Partly Cloudy", icon: Cloud },
-    ],
+    temperature: 72,
+    high: 75,
+    low: 58,
+    condition: "Partly Cloudy",
+    humidity: 65,
+    windSpeed: 8,
+    icon: Cloud,
   };
 
   const schoolEvents = [
@@ -137,9 +114,9 @@ export function Schedule() {
   const overviewHighlights = [
     {
       label: "Current Weather",
-      value: `${weatherData.current.temperature}°F`,
-      subtext: weatherData.current.condition,
-      icon: weatherData.current.icon,
+      value: `${weatherData.temperature}°F`,
+      subtext: weatherData.condition,
+      icon: weatherData.icon,
       containerClass: "border-indigo-100 bg-indigo-50",
       labelClass: "text-indigo-700",
     },
@@ -186,11 +163,11 @@ export function Schedule() {
 
   return (
     <div className="space-y-3">
-      {/* Header (standardized height and spacing like Overview, with circular icon) */}
+      {/* Header */}
       <div className="bg-gradient-to-br from-[#647FBC] to-[#5a73b3] text-white h-20 md:h-24 rounded-[12px] shadow-sm">
         <div className="h-full flex items-center px-3 md:px-4">
-          <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center mr-3">
-            <Calendar className="w-4 h-4" />
+          <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center mr-3">
+            <Calendar className="w-5 h-5" />
           </div>
           <div>
             <h1 className="text-base font-semibold">Weekly Schedule</h1>
@@ -223,144 +200,95 @@ export function Schedule() {
         })}
       </div>
 
-      {/* Main Content Grid */}
+      {/* Schedule Overview & Weather Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
-        {/* Semestral Schedule */}
-        <Card className="p-6 lg:col-span-2">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
-            <div>
-              <h2 className="font-semibold text-[#647FBC] text-sm">Semestral Schedule</h2>
-              <p className="text-xs text-slate-500">
-                Total classroom hours per weekday for the current semester
-              </p>
+        {/* Schedule Overview Accordion */}
+        <div className="lg:col-span-2">
+          <ScheduleOverview data={scheduleOverviewData} />
+        </div>
+
+        {/* Weather - Current Day Only */}
+        <Card className="p-6 bg-gradient-to-br from-sky-50 to-indigo-50 border-0 shadow-sm">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="font-semibold text-slate-800 text-sm">Weather</h2>
+            <span className="text-xs text-slate-500">Today</span>
+          </div>
+
+          <div className="flex flex-col items-center text-center mb-6">
+            <div className="w-16 h-16 bg-white/60 rounded-full flex items-center justify-center mb-3 shadow-sm">
+              <weatherData.icon className="w-8 h-8 text-[#647FBC]" />
             </div>
-            <div className="rounded-full bg-[#647FBC]/10 px-4 py-1 text-xs font-medium text-[#647FBC]">
-              {totalSemesterHours.toFixed(1)} hrs this week
+            <p className="text-4xl font-bold text-slate-900">{weatherData.temperature}°F</p>
+            <p className="text-sm text-slate-600 mt-1">{weatherData.condition}</p>
+          </div>
+
+          <div className="grid grid-cols-2 gap-3 mb-4">
+            <div className="bg-white/50 rounded-lg p-3 text-center">
+              <p className="text-xs text-slate-500 mb-1">High</p>
+              <p className="text-lg font-semibold text-slate-900">{weatherData.high}°</p>
+            </div>
+            <div className="bg-white/50 rounded-lg p-3 text-center">
+              <p className="text-xs text-slate-500 mb-1">Low</p>
+              <p className="text-lg font-semibold text-slate-900">{weatherData.low}°</p>
             </div>
           </div>
 
-          <ChartContainer config={semestralChartConfig} className="w-full">
-            <BarChart data={semestralScheduleData} barSize={36}>
-              <CartesianGrid strokeDasharray="4 4" vertical={false} />
-              <XAxis
-                dataKey="day"
-                axisLine={false}
-                tickLine={false}
-                tickMargin={10}
-              />
-              <YAxis
-                axisLine={false}
-                tickLine={false}
-                tickMargin={12}
-                allowDecimals={false}
-                width={30}
-              />
-              <ChartTooltip
-                cursor={{ fill: "hsl(215 25% 98% / 0.9)" }}
-                content={
-                  <ChartTooltipContent
-                    formatter={(value) => (
-                      <span className="font-medium">{Number(value).toFixed(1)} hrs</span>
-                    )}
-                    labelFormatter={(_, payload) =>
-                      payload?.[0]?.payload?.fullDayLabel ?? ""
-                    }
-                  />
-                }
-              />
-              <ChartLegend
-                verticalAlign="top"
-                content={<ChartLegendContent className="justify-start" hideIcon />}
-              />
-              <Bar
-                dataKey="hours"
-                fill="var(--color-hours)"
-                radius={[10, 10, 6, 6]}
-                name="Scheduled Hours"
-              />
-            </BarChart>
-          </ChartContainer>
-
-          <div className="mt-5 grid grid-cols-2 md:grid-cols-4 gap-3">
-            {semestralScheduleData.map((day) => (
-              <div key={day.fullDayLabel} className="rounded-lg border border-slate-200 p-3">
-                <p className="text-xs font-semibold text-slate-500">{day.fullDayLabel}</p>
-                <p className="text-lg font-semibold text-slate-900 mt-1">
-                  {day.hours.toFixed(1)} hrs
-                </p>
-                <p className="text-xs text-slate-500">
-                  {day.classes} {day.classes === 1 ? "class" : "classes"}
-                </p>
+          <div className="space-y-2">
+            <div className="flex items-center justify-between bg-white/50 rounded-lg px-3 py-2">
+              <div className="flex items-center gap-2">
+                <Droplets className="w-4 h-4 text-blue-500" />
+                <span className="text-sm text-slate-600">Humidity</span>
               </div>
-            ))}
-          </div>
-        </Card>
-
-        {/* Weather Forecast */}
-        <Card className="p-6">
-          <div className="flex items-center mb-3">
-            <Sun className="w-4 h-4 text-[#647FBC] mr-2" />
-            <h2 className="font-semibold text-[#647FBC] text-sm">Weather Forecast</h2>
-          </div>
-          <div className="grid grid-cols-2 gap-2">
-            {weatherData.forecast.map((day) => {
-              const Icon = day.icon;
-              return (
-                <div key={day.day} className="bg-gray-50 p-2 rounded-md text-center">
-                  <p className="font-medium text-gray-700 mb-1 text-xs">{day.day}</p>
-                  <Icon className="w-4 h-4 mx-auto mb-2 text-[#647FBC]" />
-                  <p className="font-semibold text-xs">{day.high}°</p>
-                  <p className="text-gray-500 text-xs">{day.low}°</p>
-                </div>
-              );
-            })}
-          </div>
-          <div className="mt-3 pt-2 border-t border-gray-200">
-            <div className="grid grid-cols-1 gap-2">
-              <div className="flex items-center">
-                <Droplets className="w-3 h-3 text-blue-500 mr-2" />
-                <span className="text-gray-600 text-xs">
-                  Humidity: {weatherData.current.humidity}%
-                </span>
+              <span className="text-sm font-medium text-slate-900">{weatherData.humidity}%</span>
+            </div>
+            <div className="flex items-center justify-between bg-white/50 rounded-lg px-3 py-2">
+              <div className="flex items-center gap-2">
+                <Wind className="w-4 h-4 text-slate-500" />
+                <span className="text-sm text-slate-600">Wind</span>
               </div>
-              <div className="flex items-center">
-                <Wind className="w-3 h-3 text-gray-500 mr-2" />
-                <span className="text-gray-600 text-xs">
-                  Wind: {weatherData.current.windSpeed} mph
-                </span>
-              </div>
+              <span className="text-sm font-medium text-slate-900">{weatherData.windSpeed} mph</span>
             </div>
           </div>
         </Card>
-
       </div>
 
-      {/* Upcoming School Events */}
-      <Card className="p-6">
-        <div className="flex items-center mb-3">
-          <Bell className="w-4 h-4 text-[#647FBC] mr-2" />
-          <h2 className="font-semibold text-[#647FBC] text-sm">Upcoming School Events</h2>
+      {/* Events */}
+      <Card className="p-6 bg-white border-0 shadow-sm">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-lg flex items-center justify-center">
+              <Bell className="w-4 h-4 text-indigo-600" />
+            </div>
+            <h2 className="font-semibold text-slate-800 text-sm">Events</h2>
+          </div>
+          <span className="text-xs text-slate-500">This Month</span>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {schoolEvents.map((event) => (
             <div
               key={`${event.title}-${event.date}`}
-              className="bg-gray-50 p-3 rounded-md border-l-4 border-[#647FBC]"
+              className="bg-gradient-to-br from-slate-50 to-white p-4 rounded-xl border border-slate-100 hover:shadow-md hover:border-slate-200 transition-all duration-200"
             >
-              <div className="flex items-start justify-between mb-2">
+              <div className="flex items-start justify-between mb-3">
                 <div className="flex-1">
-                  <h3 className="font-medium text-sm">{event.title}</h3>
-                  <p className="text-gray-600 mt-1 text-xs">{event.description}</p>
+                  <h3 className="font-semibold text-slate-900 text-sm">{event.title}</h3>
+                  <p className="text-slate-500 mt-1 text-xs line-clamp-2">{event.description}</p>
                 </div>
                 <span
-                  className={`px-2 py-1 rounded-full border text-xs ${getEventTypeColor(event.type)}`}
+                  className={`px-2.5 py-1 rounded-full text-xs font-medium ${getEventTypeColor(event.type)}`}
                 >
                   {event.type}
                 </span>
               </div>
-              <div className="flex items-center justify-between text-gray-500 mt-2">
-                <span className="font-medium text-xs">{event.date}</span>
-                <span className="text-xs">{event.time}</span>
+              <div className="flex items-center justify-between pt-2 border-t border-slate-100">
+                <div className="flex items-center gap-1.5 text-slate-600">
+                  <CalendarDays className="w-3.5 h-3.5" />
+                  <span className="font-medium text-xs">{event.date}</span>
+                </div>
+                <div className="flex items-center gap-1.5 text-slate-500">
+                  <Clock className="w-3.5 h-3.5" />
+                  <span className="text-xs">{event.time}</span>
+                </div>
               </div>
             </div>
           ))}

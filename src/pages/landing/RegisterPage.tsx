@@ -20,11 +20,7 @@ const RegisterPage = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
             <Link
               to="/admin-login"
-<<<<<<< Updated upstream
-              className="bg-white p-8 text-center cursor-pointer hover:bg-gray-50 transition-colors"
-=======
               className="bg-white p-8 text-center cursor-pointer hover:bg-gray-50 transition-colors rounded-xl border border-gray-100 shadow-sm hover:shadow-md"
->>>>>>> Stashed changes
             >
               <div className="mb-6 flex justify-center">
                 <Building className="text-primary" size={56} />
@@ -44,11 +40,7 @@ const RegisterPage = () => {
             </Link>
             <Link
               to="/teacher-login"
-<<<<<<< Updated upstream
-              className="bg-white p-8 text-center cursor-pointer hover:bg-gray-50 transition-colors"
-=======
               className="bg-white p-8 text-center cursor-pointer hover:bg-gray-50 transition-colors rounded-xl border border-gray-100 shadow-sm hover:shadow-md"
->>>>>>> Stashed changes
             >
               <div className="mb-6 flex justify-center">
                 <Briefcase className="text-primary" size={56} />
@@ -68,42 +60,13 @@ const RegisterPage = () => {
             </Link>
             <Link
               to="/parent-login"
-<<<<<<< Updated upstream
-              className="bg-white p-8 text-center cursor-pointer hover:bg-gray-50 transition-colors"
-            >
-              <div className="mb-6 flex justify-center">
-                <Users className="text-primary" size={64} />
-              </div>
-              <h3 className="text-2xl font-semibold text-text mb-4">
-                Parent
-              </h3>
-              <p className="text-muted leading-relaxed mb-6">
-                Monitor child's progress and communicate with teachers
-              </p>
-              <button
-                type="button"
-                className="bg-primary text-white border-0 px-6 py-3 rounded-md font-semibold text-base hover:bg-primary-dark"
-              >
-                Parent Login
-              </button>
-            </Link>
-            <Link
-              to="/student-login"
-              className="bg-white p-8 text-center cursor-pointer hover:bg-gray-50 transition-colors"
-=======
               className="bg-white p-8 text-center cursor-pointer hover:bg-gray-50 transition-colors rounded-xl border border-gray-100 shadow-sm hover:shadow-md"
->>>>>>> Stashed changes
             >
               <div className="mb-6 flex justify-center">
                 <Users className="text-primary" size={56} />
               </div>
-<<<<<<< Updated upstream
-              <h3 className="text-2xl font-semibold text-text mb-4">
-                Student
-=======
               <h3 className="text-xl font-semibold text-text mb-3">
                 Parent
->>>>>>> Stashed changes
               </h3>
               <p className="text-muted leading-relaxed mb-6 text-sm">
                 Monitor your child's progress and stay informed

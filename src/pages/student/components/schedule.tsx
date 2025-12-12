@@ -6,11 +6,18 @@ import {
   Clock,
   Cloud,
   Droplets,
-  MapPin,
   Sun,
   Wind,
 } from "lucide-react";
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import { Card } from "./ui/card";
+import {
+  ChartContainer,
+  ChartLegend,
+  ChartLegendContent,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "./ui/chart";
 
 export function Schedule() {
   const currentDay = 1; // Tuesday
@@ -46,6 +53,37 @@ export function Schedule() {
   };
 
   const scheduleKeys = ["monday", "tuesday", "wednesday", "thursday", "friday"] as const;
+
+  const parseDurationHours = (timeRange: string) => {
+    const [start, end] = timeRange.split("-");
+    const toMinutes = (value: string) => {
+      const [hours, minutes] = value.split(":").map(Number);
+      return hours * 60 + minutes;
+    };
+    const duration = toMinutes(end) - toMinutes(start);
+    return duration > 0 ? duration / 60 : 0;
+  };
+
+  const semestralScheduleData = scheduleKeys.map((dayKey) => {
+    const classes = schedule[dayKey];
+    const totalHours = classes.reduce((sum, cls) => sum + parseDurationHours(cls.time), 0);
+    const prettyDay = `${dayKey.charAt(0).toUpperCase()}${dayKey.slice(1, 3)}`;
+    return {
+      day: prettyDay,
+      fullDayLabel: dayKey.charAt(0).toUpperCase() + dayKey.slice(1),
+      hours: Number(totalHours.toFixed(1)),
+      classes: classes.length,
+    };
+  });
+
+  const semestralChartConfig = {
+    hours: {
+      label: "Scheduled Hours",
+      color: "hsl(224 70% 50%)",
+    },
+  };
+
+  const totalSemesterHours = semestralScheduleData.reduce((sum, day) => sum + day.hours, 0);
 
   const weatherData = {
     current: {
@@ -187,27 +225,72 @@ export function Schedule() {
 
       {/* Main Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
-        {/* Today's Classes */}
-        <Card className="p-6">
-          <h2 className="font-semibold mb-3 text-[#647FBC] text-sm">Today's Classes</h2>
-          <div className="space-y-2">
-            {schedule[scheduleKeys[currentDay]].map((cls) => (
-              <div
-                key={`${cls.subject}-${cls.time}`}
-                className="bg-gray-50 p-3 rounded-md border-l-4 border-[#647FBC]"
-              >
-                <div className="flex justify-between items-start mb-2">
-                  <h3 className="font-semibold text-sm">{cls.subject}</h3>
-                  <div className="flex items-center text-gray-600">
-                    <Clock className="w-3 h-3 mr-1" />
-                    <span className="text-xs">{cls.time}</span>
-                  </div>
-                </div>
-                <div className="flex items-center text-gray-600 mb-1">
-                  <MapPin className="w-3 h-3 mr-1" />
-                  <span className="text-xs">{cls.room}</span>
-                </div>
-                <p className="text-gray-600 text-xs">{cls.professor}</p>
+        {/* Semestral Schedule */}
+        <Card className="p-6 lg:col-span-2">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
+            <div>
+              <h2 className="font-semibold text-[#647FBC] text-sm">Semestral Schedule</h2>
+              <p className="text-xs text-slate-500">
+                Total classroom hours per weekday for the current semester
+              </p>
+            </div>
+            <div className="rounded-full bg-[#647FBC]/10 px-4 py-1 text-xs font-medium text-[#647FBC]">
+              {totalSemesterHours.toFixed(1)} hrs this week
+            </div>
+          </div>
+
+          <ChartContainer config={semestralChartConfig} className="w-full">
+            <BarChart data={semestralScheduleData} barSize={36}>
+              <CartesianGrid strokeDasharray="4 4" vertical={false} />
+              <XAxis
+                dataKey="day"
+                axisLine={false}
+                tickLine={false}
+                tickMargin={10}
+              />
+              <YAxis
+                axisLine={false}
+                tickLine={false}
+                tickMargin={12}
+                allowDecimals={false}
+                width={30}
+              />
+              <ChartTooltip
+                cursor={{ fill: "hsl(215 25% 98% / 0.9)" }}
+                content={
+                  <ChartTooltipContent
+                    formatter={(value) => (
+                      <span className="font-medium">{Number(value).toFixed(1)} hrs</span>
+                    )}
+                    labelFormatter={(_, payload) =>
+                      payload?.[0]?.payload?.fullDayLabel ?? ""
+                    }
+                  />
+                }
+              />
+              <ChartLegend
+                verticalAlign="top"
+                content={<ChartLegendContent className="justify-start" hideIcon />}
+              />
+              <Bar
+                dataKey="hours"
+                fill="var(--color-hours)"
+                radius={[10, 10, 6, 6]}
+                name="Scheduled Hours"
+              />
+            </BarChart>
+          </ChartContainer>
+
+          <div className="mt-5 grid grid-cols-2 md:grid-cols-4 gap-3">
+            {semestralScheduleData.map((day) => (
+              <div key={day.fullDayLabel} className="rounded-lg border border-slate-200 p-3">
+                <p className="text-xs font-semibold text-slate-500">{day.fullDayLabel}</p>
+                <p className="text-lg font-semibold text-slate-900 mt-1">
+                  {day.hours.toFixed(1)} hrs
+                </p>
+                <p className="text-xs text-slate-500">
+                  {day.classes} {day.classes === 1 ? "class" : "classes"}
+                </p>
               </div>
             ))}
           </div>
@@ -250,21 +333,6 @@ export function Schedule() {
           </div>
         </Card>
 
-        {/* Weekly Overview */}
-        <Card className="p-6">
-          <h2 className="font-semibold mb-3 text-[#647FBC] text-sm">Weekly Overview</h2>
-          <div className="space-y-2">
-            {scheduleKeys.map((day) => (
-              <div
-                key={day}
-                className="flex justify-between items-center py-2 border-b border-gray-100 last:border-0"
-              >
-                <span className="font-medium capitalize text-sm">{day}</span>
-                <span className="text-gray-600 text-xs">{schedule[day].length} classes</span>
-              </div>
-            ))}
-          </div>
-        </Card>
       </div>
 
       {/* Upcoming School Events */}

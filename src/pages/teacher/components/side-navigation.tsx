@@ -33,7 +33,7 @@ const TeacherSideNavigation: React.FC<SideNavigationProps> = ({ className = "", 
     { to: "/teacher/subjects", label: "Subjects", icon: Table },
     { to: "/teacher/attendance", label: "Attendance", icon: BookOpen },
     { to: "/teacher/schedule", label: "Schedule", icon: CalendarDays },
-    { to: "/teacher/chat", label: "Chat", icon: MessageSquare },
+    { to: "/teacher/chat", label: "Messages", icon: MessageSquare },
     { to: "/teacher/profile", label: "Profile", icon: UserCircle },
   ];
 

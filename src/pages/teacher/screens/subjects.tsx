@@ -1,8 +1,10 @@
+import Banner from "@/components/shared/Banner";
 import Card from "@/components/shared/Card";
-import { Table, Plus, Clock, Building } from "lucide-react";
-import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { subjectService } from "@/services/subjectService";
+import { Building, Clock } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { getTeacherPortalDate } from "../utils/date";
 
 interface Subject {
   _id: string;
@@ -78,23 +80,15 @@ export default function TeacherSubjects() {
     return subjects.length * 25; // Assuming 25 students per subject on average
   };
 
+  const dateLabel = getTeacherPortalDate();
+
   return (
     <div className="space-y-3">
-      {/* Title banner */}
-      <div className="bg-gradient-to-br from-[#647FBC] to-[#5a73b3] text-white h-20 md:h-24 rounded-[12px] shadow-sm">
-        <div className="h-full flex items-center px-3 md:px-4">
-          <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center mr-2">
-            <Table className="w-4 h-4" />
-          </div>
-          <div>
-            <h1 className="text-base font-semibold">Subjects</h1>
-            <p className="text-white/80 text-sm mt-0.5">
-              Manage classes and sections • {subjects.length} subjects •{" "}
-              {calculateTotalStudents()} students
-            </p>
-          </div>
-        </div>
-      </div>
+      <Banner
+        title="Subjects"
+        subtitle={`Manage classes and sections • ${subjects.length} subjects • ${calculateTotalStudents()} students`}
+        right={<p className="text-white/80 text-xs md:text-sm whitespace-nowrap">{dateLabel}</p>}
+      />
 
       <Card className="p-6 bg-[#647FBC]/5 border-[#647FBC]/15">
         <header className="flex items-center justify-between">

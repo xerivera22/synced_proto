@@ -1,16 +1,18 @@
+import Banner from "@/components/shared/Banner";
 import Card from "@/components/shared/Card";
+import { subjectService } from "@/services/subjectService";
 import {
   AlertTriangle,
+  Building,
   Calendar,
   CheckCircle2,
   ClipboardCheck,
   Clock,
   Users,
-  Building,
 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { subjectService } from "@/services/subjectService";
 import { Link } from "react-router-dom";
+import { getTeacherPortalDate } from "../utils/date";
 
 interface Subject {
   _id: string;
@@ -187,9 +189,8 @@ export default function TeacherAttendance() {
     updatedKPIs[0] = {
       ...updatedKPIs[0],
       value: classes.length.toString(),
-      description: `${classes.length} class${
-        classes.length !== 1 ? "es" : ""
-      } today`,
+      description: `${classes.length} class${classes.length !== 1 ? "es" : ""
+        } today`,
     };
 
     // Update Pending Records
@@ -245,29 +246,16 @@ export default function TeacherAttendance() {
   };
 
   // Get current date
-  const getCurrentDate = () => {
-    const today = new Date();
-    return today.toLocaleDateString("en-US", {
-      weekday: "long",
-      month: "long",
-      day: "numeric",
-      year: "numeric",
-    });
-  };
+  const dateLabel = getTeacherPortalDate();
 
   if (loading) {
     return (
       <div className="space-y-3">
-        <div className="bg-gradient-to-br from-[#647FBC] to-[#5a73b3] text-white h-20 md:h-24 rounded-[12px] shadow-sm">
-          <div className="h-full flex items-center justify-center px-3 md:px-4">
-            <div className="flex items-center gap-3">
-              <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white"></div>
-              <span className="text-white/80 text-sm">
-                Loading attendance...
-              </span>
-            </div>
-          </div>
-        </div>
+        <Banner
+          title="Attendance"
+          subtitle="Loading attendance data..."
+          right={<p className="text-white/80 text-xs md:text-sm whitespace-nowrap">{dateLabel}</p>}
+        />
         <div className="text-center py-12">
           <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#647FBC] mb-2"></div>
           <p className="text-gray-600">Loading attendance data...</p>
@@ -279,19 +267,11 @@ export default function TeacherAttendance() {
   if (error) {
     return (
       <div className="space-y-3">
-        <div className="bg-gradient-to-br from-[#647FBC] to-[#5a73b3] text-white h-20 md:h-24 rounded-[12px] shadow-sm">
-          <div className="h-full flex items-center px-3 md:px-4">
-            <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center mr-2">
-              <ClipboardCheck className="w-4 h-4" />
-            </div>
-            <div>
-              <h1 className="text-base font-semibold">Attendance</h1>
-              <p className="text-white/80 text-sm mt-0.5">
-                Take and review class attendance
-              </p>
-            </div>
-          </div>
-        </div>
+        <Banner
+          title="Attendance"
+          subtitle="Take and review class attendance"
+          right={<p className="text-white/80 text-xs md:text-sm whitespace-nowrap">{dateLabel}</p>}
+        />
         <Card className="p-6 bg-[#647FBC]/5 border-[#647FBC]/15">
           <div className="text-center py-12">
             <div className="text-red-600 mb-2">{error}</div>
@@ -309,18 +289,11 @@ export default function TeacherAttendance() {
 
   return (
     <div className="space-y-3">
-      {/* Title banner */}
-      <div className="bg-gradient-to-br from-[#647FBC] to-[#5a73b3] text-white h-20 md:h-24 rounded-[12px] shadow-sm">
-        <div className="h-full flex items-center px-3 md:px-4">
-          <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center mr-2">
-            <ClipboardCheck className="w-4 h-4" />
-          </div>
-          <div>
-            <h1 className="text-base font-semibold">Attendance</h1>
-            <p className="text-white/80 text-sm mt-0.5">{getCurrentDate()}</p>
-          </div>
-        </div>
-      </div>
+      <Banner
+        title="Attendance"
+        subtitle="Take and review class attendance"
+        right={<p className="text-white/80 text-xs md:text-sm whitespace-nowrap">{dateLabel}</p>}
+      />
 
       {/* KPI tiles */}
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
@@ -384,11 +357,10 @@ export default function TeacherAttendance() {
             {todayClasses.map((classItem, index) => (
               <div
                 key={index}
-                className={`flex items-center justify-between rounded-xl border ${
-                  classItem.status === "missed"
+                className={`flex items-center justify-between rounded-xl border ${classItem.status === "missed"
                     ? "border-rose-200 bg-rose-50"
                     : "border-slate-200 bg-slate-50"
-                } px-4 py-3 hover:bg-white transition-colors`}
+                  } px-4 py-3 hover:bg-white transition-colors`}
               >
                 <div className="space-y-1">
                   <div className="flex items-center gap-2">
@@ -431,13 +403,12 @@ export default function TeacherAttendance() {
                   </div>
                   <Link
                     to={`/teacher/subjects/${classItem.id}?tab=attendance`}
-                    className={`rounded-full border px-3 py-1 text-xs font-semibold transition ${
-                      classItem.status === "done"
+                    className={`rounded-full border px-3 py-1 text-xs font-semibold transition ${classItem.status === "done"
                         ? "border-emerald-200 text-emerald-700 hover:bg-emerald-50"
                         : classItem.status === "missed"
-                        ? "border-rose-200 text-rose-700 hover:bg-rose-50"
-                        : "border-slate-200 text-slate-600 hover:bg-slate-50 hover:text-slate-900"
-                    }`}
+                          ? "border-rose-200 text-rose-700 hover:bg-rose-50"
+                          : "border-slate-200 text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                      }`}
                     type="button"
                   >
                     {classItem.status === "done" ? "Edit" : "Take"}

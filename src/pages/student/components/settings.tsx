@@ -49,7 +49,7 @@ export function Settings() {
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-3">
       <Banner
         title="Settings"
         subtitle="Manage your preferences and notifications."
@@ -57,28 +57,28 @@ export function Settings() {
       />
 
       {/* Notification Preferences */}
-      <Card className="p-6">
-        <div className="flex items-center mb-3">
-          <div className="w-6 h-6 bg-[#647FBC]/10 rounded-md flex items-center justify-center mr-2">
+      <Card className="p-6 bg-[#647FBC]/5 border-[#647FBC]/15">
+        <div className="mb-4 flex items-center">
+          <div className="mr-3 flex h-7 w-7 items-center justify-center rounded-lg bg-[#647FBC]/10">
             <Bell className="w-3 h-3 text-[#647FBC]" />
           </div>
-          <h2 className="text-sm font-semibold text-[#647FBC]">Notification Preferences</h2>
+          <h2 className="text-base font-semibold text-slate-900">Notification Preferences</h2>
         </div>
-        <div className="space-y-2">
+        <div className="space-y-3">
           {notificationPreferences.map((pref) => {
             const Icon = pref.icon;
             return (
               <div
                 key={pref.id}
-                className="flex items-center justify-between p-2 bg-gray-50/50 rounded-lg hover:bg-gray-100/50 transition-colors"
+                className="flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 transition hover:border-[#647FBC]/40"
               >
                 <div className="flex items-center">
-                  <div className="w-6 h-6 bg-white rounded-md flex items-center justify-center mr-3 shadow-sm">
+                  <div className="mr-3 flex h-7 w-7 items-center justify-center rounded-lg bg-white shadow-sm">
                     <Icon className="w-3 h-3 text-[#647FBC]" />
                   </div>
                   <div>
-                    <p className="font-medium text-gray-900 text-sm">{pref.type}</p>
-                    <p className="text-xs text-gray-600">{pref.description}</p>
+                    <p className="text-sm font-semibold text-slate-900">{pref.type}</p>
+                    <p className="text-xs text-slate-500">{pref.description}</p>
                   </div>
                 </div>
                 <Switch checked={pref.enabled} />
@@ -89,28 +89,28 @@ export function Settings() {
       </Card>
 
       {/* App Preferences */}
-      <Card className="p-6">
-        <div className="flex items-center mb-3">
-          <div className="w-6 h-6 bg-[#647FBC]/10 rounded-md flex items-center justify-center mr-2">
+      <Card className="p-6 bg-[#647FBC]/5 border-[#647FBC]/15">
+        <div className="mb-4 flex items-center">
+          <div className="mr-3 flex h-7 w-7 items-center justify-center rounded-lg bg-[#647FBC]/10">
             <SettingsIcon className="w-3 h-3 text-[#647FBC]" />
           </div>
-          <h2 className="text-sm font-semibold text-[#647FBC]">App Preferences</h2>
+          <h2 className="text-base font-semibold text-slate-900">App Preferences</h2>
         </div>
-        <div className="space-y-2">
+        <div className="space-y-3">
           {appPreferences.map((pref) => {
             const Icon = pref.icon;
             return (
               <div
                 key={pref.id}
-                className="flex items-center justify-between p-2 bg-gray-50/50 rounded-lg hover:bg-gray-100/50 transition-colors"
+                className="flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 transition hover:border-[#647FBC]/40"
               >
                 <div className="flex items-center">
-                  <div className="w-6 h-6 bg-white rounded-md flex items-center justify-center mr-3 shadow-sm">
+                  <div className="mr-3 flex h-7 w-7 items-center justify-center rounded-lg bg-white shadow-sm">
                     <Icon className="w-3 h-3 text-[#647FBC]" />
                   </div>
                   <div>
-                    <p className="font-medium text-gray-900 text-sm">{pref.type}</p>
-                    <p className="text-xs text-gray-600">{pref.description}</p>
+                    <p className="text-sm font-semibold text-slate-900">{pref.type}</p>
+                    <p className="text-xs text-slate-500">{pref.description}</p>
                   </div>
                 </div>
                 <Switch checked={pref.enabled} />

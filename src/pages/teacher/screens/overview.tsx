@@ -2,6 +2,7 @@ import Banner from "@/components/shared/Banner";
 import Card from "@/components/shared/Card";
 import { Calendar, ClipboardCheck, FileText, MessageSquare } from "lucide-react";
 import { useMemo, useState } from "react";
+import { getTeacherPortalDate } from "../utils/date";
 
 const QuickActionModal = ({
   action,
@@ -151,10 +152,10 @@ const QuickActionModal = ({
           &times;
         </button>
         <h3 className="text-2xl font-semibold text-slate-900 mb-6">{action}</h3>
-        
+
         <form onSubmit={handleSubmit}>
           <div className="mb-6">{renderFormContent()}</div>
-          
+
           <div className="flex justify-end gap-4">
             <button
               type="button"
@@ -180,6 +181,7 @@ const QuickActionModal = ({
 export default function TeacherOverview() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedAction, setSelectedAction] = useState("");
+  const dateLabel = getTeacherPortalDate();
 
   const kpis = useMemo(
     () => [
@@ -223,8 +225,6 @@ export default function TeacherOverview() {
     [],
   );
 
-  const date = "Tuesday, Sept 16, 2025";
-
   const handleOpenModal = (action: string) => {
     setSelectedAction(action);
     setIsModalOpen(true);
@@ -240,7 +240,7 @@ export default function TeacherOverview() {
       <Banner
         title="Welcome back, Teacher!"
         subtitle="Your class tasks today"
-        right={<p className="text-white/80 text-xs md:text-sm whitespace-nowrap">{date}</p>}
+        right={<p className="text-white/80 text-xs md:text-sm whitespace-nowrap">{dateLabel}</p>}
       />
 
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">

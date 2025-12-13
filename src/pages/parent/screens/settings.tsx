@@ -1,109 +1,133 @@
 import Banner from "@/components/shared/Banner";
+import Card from "@/components/shared/Card";
+import { Button } from "@/pages/student/components/ui/button";
+import { Switch } from "@/pages/student/components/ui/switch";
+import {
+  Bell,
+  Download,
+  Lock,
+  Mail,
+  MessageSquare,
+  Plus,
+  Trash2,
+  User,
+  Users,
+} from "lucide-react";
 import { getParentPortalDate } from "../utils/date";
 
 const ParentSettings = () => {
   const dateLabel = getParentPortalDate();
 
+  const notificationPreferences = [
+    {
+      id: "email",
+      type: "Email updates",
+      description: "Daily summary of attendance and grade updates.",
+      icon: Mail,
+      enabled: true,
+    },
+    {
+      id: "sms",
+      type: "SMS alerts",
+      description: "Instant alerts for tardies, absences, and payment reminders.",
+      icon: MessageSquare,
+      enabled: true,
+    },
+    {
+      id: "push",
+      type: "Mobile push",
+      description: "Receive push notifications in the mobile app.",
+      icon: Bell,
+      enabled: false,
+    },
+  ];
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-3">
       <Banner
         title="Settings"
         subtitle="Configure notifications, linked accounts, and data preferences."
         right={<p className="text-white/80 text-xs md:text-sm whitespace-nowrap">{dateLabel}</p>}
       />
 
-      <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-        <h2 className="text-base font-semibold text-slate-900">Notifications</h2>
-        <p className="mt-2 text-sm text-slate-500">
-          Choose how you receive updates about attendance, academics, and payments.
-        </p>
-
-        <div className="mt-6 space-y-4">
-          <label className="flex items-start gap-3">
-            <input type="checkbox" className="mt-1" defaultChecked />
-            <span>
-              <span className="block text-sm font-semibold text-slate-900">Email updates</span>
-              <span className="text-xs text-slate-500">
-                Daily summary of attendance and grade updates.
-              </span>
-            </span>
-          </label>
-          <label className="flex items-start gap-3">
-            <input type="checkbox" className="mt-1" defaultChecked />
-            <span>
-              <span className="block text-sm font-semibold text-slate-900">SMS alerts</span>
-              <span className="text-xs text-slate-500">
-                Instant alerts for tardies, absences, and payment reminders.
-              </span>
-            </span>
-          </label>
-          <label className="flex items-start gap-3">
-            <input type="checkbox" className="mt-1" />
-            <span>
-              <span className="block text-sm font-semibold text-slate-900">Mobile push</span>
-              <span className="text-xs text-slate-500">
-                Receive push notifications in the mobile app.
-              </span>
-            </span>
-          </label>
+      {/* Notifications */}
+      <Card className="p-6 bg-[#647FBC]/5 border-[#647FBC]/15">
+        <div className="mb-4 flex items-center">
+          <div className="mr-3 flex h-7 w-7 items-center justify-center rounded-lg bg-[#647FBC]/10">
+            <Bell className="w-3 h-3 text-[#647FBC]" />
+          </div>
+          <h2 className="text-base font-semibold text-slate-900">Notifications</h2>
         </div>
-      </section>
-
-      <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-        <h2 className="text-base font-semibold text-slate-900">Linked Accounts</h2>
-        <p className="mt-2 text-sm text-slate-500">
-          Connect to other guardians or authorized caregivers for shared access.
-        </p>
-
-        <div className="mt-6 space-y-4">
-          <article className="rounded-xl border border-slate-100 p-4">
-            <p className="text-sm font-semibold text-slate-900">Morgan Johnson</p>
-            <p className="text-xs text-slate-500">Has access to attendance and payment info</p>
-            <button
-              type="button"
-              className="mt-3 rounded-full border border-slate-200 px-4 py-2 text-sm font-medium text-slate-600 transition hover:text-slate-900"
-            >
-              Manage permissions
-            </button>
-          </article>
-          <button
-            type="button"
-            className="w-full rounded-full border border-dashed border-slate-200 px-4 py-3 text-sm font-medium text-slate-600 transition hover:border-slate-300 hover:text-slate-900"
-          >
-            Add another guardian
-          </button>
+        <div className="space-y-3">
+          {notificationPreferences.map((pref) => {
+            const Icon = pref.icon;
+            return (
+              <div
+                key={pref.id}
+                className="flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 transition hover:border-[#647FBC]/40"
+              >
+                <div className="flex items-center">
+                  <div className="mr-3 flex h-7 w-7 items-center justify-center rounded-lg bg-white shadow-sm">
+                    <Icon className="w-3 h-3 text-[#647FBC]" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-slate-900">{pref.type}</p>
+                    <p className="text-xs text-slate-500">{pref.description}</p>
+                  </div>
+                </div>
+                <Switch checked={pref.enabled} />
+              </div>
+            );
+          })}
         </div>
-      </section>
+      </Card>
 
-      <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-        <h2 className="text-base font-semibold text-slate-900">Data Privacy</h2>
-        <p className="mt-2 text-sm text-slate-500">
-          Download student data or request removal in compliance with school policies.
-        </p>
-        <div className="mt-6 flex flex-col gap-3 md:flex-row">
-          <button
-            type="button"
-            className="rounded-full border border-slate-200 px-4 py-2 text-sm font-medium text-slate-600 transition hover:text-slate-900"
-          >
-            Download data archive
-          </button>
-          <button
-            type="button"
-            className="rounded-full border border-slate-200 px-4 py-2 text-sm font-medium text-slate-600 transition hover:text-slate-900"
-          >
-            Request data removal
-          </button>
+      {/* Linked Accounts */}
+      <Card className="p-6 bg-[#647FBC]/5 border-[#647FBC]/15">
+        <div className="mb-4 flex items-center">
+          <div className="mr-3 flex h-7 w-7 items-center justify-center rounded-lg bg-[#647FBC]/10">
+            <Users className="w-3 h-3 text-[#647FBC]" />
+          </div>
+          <h2 className="text-base font-semibold text-slate-900">Linked Accounts</h2>
         </div>
-      </section>
+        <div className="space-y-3">
+          <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 transition hover:border-[#647FBC]/40">
+            <div className="flex items-center">
+              <div className="mr-3 flex h-7 w-7 items-center justify-center rounded-lg bg-white shadow-sm">
+                <User className="w-3 h-3 text-[#647FBC]" />
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-slate-900">Morgan Johnson</p>
+                <p className="text-xs text-slate-500">Has access to attendance and payment info</p>
+              </div>
+            </div>
+            <Button variant="outline" size="sm" className="h-8 text-xs">
+              Manage
+            </Button>
+          </div>
+          <Button className="w-full border-dashed border-slate-300 bg-white text-slate-600 hover:bg-slate-50 hover:text-slate-900">
+            <Plus className="mr-2 h-4 w-4" /> Add another guardian
+          </Button>
+        </div>
+      </Card>
 
-      <div className="flex justify-end">
-        <button
-          type="button"
-          className="rounded-lg border border-[#647FBC] bg-[#647FBC] px-5 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-white hover:text-[#647FBC] hover:border-[#647FBC]"
-        >
-          Save Changes
-        </button>
-      </div>
+      {/* Data Privacy */}
+      <Card className="p-6 bg-[#647FBC]/5 border-[#647FBC]/15">
+        <div className="mb-4 flex items-center">
+          <div className="mr-3 flex h-7 w-7 items-center justify-center rounded-lg bg-[#647FBC]/10">
+            <Lock className="w-3 h-3 text-[#647FBC]" />
+          </div>
+          <h2 className="text-base font-semibold text-slate-900">Data Privacy</h2>
+        </div>
+        <div className="flex flex-col gap-3 md:flex-row">
+          <Button variant="outline" className="flex-1 bg-white">
+            <Download className="mr-2 h-4 w-4" /> Download data archive
+          </Button>
+          <Button variant="outline" className="flex-1 bg-white text-red-600 hover:bg-red-50 hover:text-red-700 border-red-200">
+            <Trash2 className="mr-2 h-4 w-4" /> Request data removal
+          </Button>
+        </div>
+      </Card>
     </div>
   );
 };

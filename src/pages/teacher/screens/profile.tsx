@@ -1,4 +1,4 @@
-import Card from "@/components/shared/Card";
+import Banner from "@/components/shared/Banner";
 import { useAuth } from "@/context/AuthContext";
 import {
   Avatar,
@@ -6,25 +6,15 @@ import {
   AvatarImage,
 } from "@/pages/student/components/ui/avatar";
 import { Button } from "@/pages/student/components/ui/button";
-import {
-  Calendar,
-  Edit,
-  GraduationCap,
-  Mail,
-  MapPin,
-  Phone,
-  Save,
-  User,
-  X,
-} from "lucide-react";
-import { useState, useEffect } from "react";
+import { Edit, Mail, Phone, Save, X } from "lucide-react";
+import { useEffect, useState } from "react";
+import { getTeacherPortalDate } from "../utils/date";
 
 export default function TeacherProfile() {
+  const dateLabel = getTeacherPortalDate();
   const { userData } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
-  const [editingSection, setEditingSection] = useState<string | null>(null);
 
-  // Use the flat userData structure directly
   const teacherInfo = userData || {
     name: "",
     employeeId: "",
@@ -46,10 +36,8 @@ export default function TeacherProfile() {
   };
 
   const [tempTeacherInfo, setTempTeacherInfo] = useState(teacherInfo);
-  const [tempEmergencyContact, setTempEmergencyContact] =
-    useState(emergencyContact);
+  const [tempEmergencyContact, setTempEmergencyContact] = useState(emergencyContact);
 
-  // Update temp state when userData changes
   useEffect(() => {
     if (userData) {
       setTempTeacherInfo(userData);
@@ -59,452 +47,186 @@ export default function TeacherProfile() {
     }
   }, [userData]);
 
-  const handleEdit = (section: string) => {
-    setIsEditing(true);
-    setEditingSection(section);
-  };
-
-  const handleSave = (section: string) => {
+  const handleSave = () => {
     setIsEditing(false);
-    setEditingSection(null);
-    console.log("Saving data for section:", section);
-    console.log("Teacher Info:", tempTeacherInfo);
-    console.log("Emergency Contact:", tempEmergencyContact);
+    console.log("Saving data:", tempTeacherInfo, tempEmergencyContact);
   };
 
   const handleCancel = () => {
     setIsEditing(false);
-    setEditingSection(null);
-    // Reset to original data
-    if (userData) {
-      setTempTeacherInfo(userData);
-    }
-    if (userData?.emergencyContact) {
-      setTempEmergencyContact(userData.emergencyContact);
-    }
+    if (userData) setTempTeacherInfo(userData);
+    if (userData?.emergencyContact) setTempEmergencyContact(userData.emergencyContact);
   };
 
-  const handleInputChange = (
-    field: string,
-    value: string,
-    section: "personal" | "emergency"
-  ) => {
+  const handleInputChange = (field: string, value: string, section: "personal" | "emergency") => {
     if (section === "personal") {
-      setTempTeacherInfo((prev: any) => ({ ...prev, [field]: value }));
+      setTempTeacherInfo((prev: typeof teacherInfo) => ({ ...prev, [field]: value }));
     } else {
-      setTempEmergencyContact((prev: any) => ({ ...prev, [field]: value }));
+      setTempEmergencyContact((prev: typeof emergencyContact) => ({ ...prev, [field]: value }));
     }
-  };
-
-  const isEditingSection = (section: string) => {
-    return isEditing && editingSection === section;
   };
 
   const displayTeacherInfo = isEditing ? tempTeacherInfo : teacherInfo;
-  const displayEmergencyContact = isEditing
-    ? tempEmergencyContact
-    : emergencyContact;
-
-  // Render edit buttons function for consistency
-  const renderEditButtons = (section: string) => {
-    if (isEditingSection(section)) {
-      return (
-        <div className="flex gap-2">
-          <Button
-            size="sm"
-            className="bg-green-600 text-white hover:bg-green-700 h-8 px-3 text-sm"
-            onClick={() => handleSave(section)}
-          >
-            <Save className="w-4 h-4 mr-1" />
-            Save
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            className="border-gray-300 text-gray-700 hover:bg-gray-100 h-8 px-3 text-sm"
-            onClick={handleCancel}
-          >
-            <X className="w-4 h-4 mr-1" />
-            Cancel
-          </Button>
-        </div>
-      );
-    } else {
-      return (
-        <Button
-          variant="outline"
-          size="sm"
-          className="border-[#647FBC] text-[#647FBC] hover:bg-[#647FBC] hover:text-white h-8 px-3 text-sm"
-          onClick={() => handleEdit(section)}
-        >
-          <Edit className="w-4 h-4 mr-1" />
-          Edit
-        </Button>
-      );
-    }
-  };
+  const displayEmergencyContact = isEditing ? tempEmergencyContact : emergencyContact;
 
   return (
-    <div className="space-y-3">
-      {/* Header banner */}
-      <div className="bg-gradient-to-br from-[#647FBC] to-[#5a73b3] text-white h-20 md:h-24 rounded-[12px] shadow-sm">
-        <div className="h-full flex items-center px-3 md:px-4">
-          <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center mr-2">
-            <User className="w-4 h-4" />
-          </div>
-          <div>
-            <h1 className="text-base font-semibold">Teacher Profile</h1>
-            <p className="text-white/80 text-sm mt-0.5">
-              Manage your personal information
-            </p>
-          </div>
-        </div>
-      </div>
+    <div className="space-y-6">
+      <Banner
+        title="Profile"
+        subtitle="Manage your personal information and contacts."
+        right={<p className="text-white/80 text-xs md:text-sm whitespace-nowrap">{dateLabel}</p>}
+      />
 
-      {/* Profile Overview */}
-      <Card className="p-6 bg-[#647FBC]/5 border-[#647FBC]/15">
-        <div className="mb-4 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          <div className="flex items-center">
-            <Avatar className="w-12 h-12 mr-3 shadow-sm">
-              <AvatarImage
-                src="/placeholder-avatar.jpg"
-                alt={displayTeacherInfo.name}
-              />
-              <AvatarFallback className="bg-gradient-to-br from-[#647FBC] to-[#5a73b3] text-white text-sm">
-                {displayTeacherInfo.name
-                  .split(" ")
-                  .map((n: any) => n[0])
-                  .join("")}
-              </AvatarFallback>
-            </Avatar>
-            <div>
-              {isEditingSection("overview") ? (
-                <input
-                  type="text"
-                  value={displayTeacherInfo.name}
-                  onChange={(e) =>
-                    handleInputChange("name", e.target.value, "personal")
-                  }
-                  className="text-base font-semibold text-slate-900 bg-white border border-gray-300 rounded-md px-2 py-1 mb-1"
-                />
-              ) : (
-                <h2 className="text-base font-semibold text-slate-900">
-                  {displayTeacherInfo.name}
-                </h2>
-              )}
-              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-                ID: {displayTeacherInfo.employeeId}
-              </p>
-              {isEditingSection("overview") ? (
-                <input
-                  type="text"
-                  value={displayTeacherInfo.department}
-                  onChange={(e) =>
-                    handleInputChange("department", e.target.value, "personal")
-                  }
-                  className="mt-1 text-sm font-semibold text-[#647FBC] bg-white border border-gray-300 rounded-md px-2 py-1 w-full"
-                />
-              ) : (
-                <p className="mt-1 text-sm font-semibold text-[#647FBC]">
-                  {displayTeacherInfo.department}
-                </p>
-              )}
+      <section className="grid gap-6 md:grid-cols-3">
+        {/* Teacher Profile */}
+        <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm md:col-span-2">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <Avatar className="w-14 h-14">
+                <AvatarImage src="/placeholder-avatar.jpg" alt={displayTeacherInfo.name} />
+                <AvatarFallback className="bg-gradient-to-br from-[#647FBC] to-[#5a73b3] text-white">
+                  {displayTeacherInfo.name?.split(" ").map((n: string) => n[0]).join("") || "T"}
+                </AvatarFallback>
+              </Avatar>
+              <div>
+                {isEditing ? (
+                  <input
+                    type="text"
+                    value={displayTeacherInfo.name}
+                    onChange={(e) => handleInputChange("name", e.target.value, "personal")}
+                    className="text-base font-semibold text-slate-900 bg-white border border-slate-300 rounded-md px-2 py-1"
+                  />
+                ) : (
+                  <h2 className="text-base font-semibold text-slate-900">{displayTeacherInfo.name}</h2>
+                )}
+                <p className="text-sm text-slate-500">ID: {displayTeacherInfo.employeeId}</p>
+                <p className="text-sm text-[#647FBC] font-medium">{displayTeacherInfo.department}</p>
+              </div>
             </div>
+            {isEditing ? (
+              <div className="flex gap-2">
+                <Button size="sm" onClick={handleSave} className="h-8 text-sm">
+                  <Save className="w-4 h-4 mr-1" /> Save
+                </Button>
+                <Button variant="outline" size="sm" onClick={handleCancel} className="h-8 text-sm">
+                  <X className="w-4 h-4 mr-1" /> Cancel
+                </Button>
+              </div>
+            ) : (
+              <Button variant="outline" size="sm" onClick={() => setIsEditing(true)} className="h-8 text-sm">
+                <Edit className="w-4 h-4 mr-1" /> Edit
+              </Button>
+            )}
           </div>
-          {renderEditButtons("overview")}
-        </div>
 
-        <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-          <div className="flex items-center rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
-            <div className="mr-3 flex h-7 w-7 items-center justify-center rounded-lg bg-[#647FBC]/10">
-              <GraduationCap className="w-3 h-3 text-[#647FBC]" />
-            </div>
+          <div className="grid gap-4 md:grid-cols-2">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-                Teaching Load
-              </p>
-              {isEditingSection("overview") ? (
+              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Teaching Load</p>
+              {isEditing ? (
                 <input
                   type="text"
                   value={displayTeacherInfo.loadHours}
-                  onChange={(e) =>
-                    handleInputChange("loadHours", e.target.value, "personal")
-                  }
-                  className="text-sm font-semibold text-slate-900 bg-white border border-gray-300 rounded-md px-2 py-1 w-16"
+                  onChange={(e) => handleInputChange("loadHours", e.target.value, "personal")}
+                  className="mt-1 w-full text-base font-semibold text-slate-900 bg-white border border-slate-300 rounded-md px-2 py-1"
                 />
               ) : (
-                <p className="text-sm font-semibold text-slate-900">
-                  {displayTeacherInfo.loadHours} hrs
-                </p>
+                <p className="mt-1 text-base font-semibold text-slate-900">{displayTeacherInfo.loadHours} hrs</p>
               )}
             </div>
-          </div>
-          <div className="flex items-center rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
-            <div className="mr-3 flex h-7 w-7 items-center justify-center rounded-lg bg-[#647FBC]/10">
-              <Calendar className="w-3 h-3 text-[#647FBC]" />
-            </div>
             <div>
-              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-                Hired Date
-              </p>
-              {isEditingSection("overview") ? (
+              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Hired Date</p>
+              {isEditing ? (
                 <input
                   type="text"
                   value={displayTeacherInfo.hiredDate}
-                  onChange={(e) =>
-                    handleInputChange("hiredDate", e.target.value, "personal")
-                  }
-                  className="text-sm font-semibold text-slate-900 bg-white border border-gray-300 rounded-md px-2 py-1 w-full"
+                  onChange={(e) => handleInputChange("hiredDate", e.target.value, "personal")}
+                  className="mt-1 w-full text-base font-semibold text-slate-900 bg-white border border-slate-300 rounded-md px-2 py-1"
                 />
               ) : (
-                <p className="text-sm font-semibold text-slate-900">
-                  {displayTeacherInfo.hiredDate}
-                </p>
+                <p className="mt-1 text-base font-semibold text-slate-900">{displayTeacherInfo.hiredDate}</p>
               )}
             </div>
-          </div>
-        </div>
-      </Card>
-
-      {/* Personal Information */}
-      <Card className="p-6 bg-[#647FBC]/5 border-[#647FBC]/15">
-        <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-base font-semibold text-slate-900">
-            Personal Information
-          </h2>
-          {renderEditButtons("personal")}
-        </div>
-        <div className="grid grid-cols-1 gap-3">
-          <div className="flex items-center rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
-            <div className="mr-3 flex h-7 w-7 items-center justify-center rounded-lg bg-[#647FBC]/10">
-              <Mail className="w-3 h-3 text-[#647FBC]" />
-            </div>
-            <div className="flex-1">
-              <p className="text-sm font-semibold text-slate-900">Email</p>
-              {isEditingSection("personal") ? (
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Email</p>
+              {isEditing ? (
                 <input
                   type="email"
                   value={displayTeacherInfo.email}
-                  onChange={(e) =>
-                    handleInputChange("email", e.target.value, "personal")
-                  }
-                  className="text-xs text-slate-500 bg-white border border-gray-300 rounded-md px-2 py-1 w-full"
+                  onChange={(e) => handleInputChange("email", e.target.value, "personal")}
+                  className="mt-1 w-full text-base font-semibold text-slate-900 bg-white border border-slate-300 rounded-md px-2 py-1"
                 />
               ) : (
-                <p className="text-xs text-slate-500">
-                  {displayTeacherInfo.email}
-                </p>
+                <p className="mt-1 text-base font-semibold text-slate-900">{displayTeacherInfo.email}</p>
               )}
             </div>
-          </div>
-          <div className="flex items-center rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
-            <div className="mr-3 flex h-7 w-7 items-center justify-center rounded-lg bg-[#647FBC]/10">
-              <Phone className="w-3 h-3 text-[#647FBC]" />
-            </div>
-            <div className="flex-1">
-              <p className="text-sm font-semibold text-slate-900">Phone</p>
-              {isEditingSection("personal") ? (
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Phone</p>
+              {isEditing ? (
                 <input
                   type="tel"
                   value={displayTeacherInfo.phone}
-                  onChange={(e) =>
-                    handleInputChange("phone", e.target.value, "personal")
-                  }
-                  className="text-xs text-slate-500 bg-white border border-gray-300 rounded-md px-2 py-1 w-full"
+                  onChange={(e) => handleInputChange("phone", e.target.value, "personal")}
+                  className="mt-1 w-full text-base font-semibold text-slate-900 bg-white border border-slate-300 rounded-md px-2 py-1"
                 />
               ) : (
-                <p className="text-xs text-slate-500">
-                  {displayTeacherInfo.phone}
-                </p>
+                <p className="mt-1 text-base font-semibold text-slate-900">{displayTeacherInfo.phone}</p>
               )}
             </div>
           </div>
-          <div className="flex items-center rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
-            <div className="mr-3 flex h-7 w-7 items-center justify-center rounded-lg bg-[#647FBC]/10">
-              <MapPin className="w-3 h-3 text-[#647FBC]" />
-            </div>
-            <div className="flex-1">
-              <p className="text-sm font-semibold text-slate-900">Address</p>
-              {isEditingSection("personal") ? (
-                <textarea
-                  value={displayTeacherInfo.address}
-                  onChange={(e) =>
-                    handleInputChange("address", e.target.value, "personal")
-                  }
-                  className="text-xs text-slate-500 bg-white border border-gray-300 rounded-md px-2 py-1 w-full resize-none"
-                  rows={2}
-                />
-              ) : (
-                <p className="text-xs text-slate-500">
-                  {displayTeacherInfo.address}
-                </p>
-              )}
-            </div>
-          </div>
-          <div className="flex items-center rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
-            <div className="mr-3 flex h-7 w-7 items-center justify-center rounded-lg bg-[#647FBC]/10">
-              <Calendar className="w-3 h-3 text-[#647FBC]" />
-            </div>
-            <div className="flex-1">
-              <p className="text-sm font-semibold text-slate-900">
-                Date of Birth
-              </p>
-              {isEditingSection("personal") ? (
-                <input
-                  type="text"
-                  value={displayTeacherInfo.dateOfBirth}
-                  onChange={(e) =>
-                    handleInputChange("dateOfBirth", e.target.value, "personal")
-                  }
-                  className="text-xs text-slate-500 bg-white border border-gray-300 rounded-md px-2 py-1 w-full"
-                />
-              ) : (
-                <p className="text-xs text-slate-500">
-                  {displayTeacherInfo.dateOfBirth}
-                </p>
-              )}
-            </div>
-          </div>
-        </div>
-      </Card>
+        </article>
 
-      {/* Assignment & Advisory */}
-      <Card className="p-6 bg-[#647FBC]/5 border-[#647FBC]/15">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-base font-semibold text-slate-900">
-            Teaching Information
-          </h2>
-          {renderEditButtons("academic")}
-        </div>
-        <div className="mt-4 grid grid-cols-1 gap-3 md:grid-cols-2">
-          <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
-            <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-              Department
-            </p>
-            {isEditingSection("academic") ? (
-              <input
-                type="text"
-                value={displayTeacherInfo.department}
-                onChange={(e) =>
-                  handleInputChange("department", e.target.value, "personal")
-                }
-                className="mt-1 text-sm font-semibold text-slate-900 bg-white border border-gray-300 rounded-md px-2 py-1 w-full"
-              />
-            ) : (
-              <p className="mt-1 text-sm font-semibold text-slate-900">
-                {displayTeacherInfo.department}
-              </p>
-            )}
+        {/* Quick Actions */}
+        <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+          <h3 className="text-base font-semibold text-slate-900 mb-4">Quick Links</h3>
+          <div className="space-y-2">
+            <button className="w-full flex items-center gap-2 p-2 rounded-lg text-sm text-slate-600 hover:bg-slate-50 transition">
+              <Mail className="w-4 h-4" /> Contact Admin
+            </button>
+            <button className="w-full flex items-center gap-2 p-2 rounded-lg text-sm text-slate-600 hover:bg-slate-50 transition">
+              <Phone className="w-4 h-4" /> Emergency Hotline
+            </button>
           </div>
-          <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
-            <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-              Adviser Of
-            </p>
-            {isEditingSection("academic") ? (
-              <input
-                type="text"
-                value={displayTeacherInfo.adviserOf}
-                onChange={(e) =>
-                  handleInputChange("adviserOf", e.target.value, "personal")
-                }
-                className="mt-1 text-sm font-semibold text-slate-900 bg-white border border-gray-300 rounded-md px-2 py-1 w-full"
-              />
-            ) : (
-              <p className="mt-1 text-sm font-semibold text-slate-900">
-                {displayTeacherInfo.adviserOf}
-              </p>
-            )}
-          </div>
-        </div>
-      </Card>
+        </article>
+      </section>
 
-      {/* Emergency Contact */}
-      <Card className="p-6 bg-[#647FBC]/5 border-[#647FBC]/15">
-        <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-base font-semibold text-slate-900">
-            Emergency Contact
-          </h2>
-          {renderEditButtons("emergency")}
-        </div>
-        <div className="space-y-3">
-          <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
-            <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-              Contact Person
-            </p>
-            {isEditingSection("emergency") ? (
-              <div className="space-y-2">
-                <input
-                  type="text"
-                  value={displayEmergencyContact.name}
-                  onChange={(e) =>
-                    handleInputChange("name", e.target.value, "emergency")
-                  }
-                  className="mt-1 text-sm font-semibold text-slate-900 bg-white border border-gray-300 rounded-md px-2 py-1 w-full"
-                  placeholder="Name"
-                />
-                <input
-                  type="text"
-                  value={displayEmergencyContact.relationship}
-                  onChange={(e) =>
-                    handleInputChange(
-                      "relationship",
-                      e.target.value,
-                      "emergency"
-                    )
-                  }
-                  className="text-sm font-semibold text-slate-900 bg-white border border-gray-300 rounded-md px-2 py-1 w-full"
-                  placeholder="Relationship"
-                />
+      {/* Emergency Contacts */}
+      <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+        <h2 className="text-base font-semibold text-slate-900 mb-4">Emergency Contacts</h2>
+        <div className="grid gap-4 md:grid-cols-2">
+          <article className="rounded-xl border border-slate-100 p-4">
+            <p className="text-sm font-semibold text-slate-900">{displayEmergencyContact.name}</p>
+            <p className="text-xs text-slate-500">{displayEmergencyContact.relationship}</p>
+            <dl className="mt-3 space-y-2 text-sm text-slate-500">
+              <div>
+                <dt className="text-xs font-semibold uppercase tracking-wide text-slate-400">Phone</dt>
+                {isEditing ? (
+                  <input
+                    type="tel"
+                    value={displayEmergencyContact.phone}
+                    onChange={(e) => handleInputChange("phone", e.target.value, "emergency")}
+                    className="mt-1 w-full text-slate-900 bg-white border border-slate-300 rounded-md px-2 py-1"
+                  />
+                ) : (
+                  <dd className="text-slate-900">{displayEmergencyContact.phone}</dd>
+                )}
               </div>
-            ) : (
-              <p className="mt-1 text-sm font-semibold text-slate-900">
-                {displayEmergencyContact.name} (
-                {displayEmergencyContact.relationship})
-              </p>
-            )}
-          </div>
-          <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-            <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
-              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-                Phone
-              </p>
-              {isEditingSection("emergency") ? (
-                <input
-                  type="tel"
-                  value={displayEmergencyContact.phone}
-                  onChange={(e) =>
-                    handleInputChange("phone", e.target.value, "emergency")
-                  }
-                  className="mt-1 text-sm font-semibold text-slate-900 bg-white border border-gray-300 rounded-md px-2 py-1 w-full"
-                />
-              ) : (
-                <p className="mt-1 text-sm font-semibold text-slate-900">
-                  {displayEmergencyContact.phone}
-                </p>
-              )}
-            </div>
-            <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
-              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-                Email
-              </p>
-              {isEditingSection("emergency") ? (
-                <input
-                  type="email"
-                  value={displayEmergencyContact.email}
-                  onChange={(e) =>
-                    handleInputChange("email", e.target.value, "emergency")
-                  }
-                  className="mt-1 text-sm font-semibold text-slate-900 bg-white border border-gray-300 rounded-md px-2 py-1 w-full"
-                />
-              ) : (
-                <p className="mt-1 text-sm font-semibold text-slate-900">
-                  {displayEmergencyContact.email}
-                </p>
-              )}
-            </div>
-          </div>
+              <div>
+                <dt className="text-xs font-semibold uppercase tracking-wide text-slate-400">Email</dt>
+                {isEditing ? (
+                  <input
+                    type="email"
+                    value={displayEmergencyContact.email}
+                    onChange={(e) => handleInputChange("email", e.target.value, "emergency")}
+                    className="mt-1 w-full text-slate-900 bg-white border border-slate-300 rounded-md px-2 py-1"
+                  />
+                ) : (
+                  <dd className="text-slate-900">{displayEmergencyContact.email}</dd>
+                )}
+              </div>
+            </dl>
+          </article>
         </div>
-      </Card>
+      </section>
     </div>
   );
 }

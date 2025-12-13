@@ -1,14 +1,16 @@
+import Banner from "@/components/shared/Banner";
 import Card from "@/components/shared/Card";
+import { subjectService } from "@/services/subjectService";
 import {
   BookOpenCheck,
+  Building,
   Calendar,
   Clock,
   TimerReset,
-  Building,
   Users,
 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { subjectService } from "@/services/subjectService";
+import { getTeacherPortalDate } from "../utils/date";
 
 interface Subject {
   _id: string;
@@ -169,9 +171,8 @@ export default function TeacherSchedule() {
     updatedKPIs[0] = {
       ...updatedKPIs[0],
       value: todaysClasses.length.toString(),
-      description: `${todaysClasses.length} session${
-        todaysClasses.length !== 1 ? "s" : ""
-      } to facilitate`,
+      description: `${todaysClasses.length} session${todaysClasses.length !== 1 ? "s" : ""
+        } to facilitate`,
     };
 
     // Update Teaching Hours
@@ -207,33 +208,17 @@ export default function TeacherSchedule() {
     setKpis(updatedKPIs);
   };
 
-  // Get current day name
-  const getCurrentDay = () => {
-    const today = new Date();
-    return today.toLocaleDateString("en-US", { weekday: "long" });
-  };
-
-  // Get current date
-  const getCurrentDate = () => {
-    const today = new Date();
-    return today.toLocaleDateString("en-US", {
-      month: "long",
-      day: "numeric",
-      year: "numeric",
-    });
-  };
+  // Get current date label
+  const dateLabel = getTeacherPortalDate();
 
   if (loading) {
     return (
       <div className="space-y-3">
-        <div className="bg-gradient-to-br from-[#647FBC] to-[#5a73b3] text-white h-20 md:h-24 rounded-[12px] shadow-sm">
-          <div className="h-full flex items-center justify-center px-3 md:px-4">
-            <div className="flex items-center gap-3">
-              <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white"></div>
-              <span className="text-white/80 text-sm">Loading schedule...</span>
-            </div>
-          </div>
-        </div>
+        <Banner
+          title="Schedule"
+          subtitle="Loading your schedule..."
+          right={<p className="text-white/80 text-xs md:text-sm whitespace-nowrap">{dateLabel}</p>}
+        />
         <div className="text-center py-12">
           <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#647FBC] mb-2"></div>
           <p className="text-gray-600">Loading your schedule...</p>
@@ -245,19 +230,11 @@ export default function TeacherSchedule() {
   if (error) {
     return (
       <div className="space-y-3">
-        <div className="bg-gradient-to-br from-[#647FBC] to-[#5a73b3] text-white h-20 md:h-24 rounded-[12px] shadow-sm">
-          <div className="h-full flex items-center px-3 md:px-4">
-            <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center mr-2">
-              <Calendar className="w-4 h-4" />
-            </div>
-            <div>
-              <h1 className="text-base font-semibold">Schedule</h1>
-              <p className="text-white/80 text-sm mt-0.5">
-                View and manage your timetable
-              </p>
-            </div>
-          </div>
-        </div>
+        <Banner
+          title="Schedule"
+          subtitle="View and manage your timetable"
+          right={<p className="text-white/80 text-xs md:text-sm whitespace-nowrap">{dateLabel}</p>}
+        />
         <Card className="p-6 bg-[#647FBC]/5 border-[#647FBC]/15">
           <div className="text-center py-12">
             <div className="text-red-600 mb-2">{error}</div>
@@ -275,20 +252,11 @@ export default function TeacherSchedule() {
 
   return (
     <div className="space-y-3">
-      {/* Title banner */}
-      <div className="bg-gradient-to-br from-[#647FBC] to-[#5a73b3] text-white h-20 md:h-24 rounded-[12px] shadow-sm">
-        <div className="h-full flex items-center px-3 md:px-4">
-          <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center mr-2">
-            <Calendar className="w-4 h-4" />
-          </div>
-          <div>
-            <h1 className="text-base font-semibold">Schedule</h1>
-            <p className="text-white/80 text-sm mt-0.5">
-              {getCurrentDay()}, {getCurrentDate()}
-            </p>
-          </div>
-        </div>
-      </div>
+      <Banner
+        title="Schedule"
+        subtitle="View and manage your timetable"
+        right={<p className="text-white/80 text-xs md:text-sm whitespace-nowrap">{dateLabel}</p>}
+      />
 
       {/* KPI tiles */}
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
@@ -328,9 +296,8 @@ export default function TeacherSchedule() {
             <p className="text-sm text-slate-500">
               {todaySchedule.length === 0
                 ? "No classes scheduled for today"
-                : `${todaySchedule.length} class${
-                    todaySchedule.length !== 1 ? "es" : ""
-                  } scheduled`}
+                : `${todaySchedule.length} class${todaySchedule.length !== 1 ? "es" : ""
+                } scheduled`}
             </p>
           </div>
           <div className="text-sm text-slate-600">

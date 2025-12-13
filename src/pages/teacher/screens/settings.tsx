@@ -1,3 +1,4 @@
+import Banner from "@/components/shared/Banner";
 import Card from "@/components/shared/Card";
 import { Button } from "@/pages/student/components/ui/button";
 import { Switch } from "@/pages/student/components/ui/switch";
@@ -11,6 +12,7 @@ import {
   Palette,
   Settings as SettingsIcon,
 } from "lucide-react";
+import { getTeacherPortalDate } from "../utils/date";
 
 export default function TeacherSettings() {
   const notificationPreferences = [
@@ -68,20 +70,15 @@ export default function TeacherSettings() {
     },
   ];
 
+  const dateLabel = getTeacherPortalDate();
+
   return (
     <div className="space-y-3">
-      {/* Header */}
-      <div className="bg-gradient-to-br from-[#647FBC] to-[#5a73b3] text-white h-20 md:h-24 rounded-[12px] shadow-sm">
-        <div className="h-full flex items-center px-3 md:px-4">
-          <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center mr-2">
-            <SettingsIcon className="w-4 h-4" />
-          </div>
-          <div>
-            <h1 className="text-base font-semibold">Teacher Settings</h1>
-            <p className="text-white/80 text-sm mt-0.5">Manage preferences and notifications</p>
-          </div>
-        </div>
-      </div>
+      <Banner
+        title="Settings"
+        subtitle="Manage preferences and notifications"
+        right={<p className="text-white/80 text-xs md:text-sm whitespace-nowrap">{dateLabel}</p>}
+      />
 
       {/* Notification Preferences */}
       <Card className="p-6 bg-[#647FBC]/5 border-[#647FBC]/15">
@@ -89,7 +86,7 @@ export default function TeacherSettings() {
           <div className="mr-3 flex h-7 w-7 items-center justify-center rounded-lg bg-[#647FBC]/10">
             <Bell className="w-3 h-3 text-[#647FBC]" />
           </div>
-          <h2 className="text-base font-semibold text-slate-900">Notification Preferences</h2>
+          <h2 className="text-lg font-semibold text-slate-900">Notification Preferences</h2>
         </div>
         <div className="space-y-3">
           {notificationPreferences.map((pref) => {
@@ -104,8 +101,8 @@ export default function TeacherSettings() {
                     <Icon className="w-3 h-3 text-[#647FBC]" />
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-slate-900">{pref.type}</p>
-                    <p className="text-xs text-slate-500">{pref.description}</p>
+                    <p className="text-base font-medium text-slate-900">{pref.type}</p>
+                    <p className="text-sm text-slate-500">{pref.description}</p>
                   </div>
                 </div>
                 <Switch checked={pref.enabled} />
@@ -121,7 +118,7 @@ export default function TeacherSettings() {
           <div className="mr-3 flex h-7 w-7 items-center justify-center rounded-lg bg-[#647FBC]/10">
             <SettingsIcon className="w-3 h-3 text-[#647FBC]" />
           </div>
-          <h2 className="text-base font-semibold text-slate-900">Teaching &amp; App Preferences</h2>
+          <h2 className="text-lg font-semibold text-slate-900">Teaching &amp; App Preferences</h2>
         </div>
         <div className="space-y-3">
           {teachingPreferences.map((pref) => {
@@ -136,8 +133,8 @@ export default function TeacherSettings() {
                     <Icon className="w-3 h-3 text-[#647FBC]" />
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-slate-900">{pref.type}</p>
-                    <p className="text-xs text-slate-500">{pref.description}</p>
+                    <p className="text-base font-medium text-slate-900">{pref.type}</p>
+                    <p className="text-sm text-slate-500">{pref.description}</p>
                   </div>
                 </div>
                 <Switch checked={pref.enabled} />
@@ -149,11 +146,11 @@ export default function TeacherSettings() {
 
       {/* Actions */}
       <div className="grid grid-cols-2 gap-3">
-        <Button className="group h-10 rounded-full border border-[#647FBC] !bg-[#647FBC] px-4 text-xs font-semibold text-white shadow-sm transition hover:!bg-white hover:!text-[#647FBC]">
-          <SettingsIcon className="w-3 h-3 mr-1 transition-colors" />
+        <Button className="group h-10 rounded-full border border-[#647FBC] !bg-[#647FBC] px-4 text-sm font-semibold text-white shadow-sm transition hover:!bg-white hover:!text-[#647FBC]">
+          <SettingsIcon className="w-4 h-4 mr-1 transition-colors" />
           Advanced Settings
         </Button>
-        <Button className="group h-10 rounded-full border border-[#647FBC] !bg-[#647FBC] px-4 text-xs font-semibold text-white shadow-sm transition hover:!bg-white hover:!text-[#647FBC]">
+        <Button className="group h-10 rounded-full border border-[#647FBC] !bg-[#647FBC] px-4 text-sm font-semibold text-white shadow-sm transition hover:!bg-white hover:!text-[#647FBC]">
           Save Changes
         </Button>
       </div>

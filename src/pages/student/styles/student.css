@@ -471,7 +471,7 @@
 .top-header {
   background-color: var(--white);
   border-bottom: 1px solid var(--gray-200);
-  padding: var(--spacing-md);
+  padding: calc(var(--spacing-md) + 1.5px) var(--spacing-md);
 }
 
 .header-content {

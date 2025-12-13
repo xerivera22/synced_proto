@@ -49,7 +49,7 @@ const ParentLoginPage = () => {
 
       setError(
         err.response?.data?.message ||
-          "Invalid email or password. Please try again."
+        "Invalid email or password. Please try again."
       );
       setPassword("");
     } finally {
@@ -92,7 +92,7 @@ const ParentLoginPage = () => {
                   htmlFor="parentEmail"
                   className="block text-sm font-medium text-gray-700 mb-2"
                 >
-                  Email
+                  Email Address
                 </label>
                 <input
                   type="email"

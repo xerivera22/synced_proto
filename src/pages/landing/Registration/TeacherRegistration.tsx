@@ -3,6 +3,7 @@ import { teacherAuthService } from "@/services/Authentication/teacherAuthService
 import { Eye, EyeOff } from "lucide-react";
 import { type FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const TeacherRegistration = () => {
   const navigate = useNavigate();
@@ -76,8 +77,17 @@ const TeacherRegistration = () => {
         agreeToTerms: false,
       });
       if (response.success) {
-        alert("Teacher account created successfully!");
-        navigate("/register");
+        Swal.fire({
+          toast: true,
+          position: "top-end",
+          icon: "success",
+          title: "Registration Successful!",
+          text: "Your teacher account has been created. Redirecting to login...",
+          showConfirmButton: false,
+          timer: 2500,
+          timerProgressBar: true,
+        });
+        setTimeout(() => navigate("/teacher-login"), 2500);
       } else {
         setError(response.message || "Registration failed. Please try again.");
       }

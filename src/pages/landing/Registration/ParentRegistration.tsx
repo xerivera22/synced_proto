@@ -3,6 +3,7 @@ import { parentAuthService } from "@/services/Authentication/parentAuthService";
 import { Eye, EyeOff } from "lucide-react";
 import { type FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const ParentRegistration = () => {
   const navigate = useNavigate();
@@ -72,8 +73,17 @@ const ParentRegistration = () => {
       const response = await parentAuthService.register(parentData);
 
       if (response.success || response.message === "Registration successful") {
-        alert("Parent account created successfully!");
-        navigate("/parent-login");
+        Swal.fire({
+          toast: true,
+          position: "top-end",
+          icon: "success",
+          title: "Registration Successful!",
+          text: "Your parent account has been created. Redirecting to login...",
+          showConfirmButton: false,
+          timer: 2500,
+          timerProgressBar: true,
+        });
+        setTimeout(() => navigate("/parent-login"), 2500);
       } else {
         setError(response.message || "Registration failed. Please try again.");
       }

@@ -35,10 +35,10 @@ const TeacherLoginPage = () => {
         setPassword("");
       }
     } catch (err) {
+      const error = err as { response?: { data?: { message?: string }; status?: number } };
       setError(
-        err instanceof Error
-          ? err.message
-          : "Invalid email or password. Please try again."
+        error.response?.data?.message ||
+        "Invalid email or password. Please try again."
       );
       setPassword("");
     } finally {

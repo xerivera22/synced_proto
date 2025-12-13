@@ -3,6 +3,7 @@ import { studentAuthService } from "@/services/Authentication/studentAuthService
 import { Eye, EyeOff } from "lucide-react";
 import { type FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const StudentRegistration = () => {
   const navigate = useNavigate();
@@ -83,8 +84,17 @@ const StudentRegistration = () => {
       const response = await studentAuthService.register(studentData);
 
       if (response.success) {
-        alert("Account created successfully!");
-        navigate("/student-login");
+        Swal.fire({
+          toast: true,
+          position: "top-end",
+          icon: "success",
+          title: "Registration Successful!",
+          text: "Your student account has been created. Redirecting to login...",
+          showConfirmButton: false,
+          timer: 2500,
+          timerProgressBar: true,
+        });
+        setTimeout(() => navigate("/student-login"), 2500);
       } else {
         setError(response.message || "Registration failed. Please try again.");
       }

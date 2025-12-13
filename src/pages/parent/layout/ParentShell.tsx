@@ -290,7 +290,7 @@ const ParentShell = () => {
                       onClick={() => {
                         setProfileOpen(false);
                         logout();
-                        navigate("/student-login", { replace: true });
+                        navigate("/parent-login", { replace: true });
                       }}
                     >
                       Logout

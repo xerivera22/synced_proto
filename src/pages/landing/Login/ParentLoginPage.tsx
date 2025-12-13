@@ -41,14 +41,15 @@ const ParentLoginPage = () => {
         setError(response.message || "Login failed. Please try again.");
         setPassword("");
       }
-    } catch (err: any) {
+    } catch (err) {
       console.error("Full error object:", err);
-      console.error("Error response data:", err.response?.data);
-      console.error("Error status:", err.response?.status);
-      console.error("Error headers:", err.response?.headers);
+      const error = err as { response?: { data?: { message?: string }; status?: number; headers?: unknown } };
+      console.error("Error response data:", error.response?.data);
+      console.error("Error status:", error.response?.status);
+      console.error("Error headers:", error.response?.headers);
 
       setError(
-        err.response?.data?.message ||
+        error.response?.data?.message ||
         "Invalid email or password. Please try again."
       );
       setPassword("");

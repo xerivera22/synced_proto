@@ -52,9 +52,9 @@ export function Profile() {
 
   const handleInputChange = (field: string, value: string, section: "personal" | "emergency") => {
     if (section === "personal") {
-      setTempStudentInfo((prev: any) => ({ ...prev, [field]: value }));
+      setTempStudentInfo((prev: typeof studentInfo) => ({ ...prev, [field]: value }));
     } else {
-      setTempEmergencyContact((prev: any) => ({ ...prev, [field]: value }));
+      setTempEmergencyContact((prev: typeof emergencyContact) => ({ ...prev, [field]: value }));
     }
   };
 

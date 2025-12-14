@@ -1,11 +1,18 @@
+export interface PlanFeature {
+  text: string;
+  isHeader?: boolean;
+  isBullet?: boolean;
+}
+
 export interface Plan {
   id: string;
   name: string;
   price: string;
   period: string;
   description: string;
+  subtitle?: string;
   students: string;
-  features: string[];
+  features: PlanFeature[];
   popular?: boolean;
 }
 

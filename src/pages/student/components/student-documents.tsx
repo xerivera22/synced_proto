@@ -251,10 +251,10 @@ export function StudentDocuments() {
           </div>
           <Button
             size="sm"
-            className="h-8 px-3 text-xs bg-[#647FBC] hover:bg-[#5a73b3] text-white"
+            className="!bg-[#647FBC] hover:!bg-[#5a73b3] !text-white"
             onClick={() => setIsAddingSubmission(true)}
           >
-            <Plus className="w-3 h-3 mr-1" />
+            <Plus className="w-4 h-4 mr-1" />
             Add Document
           </Button>
         </div>

@@ -1,7 +1,7 @@
-import { Link } from "react-router-dom";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import type { Plan } from "@/types";
+import { Link } from "react-router-dom";
 
 const PricingPage = () => {
   const plans: Plan[] = [
@@ -11,46 +11,48 @@ const PricingPage = () => {
       price: "₱0",
       period: "/month",
       description: "Perfect for small schools getting started",
-      students: "Up to 50 students",
+      subtitle: "Good for Junior and Senior High Schools",
+      students: "Up to 800 Users.",
       features: [
-        "Basic attendance tracking",
-        "Grade management",
-        "Parent portal access",
-        "Email support",
-        "Mobile app access",
+        { text: "Basic", isHeader: true },
+        { text: "Attendance Tracking", isBullet: true },
+        { text: "Grade Tracking", isBullet: true },
+        { text: "Schedule Tracking", isBullet: true },
+        { text: "Payment Tracking", isBullet: true },
+        { text: "Document Tracking", isBullet: true },
+        { text: "Email Support" },
+        { text: "Web App Only" },
       ],
-    },
-    {
-      id: "true",
-      name: "True Sync",
-      price: "₱15,000",
-      period: "/month",
-      description: "For growing schools with advanced needs",
-      students: "Up to 200 students",
-      features: [
-        "Everything in Free Sync",
-        "Payment processing",
-        "Advanced reporting",
-        "Priority support",
-        "Custom branding",
-        "API access",
-      ],
-      popular: true,
     },
     {
       id: "pro",
       name: "Pro Sync",
-      price: "₱35,000",
-      period: "/month",
-      description: "Enterprise solution for large institutions",
-      students: "Unlimited students",
+      price: "₱25,000",
+      period: "/Semi-Annually",
+      description: "For growing schools with advanced needs",
+      subtitle: "Good for Small College Institutions",
+      students: "Up to 1500 Users.",
       features: [
-        "Everything in True Sync",
-        "Dedicated account manager",
-        "24/7 phone support",
-        "Custom integrations",
-        "Advanced security features",
-        "On-site training",
+        { text: "Everything in Free Sync" },
+        { text: "Mobile App Access" },
+        { text: "Parent / Teacher Chat Access" },
+        { text: "Document Storing" },
+      ],
+      popular: true,
+    },
+    {
+      id: "true",
+      name: "True Sync",
+      price: "Contact Us",
+      period: "",
+      description: "Enterprise solution for large institutions",
+      subtitle: "Universities / Large Chains",
+      students: "1500+ Users.",
+      features: [
+        { text: "Everything in Pro Sync" },
+        { text: "Online Tuition Payments" },
+        { text: "24/7 Contact Support" },
+        { text: "Advanced Security Features" },
       ],
     },
   ];
@@ -79,16 +81,19 @@ const PricingPage = () => {
                   <h3 className="text-2xl font-bold text-text mb-2">{plan.name}</h3>
                   <div className="mb-4">
                     <span className="text-5xl font-bold text-primary">{plan.price}</span>
-                    <span className="text-muted">{plan.period}</span>
+                    {plan.period && <span className="text-muted">{plan.period}</span>}
                   </div>
-                  <p className="text-muted text-sm mb-2">{plan.description}</p>
+                  <p className="text-muted text-sm mb-1">{plan.description}</p>
+                  {plan.subtitle && <p className="text-sm font-semibold text-text mb-2">{plan.subtitle}</p>}
                   <p className="text-sm font-semibold text-text">{plan.students}</p>
                 </div>
                 <ul className="mb-8 space-y-3">
-                  {plan.features.map((feature) => (
-                    <li key={feature} className="flex items-start gap-2 text-sm text-muted">
-                      <span className="text-green-500 flex-shrink-0">✓</span>
-                      <span>{feature}</span>
+                  {plan.features.map((feature, idx) => (
+                    <li key={idx} className={`flex items-start gap-2 text-sm text-muted ${feature.isBullet ? 'ml-4' : ''}`}>
+                      {!feature.isHeader && <span className="text-green-500 flex-shrink-0">✓</span>}
+                      <span className={feature.isHeader ? 'font-semibold text-text' : ''}>
+                        {feature.isBullet ? `- ${feature.text}` : feature.text}
+                      </span>
                     </li>
                   ))}
                 </ul>

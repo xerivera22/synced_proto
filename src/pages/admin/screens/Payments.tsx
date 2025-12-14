@@ -1,7 +1,8 @@
 import Banner from "@/components/shared/Banner";
-import { useEffect, useState } from "react";
 import { paymentRecordService } from "@/services/paymentRecordService";
 import { paymentSummaryService } from "@/services/paymentSummaryService";
+import { useEffect, useState } from "react";
+import { getAdminPortalDate } from "../utils/date";
 
 interface PaymentRecord {
   _id: string;
@@ -21,6 +22,7 @@ interface PaymentSummary {
 }
 
 const Payments = () => {
+  const dateLabel = getAdminPortalDate();
   const [paymentRecords, setPaymentRecords] = useState<PaymentRecord[]>([]);
   const [paymentSummary, setPaymentSummary] = useState<PaymentSummary | null>(
     null
@@ -62,6 +64,11 @@ const Payments = () => {
     <div className="space-y-6">
       <Banner
         title="Payment Ledger"
+        right={
+          <p className="text-white/80 text-xs md:text-sm whitespace-nowrap">
+            {dateLabel}
+          </p>
+        }
         subtitle="Monitor balances, collection progress, and scholarship allocations."
       />
       <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
@@ -176,8 +183,8 @@ const StatusBadge = ({
     status === "paid"
       ? "bg-emerald-50 text-emerald-700"
       : status === "partial"
-      ? "bg-amber-50 text-amber-700"
-      : "bg-rose-50 text-rose-700";
+        ? "bg-amber-50 text-amber-700"
+        : "bg-rose-50 text-rose-700";
   return (
     <span
       className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold capitalize ${className}`}

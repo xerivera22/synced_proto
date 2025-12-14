@@ -1,23 +1,24 @@
-import { useState, useEffect } from "react";
+import Banner from "@/components/shared/Banner";
+import { sectionService } from "@/services/sectionService";
+import { teacherProfileService } from "@/services/teacherProfileService";
 import {
-  Search,
-  Filter,
-  Plus,
-  Pencil,
-  Trash2,
-  Users,
-  Calendar,
-  User,
-  Hash,
   Building,
-  X,
+  Calendar,
   ChevronDown,
   ChevronUp,
+  Filter,
+  Hash,
+  Pencil,
+  Plus,
+  Search,
+  Trash2,
+  User,
+  Users,
+  X,
 } from "lucide-react";
-import Banner from "@/components/shared/Banner";
-import { teacherProfileService } from "@/services/teacherProfileService";
-import { sectionService } from "@/services/sectionService";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { getAdminPortalDate } from "../utils/date";
 
 // Define the Section interface - Updated to match MongoDB model
 interface Section {
@@ -547,6 +548,7 @@ const SectionModal = ({
 };
 
 const Sections = () => {
+  const dateLabel = getAdminPortalDate();
   // State for sections data
   const [sections, setSections] = useState<Section[]>([]);
   // State for teachers data
@@ -729,6 +731,11 @@ const Sections = () => {
     <div className="space-y-6">
       <Banner
         title="Section Management"
+        right={
+          <p className="text-white/80 text-xs md:text-sm whitespace-nowrap">
+            {dateLabel}
+          </p>
+        }
         subtitle="Create and manage class sections with faculty assignment"
       />
 
@@ -748,7 +755,7 @@ const Sections = () => {
           <button
             onClick={() => setIsModalOpen(true)}
             disabled={loadingTeachers}
-            className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-[#647FBC] hover:bg-[#5a73b3] rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <Plus size={16} />
             Add Section

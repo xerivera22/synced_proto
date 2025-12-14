@@ -1,24 +1,24 @@
-import { useState, useEffect } from "react";
+import Banner from "@/components/shared/Banner";
+import { sectionService } from "@/services/sectionService";
+import { subjectService } from "@/services/subjectService";
 import {
-  Search,
-  Filter,
-  Plus,
-  Pencil,
-  Trash2,
   BookOpen,
   Building,
-  Hash,
   Calendar,
-  X,
-  Clock,
   ChevronDown,
   ChevronUp,
+  Clock,
+  Filter,
+  Hash,
+  Pencil,
+  Plus,
+  Search,
+  Trash2,
+  X,
 } from "lucide-react";
-import Banner from "@/components/shared/Banner";
-import { subjectService } from "@/services/subjectService";
-import Swal from "sweetalert2";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { sectionService } from "@/services/sectionService";
+import { getAdminPortalDate } from "../utils/date";
 
 // Define the Subject interface with schedule as string array
 interface Subject {
@@ -473,6 +473,7 @@ const SubjectModal = ({
 };
 
 const Subjects = () => {
+  const dateLabel = getAdminPortalDate();
   // State for subjects data
   const [subjects, setSubjects] = useState<Subject[]>([]);
   // State for search term
@@ -589,6 +590,11 @@ const Subjects = () => {
       <Banner
         title="Subject Management"
         subtitle="View and manage all available subjects across departments."
+        right={
+          <p className="text-white/80 text-xs md:text-sm whitespace-nowrap">
+            {dateLabel}
+          </p>
+        }
       />
 
       {/* Controls Section */}
@@ -606,7 +612,7 @@ const Subjects = () => {
           {/* Add Subject Button */}
           <button
             onClick={() => setIsModalOpen(true)}
-            className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors"
+            className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-[#647FBC] hover:bg-[#5a73b3] rounded-lg transition-colors"
           >
             <Plus size={16} />
             Add Subject

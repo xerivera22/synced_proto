@@ -2,13 +2,13 @@ import logoUrl from "@/assets/ISE_logo.png";
 import {
   Building,
   CalendarClock,
-  File,
   FileStack,
   GraduationCap,
-  Home,
-  Megaphone,
+  LayoutDashboard,
   Settings,
+  Table,
   Users,
+  UserSquare,
 } from "lucide-react";
 import type React from "react";
 import { useEffect, useState } from "react";
@@ -20,14 +20,14 @@ type SideNavigationProps = {
 };
 
 const navItems = [
-  { to: "/admin", label: "Dashboard", icon: Home },
-  { to: "/admin/students", label: "Students", icon: GraduationCap },
+  { to: "/admin", label: "Overview", icon: LayoutDashboard },
   { to: "/admin/faculty", label: "Faculty", icon: Users },
+  { to: "/admin/parents", label: "Parents", icon: UserSquare },
+  { to: "/admin/students", label: "Students", icon: GraduationCap },
+  { to: "/admin/subjects", label: "Subjects", icon: Table },
+  { to: "/admin/section", label: "Section", icon: Building },
   { to: "/admin/events", label: "Events & Schedule", icon: CalendarClock },
   { to: "/admin/payments", label: "Payment Ledger", icon: FileStack },
-  { to: "/admin/announcements", label: "Announcements", icon: Megaphone },
-  { to: "/admin/subjects", label: "Subjects", icon: File },
-  { to: "/admin/section", label: "Section", icon: Building },
 ];
 
 const AdminSideNavigation: React.FC<SideNavigationProps> = ({
@@ -53,9 +53,8 @@ const AdminSideNavigation: React.FC<SideNavigationProps> = ({
 
   return (
     <nav
-      className={`side-navigation ${
-        collapsed ? "collapsed" : ""
-      } ${className}`.trim()}
+      className={`side-navigation ${collapsed ? "collapsed" : ""
+        } ${className}`.trim()}
     >
       <div className="nav-header">
         <button
@@ -92,6 +91,13 @@ const AdminSideNavigation: React.FC<SideNavigationProps> = ({
         </ul>
       </div>
       <div className="nav-footer">
+        <div className="user-info">
+          <div className="user-avatar">AD</div>
+          <div className="user-details">
+            <div className="user-name">Admin Desk</div>
+            <div className="user-id">3 alerts</div>
+          </div>
+        </div>
         <NavLink
           to="/admin/settings"
           className={({ isActive }) => `nav-item ${isActive ? "active" : ""}`}
@@ -101,13 +107,6 @@ const AdminSideNavigation: React.FC<SideNavigationProps> = ({
           <Settings className="nav-icon" />
           <span className="nav-text">Settings</span>
         </NavLink>
-        <div className="user-info mt-3">
-          <div className="user-avatar">AD</div>
-          <div className="user-details">
-            <div className="user-name">Admin Desk</div>
-            <div className="user-id">3 alerts</div>
-          </div>
-        </div>
       </div>
     </nav>
   );

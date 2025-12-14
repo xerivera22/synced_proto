@@ -1,4 +1,6 @@
 import Banner from "@/components/shared/Banner";
+import { announcementService } from "@/services/announcementService";
+import { eventService } from "@/services/eventService";
 import {
   ArrowUpRight,
   ClipboardList,
@@ -6,11 +8,10 @@ import {
   Megaphone,
 } from "lucide-react";
 import type { FC } from "react";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { paymentSummaries, studentMetrics } from "../data/mockData";
-import { eventService } from "@/services/eventService";
-import { announcementService } from "@/services/announcementService";
+import { getAdminPortalDate } from "../utils/date";
 
 interface Event {
   id: string;
@@ -31,6 +32,7 @@ interface Announcement {
 }
 
 const AdminDashboard: FC = () => {
+  const dateLabel = getAdminPortalDate();
   const [upcomingEvents, setUpcomingEvents] = useState<Event[]>([]);
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
 
@@ -84,7 +86,7 @@ const AdminDashboard: FC = () => {
       value: announcements.length.toString(),
       change: "2 scheduled",
       icon: Megaphone,
-      to: "/admin/announcements",
+      to: "/admin/events",
       containerClass: "border-purple-100 bg-purple-50",
       changeClass: "text-purple-700",
       iconClass: "bg-white/70 text-purple-700",
@@ -94,7 +96,12 @@ const AdminDashboard: FC = () => {
   return (
     <div className="space-y-8">
       <Banner
-        title="Admin Dashboard"
+        title="Admin Overview"
+        right={
+          <p className="text-white/80 text-xs md:text-sm whitespace-nowrap">
+            {dateLabel}
+          </p>
+        }
         subtitle="Monitor student performance, upcoming events, and school-wide communications."
       />
       <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
@@ -189,7 +196,7 @@ const AdminDashboard: FC = () => {
               </p>
             </div>
             <Link
-              to="/admin/announcements"
+              to="/admin/events"
               className="rounded-full border border-purple-200 px-3 py-1 text-xs font-medium text-purple-700 hover:bg-white/60"
             >
               Compose

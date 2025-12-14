@@ -1,11 +1,18 @@
 import Banner from "@/components/shared/Banner";
+import { getAdminPortalDate } from "../utils/date";
 
 const Settings = () => {
+  const dateLabel = getAdminPortalDate();
   return (
     <div className="space-y-6">
       <Banner
         title="Admin Settings"
         subtitle="Configure default preferences before connecting to production services."
+        right={
+          <p className="text-white/80 text-xs md:text-sm whitespace-nowrap">
+            {dateLabel}
+          </p>
+        }
       />
 
       <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">

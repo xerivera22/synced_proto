@@ -1,10 +1,9 @@
 import AdminShell from "@/pages/admin/layout/AdminShell";
-import PWAInstallButton from "./components/PWAInstallButton";
 import {
-  AdminAnnouncements,
   AdminDashboard,
   AdminEvents,
   AdminFaculty,
+  AdminParents,
   AdminPayments,
   AdminSettings,
   AdminStudents,
@@ -15,6 +14,7 @@ import {
   BrowserRouter as Router,
   Routes,
 } from "react-router-dom";
+import PWAInstallButton from "./components/PWAInstallButton";
 // Dashboards remain at root pages for now; will be reorganized later
 import AdminLoginPage from "@/pages/landing/Login/AdminLoginPage";
 // Landing/public/auth pages grouped under pages/landing
@@ -50,7 +50,9 @@ import ScrollToTop from "./components/ScrollToTop";
 import { AuthProvider } from "./context/AuthContext";
 import Section from "./pages/admin/screens/Section";
 import Subjects from "./pages/admin/screens/Subjects";
+import ParentLoginPage from "./pages/landing/Login/ParentLoginPage";
 import TeacherLoginPage from "./pages/landing/Login/TeacherLoginPage";
+import ParentRegistration from "./pages/landing/Registration/ParentRegistration";
 import StudentRegistration from "./pages/landing/Registration/StudentRegistration";
 import TeacherRegistration from "./pages/landing/Registration/TeacherRegistration";
 import ParentShell from "./pages/parent/layout/ParentShell";
@@ -66,8 +68,6 @@ import {
   ParentSettings,
 } from "./pages/parent/screens";
 import Message from "./pages/student/components/message";
-import ParentLoginPage from "./pages/landing/Login/ParentLoginPage";
-import ParentRegistration from "./pages/landing/Registration/ParentRegistration";
 
 function App() {
   return (
@@ -85,9 +85,9 @@ function App() {
             <Route path="dashboard" element={<AdminDashboard />} />
             <Route path="students" element={<AdminStudents />} />
             <Route path="faculty" element={<AdminFaculty />} />
+            <Route path="parents" element={<AdminParents />} />
             <Route path="events" element={<AdminEvents />} />
             <Route path="payments" element={<AdminPayments />} />
-            <Route path="announcements" element={<AdminAnnouncements />} />
             <Route path="subjects" element={<Subjects />} />
             <Route path="section" element={<Section />} />
             <Route path="settings" element={<AdminSettings />} />

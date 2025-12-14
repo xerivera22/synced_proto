@@ -1,10 +1,10 @@
+import SplashScreen from "@/components/SplashScreen";
 import { useAuth } from "@/context/AuthContext";
 import "@/pages/student/styles/student.css";
 import { Bell, Menu, Search, X } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Navigate, Outlet, useLocation, useNavigate } from "react-router-dom";
 import AdminSideNavigation from "../components/side-navigation";
-import SplashScreen from "@/components/SplashScreen";
 
 type SearchShortcut = {
   id: string;
@@ -15,16 +15,10 @@ type SearchShortcut = {
 
 const searchShortcuts: SearchShortcut[] = [
   {
-    id: "dashboard",
-    title: "Dashboard",
+    id: "overview",
+    title: "Overview",
     description: "Executive summary",
-    to: "/admin/dashboard",
-  },
-  {
-    id: "students",
-    title: "Student Records",
-    description: "Roster & status",
-    to: "/admin/students",
+    to: "/admin",
   },
   {
     id: "faculty",
@@ -33,9 +27,33 @@ const searchShortcuts: SearchShortcut[] = [
     to: "/admin/faculty",
   },
   {
+    id: "parents",
+    title: "Parent Directory",
+    description: "Parent accounts",
+    to: "/admin/parents",
+  },
+  {
+    id: "students",
+    title: "Student Records",
+    description: "Roster & status",
+    to: "/admin/students",
+  },
+  {
+    id: "subjects",
+    title: "Subjects",
+    description: "Subject management",
+    to: "/admin/subjects",
+  },
+  {
+    id: "section",
+    title: "Section",
+    description: "Section management",
+    to: "/admin/section",
+  },
+  {
     id: "events",
     title: "Events & Schedule",
-    description: "Calendar planning",
+    description: "Calendar & announcements",
     to: "/admin/events",
   },
   {
@@ -43,12 +61,6 @@ const searchShortcuts: SearchShortcut[] = [
     title: "Payment Ledger",
     description: "Billing & balances",
     to: "/admin/payments",
-  },
-  {
-    id: "announcements",
-    title: "Announcements",
-    description: "Broadcast center",
-    to: "/admin/announcements",
   },
   {
     id: "settings",
@@ -135,13 +147,15 @@ const AdminShell = () => {
   }
 
   const currentTitle = () => {
+    if (location.pathname.includes("subjects")) return "Subjects";
+    if (location.pathname.includes("section")) return "Section";
     if (location.pathname.includes("students")) return "Student Records";
-    if (location.pathname.includes("faculty")) return "Faculty";
+    if (location.pathname.includes("faculty")) return "Faculty Directory";
+    if (location.pathname.includes("parents")) return "Parent Directory";
     if (location.pathname.includes("events")) return "Events & Schedule";
     if (location.pathname.includes("payments")) return "Payment Ledger";
-    if (location.pathname.includes("announcements")) return "Announcements";
     if (location.pathname.includes("settings")) return "Settings";
-    return "Dashboard";
+    return "Overview";
   };
 
   return (

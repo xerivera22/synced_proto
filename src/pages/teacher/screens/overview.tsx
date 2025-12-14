@@ -92,6 +92,52 @@ const QuickActionModal = ({
             </div>
           </div>
         );
+      case "Make Announcement":
+        return (
+          <div className="space-y-4">
+            <div>
+              <label htmlFor="class" className="block text-sm font-medium text-gray-700 mb-2">
+                Target Class
+              </label>
+              <select
+                id="class"
+                name="class"
+                onChange={handleChange}
+                className="w-full p-3 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-slate-500 focus:bg-white"
+              >
+                <option>Math 101</option>
+                <option>History 202</option>
+                <option>Science 9</option>
+              </select>
+            </div>
+            <div>
+              <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-2">
+                Title
+              </label>
+              <input
+                type="text"
+                id="title"
+                name="title"
+                onChange={handleChange}
+                className="w-full p-3 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-slate-500 focus:bg-white"
+                placeholder="e.g., Exam Rescheduled"
+              />
+            </div>
+            <div>
+              <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
+                Message
+              </label>
+              <textarea
+                id="message"
+                name="message"
+                rows={3}
+                onChange={handleChange}
+                className="w-full p-3 border border-gray-300 rounded-md text-base bg-gray-50 focus:outline-none focus:border-slate-500 focus:bg-white"
+                placeholder="Type your announcement here..."
+              />
+            </div>
+          </div>
+        );
       case "Create Schedule":
         return (
           <div className="space-y-4">
@@ -274,7 +320,7 @@ export default function TeacherOverview() {
           </div>
         </header>
         <div className="mt-5 grid gap-3 md:grid-cols-3">
-          {["Take Attendance", "Enter Grades", "Create Schedule"].map((action) => (
+          {["Take Attendance", "Enter Grades", "Make Announcement"].map((action) => (
             <div
               key={action}
               className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-600"

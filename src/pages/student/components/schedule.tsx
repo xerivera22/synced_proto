@@ -6,6 +6,7 @@ import {
   Clock,
   Cloud,
   Droplets,
+  Megaphone,
   Wind,
 } from "lucide-react";
 import { getStudentPortalDate } from "../utils/date";
@@ -109,6 +110,21 @@ export function Schedule() {
       description: "Special presentation by Dr. Maria Rodriguez",
       time: "2:00 PM - 3:30 PM",
     },
+  ];
+
+  const announcements = [
+    {
+      title: "Midterm Exam Rescheduled",
+      content: "The midterm exam for Math 101 has been moved to next Friday.",
+      date: "Today",
+      class: "Math 101"
+    },
+    {
+      title: "Science Fair Registration",
+      content: "Deadline for project submission is extended by 2 days.",
+      date: "Yesterday",
+      class: "Science 9"
+    }
   ];
 
   const nextClass = schedule[scheduleKeys[currentDay]][0];
@@ -233,6 +249,51 @@ export function Schedule() {
               <div className="flex items-center gap-2">
                 <Droplets className="w-4 h-4 text-blue-500" />
                 <span className="text-sm text-slate-600">Humidity</span>
+              </div>
+              <span className="text-sm font-medium text-slate-900">{weatherData.humidity}%</span>
+            </div>
+            <div className="flex items-center justify-between bg-white/50 rounded-lg px-3 py-2">
+              <div className="flex items-center gap-2">
+                <Wind className="w-4 h-4 text-slate-500" />
+                <span className="text-sm text-slate-600">Wind</span>
+              </div>
+              <span className="text-sm font-medium text-slate-900">{weatherData.windSpeed} mph</span>
+            </div>
+          </div>
+        </Card>
+      </div>
+
+      {/* Announcements */}
+      <Card className="p-6 bg-white border-0 shadow-sm">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 bg-gradient-to-br from-blue-100 to-cyan-100 rounded-lg flex items-center justify-center">
+              <Megaphone className="w-4 h-4 text-blue-600" />
+            </div>
+            <h2 className="font-semibold text-slate-800 text-sm">Class Announcements</h2>
+          </div>
+          <span className="text-xs text-slate-500">Recent</span>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          {announcements.map((announcement, index) => (
+            <div
+              key={index}
+              className="bg-gradient-to-br from-slate-50 to-white p-4 rounded-xl border border-slate-100 hover:shadow-md hover:border-slate-200 transition-all duration-200"
+            >
+              <div className="flex items-start justify-between mb-2">
+                <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-700">
+                  {announcement.class}
+                </span>
+                <span className="text-xs text-slate-500">{announcement.date}</span>
+              </div>
+              <h3 className="font-semibold text-slate-900 text-sm mb-1">{announcement.title}</h3>
+              <p className="text-slate-500 text-xs line-clamp-2">{announcement.content}</p>
+            </div>
+          ))}
+        </div>
+      </Card>
+
+      {/*       <span className="text-sm text-slate-600">Humidity</span>
               </div>
               <span className="text-sm font-medium text-slate-900">{weatherData.humidity}%</span>
             </div>

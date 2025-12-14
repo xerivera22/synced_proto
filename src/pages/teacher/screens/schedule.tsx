@@ -2,14 +2,18 @@ import Banner from "@/components/shared/Banner";
 import Card from "@/components/shared/Card";
 import { subjectService } from "@/services/subjectService";
 import {
-  BookOpenCheck,
+  BookOpen,
   Building,
   Calendar,
   Clock,
-  TimerReset,
+  Megaphone,
+  Plus,
+  Send,
+  Trash2,
   Users,
+  X,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { getTeacherPortalDate } from "../utils/date";
 
 interface Subject {
@@ -32,11 +36,50 @@ interface ScheduleItem {
   schedule: string; // Original schedule string
 }
 
+interface Announcement {
+  id: string;
+  title: string;
+  content: string;
+  targetClass: string;
+  date: string;
+}
+
 export default function TeacherSchedule() {
   const [subjects, setSubjects] = useState<Subject[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [todaySchedule, setTodaySchedule] = useState<ScheduleItem[]>([]);
+
+  // Announcement State
+  const [announcements, setAnnouncements] = useState<Announcement[]>([
+    { id: "1", title: "Midterm Exam Rescheduled", content: "The midterm exam for Math 101 has been moved to next Friday.", targetClass: "Math 101", date: "2025-10-26" },
+  ]);
+  const [isAnnouncementModalOpen, setIsAnnouncementModalOpen] = useState(false);
+  const [newAnnouncement, setNewAnnouncement] = useState({ title: "", content: "", targetClass: "" });
+
+  // Helper function to get current day
+  const getCurrentDay = () => {
+    return new Date().toLocaleDateString("en-US", { weekday: "long" });
+  };
+
+  const handleCreateAnnouncement = (e: React.FormEvent) => {
+    e.preventDefault();
+    const announcement: Announcement = {
+      id: Date.now().toString(),
+      title: newAnnouncement.title,
+      content: newAnnouncement.content,
+      targetClass: newAnnouncement.targetClass,
+      date: new Date().toISOString().split('T')[0],
+    };
+    setAnnouncements([announcement, ...announcements]);
+    setNewAnnouncement({ title: "", content: "", targetClass: "" });
+    setIsAnnouncementModalOpen(false);
+  };
+
+  const handleDeleteAnnouncement = (id: string) => {
+    setAnnouncements(announcements.filter(a => a.id !== id));
+  };
+
   const [kpis, setKpis] = useState([
     {
       label: "Classes Today",
@@ -60,7 +103,7 @@ export default function TeacherSchedule() {
       label: "Subjects",
       value: "0",
       description: "Total subjects assigned",
-      icon: BookOpenCheck,
+      icon: BookOpen,
       containerClass: "border-emerald-100 bg-emerald-50",
       labelClass: "text-emerald-700",
       iconClass: "text-emerald-700",
@@ -69,19 +112,14 @@ export default function TeacherSchedule() {
       label: "Next Class",
       value: "None",
       description: "Check schedule",
-      icon: TimerReset,
+      icon: Clock,
       containerClass: "border-sky-100 bg-sky-50",
       labelClass: "text-sky-700",
       iconClass: "text-sky-700",
     },
   ]);
 
-  // Fetch subjects on component mount
-  useEffect(() => {
-    fetchSubjects();
-  }, []);
-
-  const fetchSubjects = async () => {
+  const fetchSubjects = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -94,7 +132,12 @@ export default function TeacherSchedule() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  // Fetch subjects on component mount
+  useEffect(() => {
+    fetchSubjects();
+  }, [fetchSubjects]);
 
   // Process schedule data to get today's classes
   const processScheduleData = (subjectsData: Subject[]) => {
@@ -105,8 +148,12 @@ export default function TeacherSchedule() {
     const todaysClasses: ScheduleItem[] = [];
 
     subjectsData.forEach((subject) => {
+      if (!subject.schedules || !Array.isArray(subject.schedules)) return;
       subject.schedules.forEach((schedule) => {
-        const [date, time] = schedule.split(" ");
+        if (!schedule || typeof schedule !== 'string') return;
+        const parts = schedule.split(" ");
+        if (parts.length < 2) return;
+        const [date, time] = parts;
 
         // Check if schedule is for today
         if (date === todayString) {
@@ -155,7 +202,11 @@ export default function TeacherSchedule() {
 
     let nextClass: ScheduleItem | null = null;
     for (const classItem of todaysClasses) {
-      const [_, classTime] = classItem.schedule.split(" ");
+      if (!classItem.schedule) continue;
+      const parts = classItem.schedule.split(" ");
+      if (parts.length < 2) continue;
+      const [, classTime] = parts;
+
       const [classHours, classMinutes] = classTime.split(":").map(Number);
       const classTimeInMinutes = classHours * 60 + classMinutes;
 
@@ -356,44 +407,134 @@ export default function TeacherSchedule() {
           </div>
         )}
 
-        {/* Subject list summary */}
-        {subjects.length > 0 && (
-          <div className="mt-6 pt-6 border-t border-slate-200">
-            <h3 className="text-sm font-semibold text-slate-900 mb-3">
-              All Subjects
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-              {subjects.map((subject) => (
+        {/* Announcement Manager */}
+        <div className="mt-6 pt-6 border-t border-slate-200">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h3 className="text-base font-semibold text-slate-900">Class Announcements</h3>
+              <p className="text-sm text-slate-500">Send updates to your students</p>
+            </div>
+            <button
+              onClick={() => setIsAnnouncementModalOpen(true)}
+              className="flex items-center gap-2 rounded-full bg-[#647FBC] px-4 py-2 text-sm font-medium text-white transition hover:bg-[#5a73b3]"
+            >
+              <Plus className="w-4 h-4" />
+              New Announcement
+            </button>
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-2">
+            {announcements.length === 0 ? (
+              <div className="col-span-full text-center py-8 text-slate-500 bg-slate-50 rounded-xl border border-dashed border-slate-200">
+                No announcements yet. Create one to notify your students.
+              </div>
+            ) : (
+              announcements.map((announcement) => (
                 <div
-                  key={subject._id}
-                  className="rounded-lg border border-slate-200 bg-white p-3"
+                  key={announcement.id}
+                  className="group relative rounded-xl border border-slate-200 bg-white p-4 transition hover:border-[#647FBC]/30 hover:shadow-sm"
                 >
                   <div className="flex items-start justify-between">
-                    <div>
-                      <p className="text-sm font-medium text-slate-900">
-                        {subject.subjectName}
-                      </p>
-                      <p className="text-xs text-slate-500">
-                        {subject.subjectCode} • {subject.department}
-                      </p>
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#647FBC]/10">
+                        <Megaphone className="w-3 h-3 text-[#647FBC]" />
+                      </span>
+                      <span className="text-xs font-medium text-[#647FBC] bg-[#647FBC]/5 px-2 py-0.5 rounded-full">
+                        {announcement.targetClass}
+                      </span>
+                      <span className="text-xs text-slate-400">{announcement.date}</span>
                     </div>
-                    <span className="text-xs text-[#647FBC] bg-[#647FBC]/10 px-2 py-0.5 rounded-full">
-                      {subject.schedules.length} schedule
-                      {subject.schedules.length !== 1 ? "s" : ""}
-                    </span>
+                    <button
+                      onClick={() => handleDeleteAnnouncement(announcement.id)}
+                      className="text-slate-400 hover:text-red-500 transition-colors"
+                      title="Delete announcement"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
                   </div>
-                  {subject.sectionName && (
-                    <div className="mt-2 text-xs text-slate-600">
-                      <Users className="inline w-3 h-3 mr-1" />
-                      {subject.sectionName}
-                    </div>
-                  )}
+                  <h4 className="font-semibold text-slate-900 mb-1">{announcement.title}</h4>
+                  <p className="text-sm text-slate-600 line-clamp-2">{announcement.content}</p>
                 </div>
-              ))}
-            </div>
+              ))
+            )}
           </div>
-        )}
+        </div>
       </Card>
+
+      {/* Create Announcement Modal */}
+      {isAnnouncementModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
+          <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl animate-in fade-in zoom-in duration-200">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-lg font-semibold text-slate-900">New Announcement</h3>
+              <button
+                onClick={() => setIsAnnouncementModalOpen(false)}
+                className="rounded-full p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-600"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleCreateAnnouncement} className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-1">Target Class</label>
+                <select
+                  required
+                  value={newAnnouncement.targetClass}
+                  onChange={(e) => setNewAnnouncement({ ...newAnnouncement, targetClass: e.target.value })}
+                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-[#647FBC] focus:outline-none focus:ring-1 focus:ring-[#647FBC]"
+                >
+                  <option value="">Select a class...</option>
+                  {subjects.map(s => (
+                    <option key={s._id} value={s.subjectName}>{s.subjectName} ({s.sectionName || 'All Sections'})</option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-1">Title</label>
+                <input
+                  type="text"
+                  required
+                  value={newAnnouncement.title}
+                  onChange={(e) => setNewAnnouncement({ ...newAnnouncement, title: e.target.value })}
+                  placeholder="e.g., Exam Rescheduled"
+                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-[#647FBC] focus:outline-none focus:ring-1 focus:ring-[#647FBC]"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-1">Message</label>
+                <textarea
+                  required
+                  rows={4}
+                  value={newAnnouncement.content}
+                  onChange={(e) => setNewAnnouncement({ ...newAnnouncement, content: e.target.value })}
+                  placeholder="Type your announcement here..."
+                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-[#647FBC] focus:outline-none focus:ring-1 focus:ring-[#647FBC]"
+                />
+              </div>
+
+              <div className="flex justify-end gap-3 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setIsAnnouncementModalOpen(false)}
+                  className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="flex items-center gap-2 rounded-lg bg-[#647FBC] px-4 py-2 text-sm font-medium text-white hover:bg-[#5a73b3]"
+                >
+                  <Send className="w-4 h-4" />
+                  Post Announcement
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

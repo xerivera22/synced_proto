@@ -48,8 +48,7 @@ export function Dashboard() {
     {
       label: userData.role === "teacher" ? "Total Subjects" : "Attendance Rate",
       value: "0",
-      description:
-        userData.role === "teacher" ? "Assigned subjects" : "Past 30 days",
+      description: userData.role === "teacher" ? "Assigned subjects" : "Past 30 days",
       icon: userData.role === "teacher" ? BookOpen : CheckCircle,
       containerClass: "border-emerald-100 bg-emerald-50",
       labelClass: "text-emerald-700",
@@ -58,8 +57,7 @@ export function Dashboard() {
     {
       label: userData.role === "teacher" ? "Today's Classes" : "Overall GPA",
       value: "0",
-      description:
-        userData.role === "teacher" ? "Scheduled today" : "Current semester",
+      description: userData.role === "teacher" ? "Scheduled today" : "Current semester",
       icon: userData.role === "teacher" ? Calendar : TrendingUp,
       containerClass: "border-sky-100 bg-sky-50",
       labelClass: "text-sky-700",
@@ -68,8 +66,7 @@ export function Dashboard() {
     {
       label: userData.role === "teacher" ? "Sections" : "Pending Tasks",
       value: "0",
-      description:
-        userData.role === "teacher" ? "Assigned sections" : "Due soon",
+      description: userData.role === "teacher" ? "Assigned sections" : "Due soon",
       icon: userData.role === "teacher" ? Users : AlertCircle,
       containerClass: "border-amber-100 bg-amber-50",
       labelClass: "text-amber-700",
@@ -78,8 +75,7 @@ export function Dashboard() {
     {
       label: userData.role === "teacher" ? "Teaching Hours" : "Study Time",
       value: "0h",
-      description:
-        userData.role === "teacher" ? "Weekly total" : "Logged this week",
+      description: userData.role === "teacher" ? "Weekly total" : "Logged this week",
       icon: Clock,
       containerClass: "border-indigo-100 bg-indigo-50",
       labelClass: "text-indigo-700",
@@ -200,29 +196,25 @@ export function Dashboard() {
       updatedStats[0] = {
         ...updatedStats[0],
         value: totalSubjects.toString(),
-        description: `${totalSubjects} assigned subject${totalSubjects !== 1 ? "s" : ""
-          }`,
+        description: `${totalSubjects} assigned subject${totalSubjects !== 1 ? "s" : ""}`,
       };
 
       updatedStats[1] = {
         ...updatedStats[1],
         value: todayClassesCount.toString(),
-        description: `${todayClassesCount} class${todayClassesCount !== 1 ? "es" : ""
-          } today`,
+        description: `${todayClassesCount} class${todayClassesCount !== 1 ? "es" : ""} today`,
       };
 
       updatedStats[2] = {
         ...updatedStats[2],
         value: sectionsCount.toString(),
-        description: `${sectionsCount} section${sectionsCount !== 1 ? "s" : ""
-          } assigned`,
+        description: `${sectionsCount} section${sectionsCount !== 1 ? "s" : ""} assigned`,
       };
 
       updatedStats[3] = {
         ...updatedStats[3],
         value: `${teachingHours}h`,
-        description: `${teachingHours} teaching hour${teachingHours !== 1 ? "s" : ""
-          }`,
+        description: `${teachingHours} teaching hour${teachingHours !== 1 ? "s" : ""}`,
       };
     } else {
       // Update for student (placeholder data - replace with actual student data)
@@ -318,9 +310,11 @@ export function Dashboard() {
       {/* Banner */}
       <Banner
         title={`Welcome back, ${userData.name}!`}
-        subtitle={userData.role === "teacher"
-          ? "Here's your teaching overview for today"
-          : "Here's what's happening with your studies today"}
+        subtitle={
+          userData.role === "teacher"
+            ? "Here's your teaching overview for today"
+            : "Here's what's happening with your studies today"
+        }
         right={<p className="text-white/80 text-xs md:text-sm whitespace-nowrap">{dateLabel}</p>}
       />
 
@@ -334,17 +328,13 @@ export function Dashboard() {
               className={`p-5 ${stat.containerClass} flex flex-col justify-between`}
             >
               <div className="flex items-center justify-between">
-                <p
-                  className={`text-xs font-semibold uppercase tracking-wide ${stat.labelClass}`}
-                >
+                <p className={`text-xs font-semibold uppercase tracking-wide ${stat.labelClass}`}>
                   {stat.label}
                 </p>
                 <Icon className={`h-4 w-4 ${stat.iconClass}`} />
               </div>
               <div>
-                <p className="mt-3 text-3xl font-semibold text-slate-900">
-                  {stat.value}
-                </p>
+                <p className="mt-3 text-3xl font-semibold text-slate-900">{stat.value}</p>
                 <p className="text-xs text-slate-600">{stat.description}</p>
               </div>
             </Card>
@@ -367,9 +357,7 @@ export function Dashboard() {
           </div>
           {todayClasses.length === 0 ? (
             <div className="text-center py-4">
-              <p className="text-gray-500 text-sm">
-                No classes scheduled for today
-              </p>
+              <p className="text-gray-500 text-sm">No classes scheduled for today</p>
             </div>
           ) : (
             <div className="space-y-2">
@@ -403,9 +391,7 @@ export function Dashboard() {
                   <div className="text-right">
                     <div className="flex items-center justify-end gap-1 mb-1">
                       {getStatusIcon(cls.status)}
-                      <p className="font-medium text-slate-900 text-xs">
-                        {cls.time}
-                      </p>
+                      <p className="font-medium text-slate-900 text-xs">{cls.time}</p>
                     </div>
                     <div className="flex items-center text-slate-500">
                       <Clock className="w-3 h-3 mr-1" />
@@ -426,14 +412,9 @@ export function Dashboard() {
           </div>
           <div className="space-y-2">
             {recentAnnouncements.map((announcement, index) => (
-              <div
-                key={index}
-                className="rounded-xl border border-slate-200 bg-white p-3"
-              >
+              <div key={index} className="rounded-xl border border-slate-200 bg-white p-3">
                 <p className="font-medium text-sm">{announcement.title}</p>
-                <p className="text-slate-500 mt-0.5 text-xs">
-                  {announcement.date}
-                </p>
+                <p className="text-slate-500 mt-0.5 text-xs">{announcement.date}</p>
               </div>
             ))}
           </div>
@@ -445,9 +426,7 @@ export function Dashboard() {
             <div className="flex items-center">
               <BookOpenCheck className="w-4 h-4 text-green-600 mr-2" />
               <h2 className="font-semibold text-sm">
-                {userData.role === "teacher"
-                  ? "Teaching Summary"
-                  : "Weekly Activity"}
+                {userData.role === "teacher" ? "Teaching Summary" : "Weekly Activity"}
               </h2>
             </div>
           </div>
@@ -459,16 +438,12 @@ export function Dashboard() {
                     <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
                     <span className="font-medium text-sm">Total Subjects</span>
                   </div>
-                  <span className="text-sm font-semibold text-green-600">
-                    {subjects.length}
-                  </span>
+                  <span className="text-sm font-semibold text-green-600">{subjects.length}</span>
                 </div>
                 <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white p-3">
                   <div className="flex items-center">
                     <div className="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>
-                    <span className="font-medium text-sm">
-                      Upcoming Classes
-                    </span>
+                    <span className="font-medium text-sm">Upcoming Classes</span>
                   </div>
                   <span className="text-sm font-semibold text-blue-600">
                     {todayClasses.filter((c) => c.status === "upcoming").length}
@@ -489,33 +464,23 @@ export function Dashboard() {
                 <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white p-3">
                   <div className="flex items-center">
                     <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-                    <span className="font-medium text-sm">
-                      Classes Attended
-                    </span>
+                    <span className="font-medium text-sm">Classes Attended</span>
                   </div>
-                  <span className="text-sm font-semibold text-green-600">
-                    18/20
-                  </span>
+                  <span className="text-sm font-semibold text-green-600">18/20</span>
                 </div>
                 <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white p-3">
                   <div className="flex items-center">
                     <div className="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>
-                    <span className="font-medium text-sm">
-                      Assignments Done
-                    </span>
+                    <span className="font-medium text-sm">Assignments Done</span>
                   </div>
-                  <span className="text-sm font-semibold text-blue-600">
-                    12/15
-                  </span>
+                  <span className="text-sm font-semibold text-blue-600">12/15</span>
                 </div>
                 <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white p-3">
                   <div className="flex items-center">
                     <div className="w-2 h-2 bg-orange-500 rounded-full mr-2"></div>
                     <span className="font-medium text-sm">Study Hours</span>
                   </div>
-                  <span className="text-sm font-semibold text-orange-600">
-                    28h
-                  </span>
+                  <span className="text-sm font-semibold text-orange-600">28h</span>
                 </div>
               </>
             )}

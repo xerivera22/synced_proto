@@ -51,7 +51,10 @@ const ParentProfile = () => {
               <Avatar className="w-14 h-14">
                 <AvatarImage src="/placeholder-avatar.jpg" alt={accountName} />
                 <AvatarFallback className="bg-gradient-to-br from-[#647FBC] to-[#5a73b3] text-white">
-                  {accountName.split(" ").map((n: string) => n[0]).join("")}
+                  {accountName
+                    .split(" ")
+                    .map((n: string) => n[0])
+                    .join("")}
                 </AvatarFallback>
               </Avatar>
               <div>
@@ -74,11 +77,17 @@ const ParentProfile = () => {
               <p className="mt-1 text-base font-semibold text-slate-900">(555) 123-4567</p>
             </div>
             <div>
-              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Address</p>
-              <p className="mt-1 text-base font-semibold text-slate-900">123 Main St, Springfield</p>
+              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                Address
+              </p>
+              <p className="mt-1 text-base font-semibold text-slate-900">
+                123 Main St, Springfield
+              </p>
             </div>
             <div>
-              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Relationship</p>
+              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                Relationship
+              </p>
               <p className="mt-1 text-base font-semibold text-slate-900">Father</p>
             </div>
           </div>
@@ -120,7 +129,11 @@ const ParentProfile = () => {
                     <p className="text-sm font-semibold text-slate-900">{guardian.name}</p>
                     <p className="text-xs text-slate-500">{guardian.relation}</p>
                   </div>
-                  <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-400 hover:text-slate-600">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-8 w-8 text-slate-400 hover:text-slate-600"
+                  >
                     <Phone className="w-4 h-4" />
                   </Button>
                 </div>

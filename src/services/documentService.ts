@@ -47,7 +47,7 @@ export const fetchDocumentById = async (documentId: string): Promise<Document> =
  */
 export const uploadDocument = async (
   file: File,
-  documentType: string,
+  documentType: string
 ): Promise<{ success: boolean; documentId: string }> => {
   const formData = new FormData();
   formData.append("file", file);
@@ -71,7 +71,7 @@ export const uploadDocument = async (
  */
 export const downloadDocument = async (documentId: string): Promise<Blob> => {
   const response = await fetch(
-    `${import.meta.env.VITE_API_URL || "http://localhost:4000"}/api/documents/${documentId}/download`,
+    `${import.meta.env.VITE_API_URL || "http://localhost:4000"}/api/documents/${documentId}/download`
   );
   if (!response.ok) {
     throw new Error(`Download failed: ${response.statusText}`);

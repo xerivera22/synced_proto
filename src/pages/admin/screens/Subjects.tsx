@@ -31,24 +31,24 @@ interface Subject {
   sectionId?: string; // Add section field
 }
 
+// Utility function to format schedule for display
+const formatScheduleDisplay = (schedule: string) => {
+  const [date, time] = schedule.split(" ");
+  const dateObj = new Date(`${date}T${time}:00`);
+  return (
+    dateObj.toLocaleDateString("en-US", {
+      weekday: "short",
+      month: "short",
+      day: "numeric",
+    }) +
+    " " +
+    time
+  );
+};
+
 // Component to display schedules with dropdown when multiple exist
 const ScheduleDisplay = ({ schedules }: { schedules: string[] }) => {
   const [isExpanded, setIsExpanded] = useState(false);
-
-  // Function to format schedule for display
-  const formatScheduleDisplay = (schedule: string) => {
-    const [date, time] = schedule.split(" ");
-    const dateObj = new Date(`${date}T${time}:00`);
-    return (
-      dateObj.toLocaleDateString("en-US", {
-        weekday: "short",
-        month: "short",
-        day: "numeric",
-      }) +
-      " " +
-      time
-    );
-  };
 
   // If no schedules, show empty state
   if (schedules.length === 0) {
@@ -60,9 +60,7 @@ const ScheduleDisplay = ({ schedules }: { schedules: string[] }) => {
     return (
       <div className="flex items-center gap-2">
         <Clock size={14} className="text-gray-500 flex-shrink-0" />
-        <div className="text-sm text-gray-900">
-          {formatScheduleDisplay(schedules[0])}
-        </div>
+        <div className="text-sm text-gray-900">{formatScheduleDisplay(schedules[0])}</div>
       </div>
     );
   }
@@ -74,17 +72,13 @@ const ScheduleDisplay = ({ schedules }: { schedules: string[] }) => {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Clock size={14} className="text-gray-500 flex-shrink-0" />
-          <div className="text-sm text-gray-900">
-            {formatScheduleDisplay(schedules[0])}
-          </div>
+          <div className="text-sm text-gray-900">{formatScheduleDisplay(schedules[0])}</div>
         </div>
         {/* Dropdown toggle button */}
         <button
           onClick={() => setIsExpanded(!isExpanded)}
           className="ml-2 p-1 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded"
-          title={
-            isExpanded ? "Show less" : `Show all ${schedules.length} schedules`
-          }
+          title={isExpanded ? "Show less" : `Show all ${schedules.length} schedules`}
         >
           {isExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
         </button>
@@ -105,29 +99,12 @@ const ScheduleDisplay = ({ schedules }: { schedules: string[] }) => {
               className="flex items-center gap-2 text-sm pl-6"
             >
               <Clock size={12} className="text-gray-400 flex-shrink-0" />
-              <span className="text-gray-700">
-                {formatScheduleDisplay(schedule)}
-              </span>
+              <span className="text-gray-700">{formatScheduleDisplay(schedule)}</span>
             </div>
           ))}
         </div>
       )}
     </div>
-  );
-};
-
-// Function to format schedule for display (for modal)
-const formatScheduleDisplay = (schedule: string) => {
-  const [date, time] = schedule.split(" ");
-  const dateObj = new Date(`${date}T${time}:00`);
-  return (
-    dateObj.toLocaleDateString("en-US", {
-      weekday: "short",
-      month: "short",
-      day: "numeric",
-    }) +
-    " " +
-    time
   );
 };
 
@@ -196,7 +173,7 @@ const SubjectModal = ({
           const sectionsData = await sectionService.getSections();
           // Transform the data to match our interface
           const transformedSections = sectionsData.map((section: any) => ({
-            id: section._id,
+            id: section._id || section.id,
             sectionCode: section.sectionCode,
             sectionName: section.sectionName,
             instructorName: section.instructorName,
@@ -214,9 +191,7 @@ const SubjectModal = ({
   }, [isOpen]);
 
   // Handle text input changes
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
@@ -285,9 +260,7 @@ const SubjectModal = ({
           {/* Basic Information */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Subject Name *
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Subject Name *</label>
               <input
                 type="text"
                 name="subjectName"
@@ -299,9 +272,7 @@ const SubjectModal = ({
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Subject Code *
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Subject Code *</label>
               <input
                 type="text"
                 name="subjectCode"
@@ -314,9 +285,7 @@ const SubjectModal = ({
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Department *
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Department *</label>
               <input
                 type="text"
                 name="department"
@@ -355,10 +324,7 @@ const SubjectModal = ({
                   {formData.sectionId && (
                     <div className="mt-1 text-xs text-gray-500">
                       Selected section:{" "}
-                      {
-                        sections.find((s) => s.id === formData.sectionId)
-                          ?.sectionName
-                      }
+                      {sections.find((s) => s.id === formData.sectionId)?.sectionName}
                     </div>
                   )}
                 </>
@@ -368,19 +334,13 @@ const SubjectModal = ({
 
           {/* Schedule Section */}
           <div className="border-t pt-4">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Schedule *
-            </label>
-            <p className="text-sm text-gray-500 mb-3">
-              Add multiple schedules for this subject
-            </p>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Schedule *</label>
+            <p className="text-sm text-gray-500 mb-3">Add multiple schedules for this subject</p>
 
             {/* Schedule Input */}
             <div className="flex flex-col sm:flex-row gap-3 mb-4">
               <div className="flex-1">
-                <label className="block text-xs font-medium text-gray-600 mb-1">
-                  Date
-                </label>
+                <label className="block text-xs font-medium text-gray-600 mb-1">Date</label>
                 <input
                   type="date"
                   value={newScheduleDate}
@@ -391,9 +351,7 @@ const SubjectModal = ({
               </div>
 
               <div className="sm:w-48">
-                <label className="block text-xs font-medium text-gray-600 mb-1">
-                  Time
-                </label>
+                <label className="block text-xs font-medium text-gray-600 mb-1">Time</label>
                 <input
                   type="time"
                   value={newScheduleTime}
@@ -511,18 +469,14 @@ const Subjects = () => {
   };
 
   // Get unique departments for filter dropdown
-  const departments = [
-    "all",
-    ...new Set(subjects.map((subject) => subject.department)),
-  ];
+  const departments = ["all", ...new Set(subjects.map((subject) => subject.department))];
 
   // Filter subjects based on search term and department
   const filteredSubjects = subjects.filter((subject) => {
     const matchesSearch =
       subject.subjectName.toLowerCase().includes(searchTerm.toLowerCase()) ||
       subject.subjectCode.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesDepartment =
-      departmentFilter === "all" || subject.department === departmentFilter;
+    const matchesDepartment = departmentFilter === "all" || subject.department === departmentFilter;
     return matchesSearch && matchesDepartment;
   });
 
@@ -541,9 +495,7 @@ const Subjects = () => {
   const handleEditSubject = (subjectData: Omit<Subject, "_id">) => {
     if (editingSubject) {
       const updatedSubjects = subjects.map((subject) =>
-        subject._id === editingSubject._id
-          ? { ...subject, ...subjectData }
-          : subject
+        subject._id === editingSubject._id ? { ...subject, ...subjectData } : subject
       );
       setSubjects(updatedSubjects);
       setEditingSubject(null);
@@ -573,16 +525,12 @@ const Subjects = () => {
 
   // Function to handle form submission (both add and edit)
   const handleSubmit = async (subjectData: Omit<Subject, "_id">) => {
-    try {
-      if (editingSubject) {
-        // TODO: Call update API when implemented
-        // await subjectService.updateSubject(editingSubject._id, subjectData);
-        handleEditSubject(subjectData);
-      } else {
-        await handleAddSubject(subjectData);
-      }
-    } catch (error) {
-      throw error;
+    if (editingSubject) {
+      // TODO: Call update API when implemented
+      // await subjectService.updateSubject(editingSubject._id, subjectData);
+      handleEditSubject(subjectData);
+    } else {
+      await handleAddSubject(subjectData);
     }
   };
 
@@ -591,20 +539,14 @@ const Subjects = () => {
       <Banner
         title="Subject Management"
         subtitle="View and manage all available subjects across departments."
-        right={
-          <p className="text-white/80 text-xs md:text-sm whitespace-nowrap">
-            {dateLabel}
-          </p>
-        }
+        right={<p className="text-white/80 text-xs md:text-sm whitespace-nowrap">{dateLabel}</p>}
       />
 
       {/* Controls Section */}
       <section className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-6">
           <div>
-            <h2 className="text-lg font-semibold text-gray-900">
-              All Subjects
-            </h2>
+            <h2 className="text-lg font-semibold text-gray-900">All Subjects</h2>
             <p className="text-sm text-gray-600 mt-1">
               Showing {filteredSubjects.length} of {subjects.length} subjects
             </p>
@@ -727,9 +669,7 @@ const Subjects = () => {
                   <tr key={subject._id} className="hover:bg-gray-50">
                     <td className="px-4 py-4">
                       <div>
-                        <div className="font-medium text-gray-900">
-                          {subject.subjectName}
-                        </div>
+                        <div className="font-medium text-gray-900">{subject.subjectName}</div>
                       </div>
                     </td>
                     <td className="px-4 py-4">

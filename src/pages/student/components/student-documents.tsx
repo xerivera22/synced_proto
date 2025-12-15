@@ -81,7 +81,10 @@ export function StudentDocuments() {
   ]);
 
   const [isAddingSubmission, setIsAddingSubmission] = useState(false);
-  const [newSubmission, setNewSubmission] = useState({ documentName: "", file: null as File | null });
+  const [newSubmission, setNewSubmission] = useState({
+    documentName: "",
+    file: null as File | null,
+  });
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editName, setEditName] = useState("");
 
@@ -136,8 +139,14 @@ export function StudentDocuments() {
     const newDoc: SubmittedRequirement = {
       id: Date.now().toString(),
       documentName: newSubmission.documentName,
-      submittedDate: new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }),
-      fileSize: newSubmission.file ? `${(newSubmission.file.size / 1024 / 1024).toFixed(1)} MB` : "0 MB",
+      submittedDate: new Date().toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      }),
+      fileSize: newSubmission.file
+        ? `${(newSubmission.file.size / 1024 / 1024).toFixed(1)} MB`
+        : "0 MB",
       status: "under_review",
     };
     setSubmittedReqs([newDoc, ...submittedReqs]);
@@ -155,7 +164,9 @@ export function StudentDocuments() {
   };
 
   const handleSaveEdit = (id: string) => {
-    setSubmittedReqs(submittedReqs.map((doc) => (doc.id === id ? { ...doc, documentName: editName } : doc)));
+    setSubmittedReqs(
+      submittedReqs.map((doc) => (doc.id === id ? { ...doc, documentName: editName } : doc))
+    );
     setEditingId(null);
     setEditName("");
   };
@@ -225,7 +236,11 @@ export function StudentDocuments() {
                         <FileUp className="w-3 h-3 mr-1" />
                         Submit
                       </Button>
-                      <Button size="sm" variant="ghost" className="h-8 w-8 p-0 text-slate-500 hover:text-[#647FBC]">
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        className="h-8 w-8 p-0 text-slate-500 hover:text-[#647FBC]"
+                      >
                         <Eye className="w-4 h-4" />
                       </Button>
                     </div>
@@ -264,25 +279,37 @@ export function StudentDocuments() {
           <div className="px-6 py-4 bg-slate-50 border-b border-slate-100">
             <div className="flex items-end gap-4">
               <div className="flex-1">
-                <label className="block text-xs font-semibold text-slate-600 mb-1">Document Name</label>
+                <label className="block text-xs font-semibold text-slate-600 mb-1">
+                  Document Name
+                </label>
                 <input
                   type="text"
                   value={newSubmission.documentName}
-                  onChange={(e) => setNewSubmission({ ...newSubmission, documentName: e.target.value })}
+                  onChange={(e) =>
+                    setNewSubmission({ ...newSubmission, documentName: e.target.value })
+                  }
                   placeholder="Enter document name"
                   className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#647FBC]/50 focus:border-[#647FBC]"
                 />
               </div>
               <div className="flex-1">
-                <label className="block text-xs font-semibold text-slate-600 mb-1">Upload File</label>
+                <label className="block text-xs font-semibold text-slate-600 mb-1">
+                  Upload File
+                </label>
                 <input
                   type="file"
-                  onChange={(e) => setNewSubmission({ ...newSubmission, file: e.target.files?.[0] || null })}
+                  onChange={(e) =>
+                    setNewSubmission({ ...newSubmission, file: e.target.files?.[0] || null })
+                  }
                   className="w-full text-sm text-slate-600 file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-[#647FBC] file:text-white hover:file:bg-[#5a73b3]"
                 />
               </div>
               <div className="flex gap-2">
-                <Button size="sm" className="h-9 px-3 bg-emerald-600 hover:bg-emerald-700 text-white" onClick={handleAddSubmission}>
+                <Button
+                  size="sm"
+                  className="h-9 px-3 bg-emerald-600 hover:bg-emerald-700 text-white"
+                  onClick={handleAddSubmission}
+                >
                   <Check className="w-4 h-4" />
                 </Button>
                 <Button
@@ -338,7 +365,9 @@ export function StudentDocuments() {
                       <>
                         <p className="text-sm font-medium text-slate-900">{doc.documentName}</p>
                         {doc.feedback && (
-                          <p className={`text-xs mt-0.5 ${doc.status === "rejected" ? "text-rose-600" : "text-slate-500"}`}>
+                          <p
+                            className={`text-xs mt-0.5 ${doc.status === "rejected" ? "text-rose-600" : "text-slate-500"}`}
+                          >
                             {doc.feedback}
                           </p>
                         )}
@@ -371,7 +400,11 @@ export function StudentDocuments() {
                         </>
                       ) : (
                         <>
-                          <Button size="sm" variant="ghost" className="h-8 w-8 p-0 text-slate-500 hover:text-[#647FBC]">
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            className="h-8 w-8 p-0 text-slate-500 hover:text-[#647FBC]"
+                          >
                             <Eye className="w-4 h-4" />
                           </Button>
                           <Button

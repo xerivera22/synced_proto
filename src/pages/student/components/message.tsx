@@ -1,7 +1,3 @@
 export default function Message() {
-  return (
-    <div>
-      
-    </div>
-  );
+  return <div></div>;
 }

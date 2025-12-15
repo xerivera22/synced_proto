@@ -4,16 +4,12 @@ import { Calendar, ClipboardCheck, FileText, MessageSquare } from "lucide-react"
 import { useMemo, useState } from "react";
 import { getTeacherPortalDate } from "../utils/date";
 
-const QuickActionModal = ({
-  action,
-  onClose,
-}: {
-  action: string;
-  onClose: () => void;
-}) => {
+const QuickActionModal = ({ action, onClose }: { action: string; onClose: () => void }) => {
   const [formData, setFormData] = useState({});
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+  ) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
@@ -223,7 +219,6 @@ const QuickActionModal = ({
   );
 };
 
-
 export default function TeacherOverview() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedAction, setSelectedAction] = useState("");
@@ -268,7 +263,7 @@ export default function TeacherOverview() {
         iconClass: "text-sky-700",
       },
     ],
-    [],
+    []
   );
 
   const handleOpenModal = (action: string) => {

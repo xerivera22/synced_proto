@@ -74,12 +74,9 @@ export default function TeacherSubjects() {
       <Card className="p-6 bg-[#647FBC]/5 border-[#647FBC]/15">
         <header className="flex items-center justify-between">
           <div>
-            <h2 className="text-base font-semibold text-slate-900">
-              My Subjects
-            </h2>
+            <h2 className="text-base font-semibold text-slate-900">My Subjects</h2>
             <p className="text-sm text-slate-500">
-              Select a subject to manage overview, class records, attendance,
-              and materials.
+              Select a subject to manage overview, class records, attendance, and materials.
             </p>
           </div>
         </header>
@@ -149,19 +146,13 @@ export default function TeacherSubjects() {
                           <div className="flex items-start gap-2 text-xs text-slate-600">
                             <Clock size={12} className="mt-0.5 flex-shrink-0" />
                             <div>
-                              {subject.schedules
-                                .slice(0, 1)
-                                .map((schedule, index) => (
-                                  <div key={index}>
-                                    {formatScheduleDisplay(schedule)}
-                                  </div>
-                                ))}
+                              {subject.schedules.slice(0, 1).map((schedule, index) => (
+                                <div key={index}>{formatScheduleDisplay(schedule)}</div>
+                              ))}
                               {subject.schedules.length > 1 && (
                                 <div className="text-slate-400 mt-1">
                                   +{subject.schedules.length - 1} more schedule
-                                  {subject.schedules.length - 1 !== 1
-                                    ? "s"
-                                    : ""}
+                                  {subject.schedules.length - 1 !== 1 ? "s" : ""}
                                 </div>
                               )}
                             </div>

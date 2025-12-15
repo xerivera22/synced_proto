@@ -37,8 +37,24 @@ export default defineConfig(({ command }) => ({
         ],
       },
       workbox: {
+        // Increase file size limit to handle large assets like hero images
+        maximumFileSizeToCacheInBytes: 10 * 1024 * 1024, // 10 MB
         globPatterns: ["**/*.{js,css,html,ico,png,svg}"],
+        // Exclude very large assets from precaching (optional optimization)
+        globIgnores: ["**/re_herobg.{png,svg}"],
         runtimeCaching: [
+          {
+            // Cache large images on-demand instead of precaching
+            urlPattern: /\/assets\/re_herobg\.(png|svg)$/,
+            handler: "CacheFirst",
+            options: {
+              cacheName: "large-images-cache",
+              expiration: {
+                maxEntries: 5,
+                maxAgeSeconds: 60 * 60 * 24 * 30, // 30 days
+              },
+            },
+          },
           {
             urlPattern: /^https:\/\/fonts\.(googleapis|gstatic)\.com\/.*/i,
             handler: "CacheFirst",
@@ -92,8 +108,7 @@ export default defineConfig(({ command }) => ({
       "@radix-ui/react-hover-card@1.1.6": "@radix-ui/react-hover-card",
       "@radix-ui/react-label@2.1.2": "@radix-ui/react-label",
       "@radix-ui/react-menubar@1.1.6": "@radix-ui/react-menubar",
-      "@radix-ui/react-navigation-menu@1.2.5":
-        "@radix-ui/react-navigation-menu",
+      "@radix-ui/react-navigation-menu@1.2.5": "@radix-ui/react-navigation-menu",
       "@radix-ui/react-popover@1.1.6": "@radix-ui/react-popover",
       "@radix-ui/react-radio-group@1.2.3": "@radix-ui/react-radio-group",
       "@radix-ui/react-scroll-area@1.2.3": "@radix-ui/react-scroll-area",

@@ -1,4 +1,5 @@
 import Parent from "../model/parent_model/parentProfile.js";
+import bcrypt from "bcrypt";
 
 export const getParentProfiles = async (req, res) => {
   try {
@@ -64,21 +65,29 @@ export const createParentProfile = async (req, res) => {
     const firstName = nameParts[0];
     const lastName = nameParts.slice(1).join(' ') || "";
 
-    // Construct Parent object
-    // Note: This is a simplified creation. The backend model requires children with specific fields.
-    // We might need to adjust the model or the frontend form to support full creation.
-    // For now, we'll try to create it, but it might fail validation if children are missing.
+    // Check if email already exists
+    const existingParent = await Parent.findOne({ email: parentInfo.email });
+    if (existingParent) {
+      return res.status(400).json({ message: "A parent with this email already exists" });
+    }
+
+    // Hash password before saving
+    let hashedPassword = parentInfo.password;
+    if (parentInfo.password) {
+      const salt = await bcrypt.genSalt(10);
+      hashedPassword = await bcrypt.hash(parentInfo.password, salt);
+    }
     
     const parentData = {
       firstName,
       lastName,
       email: parentInfo.email,
       phone: parentInfo.phone,
-      address: parentInfo.address,
-      occupation: parentInfo.occupation,
-      password: parentInfo.password, // Should be hashed in a real app
-      dateOfBirth: new Date(), // Placeholder as frontend doesn't send it yet
-      children: [] // Empty children for now, might fail validation
+      address: parentInfo.address || "Not provided",
+      occupation: parentInfo.occupation || "Not provided",
+      password: hashedPassword,
+      dateOfBirth: parentInfo.dateOfBirth ? new Date(parentInfo.dateOfBirth) : new Date(),
+      children: []
     };
 
     const newParent = new Parent(parentData);
@@ -86,6 +95,7 @@ export const createParentProfile = async (req, res) => {
 
     res.status(201).json(newParent);
   } catch (error) {
+    console.error("Error creating parent profile:", error);
     res.status(400).json({ message: error.message });
   }
 };
@@ -93,9 +103,28 @@ export const createParentProfile = async (req, res) => {
 export const updateParentProfile = async (req, res) => {
   try {
     const { parentInfo } = req.body;
+    const parentId = req.params.id;
+
+    // Check if parent exists
+    const existingParent = await Parent.findById(parentId);
+    if (!existingParent) {
+      return res.status(404).json({ message: "Parent profile not found" });
+    }
+
     const nameParts = parentInfo.name ? parentInfo.name.split(' ') : ["", ""];
     const firstName = nameParts[0];
     const lastName = nameParts.slice(1).join(' ') || "";
+
+    // Check if email is being changed and if new email already exists
+    if (parentInfo.email && parentInfo.email !== existingParent.email) {
+      const emailExists = await Parent.findOne({
+        email: parentInfo.email,
+        _id: { $ne: parentId },
+      });
+      if (emailExists) {
+        return res.status(400).json({ message: "A parent with this email already exists" });
+      }
+    }
 
     const updateData = {
       firstName,
@@ -106,13 +135,16 @@ export const updateParentProfile = async (req, res) => {
       occupation: parentInfo.occupation,
     };
 
-    if (parentInfo.password) {
-      updateData.password = parentInfo.password;
+    // Hash password if provided
+    if (parentInfo.password && parentInfo.password.trim() !== "") {
+      const salt = await bcrypt.genSalt(10);
+      updateData.password = await bcrypt.hash(parentInfo.password, salt);
     }
 
-    const updatedParent = await Parent.findByIdAndUpdate(req.params.id, updateData, { new: true });
+    const updatedParent = await Parent.findByIdAndUpdate(parentId, updateData, { new: true });
     res.json(updatedParent);
   } catch (error) {
+    console.error("Error updating parent profile:", error);
     res.status(400).json({ message: error.message });
   }
 };

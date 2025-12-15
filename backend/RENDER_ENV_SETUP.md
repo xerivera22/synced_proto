@@ -21,21 +21,25 @@ NODE_ENV=production
 ```
 PORT=5000
 ```
+
 (Leave empty or use 5000 - Render will auto-assign if empty)
 
 ```
 MONGO_URI=mongodb+srv://xherds_db:FJCZ81lBL8Pqv4Xx@cluster0.1quxa6p.mongodb.net/synced_db
 ```
+
 (Your MongoDB Atlas connection string)
 
 ```
 CLIENT_URL=https://synced-seven.vercel.app
 ```
+
 (Your Vercel frontend URL for CORS)
 
 ```
 JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
 ```
+
 (Generate a secure random string for production)
 
 4. **Save Changes**
@@ -44,6 +48,7 @@ JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
 ## Security Notes
 
 ⚠️ **IMPORTANT:**
+
 - Never commit `.env` files to GitHub
 - The `.env` file is in `.gitignore` for security
 - Only set environment variables through Render's dashboard
@@ -52,6 +57,7 @@ JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
 ## Generate Secure JWT_SECRET
 
 Run this command locally to generate a secure secret:
+
 ```bash
 node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"
 ```
@@ -61,6 +67,7 @@ Then copy the output and use it as your JWT_SECRET in Render.
 ## Verification
 
 After deployment:
+
 1. Check Render logs for successful startup
 2. Test health endpoint: `curl https://synced-proto.onrender.com/health`
 3. Test root endpoint: `curl https://synced-proto.onrender.com/`
@@ -69,6 +76,7 @@ After deployment:
 ## Current Configuration
 
 Based on your current setup:
+
 - Backend URL: `https://synced-proto.onrender.com`
 - Frontend URL: `https://synced-seven.vercel.app`
 - MongoDB: Atlas cluster (synced_db)

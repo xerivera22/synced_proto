@@ -113,6 +113,21 @@ if (process.env.NODE_ENV === 'development') {
 // HEALTH CHECK & INFO ENDPOINTS
 // =============================================================================
 
+// Root endpoint - Primary health check for monitoring services
+app.get("/", (req, res) => {
+  res.json({
+    status: "online",
+    message: "SyncED API Server is running",
+    version: "1.0.0",
+    timestamp: new Date().toISOString(),
+    endpoints: {
+      health: "/health",
+      api: "/api",
+      docs: "/api (for full endpoint list)",
+    },
+  });
+});
+
 // Lightweight healthcheck to verify server process is running
 app.get("/health", (req, res) => {
   res.json({ 

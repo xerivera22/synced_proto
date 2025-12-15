@@ -31,13 +31,13 @@ const PORT = process.env.PORT || 5000;
 // =============================================================================
 // ENVIRONMENT VALIDATION
 // =============================================================================
-const requiredEnvVars = ['MONGO_URI', 'CLIENT_URL'];
-const missingEnvVars = requiredEnvVars.filter(varName => !process.env[varName]);
+const requiredEnvVars = ["MONGO_URI", "CLIENT_URL"];
+const missingEnvVars = requiredEnvVars.filter((varName) => !process.env[varName]);
 
 if (missingEnvVars.length > 0) {
-  console.error('❌ Missing required environment variables:', missingEnvVars.join(', '));
-  console.error('Please check your .env file');
-  if (process.env.NODE_ENV === 'production') {
+  console.error("❌ Missing required environment variables:", missingEnvVars.join(", "));
+  console.error("Please check your .env file");
+  if (process.env.NODE_ENV === "production") {
     process.exit(1);
   }
 }
@@ -52,7 +52,7 @@ process.on("unhandledRejection", (reason, promise) => {
 
 process.on("uncaughtException", (err) => {
   console.error("🚨 Uncaught Exception:", err);
-  if (process.env.NODE_ENV === 'production') {
+  if (process.env.NODE_ENV === "production") {
     process.exit(1);
   }
 });
@@ -67,42 +67,42 @@ connectDB();
 // =============================================================================
 
 // Body parser middleware
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
 // CORS Configuration - Production Ready
 const corsOptions = {
   origin: function (origin, callback) {
     // Allow requests with no origin (mobile apps, Postman, etc.)
     if (!origin) return callback(null, true);
-    
-    const allowedOrigins = process.env.CLIENT_URL.split(',').map(url => url.trim());
-    
+
+    const allowedOrigins = process.env.CLIENT_URL.split(",").map((url) => url.trim());
+
     // In development, allow localhost with any port
-    if (process.env.NODE_ENV === 'development') {
-      if (origin.includes('localhost') || origin.includes('127.0.0.1')) {
+    if (process.env.NODE_ENV === "development") {
+      if (origin.includes("localhost") || origin.includes("127.0.0.1")) {
         return callback(null, true);
       }
     }
-    
+
     if (allowedOrigins.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
       console.warn(`⚠️  CORS blocked request from origin: ${origin}`);
-      callback(new Error('Not allowed by CORS'));
+      callback(new Error("Not allowed by CORS"));
     }
   },
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
-  exposedHeaders: ['Content-Range', 'X-Content-Range'],
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept"],
+  exposedHeaders: ["Content-Range", "X-Content-Range"],
   maxAge: 86400, // 24 hours
 };
 
 app.use(cors(corsOptions));
 
 // Request logging middleware (development only)
-if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV === "development") {
   app.use((req, res, next) => {
     console.log(`📨 ${req.method} ${req.path}`);
     next();
@@ -130,7 +130,7 @@ app.get("/", (req, res) => {
 
 // Lightweight healthcheck to verify server process is running
 app.get("/health", (req, res) => {
-  res.json({ 
+  res.json({
     status: "ok",
     timestamp: new Date().toISOString(),
     uptime: process.uptime(),
@@ -199,7 +199,7 @@ app.listen(PORT, () => {
   console.log("🚀 SyncED Backend Server");
   console.log("=".repeat(60));
   console.log(`📡 Server running on port: ${PORT}`);
-  console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
+  console.log(`🌍 Environment: ${process.env.NODE_ENV || "development"}`);
   console.log(`🔗 API Base URL: http://localhost:${PORT}/api`);
   console.log(`💚 Health Check: http://localhost:${PORT}/health`);
   console.log(`🌐 CORS Allowed Origins: ${process.env.CLIENT_URL}`);

@@ -73,8 +73,8 @@ export default defineConfig(({ command }) => ({
       },
     }),
   ],
-  // Use root in dev, subfolder in production builds
-  base: command === "build" ? "/synced_proto/" : "/",
+  // Use root for Vercel deployment
+  base: "/",
   resolve: {
     alias: {
       "@": "/src",

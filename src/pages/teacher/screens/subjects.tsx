@@ -32,11 +32,9 @@ const formatScheduleDisplay = (schedule: string) => {
 };
 
 export default function TeacherSubjects() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [subjects, setSubjects] = useState<Subject[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Fetch subjects on component mount
   useEffect(() => {
@@ -54,23 +52,6 @@ export default function TeacherSubjects() {
       setError("Failed to load subjects. Please try again later.");
     } finally {
       setLoading(false);
-    }
-  };
-
-  const handleAddSubject = async (subjectData: any) => {
-    try {
-      setIsSubmitting(true);
-      const newSubject = await subjectService.createSubject(subjectData);
-      setSubjects([...subjects, newSubject]);
-      setIsModalOpen(false);
-
-      // Reset form
-      setSubjects([...subjects, newSubject]);
-    } catch (error) {
-      console.error("Error adding subject:", error);
-      alert("Failed to add subject. Please try again.");
-    } finally {
-      setIsSubmitting(false);
     }
   };
 

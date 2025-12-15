@@ -22,7 +22,8 @@ import { getAdminPortalDate } from "../utils/date";
 
 // Define the Subject interface with schedule as string array
 interface Subject {
-  id: string;
+  _id: string;
+  id?: string; // Optional for backwards compatibility
   subjectName: string;
   schedules: string[];
   department: string;
@@ -139,10 +140,10 @@ const SubjectModal = ({
 }: {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (data: Omit<Subject, "id">) => void;
+  onSubmit: (data: Omit<Subject, "_id">) => void;
   initialData?: Subject | null;
 }) => {
-  const [formData, setFormData] = useState<Omit<Subject, "id">>({
+  const [formData, setFormData] = useState<Omit<Subject, "_id">>({
     subjectName: "",
     schedules: [],
     department: "",
@@ -526,7 +527,7 @@ const Subjects = () => {
   });
 
   // Function to handle adding a new subject
-  const handleAddSubject = async (subjectData: Omit<Subject, "id">) => {
+  const handleAddSubject = async (subjectData: Omit<Subject, "_id">) => {
     try {
       const newSubject = await subjectService.createSubject(subjectData);
       setSubjects([...subjects, newSubject]);
@@ -537,10 +538,10 @@ const Subjects = () => {
   };
 
   // Function to handle editing a subject
-  const handleEditSubject = (subjectData: Omit<Subject, "id">) => {
+  const handleEditSubject = (subjectData: Omit<Subject, "_id">) => {
     if (editingSubject) {
       const updatedSubjects = subjects.map((subject) =>
-        subject.id === editingSubject.id
+        subject._id === editingSubject._id
           ? { ...subject, ...subjectData }
           : subject
       );
@@ -554,7 +555,7 @@ const Subjects = () => {
     if (window.confirm("Are you sure you want to delete this subject?")) {
       // TODO: Call delete API when implemented
       // await subjectService.deleteSubject(id);
-      setSubjects(subjects.filter((subject) => subject.id !== id));
+      setSubjects(subjects.filter((subject) => subject._id !== id));
     }
   };
 
@@ -571,11 +572,11 @@ const Subjects = () => {
   };
 
   // Function to handle form submission (both add and edit)
-  const handleSubmit = async (subjectData: Omit<Subject, "id">) => {
+  const handleSubmit = async (subjectData: Omit<Subject, "_id">) => {
     try {
       if (editingSubject) {
         // TODO: Call update API when implemented
-        // await subjectService.updateSubject(editingSubject.id, subjectData);
+        // await subjectService.updateSubject(editingSubject._id, subjectData);
         handleEditSubject(subjectData);
       } else {
         await handleAddSubject(subjectData);
@@ -723,7 +724,7 @@ const Subjects = () => {
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {filteredSubjects.map((subject) => (
-                  <tr key={subject.id} className="hover:bg-gray-50">
+                  <tr key={subject._id} className="hover:bg-gray-50">
                     <td className="px-4 py-4">
                       <div>
                         <div className="font-medium text-gray-900">
@@ -757,7 +758,7 @@ const Subjects = () => {
 
                         {/* Delete Button */}
                         <button
-                          onClick={() => handleDeleteSubject(subject.id)}
+                          onClick={() => handleDeleteSubject(subject._id)}
                           className="p-1.5 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded transition-colors"
                           title="Delete subject"
                         >

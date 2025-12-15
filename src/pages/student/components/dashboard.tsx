@@ -43,7 +43,7 @@ export function Dashboard() {
   const [subjects, setSubjects] = useState<Subject[]>([]);
   const [todayClasses, setTodayClasses] = useState<DashboardClass[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [, setError] = useState<string | null>(null);
   const [quickStats, setQuickStats] = useState([
     {
       label: userData.role === "teacher" ? "Total Subjects" : "Attendance Rate",
@@ -86,13 +86,6 @@ export function Dashboard() {
       iconClass: "text-indigo-700",
     },
   ]);
-
-  const currentDate = new Date().toLocaleDateString("en-US", {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
 
   // Fetch subjects on component mount
   useEffect(() => {

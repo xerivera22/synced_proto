@@ -21,10 +21,8 @@ export interface LoginResponse {
  * Authenticate user with email and password
  */
 export const loginUser = async (credentials: LoginRequest): Promise<LoginResponse> => {
-  return apiClient("/api/auth/login", {
-    method: "POST",
-    body: JSON.stringify(credentials),
-  });
+  const response = await apiClient.post<LoginResponse>("/api/auth/login", credentials);
+  return response.data;
 };
 
 /**
@@ -32,9 +30,8 @@ export const loginUser = async (credentials: LoginRequest): Promise<LoginRespons
  * Logout current user
  */
 export const logoutUser = async (): Promise<{ success: boolean }> => {
-  return apiClient("/api/auth/logout", {
-    method: "POST",
-  });
+  const response = await apiClient.post<{ success: boolean }>("/api/auth/logout");
+  return response.data;
 };
 
 /**
@@ -42,7 +39,6 @@ export const logoutUser = async (): Promise<{ success: boolean }> => {
  * Get current user info
  */
 export const getCurrentUser = async () => {
-  return apiClient("/api/auth/me", {
-    method: "GET",
-  });
+  const response = await apiClient.get("/api/auth/me");
+  return response.data;
 };

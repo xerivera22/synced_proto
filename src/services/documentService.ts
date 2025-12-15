@@ -28,9 +28,8 @@ export interface DocumentsResponse {
  * Fetch all student documents (required docs, certificates, recent activity)
  */
 export const fetchStudentDocuments = async (): Promise<DocumentsResponse> => {
-  return apiClient("/api/documents", {
-    method: "GET",
-  });
+  const response = await apiClient.get<DocumentsResponse>("/api/documents");
+  return response.data;
 };
 
 /**
@@ -38,9 +37,8 @@ export const fetchStudentDocuments = async (): Promise<DocumentsResponse> => {
  * Fetch specific document details
  */
 export const fetchDocumentById = async (documentId: string): Promise<Document> => {
-  return apiClient(`/api/documents/${documentId}`, {
-    method: "GET",
-  });
+  const response = await apiClient.get<Document>(`/api/documents/${documentId}`);
+  return response.data;
 };
 
 /**
@@ -55,11 +53,16 @@ export const uploadDocument = async (
   formData.append("file", file);
   formData.append("documentType", documentType);
 
-  return apiClient("/api/documents/upload", {
-    method: "POST",
-    body: formData,
-    headers: {}, // Let browser set Content-Type for FormData
-  });
+  const response = await apiClient.post<{ success: boolean; documentId: string }>(
+    "/api/documents/upload",
+    formData,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    }
+  );
+  return response.data;
 };
 
 /**

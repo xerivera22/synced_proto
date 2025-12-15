@@ -33,7 +33,7 @@ const ParentProfile = () => {
   const dateLabel = getParentPortalDate();
   const { userData } = useAuth();
   const accountName = userData?.name || "Jaime Erivera";
-  const [isEditing, setIsEditing] = useState(false);
+  const [_isEditing, _setIsEditing] = useState(false);
 
   return (
     <div className="space-y-6">

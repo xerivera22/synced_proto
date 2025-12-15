@@ -26,7 +26,7 @@ interface SubmittedRequirement {
 export function StudentDocuments() {
   const dateLabel = getStudentPortalDate();
 
-  const [requestedDocs, setRequestedDocs] = useState<RequestedDocument[]>([
+  const [requestedDocs, _setRequestedDocs] = useState<RequestedDocument[]>([
     {
       id: "1",
       documentName: "Birth Certificate",

@@ -16,7 +16,7 @@ export default defineConfig(({ command }) => ({
         theme_color: "#ffffff",
         background_color: "#ffffff",
         display: "standalone",
-        start_url: command === "build" ? "/synced_proto/" : "/",
+        start_url: "/",
         icons: [
           {
             src: "pwa-192x192.png",

@@ -1,4 +1,4 @@
-import heroBg from "@/assets/re_herobg.png";
+import heroBg from "@/assets/re_herobg.svg";
 import AIChatIcon from "@/components/AI/AIChatIcon";
 import AIWindow from "@/components/AI/AIWindow";
 import Footer from "@/components/Footer";

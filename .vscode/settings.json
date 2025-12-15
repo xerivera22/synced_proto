@@ -1,0 +1,64 @@
+{
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit",
+    "source.organizeImports": "explicit"
+  },
+  "editor.quickSuggestions": {
+    "strings": true
+  },
+  // Performance: Exclude heavy folders from file watching
+  "files.watcherExclude": {
+    "**/node_modules/**": true,
+    "**/backend/node_modules/**": true,
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/dist/**": true,
+    "**/build/**": true,
+    "**/dev-dist/**": true,
+    "**/.vscode/**": true
+  },
+  "files.exclude": {
+    "**/node_modules": true,
+    "**/.git": true,
+    "**/dist": true,
+    "**/dev-dist": true,
+    "**/build": true
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/backend/node_modules": true,
+    "**/dist": true,
+    "**/build": true,
+    "**/dev-dist": true,
+    "**/package-lock.json": true,
+    "**/*.map": true
+  },
+  // TypeScript performance optimizations
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.disableAutomaticTypeAcquisition": true,
+  "typescript.suggest.autoImports": true,
+  // Disable heavy features
+  "editor.minimap.enabled": false,
+  "editor.renderWhitespace": "selection",
+  "editor.guides.indentation": false,
+  // Limit file size for syntax highlighting
+  "editor.largeFileOptimizations": true,
+  // Use built-in formatter instead of Biome (if not installed)
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
+}

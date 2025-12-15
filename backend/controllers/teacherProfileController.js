@@ -1,5 +1,5 @@
-import TeacherProfile from "../model/teacher_model/teacherProfile.js";
 import bcrypt from "bcrypt";
+import TeacherProfile from "../model/teacher_model/teacherProfile.js";
 
 // @desc    Get all teacher profiles
 // @route   GET /api/teacher-profiles

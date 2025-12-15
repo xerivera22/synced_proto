@@ -1,5 +1,5 @@
-import Parent from "../model/parent_model/parentProfile.js";
 import bcrypt from "bcrypt";
+import Parent from "../model/parent_model/parentProfile.js";
 
 export const getParentProfiles = async (req, res) => {
   try {

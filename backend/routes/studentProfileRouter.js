@@ -1,10 +1,10 @@
 import express from "express";
 import {
-  getStudentProfiles,
-  getStudentProfileById,
-  createStudentProfile,
-  updateStudentProfile,
-  deleteStudentProfile,
+    createStudentProfile,
+    deleteStudentProfile,
+    getStudentProfileById,
+    getStudentProfiles,
+    updateStudentProfile,
 } from "../controllers/studentProfileController.js";
 
 const studentProfileRouter = express.Router();

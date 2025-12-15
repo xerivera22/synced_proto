@@ -1,10 +1,10 @@
 import express from "express";
 import {
-  getTeacherProfiles,
-  getTeacherProfileById,
-  createTeacherProfile,
-  updateTeacherProfile,
-  deleteTeacherProfile,
+    createTeacherProfile,
+    deleteTeacherProfile,
+    getTeacherProfileById,
+    getTeacherProfiles,
+    updateTeacherProfile,
 } from "../controllers/teacherProfileController.js";
 
 const teacherProfileRouter = express.Router();

@@ -44,6 +44,22 @@
   "editor.guides.indentation": false,
   // Limit file size for syntax highlighting
   "editor.largeFileOptimizations": true,
+  // GitHub Copilot Performance Optimizations
+  "github.copilot.enable": {
+    "*": true,
+    "yaml": false,
+    "plaintext": false,
+    "markdown": false,
+    "json": false
+  },
+  "github.copilot.advanced": {
+    "debug.overrideEngine": "gpt-4",
+    "debug.testOverrideProxyUrl": "",
+    "debug.overrideProxyUrl": ""
+  },
+  "chat.editor.wordWrap": "on",
+  "workbench.editor.limit.enabled": true,
+  "workbench.editor.limit.value": 5,
   // Use built-in formatter instead of Biome (if not installed)
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "[typescript]": {

@@ -1,5 +1,5 @@
-import StudentProfile from "../model/student_model/studentProfile.js";
 import bcrypt from "bcrypt";
+import StudentProfile from "../model/student_model/studentProfile.js";
 
 // @desc    Get all student profiles
 // @route   GET /api/student-profiles

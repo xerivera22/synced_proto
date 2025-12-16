@@ -267,7 +267,18 @@ const Parents = () => {
                                     <td className="px-4 py-3">{profile.parentInfo?.email}</td>
                                     <td className="px-4 py-3">{profile.parentInfo?.phone}</td>
                                     <td className="px-4 py-3">{profile.parentInfo?.relationship}</td>
-                                    <td className="px-4 py-3">{profile.parentInfo?.linkedStudentName || "N/A"}</td>
+                                    <td className="px-4 py-3">
+                                        {profile.parentInfo?.linkedStudentId ? (
+                                            <span className="inline-flex items-center gap-1.5 rounded-md bg-[#647FBC] px-2.5 py-1 text-xs font-semibold text-white">
+                                                {profile.parentInfo.linkedStudentId}
+                                                {profile.parentInfo?.linkedStudentName && (
+                                                    <span className="text-white/80">• {profile.parentInfo.linkedStudentName}</span>
+                                                )}
+                                            </span>
+                                        ) : (
+                                            <span className="text-gray-400 text-xs">No linked student</span>
+                                        )}
+                                    </td>
                                     <td className="px-4 py-3">
                                         <div className="flex items-center justify-end gap-2">
                                             <button

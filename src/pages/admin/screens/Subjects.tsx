@@ -491,16 +491,6 @@ const Subjects = () => {
     }
   };
 
-  // Function to handle editing a subject
-  const handleEditSubject = (subjectData: Omit<Subject, "_id">) => {
-    if (editingSubject) {
-      const updatedSubjects = subjects.map((subject) =>
-        subject._id === editingSubject._id ? { ...subject, ...subjectData } : subject
-      );
-      setSubjects(updatedSubjects);
-      setEditingSubject(null);
-    }
-  };
 
   // Function to handle deleting a subject (TODO: Add API call)
   const handleDeleteSubject = async (id: string) => {

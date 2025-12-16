@@ -71,13 +71,7 @@ export const createParentProfile = async (req, res) => {
       return res.status(400).json({ message: "A parent with this email already exists" });
     }
 
-    // Hash password before saving
-    let hashedPassword = parentInfo.password;
-    if (parentInfo.password) {
-      const salt = await bcrypt.genSalt(10);
-      hashedPassword = await bcrypt.hash(parentInfo.password, salt);
-    }
-    
+   
     const parentData = {
       firstName,
       lastName,
@@ -85,7 +79,7 @@ export const createParentProfile = async (req, res) => {
       phone: parentInfo.phone,
       address: parentInfo.address || "Not provided",
       occupation: parentInfo.occupation || "Not provided",
-      password: hashedPassword,
+      password: parentInfo.password,
       dateOfBirth: parentInfo.dateOfBirth ? new Date(parentInfo.dateOfBirth) : new Date(),
       children: []
     };

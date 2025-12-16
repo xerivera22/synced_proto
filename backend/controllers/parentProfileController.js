@@ -126,6 +126,9 @@ export const updateParentProfile = async (req, res) => {
       firstName,
       lastName,
       email: parentInfo.email,
+      phone: parentInfo.phone,
+      address: parentInfo.address,
+      occupation: parentInfo.occupation,
       relationship: parentInfo.relationship || "Parent",
       linkedStudentId: parentInfo.linkedStudentId || "",
       linkedStudentName: parentInfo.linkedStudentName || "",
@@ -134,14 +137,11 @@ export const updateParentProfile = async (req, res) => {
     // Only update password if provided
     if (parentInfo.password && parentInfo.password.trim() !== "") {
       updateData.password = parentInfo.password;
-    }phone: parentInfo.phone,
-      address: parentInfo.address,
-      occupation: parentInfo.occupation,
-    };
+    }
 
     const updatedParent = await Parent.findByIdAndUpdate(parentId, updateData, { new: true });
     res.json(updatedParent);
-  { catch (error) {
+  } catch (error) {
     console.error("Error updating parent profile:", error);
     res.status(400).json({ message: error.message });
   }

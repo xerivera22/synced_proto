@@ -27,6 +27,7 @@ const TeacherLoginPage = () => {
         login(response.teacher.email, "teacher");
         setUserData({
           ...response.teacher,
+          role: "teacher",
           profile: response.profile,
         });
         navigate("/teacher/overview");

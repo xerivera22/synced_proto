@@ -47,9 +47,11 @@
   // GitHub Copilot Performance Optimizations
   "github.copilot.enable": {
     "*": true,
-    "yaml": false,
     "plaintext": false,
     "markdown": false,
+    "scminput": false,
+    "javascript": true,
+    "yaml": false,
     "json": false
   },
   "github.copilot.advanced": {

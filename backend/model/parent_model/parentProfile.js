@@ -62,6 +62,10 @@ const parentSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    relationship: {
+      type: String,
+      required: true,
+    },
     password: {
       type: String,
       required: true,
@@ -70,6 +74,14 @@ const parentSchema = new mongoose.Schema(
       type: String,
       default: "parent",
       enum: ["parent"],
+    },
+    linkedStudentId: {
+      type: String,
+      required: true,
+    },
+    linkedStudentName: {
+      type: String,
+      required: true,
     },
     children: [childSchema],
   },

@@ -14,9 +14,9 @@ export const getParentProfiles = async (req, res) => {
         phone: parent.phone,
         address: parent.address,
         occupation: parent.occupation,
-        relationship: "Parent", // Default or derived if possible
-        linkedStudentId: parent.children && parent.children.length > 0 ? parent.children[0]._id : "",
-        linkedStudentName: parent.children && parent.children.length > 0 ? `${parent.children[0].firstName} ${parent.children[0].lastName}` : "",
+        relationship: parent.relationship || "Parent",
+        linkedStudentId: parent.linkedStudentId || "",
+        linkedStudentName: parent.linkedStudentName || "",
         // We don't send password back
       }
     }));
@@ -43,9 +43,9 @@ export const getParentProfileById = async (req, res) => {
         phone: parent.phone,
         address: parent.address,
         occupation: parent.occupation,
-        relationship: "Parent",
-        linkedStudentId: parent.children && parent.children.length > 0 ? parent.children[0]._id : "",
-        linkedStudentName: parent.children && parent.children.length > 0 ? `${parent.children[0].firstName} ${parent.children[0].lastName}` : "",
+        relationship: parent.relationship || "Parent",
+        linkedStudentId: parent.linkedStudentId || "",
+        linkedStudentName: parent.linkedStudentName || "",
       }
     };
 
@@ -78,8 +78,11 @@ export const createParentProfile = async (req, res) => {
       phone: parentInfo.phone,
       address: parentInfo.address || "Not provided",
       occupation: parentInfo.occupation || "Not provided",
+      relationship: parentInfo.relationship || "Parent",
       password: parentInfo.password,
       dateOfBirth: parentInfo.dateOfBirth ? new Date(parentInfo.dateOfBirth) : new Date(),
+      linkedStudentId: parentInfo.linkedStudentId || "",
+      linkedStudentName: parentInfo.linkedStudentName || "",
       children: []
     };
 
@@ -123,14 +126,22 @@ export const updateParentProfile = async (req, res) => {
       firstName,
       lastName,
       email: parentInfo.email,
-      phone: parentInfo.phone,
+      relationship: parentInfo.relationship || "Parent",
+      linkedStudentId: parentInfo.linkedStudentId || "",
+      linkedStudentName: parentInfo.linkedStudentName || "",
+    };
+
+    // Only update password if provided
+    if (parentInfo.password && parentInfo.password.trim() !== "") {
+      updateData.password = parentInfo.password;
+    }phone: parentInfo.phone,
       address: parentInfo.address,
       occupation: parentInfo.occupation,
     };
 
     const updatedParent = await Parent.findByIdAndUpdate(parentId, updateData, { new: true });
     res.json(updatedParent);
-  } catch (error) {
+  { catch (error) {
     console.error("Error updating parent profile:", error);
     res.status(400).json({ message: error.message });
   }

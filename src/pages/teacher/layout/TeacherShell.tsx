@@ -1,12 +1,12 @@
+import { useAuth } from "@/context/AuthContext";
 import { Bell, Menu, Search, X } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Navigate, Outlet, useLocation, useNavigate } from "react-router-dom";
-import { useAuth } from "@/context/AuthContext";
 
 // Reuse student styling conventions via shared components and existing CSS tokens
+import SplashScreen from "@/components/SplashScreen";
 import "@/pages/student/styles/student.css";
 import SideNavigation from "../components/side-navigation";
-import SplashScreen from "@/components/SplashScreen";
 
 export default function TeacherShell() {
   const { user, userData, logout } = useAuth();

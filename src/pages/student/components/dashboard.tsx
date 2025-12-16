@@ -1,17 +1,18 @@
 import Banner from "@/components/shared/Banner";
 import { useAuth } from "@/context/AuthContext";
+import { announcementService } from "@/services/announcementService";
 import { subjectService } from "@/services/subjectService";
 import {
-  AlertCircle,
-  AlertTriangle,
-  BookOpen,
-  BookOpenCheck,
-  Building,
-  Calendar,
-  CheckCircle,
-  Clock,
-  TrendingUp,
-  Users,
+    AlertCircle,
+    AlertTriangle,
+    BookOpen,
+    BookOpenCheck,
+    Building,
+    Calendar,
+    CheckCircle,
+    Clock,
+    TrendingUp,
+    Users,
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { getStudentPortalDate } from "../utils/date";
@@ -37,11 +38,25 @@ interface DashboardClass {
   status: "upcoming" | "ongoing" | "completed";
 }
 
+interface Announcement {
+  _id: string;
+  id: string;
+  title: string;
+  content: string;
+  target: string;
+  scheduledFor: string;
+  status: string;
+  authorRole: string;
+  authorName: string;
+  createdAt?: string;
+}
+
 export function Dashboard() {
   const dateLabel = getStudentPortalDate();
   const { userData } = useAuth();
   const [subjects, setSubjects] = useState<Subject[]>([]);
   const [todayClasses, setTodayClasses] = useState<DashboardClass[]>([]);
+  const [announcements, setAnnouncements] = useState<Announcement[]>([]);
   const [loading, setLoading] = useState(true);
   const [, setError] = useState<string | null>(null);
   const [quickStats, setQuickStats] = useState([
@@ -83,10 +98,24 @@ export function Dashboard() {
     },
   ]);
 
-  // Fetch subjects on component mount
+  // Fetch subjects and announcements on component mount
   useEffect(() => {
     fetchSubjects();
+    fetchAnnouncements();
   }, []);
+
+  const fetchAnnouncements = async () => {
+    try {
+      const data = await announcementService.getAnnouncements();
+      // Filter announcements for students (target: "all" or "students")
+      const studentAnnouncements = data.filter(
+        (a: Announcement) => a.target === "all" || a.target === "students"
+      );
+      setAnnouncements(studentAnnouncements);
+    } catch (err) {
+      console.error("Error fetching announcements:", err);
+    }
+  };
 
   const fetchSubjects = async () => {
     try {
@@ -274,20 +303,19 @@ export function Dashboard() {
     }
   };
 
-  // Recent announcements (mock data - can be replaced with API)
-  const recentAnnouncements = [
-    {
-      title: "Mid-term Exam Schedule Released",
-      date: "2 hours ago",
-      type: "important",
-    },
-    { title: "Library Hours Extended", date: "1 day ago", type: "info" },
-    {
-      title: "Sports Day Registration Open",
-      date: "3 days ago",
-      type: "event",
-    },
-  ];
+  // Format date for announcements
+  const formatAnnouncementDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffMs = now.getTime() - date.getTime();
+    const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+    if (diffHours < 1) return "Just now";
+    if (diffHours < 24) return `${diffHours} hour${diffHours > 1 ? "s" : ""} ago`;
+    if (diffDays < 7) return `${diffDays} day${diffDays > 1 ? "s" : ""} ago`;
+    return date.toLocaleDateString();
+  };
 
   if (loading) {
     return (
@@ -411,12 +439,39 @@ export function Dashboard() {
             <h2 className="font-semibold text-sm">Recent Announcements</h2>
           </div>
           <div className="space-y-2">
-            {recentAnnouncements.map((announcement, index) => (
-              <div key={index} className="rounded-xl border border-slate-200 bg-white p-3">
-                <p className="font-medium text-sm">{announcement.title}</p>
-                <p className="text-slate-500 mt-0.5 text-xs">{announcement.date}</p>
+            {announcements.length === 0 ? (
+              <div className="rounded-xl border border-slate-200 bg-slate-50 p-3 text-center">
+                <p className="text-slate-500 text-sm">No announcements yet</p>
               </div>
-            ))}
+            ) : (
+              announcements.slice(0, 5).map((announcement) => (
+                <div key={announcement._id || announcement.id} className="rounded-xl border border-slate-200 bg-white p-3">
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <p className="font-medium text-sm">{announcement.title}</p>
+                      {announcement.content && (
+                        <p className="text-slate-600 text-xs mt-1 line-clamp-2">{announcement.content}</p>
+                      )}
+                      <div className="flex items-center gap-2 mt-1">
+                        <p className="text-slate-500 text-xs">
+                          {formatAnnouncementDate(announcement.scheduledFor || announcement.createdAt || "")}
+                        </p>
+                        {announcement.authorRole === "teacher" && (
+                          <span className="text-xs bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded">
+                            From: {announcement.authorName || "Teacher"}
+                          </span>
+                        )}
+                        {announcement.authorRole === "admin" && (
+                          <span className="text-xs bg-purple-100 text-purple-700 px-1.5 py-0.5 rounded">
+                            Admin
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))
+            )}
           </div>
         </Card>
 

@@ -2,13 +2,13 @@ import Banner from "@/components/shared/Banner";
 import { announcementService } from "@/services/announcementService";
 import { eventService } from "@/services/eventService";
 import {
-  Calendar,
-  Filter,
-  Megaphone,
-  Pencil,
-  Plus,
-  Search,
-  Trash2,
+    Calendar,
+    Filter,
+    Megaphone,
+    Pencil,
+    Plus,
+    Search,
+    Trash2,
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -29,9 +29,13 @@ interface Announcement {
   _id: string;
   id: string;
   title: string;
+  content: string;
   target: string;
   scheduledFor: string;
   status: string;
+  createdBy: string;
+  authorRole: string;
+  authorName: string;
 }
 
 // Create Event Modal
@@ -167,6 +171,7 @@ const CreateAnnouncementModal = ({
   initialData?: Announcement | null;
 }) => {
   const [title, setTitle] = useState(initialData?.title || "");
+  const [content, setContent] = useState(initialData?.content || "");
   const [scheduledFor, setScheduledFor] = useState(
     initialData?.scheduledFor?.split("T")[0] || ""
   );
@@ -176,7 +181,17 @@ const CreateAnnouncementModal = ({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const id = initialData?.id || `announcement-${Date.now()}`;
-    onSubmit({ id, title, target, scheduledFor, status });
+    onSubmit({ 
+      id, 
+      title, 
+      content,
+      target, 
+      scheduledFor, 
+      status,
+      createdBy: "",
+      authorRole: "admin",
+      authorName: "Admin"
+    });
   };
 
   return (
@@ -207,6 +222,22 @@ const CreateAnnouncementModal = ({
               onChange={(e) => setTitle(e.target.value)}
               className="w-full p-3 border border-gray-300 rounded-lg text-base bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#647FBC] focus:border-[#647FBC] focus:bg-white"
               required
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="announcementContent"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
+              Content
+            </label>
+            <textarea
+              id="announcementContent"
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              className="w-full p-3 border border-gray-300 rounded-lg text-base bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#647FBC] focus:border-[#647FBC] focus:bg-white"
+              rows={3}
+              placeholder="Announcement details..."
             />
           </div>
           <div className="mb-4 grid grid-cols-1 gap-4 sm:grid-cols-2">

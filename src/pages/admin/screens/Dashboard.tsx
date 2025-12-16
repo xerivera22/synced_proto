@@ -1,16 +1,17 @@
 import Banner from "@/components/shared/Banner";
 import { announcementService } from "@/services/announcementService";
 import { eventService } from "@/services/eventService";
+import { studentProfileService } from "@/services/studentProfileService";
 import {
-  ArrowUpRight,
-  ClipboardList,
-  GraduationCap,
-  Megaphone,
+    ArrowUpRight,
+    ClipboardList,
+    GraduationCap,
+    Megaphone,
 } from "lucide-react";
 import type { FC } from "react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { paymentSummaries, studentMetrics } from "../data/mockData";
+import { paymentSummaries } from "../data/mockData";
 import { getAdminPortalDate } from "../utils/date";
 
 interface Event {
@@ -35,6 +36,19 @@ const AdminDashboard: FC = () => {
   const dateLabel = getAdminPortalDate();
   const [upcomingEvents, setUpcomingEvents] = useState<Event[]>([]);
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
+  const [studentCount, setStudentCount] = useState<number>(0);
+
+  useEffect(() => {
+    const fetchStudentCount = async () => {
+      try {
+        const students = await studentProfileService.getStudentProfiles();
+        setStudentCount(students.length);
+      } catch (error) {
+        console.error("Failed to fetch student count:", error);
+      }
+    };
+    fetchStudentCount();
+  }, []);
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -60,11 +74,14 @@ const AdminDashboard: FC = () => {
     fetchAnnouncements();
   }, []);
 
+  // Calculate scheduled announcements
+  const scheduledAnnouncements = announcements.filter(a => a.status === "Scheduled").length;
+
   const summaryCards = [
     {
       title: "Active Students",
-      value: studentMetrics.activeStudents.toLocaleString(),
-      change: "+24 new this month",
+      value: studentCount.toLocaleString(),
+      change: "Enrolled in database",
       icon: GraduationCap,
       to: "/admin/students",
       containerClass: "border-sky-100 bg-sky-50",
@@ -74,7 +91,7 @@ const AdminDashboard: FC = () => {
     {
       title: "Upcoming Events",
       value: upcomingEvents.length.toString(),
-      change: "3 within 30 days",
+      change: `${upcomingEvents.length} registered`,
       icon: ClipboardList,
       to: "/admin/events",
       containerClass: "border-amber-100 bg-amber-50",
@@ -84,7 +101,7 @@ const AdminDashboard: FC = () => {
     {
       title: "Announcements",
       value: announcements.length.toString(),
-      change: "2 scheduled",
+      change: `${scheduledAnnouncements} scheduled`,
       icon: Megaphone,
       to: "/admin/events",
       containerClass: "border-purple-100 bg-purple-50",

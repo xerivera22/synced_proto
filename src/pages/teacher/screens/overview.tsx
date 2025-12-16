@@ -1,11 +1,22 @@
 import Banner from "@/components/shared/Banner";
 import Card from "@/components/shared/Card";
+import { useAuth } from "@/context/AuthContext";
+import { announcementService } from "@/services/announcementService";
+import { subjectService } from "@/services/subjectService";
 import { Calendar, ClipboardCheck, FileText, MessageSquare } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { toast } from "sonner";
 import { getTeacherPortalDate } from "../utils/date";
 
-const QuickActionModal = ({ action, onClose }: { action: string; onClose: () => void }) => {
-  const [formData, setFormData] = useState({});
+interface Subject {
+  _id: string;
+  subjectName: string;
+  schedules: string[];
+}
+
+const QuickActionModal = ({ action, onClose, teacherName }: { action: string; onClose: () => void; teacherName: string }) => {
+  const [formData, setFormData] = useState<Record<string, string>>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -16,10 +27,38 @@ const QuickActionModal = ({ action, onClose }: { action: string; onClose: () => 
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(`Submitting for ${action}:`, formData);
-    onClose();
+    setIsSubmitting(true);
+    
+    try {
+      if (action === "Make Announcement") {
+        // Create announcement and persist to database
+        const announcementData = {
+          id: `announcement-${Date.now()}`,
+          title: formData.title || "Untitled Announcement",
+          content: formData.message || "",
+          target: formData.class === "All Classes" ? "all" : "students",
+          scheduledFor: new Date().toISOString().split("T")[0],
+          status: "Scheduled",
+          createdBy: teacherName,
+          authorRole: "teacher",
+          authorName: teacherName,
+        };
+        
+        await announcementService.createAnnouncement(announcementData);
+        toast.success("Announcement created successfully!");
+      } else {
+        console.log(`Submitting for ${action}:`, formData);
+        toast.success(`${action} submitted successfully!`);
+      }
+      onClose();
+    } catch (error) {
+      console.error(`Error submitting ${action}:`, error);
+      toast.error(`Failed to submit ${action}. Please try again.`);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const renderFormContent = () => {
@@ -202,15 +241,17 @@ const QuickActionModal = ({ action, onClose }: { action: string; onClose: () => 
             <button
               type="button"
               onClick={onClose}
-              className="rounded-full border border-gray-300 bg-white px-6 py-2.5 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
+              disabled={isSubmitting}
+              className="rounded-full border border-gray-300 bg-white px-6 py-2.5 text-sm font-medium text-gray-700 transition hover:bg-gray-50 disabled:opacity-50"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="rounded-full bg-slate-700 px-6 py-2.5 text-sm font-medium text-white transition hover:bg-slate-800"
+              disabled={isSubmitting}
+              className="rounded-full bg-slate-700 px-6 py-2.5 text-sm font-medium text-white transition hover:bg-slate-800 disabled:opacity-50"
             >
-              Submit
+              {isSubmitting ? "Submitting..." : "Submit"}
             </button>
           </div>
         </form>
@@ -222,13 +263,42 @@ const QuickActionModal = ({ action, onClose }: { action: string; onClose: () => 
 export default function TeacherOverview() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedAction, setSelectedAction] = useState("");
+  const [subjects, setSubjects] = useState<Subject[]>([]);
+  const [todayClassCount, setTodayClassCount] = useState(0);
+  const [loading, setLoading] = useState(true);
   const dateLabel = getTeacherPortalDate();
+  const { userData } = useAuth();
+  const teacherName = userData?.name || userData?.email?.split("@")[0] || "Teacher";
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const subjectsData = await subjectService.getSubjects();
+        setSubjects(subjectsData);
+        
+        // Calculate today's classes
+        const today = new Date();
+        const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        const todayName = dayNames[today.getDay()];
+        
+        const todaySubjects = subjectsData.filter((subject: Subject) => 
+          subject.schedules?.some(schedule => schedule.includes(todayName))
+        );
+        setTodayClassCount(todaySubjects.length);
+      } catch (error) {
+        console.error("Error fetching teacher data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
 
   const kpis = useMemo(
     () => [
       {
         label: "Classes Today",
-        value: "4",
+        value: loading ? "..." : todayClassCount.toString(),
         description: "Scheduled sessions",
         icon: Calendar,
         containerClass: "border-indigo-100 bg-indigo-50",
@@ -236,34 +306,34 @@ export default function TeacherOverview() {
         iconClass: "text-indigo-700",
       },
       {
-        label: "To Grade",
-        value: "12",
-        description: "Assignments pending",
+        label: "Total Subjects",
+        value: loading ? "..." : subjects.length.toString(),
+        description: "In the system",
         icon: ClipboardCheck,
         containerClass: "border-emerald-100 bg-emerald-50",
         labelClass: "text-emerald-700",
         iconClass: "text-emerald-700",
       },
       {
-        label: "Attendance Pending",
-        value: "2",
-        description: "Classes awaiting review",
+        label: "Grades Pending",
+        value: "0",
+        description: "No grades pending",
         icon: FileText,
         containerClass: "border-amber-100 bg-amber-50",
         labelClass: "text-amber-700",
         iconClass: "text-amber-700",
       },
       {
-        label: "Unread Messages",
-        value: "5",
-        description: "From parents & staff",
+        label: "Messages",
+        value: "0",
+        description: "No new messages",
         icon: MessageSquare,
         containerClass: "border-sky-100 bg-sky-50",
         labelClass: "text-sky-700",
         iconClass: "text-sky-700",
       },
     ],
-    []
+    [loading, todayClassCount, subjects.length]
   );
 
   const handleOpenModal = (action: string) => {
@@ -335,7 +405,7 @@ export default function TeacherOverview() {
         </div>
       </Card>
 
-      {isModalOpen && <QuickActionModal action={selectedAction} onClose={handleCloseModal} />}
+      {isModalOpen && <QuickActionModal action={selectedAction} onClose={handleCloseModal} teacherName={teacherName} />}
     </div>
   );
 }

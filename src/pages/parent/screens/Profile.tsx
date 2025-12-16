@@ -2,38 +2,51 @@ import Banner from "@/components/shared/Banner";
 import { useAuth } from "@/context/AuthContext";
 import { Avatar, AvatarFallback, AvatarImage } from "@/pages/student/components/ui/avatar";
 import { Button } from "@/pages/student/components/ui/button";
-import { Edit, Phone, User } from "lucide-react";
-import { useState } from "react";
+import { studentProfileService } from "@/services/studentProfileService";
+import { Edit, User } from "lucide-react";
+import { useEffect, useState } from "react";
 import { getParentPortalDate } from "../utils/date";
 
-const studentInfo = {
-  name: "Avery Johnson",
-  grade: "10th Grade",
-  advisor: "Ms. Patel",
-  email: "avery.johnson@student.edu",
-  phone: "(555) 214-7780",
-};
-
-const guardianInfo = [
-  {
-    name: "Jordan Johnson",
-    relation: "Parent",
-    phone: "(555) 321-4488",
-    email: "jordan.johnson@email.com",
-  },
-  {
-    name: "Morgan Johnson",
-    relation: "Parent",
-    phone: "(555) 822-1199",
-    email: "morgan.johnson@email.com",
-  },
-];
+interface StudentData {
+  studentInfo: {
+    name: string;
+    studentId: string;
+    email: string;
+    course: string;
+    enrollmentDate: string;
+  };
+}
 
 const ParentProfile = () => {
   const dateLabel = getParentPortalDate();
   const { userData } = useAuth();
-  const accountName = userData?.name || "Jaime Erivera";
-  const [_isEditing, _setIsEditing] = useState(false);
+  const [linkedStudent, setLinkedStudent] = useState<StudentData | null>(null);
+  const [loading, setLoading] = useState(true);
+  
+  const accountName = userData?.name || userData?.email?.split("@")[0] || "Parent";
+  const linkedStudentId = userData?.linkedStudentId;
+
+  useEffect(() => {
+    const fetchLinkedStudent = async () => {
+      if (linkedStudentId) {
+        try {
+          const studentData = await studentProfileService.getStudentProfileById(linkedStudentId);
+          setLinkedStudent(studentData);
+        } catch (err) {
+          console.error("Error fetching linked student:", err);
+        }
+      }
+      setLoading(false);
+    };
+    fetchLinkedStudent();
+  }, [linkedStudentId]);
+
+  const studentInfo = {
+    name: linkedStudent?.studentInfo?.name || userData?.linkedStudentName || "No student linked",
+    studentId: linkedStudent?.studentInfo?.studentId || "N/A",
+    email: linkedStudent?.studentInfo?.email || "N/A",
+    course: linkedStudent?.studentInfo?.course || "Not enrolled",
+  };
 
   return (
     <div className="space-y-6">
@@ -70,25 +83,25 @@ const ParentProfile = () => {
           <div className="grid gap-4 md:grid-cols-2">
             <div>
               <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Email</p>
-              <p className="mt-1 text-base font-semibold text-slate-900">jaime.erivera@email.com</p>
+              <p className="mt-1 text-base font-semibold text-slate-900">{userData?.email || "N/A"}</p>
             </div>
             <div>
               <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Phone</p>
-              <p className="mt-1 text-base font-semibold text-slate-900">(555) 123-4567</p>
+              <p className="mt-1 text-base font-semibold text-slate-900">{userData?.phone || "N/A"}</p>
             </div>
             <div>
               <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
                 Address
               </p>
               <p className="mt-1 text-base font-semibold text-slate-900">
-                123 Main St, Springfield
+                {userData?.address || "Not provided"}
               </p>
             </div>
             <div>
               <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
                 Relationship
               </p>
-              <p className="mt-1 text-base font-semibold text-slate-900">Father</p>
+              <p className="mt-1 text-base font-semibold text-slate-900">{userData?.relationship || "Parent"}</p>
             </div>
           </div>
         </article>
@@ -97,6 +110,11 @@ const ParentProfile = () => {
         <section className="space-y-6">
           <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
             <h3 className="text-base font-semibold text-slate-900 mb-4">Student Information</h3>
+            {loading ? (
+              <div className="text-center py-4">
+                <p className="text-slate-500 text-sm">Loading...</p>
+              </div>
+            ) : (
             <div className="space-y-4">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-500">
@@ -104,42 +122,36 @@ const ParentProfile = () => {
                 </div>
                 <div>
                   <p className="text-sm font-semibold text-slate-900">{studentInfo.name}</p>
-                  <p className="text-xs text-slate-500">{studentInfo.grade}</p>
+                  <p className="text-xs text-slate-500">{studentInfo.course}</p>
                 </div>
               </div>
               <div className="space-y-2 pt-2 border-t border-slate-100">
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-slate-500">Advisor</span>
-                  <span className="font-medium text-slate-900">{studentInfo.advisor}</span>
+                  <span className="text-slate-500">Email</span>
+                  <span className="font-medium text-slate-900 text-xs">{studentInfo.email}</span>
                 </div>
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-slate-500">ID</span>
-                  <span className="font-medium text-slate-900">ST-2024-001</span>
+                  <span className="font-medium text-slate-900">{studentInfo.studentId}</span>
                 </div>
               </div>
             </div>
+            )}
           </article>
 
           <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-            <h3 className="text-base font-semibold text-slate-900 mb-4">Other Guardians</h3>
+            <h3 className="text-base font-semibold text-slate-900 mb-4">Account Information</h3>
             <div className="space-y-4">
-              {guardianInfo.map((guardian) => (
-                <div key={guardian.email} className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-semibold text-slate-900">{guardian.name}</p>
-                    <p className="text-xs text-slate-500">{guardian.relation}</p>
-                  </div>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-8 w-8 text-slate-400 hover:text-slate-600"
-                  >
-                    <Phone className="w-4 h-4" />
-                  </Button>
-                </div>
-              ))}
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-slate-500">Occupation</span>
+                <span className="font-medium text-slate-900">{userData?.occupation || "Not provided"}</span>
+              </div>
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-slate-500">Linked Student ID</span>
+                <span className="font-medium text-slate-900">{linkedStudentId || "Not linked"}</span>
+              </div>
               <Button variant="outline" className="w-full text-xs h-8">
-                Manage Guardians
+                Edit Profile
               </Button>
             </div>
           </article>

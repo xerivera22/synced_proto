@@ -2,19 +2,19 @@ import Banner from "@/components/shared/Banner";
 import { sectionService } from "@/services/sectionService";
 import { subjectService } from "@/services/subjectService";
 import {
-  BookOpen,
-  Building,
-  Calendar,
-  ChevronDown,
-  ChevronUp,
-  Clock,
-  Filter,
-  Hash,
-  Pencil,
-  Plus,
-  Search,
-  Trash2,
-  X,
+    BookOpen,
+    Building,
+    Calendar,
+    ChevronDown,
+    ChevronUp,
+    Clock,
+    Filter,
+    Hash,
+    Pencil,
+    Plus,
+    Search,
+    Trash2,
+    X,
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -505,9 +505,13 @@ const Subjects = () => {
   // Function to handle deleting a subject (TODO: Add API call)
   const handleDeleteSubject = async (id: string) => {
     if (window.confirm("Are you sure you want to delete this subject?")) {
-      // TODO: Call delete API when implemented
-      // await subjectService.deleteSubject(id);
-      setSubjects(subjects.filter((subject) => subject._id !== id));
+      try {
+        await subjectService.deleteSubject(id);
+        setSubjects(subjects.filter((subject) => subject._id !== id));
+      } catch (error) {
+        console.error("Failed to delete subject:", error);
+        alert("Failed to delete subject. Please try again.");
+      }
     }
   };
 
@@ -526,9 +530,18 @@ const Subjects = () => {
   // Function to handle form submission (both add and edit)
   const handleSubmit = async (subjectData: Omit<Subject, "_id">) => {
     if (editingSubject) {
-      // TODO: Call update API when implemented
-      // await subjectService.updateSubject(editingSubject._id, subjectData);
-      handleEditSubject(subjectData);
+      try {
+        const updatedSubject = await subjectService.updateSubject(editingSubject._id, subjectData);
+        const updatedSubjects = subjects.map((s) =>
+          s._id === editingSubject._id ? { ...s, ...updatedSubject } : s
+        );
+        setSubjects(updatedSubjects);
+        setEditingSubject(null);
+        closeModal();
+      } catch (error) {
+        console.error("Failed to update subject:", error);
+        alert("Failed to update subject. Please try again.");
+      }
     } else {
       await handleAddSubject(subjectData);
     }

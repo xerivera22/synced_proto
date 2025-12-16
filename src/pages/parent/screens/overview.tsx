@@ -1,39 +1,141 @@
 import Banner from "@/components/shared/Banner";
+import { useAuth } from "@/context/AuthContext";
+import { announcementService } from "@/services/announcementService";
+import { eventService } from "@/services/eventService";
+import { studentProfileService } from "@/services/studentProfileService";
+import { subjectService } from "@/services/subjectService";
+import { useEffect, useState } from "react";
 import { getParentPortalDate } from "../utils/date";
 
-const overviewStats = [
-  {
-    label: "Attendance Rate",
-    value: "96%",
-    description: "Past 30 days",
-    containerClass: "border-emerald-100 bg-emerald-50",
-    labelClass: "text-emerald-700",
-  },
-  {
-    label: "Upcoming Events",
-    value: "3",
-    description: "This week",
-    containerClass: "border-sky-100 bg-sky-50",
-    labelClass: "text-sky-700",
-  },
-  {
-    label: "Outstanding Balance",
-    value: "$250",
-    description: "Due Oct 10",
-    containerClass: "border-amber-100 bg-amber-50",
-    labelClass: "text-amber-700",
-  },
-  {
-    label: "Unread Messages",
-    value: "4",
-    description: "Action required",
-    containerClass: "border-indigo-100 bg-indigo-50",
-    labelClass: "text-indigo-700",
-  },
-];
+interface StudentData {
+  studentInfo: {
+    name: string;
+    studentId: string;
+    email: string;
+    course: string;
+    enrollmentDate: string;
+  };
+}
+
+interface Subject {
+  _id: string;
+  subjectName: string;
+  subjectCode: string;
+  schedules: string[];
+}
 
 const ParentOverview = () => {
   const dateLabel = getParentPortalDate();
+  const { userData } = useAuth();
+  const [linkedStudent, setLinkedStudent] = useState<StudentData | null>(null);
+  const [subjects, setSubjects] = useState<Subject[]>([]);
+  const [eventsCount, setEventsCount] = useState(0);
+  const [announcementsCount, setAnnouncementsCount] = useState(0);
+  const [loading, setLoading] = useState(true);
+
+  const linkedStudentId = userData?.linkedStudentId;
+  const linkedStudentName = userData?.linkedStudentName;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        
+        // Fetch linked student data if we have a linkedStudentId
+        if (linkedStudentId) {
+          try {
+            const studentData = await studentProfileService.getStudentProfileById(linkedStudentId);
+            setLinkedStudent(studentData);
+          } catch (err) {
+            console.error("Error fetching linked student:", err);
+          }
+        }
+
+        // Fetch subjects
+        const subjectsData = await subjectService.getSubjects();
+        setSubjects(subjectsData);
+
+        // Fetch events count
+        const eventsData = await eventService.getEvents();
+        setEventsCount(eventsData.length);
+
+        // Fetch announcements count (for parents)
+        const announcementsData = await announcementService.getAnnouncements();
+        const parentAnnouncements = announcementsData.filter(
+          (a: { target: string }) => a.target === "all" || a.target === "parents"
+        );
+        setAnnouncementsCount(parentAnnouncements.length);
+
+      } catch (error) {
+        console.error("Error fetching parent overview data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [linkedStudentId]);
+
+  // Get today's classes from subjects
+  const getTodayClasses = () => {
+    const today = new Date();
+    const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const todayName = dayNames[today.getDay()];
+    
+    const todaySubjects = subjects.filter(subject => 
+      subject.schedules?.some(schedule => schedule.includes(todayName))
+    );
+    
+    if (todaySubjects.length === 0) return "No classes today";
+    return todaySubjects.slice(0, 3).map(s => s.subjectName).join(", ");
+  };
+
+  const overviewStats = [
+    {
+      label: "Linked Student",
+      value: linkedStudent?.studentInfo?.name || linkedStudentName || "Not linked",
+      description: linkedStudent?.studentInfo?.studentId || "Link a student in admin",
+      containerClass: "border-emerald-100 bg-emerald-50",
+      labelClass: "text-emerald-700",
+    },
+    {
+      label: "Upcoming Events",
+      value: eventsCount.toString(),
+      description: "School events",
+      containerClass: "border-sky-100 bg-sky-50",
+      labelClass: "text-sky-700",
+    },
+    {
+      label: "Enrolled Subjects",
+      value: subjects.length.toString(),
+      description: "Current semester",
+      containerClass: "border-amber-100 bg-amber-50",
+      labelClass: "text-amber-700",
+    },
+    {
+      label: "Announcements",
+      value: announcementsCount.toString(),
+      description: "For parents",
+      containerClass: "border-indigo-100 bg-indigo-50",
+      labelClass: "text-indigo-700",
+    },
+  ];
+
+  if (loading) {
+    return (
+      <div className="space-y-6">
+        <Banner
+          title="Parent Dashboard"
+          subtitle="Loading your dashboard..."
+          right={<p className="text-white/80 text-xs md:text-sm whitespace-nowrap">{dateLabel}</p>}
+        />
+        <div className="text-center py-12">
+          <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#647FBC] mb-2"></div>
+          <p className="text-gray-600">Loading dashboard data...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -74,14 +176,20 @@ const ParentOverview = () => {
           </header>
           <div className="mt-6 grid gap-4 md:grid-cols-2">
             <div className="rounded-xl border border-slate-100 bg-slate-50 p-4">
-              <p className="text-xs font-semibold uppercase text-slate-500">Current Term GPA</p>
-              <p className="mt-2 text-2xl font-semibold text-slate-900">3.72</p>
-              <p className="text-xs text-emerald-600">+0.08 since last term</p>
+              <p className="text-xs font-semibold uppercase text-slate-500">Student Course</p>
+              <p className="mt-2 text-2xl font-semibold text-slate-900">
+                {linkedStudent?.studentInfo?.course || "Not enrolled"}
+              </p>
+              <p className="text-xs text-emerald-600">
+                Enrolled: {linkedStudent?.studentInfo?.enrollmentDate 
+                  ? new Date(linkedStudent.studentInfo.enrollmentDate).toLocaleDateString() 
+                  : "N/A"}
+              </p>
             </div>
             <div className="rounded-xl border border-slate-100 bg-slate-50 p-4">
               <p className="text-xs font-semibold uppercase text-slate-500">Classes Today</p>
-              <p className="mt-2 text-2xl font-semibold text-slate-900">English, Math, Science</p>
-              <p className="text-xs text-slate-500">Starting at 8:00 AM</p>
+              <p className="mt-2 text-lg font-semibold text-slate-900">{getTodayClasses()}</p>
+              <p className="text-xs text-slate-500">{subjects.length} subjects total</p>
             </div>
           </div>
         </article>

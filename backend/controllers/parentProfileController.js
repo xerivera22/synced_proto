@@ -1,4 +1,3 @@
-import bcrypt from "bcrypt";
 import Parent from "../model/parent_model/parentProfile.js";
 
 export const getParentProfiles = async (req, res) => {
@@ -128,12 +127,6 @@ export const updateParentProfile = async (req, res) => {
       address: parentInfo.address,
       occupation: parentInfo.occupation,
     };
-
-    // Hash password if provided
-    if (parentInfo.password && parentInfo.password.trim() !== "") {
-      const salt = await bcrypt.genSalt(10);
-      updateData.password = await bcrypt.hash(parentInfo.password, salt);
-    }
 
     const updatedParent = await Parent.findByIdAndUpdate(parentId, updateData, { new: true });
     res.json(updatedParent);

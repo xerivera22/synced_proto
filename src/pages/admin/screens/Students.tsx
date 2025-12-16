@@ -246,8 +246,7 @@ const Students = () => {
                 <th className="px-4 py-3">Name</th>
                 <th className="px-4 py-3">Student ID</th>
                 <th className="px-4 py-3">Email</th>
-                <th className="px-4 py-3">course</th>
-                <th className="px-4 py-3">GPA</th>
+                <th className="px-4 py-3">Course</th>
                 <th className="px-4 py-3">Enrollment</th>
                 <th className="px-4 py-3 text-right">Actions</th>
               </tr>
@@ -258,9 +257,8 @@ const Students = () => {
                   <td className="px-4 py-3 font-medium text-gray-900">{profile.studentInfo?.name}</td>
                   <td className="px-4 py-3">{profile.studentInfo?.studentId}</td>
                   <td className="px-4 py-3">{profile.studentInfo?.email}</td>
-                  <td className="px-4 py-3">{profile.studentInfo?.course}</td>
-                  <td className="px-4 py-3 font-semibold text-gray-900">{profile.studentInfo?.gpa}</td>
-                  <td className="px-4 py-3">{profile.studentInfo?.enrollmentDate}</td>
+                  <td className="px-4 py-3">{profile.studentInfo?.course || "N/A"}</td>
+                  <td className="px-4 py-3">{profile.studentInfo?.enrollmentDate || "N/A"}</td>
                   <td className="px-4 py-3">
                     <div className="flex items-center justify-end gap-2">
                       <button
@@ -435,11 +433,23 @@ const Students = () => {
               {activeTab === "academic" && (
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">course</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Course *</label>
                     <input
                       type="text"
+                      required
                       value={currentStudent.course}
                       onChange={(e) => setCurrentStudent({ ...currentStudent, course: e.target.value })}
+                      className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-[#647FBC] focus:outline-none focus:ring-1 focus:ring-[#647FBC]"
+                      placeholder="e.g., Computer Science"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Enrollment Date *</label>
+                    <input
+                      type="date"
+                      required
+                      value={currentStudent.enrollmentDate}
+                      onChange={(e) => setCurrentStudent({ ...currentStudent, enrollmentDate: e.target.value })}
                       className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-[#647FBC] focus:outline-none focus:ring-1 focus:ring-[#647FBC]"
                     />
                   </div>
@@ -450,15 +460,7 @@ const Students = () => {
                       value={currentStudent.minor}
                       onChange={(e) => setCurrentStudent({ ...currentStudent, minor: e.target.value })}
                       className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-[#647FBC] focus:outline-none focus:ring-1 focus:ring-[#647FBC]"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Enrollment Date</label>
-                    <input
-                      type="date"
-                      value={currentStudent.enrollmentDate}
-                      onChange={(e) => setCurrentStudent({ ...currentStudent, enrollmentDate: e.target.value })}
-                      className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-[#647FBC] focus:outline-none focus:ring-1 focus:ring-[#647FBC]"
+                      placeholder="e.g., Mathematics"
                     />
                   </div>
                   <div>
@@ -477,15 +479,7 @@ const Students = () => {
                       value={currentStudent.advisor}
                       onChange={(e) => setCurrentStudent({ ...currentStudent, advisor: e.target.value })}
                       className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-[#647FBC] focus:outline-none focus:ring-1 focus:ring-[#647FBC]"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">GPA</label>
-                    <input
-                      type="text"
-                      value={currentStudent.gpa}
-                      onChange={(e) => setCurrentStudent({ ...currentStudent, gpa: e.target.value })}
-                      className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-[#647FBC] focus:outline-none focus:ring-1 focus:ring-[#647FBC]"
+                      placeholder="Advisor name"
                     />
                   </div>
                   <div>
@@ -495,6 +489,7 @@ const Students = () => {
                       value={currentStudent.creditHours}
                       onChange={(e) => setCurrentStudent({ ...currentStudent, creditHours: e.target.value })}
                       className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-[#647FBC] focus:outline-none focus:ring-1 focus:ring-[#647FBC]"
+                      placeholder="e.g., 120"
                     />
                   </div>
                 </div>

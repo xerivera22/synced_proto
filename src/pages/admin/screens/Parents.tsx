@@ -1,5 +1,6 @@
 import Banner from "@/components/shared/Banner";
 import { parentProfileService } from "@/services/parentProfileService";
+import { studentProfileService } from "@/services/studentProfileService";
 import { Edit2, Eye, EyeOff, Plus, Search, Trash2, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -23,6 +24,12 @@ interface ParentProfile {
     parentInfo: ParentInfo;
 }
 
+interface StudentOption {
+    _id: string;
+    studentId: string;
+    name: string;
+}
+
 const emptyParent: ParentInfo = {
     name: "",
     parentId: "",
@@ -39,6 +46,7 @@ const emptyParent: ParentInfo = {
 const Parents = () => {
     const dateLabel = getAdminPortalDate();
     const [parentProfiles, setParentProfiles] = useState<ParentProfile[]>([]);
+    const [studentOptions, setStudentOptions] = useState<StudentOption[]>([]);
     const [searchTerm, setSearchTerm] = useState("");
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -52,6 +60,7 @@ const Parents = () => {
 
     useEffect(() => {
         fetchParents();
+        fetchStudents();
     }, []);
 
     const fetchParents = async () => {
@@ -65,6 +74,39 @@ const Parents = () => {
             }
         } catch (error) {
             toast.error("Failed to fetch parents");
+        }
+    };
+
+    const fetchStudents = async () => {
+        try {
+            const data = await studentProfileService.getStudentProfiles();
+            if (Array.isArray(data)) {
+                const options = data.map((student: any) => ({
+                    _id: student._id,
+                    studentId: student.studentInfo?.studentId || "",
+                    name: student.studentInfo?.name || "",
+                }));
+                setStudentOptions(options);
+            }
+        } catch (error) {
+            console.error("Failed to fetch students for dropdown:", error);
+        }
+    };
+
+    const handleStudentSelect = (studentId: string) => {
+        const selectedStudent = studentOptions.find(s => s.studentId === studentId);
+        if (selectedStudent) {
+            setCurrentParent({
+                ...currentParent,
+                linkedStudentId: selectedStudent.studentId,
+                linkedStudentName: selectedStudent.name,
+            });
+        } else {
+            setCurrentParent({
+                ...currentParent,
+                linkedStudentId: studentId,
+                linkedStudentName: "",
+            });
         }
     };
 
@@ -369,15 +411,21 @@ const Parents = () => {
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                                        Linked Student ID
+                                        Linked Student (Child) *
                                     </label>
-                                    <input
-                                        type="text"
+                                    <select
+                                        required
                                         value={currentParent.linkedStudentId}
-                                        onChange={(e) => setCurrentParent({ ...currentParent, linkedStudentId: e.target.value })}
+                                        onChange={(e) => handleStudentSelect(e.target.value)}
                                         className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-[#647FBC] focus:outline-none focus:ring-1 focus:ring-[#647FBC]"
-                                        placeholder="Student's ID"
-                                    />
+                                    >
+                                        <option value="">Select a student</option>
+                                        {studentOptions.map((student) => (
+                                            <option key={student._id} value={student.studentId}>
+                                                {student.name} ({student.studentId})
+                                            </option>
+                                        ))}
+                                    </select>
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -385,10 +433,10 @@ const Parents = () => {
                                     </label>
                                     <input
                                         type="text"
+                                        readOnly
                                         value={currentParent.linkedStudentName}
-                                        onChange={(e) => setCurrentParent({ ...currentParent, linkedStudentName: e.target.value })}
-                                        className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-[#647FBC] focus:outline-none focus:ring-1 focus:ring-[#647FBC]"
-                                        placeholder="Student's name"
+                                        className="w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 text-sm text-gray-600"
+                                        placeholder="Auto-filled from selection"
                                     />
                                 </div>
                             </div>

@@ -6,15 +6,84 @@
   html {
     scroll-padding-top: 100px;
     scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-text-size-adjust: 100%;
   }
 
   body {
     @apply font-sans bg-white text-text antialiased;
+    /* PWA safe area support */
+    padding-top: env(safe-area-inset-top);
+    padding-right: env(safe-area-inset-right);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    min-height: 100vh;
+    min-height: 100dvh;
+    overscroll-behavior: none;
+  }
+
+  /* Mobile-friendly input styling */
+  input, textarea, select {
+    font-size: 16px; /* Prevents iOS zoom on focus */
+  }
+
+  /* Remove spinners on number inputs for mobile */
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Improve touch targets on mobile */
+  button, a, [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Small buttons override */
+  .btn-sm, .text-xs button, button.h-8, button.h-6 {
+    min-height: auto;
+    min-width: auto;
   }
 }
 
 @layer utilities {
   .gradient-text {
     @apply bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent;
+  }
+
+  /* Safe area padding utilities */
+  .safe-top {
+    padding-top: env(safe-area-inset-top);
+  }
+  
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  
+  .safe-left {
+    padding-left: env(safe-area-inset-left);
+  }
+  
+  .safe-right {
+    padding-right: env(safe-area-inset-right);
+  }
+
+  /* Mobile view container */
+  .mobile-container {
+    @apply w-full max-w-full overflow-x-hidden;
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
+  }
+
+  /* Full height accounting for mobile browser chrome */
+  .min-h-screen-dvh {
+    min-height: 100dvh;
+  }
+
+  /* Touch-friendly scrolling */
+  .touch-scroll {
+    -webkit-overflow-scrolling: touch;
+    overflow-y: auto;
   }
 }

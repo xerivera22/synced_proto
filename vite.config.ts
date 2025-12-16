@@ -8,33 +8,77 @@ export default defineConfig(({ command }) => ({
     react(),
     VitePWA({
       registerType: "autoUpdate",
-      includeAssets: ["favicon.ico", "apple-touch-icon.png", "masked-icon.svg"],
+      includeAssets: ["favicon.ico", "apple-touch-icon.png", "masked-icon.svg", "syncED.png"],
       manifest: {
-        name: "Synced Proto",
-        short_name: "SyncedProto",
-        description: "A synchronized prototyping application",
-        theme_color: "#ffffff",
+        name: "SyncED - Smart Campus Portal",
+        short_name: "SyncED",
+        description: "Smart Campus Management Platform - Streamline school operations with digital solutions for attendance, grades, and payments.",
+        theme_color: "#647FBC",
         background_color: "#ffffff",
         display: "standalone",
+        orientation: "portrait-primary",
+        scope: "/",
         start_url: "/",
+        id: "/",
+        categories: ["education", "productivity"],
         icons: [
           {
-            src: "pwa-192x192.png",
+            src: "syncED.png",
             sizes: "192x192",
             type: "image/png",
           },
           {
-            src: "pwa-512x512.png",
+            src: "syncED.png",
             sizes: "512x512",
             type: "image/png",
           },
           {
-            src: "pwa-512x512.png",
+            src: "syncED.png",
             sizes: "512x512",
             type: "image/png",
             purpose: "maskable",
           },
+          {
+            src: "syncED.png",
+            sizes: "180x180",
+            type: "image/png",
+            purpose: "apple touch icon",
+          },
         ],
+        screenshots: [
+          {
+            src: "syncED.png",
+            sizes: "540x720",
+            type: "image/png",
+            form_factor: "narrow",
+            label: "SyncED Mobile View"
+          }
+        ],
+        shortcuts: [
+          {
+            name: "Student Portal",
+            short_name: "Student",
+            description: "Access student dashboard",
+            url: "/student/overview",
+            icons: [{ src: "syncED.png", sizes: "96x96" }]
+          },
+          {
+            name: "Parent Portal",
+            short_name: "Parent",
+            description: "Access parent dashboard",
+            url: "/parent/overview",
+            icons: [{ src: "syncED.png", sizes: "96x96" }]
+          },
+          {
+            name: "Teacher Portal",
+            short_name: "Teacher",
+            description: "Access teacher dashboard",
+            url: "/teacher/overview",
+            icons: [{ src: "syncED.png", sizes: "96x96" }]
+          }
+        ],
+        related_applications: [],
+        prefer_related_applications: false,
       },
       workbox: {
         // Increase file size limit to handle large assets like hero images

@@ -2,19 +2,19 @@ import Banner from "@/components/shared/Banner";
 import { sectionService } from "@/services/sectionService";
 import { subjectService } from "@/services/subjectService";
 import {
-    BookOpen,
-    Building,
-    Calendar,
-    ChevronDown,
-    ChevronUp,
-    Clock,
-    Filter,
-    Hash,
-    Pencil,
-    Plus,
-    Search,
-    Trash2,
-    X,
+  BookOpen,
+  Building,
+  Calendar,
+  ChevronDown,
+  ChevronUp,
+  Clock,
+  Filter,
+  Hash,
+  Pencil,
+  Plus,
+  Search,
+  Trash2,
+  X,
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";

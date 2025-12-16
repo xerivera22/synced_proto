@@ -1,50 +1,139 @@
 import Banner from "@/components/shared/Banner";
-import { Bell, Globe, Mail, MessageSquare, Palette, Settings as SettingsIcon } from "lucide-react";
+import { Bell, Globe, Mail, MessageSquare, Settings as SettingsIcon } from "lucide-react";
+import { useCallback, useEffect, useState } from "react";
+import Swal from "sweetalert2";
 import { getStudentPortalDate } from "../utils/date";
 import { Button } from "./ui/button";
 import { Card } from "./ui/card";
 import { Switch } from "./ui/switch";
 
+interface NotificationPreference {
+  id: string;
+  type: string;
+  description: string;
+  icon: React.ElementType;
+  enabled: boolean;
+}
+
+interface AppPreference {
+  id: string;
+  type: string;
+  description: string;
+  icon: React.ElementType;
+  enabled: boolean;
+}
+
+// Request push notification permission
+const requestPushPermission = async (): Promise<boolean> => {
+  if (!("Notification" in window)) {
+    return false;
+  }
+  
+  if (Notification.permission === "granted") {
+    return true;
+  }
+  
+  if (Notification.permission !== "denied") {
+    const permission = await Notification.requestPermission();
+    return permission === "granted";
+  }
+  
+  return false;
+};
+
 export function Settings() {
   const dateLabel = getStudentPortalDate();
-  const notificationPreferences = [
+  
+  // Load saved preferences from localStorage
+  const loadPreferences = useCallback(() => {
+    const saved = localStorage.getItem("student_settings");
+    if (saved) {
+      return JSON.parse(saved);
+    }
+    return {
+      email: true,
+      sms: false,
+      push: false,
+      public: true,
+    };
+  }, []);
+
+  const [preferences, setPreferences] = useState(loadPreferences);
+
+  // Save preferences to localStorage
+  useEffect(() => {
+    localStorage.setItem("student_settings", JSON.stringify(preferences));
+  }, [preferences]);
+
+  const handleToggle = async (id: string, currentValue: boolean, type: string) => {
+    const newValue = !currentValue;
+    
+    // Special handling for push notifications
+    if (id === "push" && newValue) {
+      const granted = await requestPushPermission();
+      if (!granted) {
+        Swal.fire({
+          icon: "error",
+          title: "Permission Denied",
+          text: "Please enable notifications in your browser settings to use push notifications.",
+          confirmButtonColor: "#647FBC",
+        });
+        return;
+      }
+    }
+    
+    setPreferences((prev: Record<string, boolean>) => ({ ...prev, [id]: newValue }));
+    
+    // Show SweetAlert notification
+    const Toast = Swal.mixin({
+      toast: true,
+      position: "top-end",
+      showConfirmButton: false,
+      timer: 2000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.onmouseenter = Swal.stopTimer;
+        toast.onmouseleave = Swal.resumeTimer;
+      }
+    });
+    
+    Toast.fire({
+      icon: newValue ? "success" : "info",
+      title: newValue ? `${type} enabled` : `${type} disabled`,
+    });
+  };
+
+  const notificationPreferences: NotificationPreference[] = [
     {
       id: "email",
       type: "Email Notifications",
       description: "Receive updates via email",
       icon: Mail,
-      enabled: true,
+      enabled: preferences.email,
     },
     {
       id: "sms",
       type: "SMS Notifications",
       description: "Get important alerts via text",
       icon: MessageSquare,
-      enabled: false,
+      enabled: preferences.sms,
     },
     {
       id: "push",
       type: "Push Notifications",
       description: "Mobile app notifications",
       icon: Bell,
-      enabled: true,
+      enabled: preferences.push,
     },
   ];
 
-  const appPreferences = [
-    {
-      id: "theme",
-      type: "Dark Theme",
-      description: "Switch to dark mode",
-      icon: Palette,
-      enabled: false,
-    },
+  const appPreferences: AppPreference[] = [
     {
       id: "public",
       type: "Public Profile",
       description: "Make profile visible to others",
       icon: Globe,
-      enabled: true,
+      enabled: preferences.public,
     },
   ];
 
@@ -81,7 +170,10 @@ export function Settings() {
                     <p className="text-xs text-slate-500">{pref.description}</p>
                   </div>
                 </div>
-                <Switch checked={pref.enabled} />
+                <Switch 
+                  checked={pref.enabled} 
+                  onCheckedChange={() => handleToggle(pref.id, pref.enabled, pref.type)}
+                />
               </div>
             );
           })}
@@ -113,7 +205,10 @@ export function Settings() {
                     <p className="text-xs text-slate-500">{pref.description}</p>
                   </div>
                 </div>
-                <Switch checked={pref.enabled} />
+                <Switch 
+                  checked={pref.enabled} 
+                  onCheckedChange={() => handleToggle(pref.id, pref.enabled, pref.type)}
+                />
               </div>
             );
           })}
@@ -122,13 +217,21 @@ export function Settings() {
 
       {/* Action Buttons */}
       <div className="grid grid-cols-2 gap-3">
-        {/* Advanced Settings: default violet button with white text; hover to white button with violet text */}
-        <Button className="group border border-[#647FBC] !bg-[#647FBC] text-white hover:!bg-white hover:!text-[#647FBC] hover:border-[#647FBC] h-8 rounded-lg shadow-sm text-xs transition-colors">
-          <SettingsIcon className="w-3 h-3 mr-1 transition-colors" />
+        <Button className="group border border-[#647FBC] !bg-[#647FBC] text-white hover:!bg-white hover:!text-[#647FBC] hover:border-[#647FBC] h-10 rounded-full shadow-sm text-sm font-semibold transition-colors">
+          <SettingsIcon className="w-4 h-4 mr-1 transition-colors" />
           Advanced Settings
         </Button>
-        {/* Save Changes: same behavior as Advanced Settings for consistent UX */}
-        <Button className="group border border-[#647FBC] !bg-[#647FBC] text-white hover:!bg-white hover:!text-[#647FBC] hover:border-[#647FBC] h-8 rounded-lg shadow-sm text-xs transition-colors">
+        <Button 
+          onClick={() => {
+            Swal.fire({
+              icon: "success",
+              title: "Settings Saved",
+              text: "Your preferences have been updated successfully.",
+              confirmButtonColor: "#647FBC",
+            });
+          }}
+          className="group border border-[#647FBC] !bg-[#647FBC] text-white hover:!bg-white hover:!text-[#647FBC] hover:border-[#647FBC] h-10 rounded-full shadow-sm text-sm font-semibold transition-colors"
+        >
           Save Changes
         </Button>
       </div>

@@ -24,13 +24,20 @@ const TeacherLoginPage = () => {
       const response = await teacherAuthService.login(email, password);
 
       if (response.message === "Login successful" && response.teacher) {
-        login(response.teacher.email, "teacher");
-        setUserData({
+        // Set user data first with explicit role
+        const teacherData = {
           ...response.teacher,
           role: "teacher",
           profile: response.profile,
-        });
-        navigate("/teacher/overview");
+        };
+        
+        setUserData(teacherData);
+        login(response.teacher.email, "teacher");
+        
+        // Small delay to ensure state propagates before navigation
+        setTimeout(() => {
+          navigate("/teacher/overview", { replace: true });
+        }, 100);
       } else {
         setError(response.message || "Login failed. Please try again.");
         setPassword("");

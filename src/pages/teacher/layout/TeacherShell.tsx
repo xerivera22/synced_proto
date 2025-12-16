@@ -9,7 +9,7 @@ import SideNavigation from "../components/side-navigation";
 import SplashScreen from "@/components/SplashScreen";
 
 export default function TeacherShell() {
-  const { userData, logout } = useAuth();
+  const { user, userData, logout } = useAuth();
   const loc = useLocation();
   const contentRef = useRef<HTMLDivElement>(null);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
@@ -21,7 +21,7 @@ export default function TeacherShell() {
   const searchInputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
 
-  console.log(userData);
+  console.log("User:", user, "UserData:", userData);
 
   // Scroll to top on route change within teacher area (always declare hooks before conditional returns)
   // biome-ignore lint/correctness/useExhaustiveDependencies: Only depend on pathname for scroll reset.
@@ -150,9 +150,12 @@ export default function TeacherShell() {
     return chars.toUpperCase() || "TR";
   }, [userData?.email]);
 
-  // Guard: allow only teacher role
-  if (userData === null) return null; // wait for auth resolution
-  if (userData?.role !== "teacher") {
+  // Guard: allow only teacher role - check both user and userData
+  if (user === null && userData === null) return null; // wait for auth resolution
+  
+  // Check user.role first (from login), then fallback to userData.role
+  const userRole = user?.role || userData?.role;
+  if (userRole !== "teacher") {
     return <Navigate to="/teacher-login" state={{ from: loc }} replace />;
   }
 

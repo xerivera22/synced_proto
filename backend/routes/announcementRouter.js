@@ -1,10 +1,10 @@
 import express from "express";
 import {
-  getAnnouncements,
-  getAnnouncementById,
-  createAnnouncement,
-  updateAnnouncement,
-  deleteAnnouncement,
+    createAnnouncement,
+    deleteAnnouncement,
+    getAnnouncementById,
+    getAnnouncements,
+    updateAnnouncement,
 } from "../controllers/announcementController.js";
 
 const announcementRouter = express.Router();

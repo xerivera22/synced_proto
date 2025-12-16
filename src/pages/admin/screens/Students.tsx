@@ -15,7 +15,7 @@ interface StudentInfo {
   dateOfBirth: string;
   enrollmentDate: string;
   expectedGraduation: string;
-  major: string;
+  course: string;
   minor: string;
   advisor: string;
   gpa: string;
@@ -46,7 +46,7 @@ const emptyStudent: StudentInfo = {
   dateOfBirth: "",
   enrollmentDate: "",
   expectedGraduation: "",
-  major: "",
+  course: "",
   minor: "",
   advisor: "",
   gpa: "",
@@ -102,7 +102,7 @@ const Students = () => {
       (info.name || "").toLowerCase().includes(searchLower) ||
       (info.studentId || "").toLowerCase().includes(searchLower) ||
       (info.email || "").toLowerCase().includes(searchLower) ||
-      (info.major || "").toLowerCase().includes(searchLower)
+      (info.course || "").toLowerCase().includes(searchLower)
     );
   });
 
@@ -145,14 +145,12 @@ const Students = () => {
           studentId: currentStudent.studentId,
           email: currentStudent.email,
           phone: currentStudent.phone,
-          role: currentStudent.role || "Student",
+          role: currentStudent.role || "student",
           address: currentStudent.address,
           dateOfBirth: currentStudent.dateOfBirth,
           enrollmentDate: currentStudent.enrollmentDate,
           expectedGraduation: currentStudent.expectedGraduation,
-          major: currentStudent.major,
-          minor: currentStudent.minor,
-          advisor: currentStudent.advisor,
+          course: currentStudent.course,
           gpa: currentStudent.gpa,
           creditHours: currentStudent.creditHours,
           ...(currentStudent.password && { password: currentStudent.password }),
@@ -233,7 +231,7 @@ const Students = () => {
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
             <input
               type="text"
-              placeholder="Search by name, ID, email, or major..."
+              placeholder="Search by name, ID, email, or course..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full rounded-lg border border-gray-300 py-2 pl-10 pr-4 text-sm focus:border-[#647FBC] focus:outline-none focus:ring-1 focus:ring-[#647FBC]"
@@ -248,7 +246,7 @@ const Students = () => {
                 <th className="px-4 py-3">Name</th>
                 <th className="px-4 py-3">Student ID</th>
                 <th className="px-4 py-3">Email</th>
-                <th className="px-4 py-3">Major</th>
+                <th className="px-4 py-3">course</th>
                 <th className="px-4 py-3">GPA</th>
                 <th className="px-4 py-3">Enrollment</th>
                 <th className="px-4 py-3 text-right">Actions</th>
@@ -260,7 +258,7 @@ const Students = () => {
                   <td className="px-4 py-3 font-medium text-gray-900">{profile.studentInfo?.name}</td>
                   <td className="px-4 py-3">{profile.studentInfo?.studentId}</td>
                   <td className="px-4 py-3">{profile.studentInfo?.email}</td>
-                  <td className="px-4 py-3">{profile.studentInfo?.major}</td>
+                  <td className="px-4 py-3">{profile.studentInfo?.course}</td>
                   <td className="px-4 py-3 font-semibold text-gray-900">{profile.studentInfo?.gpa}</td>
                   <td className="px-4 py-3">{profile.studentInfo?.enrollmentDate}</td>
                   <td className="px-4 py-3">
@@ -437,11 +435,11 @@ const Students = () => {
               {activeTab === "academic" && (
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Major</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">course</label>
                     <input
                       type="text"
-                      value={currentStudent.major}
-                      onChange={(e) => setCurrentStudent({ ...currentStudent, major: e.target.value })}
+                      value={currentStudent.course}
+                      onChange={(e) => setCurrentStudent({ ...currentStudent, course: e.target.value })}
                       className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-[#647FBC] focus:outline-none focus:ring-1 focus:ring-[#647FBC]"
                     />
                   </div>
@@ -612,8 +610,8 @@ const Students = () => {
                 <h4 className="text-sm font-semibold text-gray-900 mb-3">Academic Information</h4>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <p className="text-sm text-gray-500">Major</p>
-                    <p className="font-medium text-gray-900">{viewingStudent.studentInfo.major || "N/A"}</p>
+                    <p className="text-sm text-gray-500">course</p>
+                    <p className="font-medium text-gray-900">{viewingStudent.studentInfo.course || "N/A"}</p>
                   </div>
                   <div>
                     <p className="text-sm text-gray-500">Minor</p>

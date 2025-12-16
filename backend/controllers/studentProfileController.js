@@ -53,12 +53,6 @@ export const createStudentProfile = async (req, res) => {
       }
     }
 
-    // Hash password before saving
-    if (studentInfo.password) {
-      const salt = await bcrypt.genSalt(10);
-      studentInfo.password = await bcrypt.hash(studentInfo.password, salt);
-    }
-
     const profile = new StudentProfile({
       studentInfo,
       emergencyContact: emergencyContact || {},

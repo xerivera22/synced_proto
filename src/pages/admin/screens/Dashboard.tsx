@@ -37,14 +37,24 @@ const AdminDashboard: FC = () => {
   const [upcomingEvents, setUpcomingEvents] = useState<Event[]>([]);
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
   const [studentCount, setStudentCount] = useState<number>(0);
+  const [loading, setLoading] = useState(true);
+
+  // Debug: Version indicator for deployment verification
+  useEffect(() => {
+    console.log("🚀 SyncED Admin Dashboard v2.1 - Real Data Mode");
+  }, []);
 
   useEffect(() => {
     const fetchStudentCount = async () => {
       try {
+        console.log("📊 Fetching student count from API...");
         const students = await studentProfileService.getStudentProfiles();
+        console.log("✅ Students fetched:", students.length);
         setStudentCount(students.length);
       } catch (error) {
-        console.error("Failed to fetch student count:", error);
+        console.error("❌ Failed to fetch student count:", error);
+      } finally {
+        setLoading(false);
       }
     };
     fetchStudentCount();
@@ -80,8 +90,8 @@ const AdminDashboard: FC = () => {
   const summaryCards = [
     {
       title: "Active Students",
-      value: studentCount.toLocaleString(),
-      change: "Enrolled in database",
+      value: loading ? "..." : studentCount.toLocaleString(),
+      change: loading ? "Loading..." : "Enrolled in database",
       icon: GraduationCap,
       to: "/admin/students",
       containerClass: "border-sky-100 bg-sky-50",

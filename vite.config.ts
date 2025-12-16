@@ -81,12 +81,30 @@ export default defineConfig(({ command }) => ({
         prefer_related_applications: false,
       },
       workbox: {
+        // Force immediate update
+        skipWaiting: true,
+        clientsClaim: true,
         // Increase file size limit to handle large assets like hero images
         maximumFileSizeToCacheInBytes: 10 * 1024 * 1024, // 10 MB
         globPatterns: ["**/*.{js,css,html,ico,png,svg}"],
         // Exclude very large assets from precaching (optional optimization)
         globIgnores: ["**/re_herobg.{png,svg}"],
+        // Clear old caches on new deployment
+        cleanupOutdatedCaches: true,
         runtimeCaching: [
+          {
+            // API calls - always fetch fresh
+            urlPattern: /^https:\/\/synced-proto\.onrender\.com\/api\/.*/i,
+            handler: "NetworkFirst",
+            options: {
+              cacheName: "api-cache",
+              expiration: {
+                maxEntries: 50,
+                maxAgeSeconds: 60 * 5, // 5 minutes
+              },
+              networkTimeoutSeconds: 10,
+            },
+          },
           {
             // Cache large images on-demand instead of precaching
             urlPattern: /\/assets\/re_herobg\.(png|svg)$/,
